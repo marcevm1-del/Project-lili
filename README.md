@@ -81,6 +81,15 @@ Fixed live in `20261008*_lili_review_1..15_*.sql`; see `docs/review-2026-10-08.m
   `withdrawn_by_owner`, never a delete; refused while a report about it is open.
 - **15 — relisting respects screening.** Relisting a sold piece whose edits put it under
   review now goes to review, not live.
+- **16–17 — reviews after a meet.** Two-way and double-blind: only the two people in an
+  agreed meet can review it, once, within 14 days; nothing shows until both have reviewed
+  or the window closes; the reviewer is never named. Included in the data export.
+- **18–19 — saved searches.** Up to 10 each, with a "new since you looked" count and an
+  alert when a matching piece goes live (needs the pending SQL to deliver the alert).
+- **20 — fit, measurements, flaws** on listings, checked server-side.
+
+Design audit against Vinted, Depop, Grailed, Vestiaire and Poshmark: shared separately as
+a page; its priority matrix drives the next changes.
 
 ## Still for a human
 
@@ -88,6 +97,7 @@ Fixed live in `20261008*_lili_review_1..15_*.sql`; see `docs/review-2026-10-08.m
   It stops account deletion from wiping the other person's conversations
   (foreign keys to `ON DELETE SET NULL`). Until it is run, deleting an account fails
   for anyone who has reported a conversation, and deletes the other side's threads.
+  It also allows the `saved_search` notification, so saved-search alerts are delivered.
 
 - **Authentication → Sign In / Providers → Anonymous sign-ins: turn on.** Until then
   every install runs device-only.
