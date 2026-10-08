@@ -48,12 +48,12 @@
     "verify:ci": "npm run build && node ci-suites.mjs"
   },
   "dependencies": {
-    "@capacitor/android": "^7.0.0",
+    "@capacitor/android": "^7.6.9",
     "@capacitor/app": "^7.0.0",
     "@capacitor/browser": "^7.0.5",
     "@capacitor/camera": "^7.0.5",
-    "@capacitor/core": "^7.0.0",
-    "@capacitor/ios": "^7.6.8",
+    "@capacitor/core": "^7.6.9",
+    "@capacitor/ios": "^7.6.9",
     "@capacitor/keyboard": "^7.0.0",
     "@capacitor/preferences": "^7.0.4",
     "@capacitor/splash-screen": "^7.0.0",
@@ -64,7 +64,7 @@
   },
   "devDependencies": {
     "@axe-core/playwright": "^4.13.0",
-    "@capacitor/cli": "^7.0.0",
+    "@capacitor/cli": "^7.6.9",
     "@vitejs/plugin-react": "^4.3.4",
     "jsdom": "^30.0.1",
     "playwright": "^1.49.0",
