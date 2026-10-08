@@ -475,17 +475,49 @@ export async function addItem(item) {
   return record;
 }
 
-export async function updateItem(id, patch) {
-  const items = await getItems();
+// Mirror a server answer into the device copy, so the screen and an offline
+// reopen agree with what the database decided.
+async function mirrorLocal(id, patch) {
+  const items = await getJSON(K.items, []);
   const next = items.map((i) => (i.id === id ? { ...i, ...patch } : i));
   await setJSON(K.items, next);
   return next.find((i) => i.id === id) || null;
 }
 
+// Until v2.12 these three only ever wrote the device copy: an edited price never
+// reached the server (so no price-drop alert could fire), and "removed" was set
+// on the phone while the listing stayed live for everyone else.
+export async function updateItem(id, patch) {
+  if (remoteReady) {
+    const saved = await remote.updateItem(id, patch);   // status is the server's verdict
+    await mirrorLocal(id, saved);
+    return saved;
+  }
+  return mirrorLocal(id, patch);
+}
+
+/** Take a listing down (refused while a report about it is under review). */
 export async function removeItem(id) {
-  // Soft delete. A hard delete destroys the evidence trail behind a moderation
-  // decision, which is exactly the record you need if the decision is contested.
-  return updateItem(id, { status: "removed", removedAt: Date.now() });
+  if (remoteReady) {
+    await remote.removeItem(id);
+    const items = await getJSON(K.items, []);
+    await setJSON(K.items, items.filter((i) => i.id !== id));
+    return id;
+  }
+  // Device-only: a soft delete keeps the local record a moderator might need.
+  return mirrorLocal(id, { status: "removed", removedAt: Date.now() });
+}
+
+/** Mark a live piece sold, or relist a sold one. */
+export async function markSold(id, sold = true) {
+  // Relisting is re-screened by the database: the answer may be "in_review",
+  // not "live", so use what it says.
+  let status = sold ? "sold" : "live";
+  if (remoteReady) {
+    const r = await remote.markSold(id, sold);
+    if (r && r.status) status = r.status;
+  }
+  return mirrorLocal(id, { status });
 }
 
 // ── saved ──────────────────────────────────────────────────────────────────

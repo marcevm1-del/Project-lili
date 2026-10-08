@@ -20,8 +20,10 @@ android {
         applicationId "com.loveitorleaveit.lili"
         minSdkVersion rootProject.ext.minSdkVersion
         targetSdkVersion rootProject.ext.targetSdkVersion
-        versionCode 10
-        versionName "2.11.7"
+        // CI passes a higher number on every build so a new APK installs as an
+        // update over the last one; local builds keep the checked-in values.
+        versionCode((System.getenv("LILI_VERSION_CODE") ?: "10").toInteger())
+        versionName(System.getenv("LILI_VERSION_NAME") ?: "2.11.7")
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
         aaptOptions {
              // Files and dirs to omit from the packaged assets dir, modified to accommodate modern web apps.

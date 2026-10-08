@@ -43,7 +43,9 @@
     "sync:ios": "npm run build && npx cap sync ios",
     "ios": "npm run sync:ios && npx cap open ios",
     "payments": "node payments.mjs",
-    "uxlaws": "node uxlaws.mjs"
+    "uxlaws": "node uxlaws.mjs",
+    "contract": "node api-contract.test.mjs",
+    "verify:ci": "npm run build && node ci-suites.mjs"
   },
   "dependencies": {
     "@capacitor/android": "^7.0.0",

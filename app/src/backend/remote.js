@@ -156,8 +156,15 @@ export function isOffline(e) {
 
 export async function getItems({ limit = 60 } = {}) {
   const sb = await db();
-  const { data, error } = await sb.from("lili_items").select("*").eq("status","live")
-    .order("created_at",{ ascending:false }).limit(limit);
+  // Everyone's live pieces, plus her own in every state. Asking for live only
+  // meant a seller who reopened the app lost sight of anything held for review
+  // or sold — My Shop showed fewer pieces than she had listed. Row-level
+  // security already lets an owner read her own rows; the feed filters them.
+  const { data: { session } } = await sb.auth.getSession();
+  const uid = session && session.user && session.user.id;
+  let q = sb.from("lili_items").select("*");
+  q = uid ? q.or(`status.eq.live,owner_uid.eq.${uid}`) : q.eq("status", "live");
+  const { data, error } = await q.order("created_at",{ ascending:false }).limit(limit);
   if (error) throw error;
   return (data||[]).map(fromRow);
 }
@@ -189,10 +196,27 @@ export async function updateItem(id, patch) {
   return fromRow(data);
 }
 
+/**
+ * Take a listing down.
+ *
+ * This used to update `status` directly, which the database does not let a
+ * seller write, and it ignored the error: she was told the piece was gone and
+ * it stayed live. `lili_withdraw_listing` checks it is hers and refuses while
+ * a report about it is under review.
+ */
 export async function removeItem(id) {
   const sb = await db();
-  await sb.from("lili_items").update({ status: "removed" }).eq("id", id);
+  const { error } = await sb.rpc("lili_withdraw_listing", { p_item: id });
+  if (error) throw error;
   return id;
+}
+
+/** Mark a live piece sold (answers any open offers), or relist a sold one. */
+export async function markSold(id, sold = true) {
+  const sb = await db();
+  const { data, error } = await sb.rpc("lili_mark_sold", { p_item: id, p_sold: !!sold });
+  if (error) throw error;
+  return data;
 }
 
 /** Live feed. Returns an unsubscribe function. */
@@ -285,13 +309,18 @@ export async function saveCart(lines) {
 
 export async function enqueueCase(entry) {
   const sb = await db(); const uid = await currentUid();
-  const { data, error } = await sb.from("lili_moderation_cases").insert({
+  // No `.select()`: reading a case back needs SELECT on the table, which no
+  // client holds — cases are private to moderators. Asking for the row made
+  // every report fail with "permission denied" after it had been written, and
+  // the dialog then filed it on the phone instead. The reporter's own copy is
+  // read through lili_my_cases().
+  const { error } = await sb.from("lili_moderation_cases").insert({
     kind: entry.kind || "listing", source: "user_report",
     target_item_id: entry.itemId || null, shop_id: entry.shopId || null,
     reasons: entry.reasons || [], detail: entry.detail || null, reported_by: uid,
-  }).select("id").single();
+  });
   if (error) throw error;
-  return { id: data.id, state: "pending" };
+  return { id: null, state: "pending" };
 }
 
 // The queue is server-side, but a signed-in moderator can reach it through
@@ -538,9 +567,12 @@ export async function openConversation({ sellerUid, shopId, itemId }) {
   const sb = await db();
   const uid = await currentUid();
   if (sellerUid === uid) throw new Error("That's your own listing");
-  const { data: existing } = await sb.from("lili_conversations").select("*")
-    .eq("buyer_uid", uid).eq("seller_uid", sellerUid)
-    .eq("item_id", itemId || null).maybeSingle();
+  let find = sb.from("lili_conversations").select("*")
+    .eq("buyer_uid", uid).eq("seller_uid", sellerUid);
+  // `.eq(col, null)` asks for `= NULL`, which matches nothing, so a thread
+  // about the shop rather than a piece was opened again every time.
+  find = itemId ? find.eq("item_id", itemId) : find.is("item_id", null);
+  const { data: existing } = await find.limit(1).maybeSingle();
   if (existing) return existing;
   const { data, error } = await sb.from("lili_conversations")
     .insert({ buyer_uid: uid, seller_uid: sellerUid, shop_id: shopId || null,
@@ -932,12 +964,31 @@ export async function makeOffer({ itemId, shopId, sellerUid, amount, message }) 
   return data;
 }
 
-/** Both sides of every offer, with expiry already applied. */
+/**
+ * Both sides of every offer.
+ *
+ * Each row says which side she is on (`role`) and whether she made it
+ * (`mine`). The screen used to decide "is this mine?" from a `side` field the
+ * server never sent, so on a live backend a buyer saw her own offer with
+ * Accept / Decline / Counter — buttons the database then refused — and no way
+ * to withdraw it. Who may answer is "whoever did not make it", which is also
+ * what lets a buyer accept a seller's counter.
+ */
 export async function getOffers() {
   const sb = await db();
-  const { data, error } = await sb.rpc("lili_offers_for_me");
+  const uid = await currentUid();
+  const { data, error } = await sb.from("lili_offers").select("*")
+    .or(`buyer_uid.eq.${uid},seller_uid.eq.${uid}`)
+    .order("created_at", { ascending: false }).limit(200);
   if (error) throw error;
-  return data || [];
+  return (data || []).map((o) => {
+    const role = o.buyer_uid === uid ? "buyer" : "seller";
+    const madeBy = o.made_by || "buyer";
+    // A lapsed offer reads as expired straight away; the hourly job only
+    // catches the stored row up and tells the person who made it.
+    const state = o.state === "pending" && new Date(o.expires_at) < new Date() ? "expired" : o.state;
+    return { ...o, state, role, made_by: madeBy, mine: madeBy === role };
+  });
 }
 
 const respond = async (offerId, state) => {
@@ -952,21 +1003,19 @@ export const acceptOffer   = (id) => respond(id, "accepted");
 export const declineOffer  = (id) => respond(id, "declined");
 export const withdrawOffer = (id) => respond(id, "withdrawn");
 
-/** A counter is a new offer from the seller, linked to the one it answers. */
+/**
+ * Reply to an offer with a different price.
+ *
+ * One call: `lili_counter_offer` marks the original countered and creates the
+ * counter in the same transaction. Doing it in two steps from here left the
+ * original stuck as "countered" whenever the second step failed — and it
+ * always failed, because the insert policy only lets a buyer create an offer.
+ */
 export async function counterOffer(offerId, amount, message) {
   const sb = await db();
-  const uid = await currentUid();
-  const { data: original, error: e1 } = await sb.from("lili_offers")
-    .select("*").eq("id", offerId).single();
-  if (e1) throw e1;
-  if (original.seller_uid !== uid) throw new Error("Only the seller can counter");
-  await respond(offerId, "countered");
-  const { data, error } = await sb.from("lili_offers").insert({
-    item_id: original.item_id, shop_id: original.shop_id,
-    buyer_uid: original.buyer_uid, seller_uid: uid,
-    amount: Number(amount), message: (message || "").slice(0, 500) || null,
-    counter_of: offerId,
-  }).select().single();
+  const { data, error } = await sb.rpc("lili_counter_offer", {
+    p_offer: offerId, p_amount: Number(amount),
+    p_message: (message || "").slice(0, 500) || null });
   if (error) throw error;
   return data;
 }

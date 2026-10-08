@@ -12,8 +12,36 @@ lili is a curated resale marketplace for the UAE (Capacitor app + Supabase backe
 | `docs/review-2026-10-08.md` | Full review of the live database code and what was fixed |
 | `docs/functional-and-market-review-2026-10-08.md` | End-to-end test results and comparison with similar apps |
 | `supabase/tests/functional_test.sql` | Re-runnable end-to-end test (rolls itself back) |
+| `app/` | The app: React + Vite + Capacitor (Android/iOS), v2.11.7 source and its test suites |
+| `.github/workflows/app.yml` | Tests every push, builds the Android APK, publishes it as a Release |
 
-The app source tree (`src/`, `web/`, npm scripts) is not in this repository yet.
+## Install the app on an Android phone
+
+1. On the phone, open **github.com/marcevm1-del/Project-lili/releases**.
+2. Open the newest release and tap **lili.apk**, then **Open**.
+3. If Android asks, allow your browser to install unknown apps
+   (Settings → Apps → *your browser* → Install unknown apps), then tap **Install**.
+
+Once a build from `main` exists, this link always gives the newest one:
+`https://github.com/marcevm1-del/Project-lili/releases/latest/download/lili.apk`
+
+**So each new build installs as an update** (instead of "App not installed"), add
+these four repository secrets (Settings → Secrets and variables → Actions):
+`ANDROID_KEYSTORE_BASE64` (the `.jks` file, base64-encoded), `ANDROID_KEYSTORE_PASSWORD`,
+`ANDROID_KEY_ALIAS`, `ANDROID_KEY_PASSWORD`. Without them the build is debug-signed
+with a throwaway key, so the previous install has to be removed first. Never commit
+the keystore; it is the app's identity on Google Play.
+
+Optional: `LILI_TEST_EMAIL` / `LILI_TEST_PASSWORD` for a throwaway lili account
+let the API contract test also check the signed-in calls.
+
+## Tests
+
+`cd app && npm ci && npx playwright install chromium && npm run verify:ci`
+
+Runs 12 suites (unit, walkthrough, browser, device, accessibility, security and the
+live API contract) and fails unless every suite *ran* and printed at least its expected
+number of passing checks. A suite that cannot reach Supabase exits 2, not green.
 
 ## Supabase
 
@@ -43,13 +71,23 @@ same project are deliberately not included.
 
 ### Review of 8 Oct 2026
 
-Fifteen bugs fixed live (`20261008*_lili_review_*.sql`); see `docs/review-2026-10-08.md`.
+Fixed live in `20261008*_lili_review_1..15_*.sql`; see `docs/review-2026-10-08.md` and
+`docs/functional-and-market-review-2026-10-08.md`. Since the first write-up:
+
+- **13 — offers both ways.** Counter-offers never worked (the insert was refused and the
+  original stuck as "countered"); a buyer could not accept a seller's counter. Offers now
+  record who made them, the other side answers, and `lili_counter_offer` does it in one step.
+- **14 — take a listing down** (`lili_withdraw_listing`): a soft removal, marked
+  `withdrawn_by_owner`, never a delete; refused while a report about it is open.
+- **15 — relisting respects screening.** Relisting a sold piece whose edits put it under
+  review now goes to review, not live.
 
 ## Still for a human
 
 - **Run `supabase/pending/20261008_needs_owner_approval.sql`** in the SQL editor.
-  It stops account deletion from wiping the other person's conversations, and adds
-  "take a listing down" for sellers.
+  It stops account deletion from wiping the other person's conversations
+  (foreign keys to `ON DELETE SET NULL`). Until it is run, deleting an account fails
+  for anyone who has reported a conversation, and deletes the other side's threads.
 
 - **Authentication → Sign In / Providers → Anonymous sign-ins: turn on.** Until then
   every install runs device-only.

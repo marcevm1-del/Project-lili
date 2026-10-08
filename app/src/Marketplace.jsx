@@ -2888,8 +2888,19 @@ function CreateShopForm({onCreateShop}) {
 }
 
 // ── my shop ────────────────────────────────────────────────────────────────
-function MyShopPage({shop,items,setTab,justListed,onDismissListed}) {
-  const myItems = items.filter(i=>i.shopId===shop.id);
+function MyShopPage({shop,items,setTab,justListed,onDismissListed,onMarkSold,onTakeDown}) {
+  const myItems = items.filter(i=>i.shopId===shop.id && i.status!=="removed");
+  const sold = myItems.filter(i=>i.status==="sold").length;
+  const [busy,setBusy] = useState(null);
+  const [err,setErr] = useState(null);
+  const act = async (id, fn) => {
+    setBusy(id); setErr(null);
+    try { await fn(); } catch(e) { setErr((e && e.message) || "That didn't go through."); }
+    finally { setBusy(null); }
+  };
+  const badge = (st) => st==="sold" ? t("status_sold")
+                     : st==="in_review" ? t("held_for_review")
+                     : st==="removed" ? t("status_removed") : null;
   return (
     <div style={{paddingBottom:72}}>
       {/* Peak-end. The one flow this marketplace depends on used to finish by
@@ -2938,7 +2949,7 @@ function MyShopPage({shop,items,setTab,justListed,onDismissListed}) {
         {shop.nameAr && <div style={{fontSize:13,color:C.inkLt,marginTop:1}}>{shop.nameAr}</div>}
         <div style={{fontSize:12,color:C.inkLt,marginTop:4}}>{shop.bio}</div>
         <div style={{display:"flex",gap:20,marginTop:12,paddingBottom:14,borderBottom:`1px solid ${C.border}`}}>
-          {[[myItems.length,t("listings")],[shop.followers||0,t("followers")],[0,t("sales")]].map(([n,l])=>(
+          {[[myItems.length,t("listings")],[shop.followers||0,t("followers")],[sold,t("sales")]].map(([n,l])=>(
             <div key={l}><span style={{fontWeight:800,color:C.terraTx,fontSize:16}}>{n}</span>
               <span style={{fontSize:10,color:C.inkLt,marginLeft:4}}>{l}</span></div>
           ))}
@@ -2954,10 +2965,37 @@ function MyShopPage({shop,items,setTab,justListed,onDismissListed}) {
                 <div style={{fontSize:12,fontWeight:600,color:C.ink,lineHeight:1.3,
                   whiteSpace:"nowrap",overflow:"hidden",textOverflow:"ellipsis"}}>{item.title}</div>
                 <div style={{color:C.terraTx,fontWeight:700,fontSize:13,marginTop:3}}>{money(item.price)}</div>
+                {badge(item.status) && (
+                  <div style={{fontSize:10,fontWeight:700,color:C.inkLt,marginTop:3,
+                    textTransform:"uppercase",letterSpacing:0.5}}>{badge(item.status)}</div>
+                )}
+                {/* A seller could list a piece and never touch it again: no
+                    way to say it had sold, and no way to take it down. */}
+                {(onMarkSold || onTakeDown) && !item.pending && (
+                  <div style={{display:"flex",gap:6,marginTop:8}}>
+                    {onMarkSold && (item.status==="live" || item.status==="sold") && (
+                      <button disabled={busy===item.id}
+                        onClick={()=>act(item.id,()=>onMarkSold(item.id, item.status!=="sold"))}
+                        style={{flex:1,padding:"6px 4px",borderRadius:8,fontSize:11,fontWeight:700,
+                          cursor:"pointer",background:"none",color:C.terraTx,border:`1px solid ${C.terra}`}}>
+                        {item.status==="sold" ? t("relist") : t("mark_sold")}
+                      </button>
+                    )}
+                    {onTakeDown && (
+                      <button disabled={busy===item.id}
+                        onClick={()=>{ if (window.confirm(t("take_down_confirm"))) act(item.id,()=>onTakeDown(item.id)); }}
+                        style={{flex:1,padding:"6px 4px",borderRadius:8,fontSize:11,fontWeight:600,
+                          cursor:"pointer",background:"none",color:C.inkLt,border:`1px solid ${C.border}`}}>
+                        {t("take_down")}
+                      </button>
+                    )}
+                  </div>
+                )}
               </div>
             </div>
           ))}
         </div>
+        {err && <div role="alert" style={{fontSize:12,color:C.terraTx,marginTop:10}}>{err}</div>}
         {myItems.length===0 && (
           <div style={{textAlign:"center",padding:"60px 20px",color:C.inkLt}}>
             <div style={{fontSize:36,marginBottom:10}}></div>
@@ -3941,7 +3979,10 @@ export default function Marketplace() {
   // A blocked seller disappears everywhere — feed, search, shops. Hiding them
   // in one place only is the bug that makes a block button feel like a lie.
   const visibleItems = useMemo(
-    () => withHeart(items.filter(i => !blocked.includes(i.shopId)), savedIds),
+    // The feed is for pieces on sale. Her own held, sold or removed pieces are
+    // loaded too (for My Shop) and must not appear in it.
+    () => withHeart(items.filter(i => !blocked.includes(i.shopId)
+                                   && (!i.status || i.status === "live")), savedIds),
     [items, blocked, savedIds]);
   const visibleShops = shops.filter(s => !blocked.includes(s.id));
 
@@ -4082,6 +4123,17 @@ export default function Marketplace() {
     return saved;
   };
 
+  const onMarkSold = async (id, sold) => {
+    const saved = await repo.markSold(id, sold);
+    const status = (saved && saved.status) || (sold ? "sold" : "live");
+    setItems(its => its.map(i => i.id === id ? { ...i, status } : i));
+  };
+
+  const onTakeDown = async (id) => {
+    await repo.removeItem(id);
+    setItems(its => its.filter(i => i.id !== id));
+  };
+
   // Peak-end. The end of listing a piece was: the form vanishes, and she is
   // somewhere else. Nothing said it worked, nothing showed her what she made.
   // The end of an experience is disproportionately what is remembered of it,
@@ -4161,7 +4213,8 @@ export default function Marketplace() {
                                askToSignIn("Opening a shop needs an account — it's how your buyers reach you and how you get paid.");
                              }}/>}
         {tab==="myshop"     && myShop && <MyShopPage shop={myShop} items={items} setTab={setTab}
-                              justListed={justListed} onDismissListed={()=>setJustListed(null)}/>}
+                              justListed={justListed} onDismissListed={()=>setJustListed(null)}
+                              onMarkSold={onMarkSold} onTakeDown={onTakeDown}/>}
         {tab==="profile"    && <ProfilePage myShop={myShop} items={visibleItems} setTab={setTab} onOpenLegal={()=>setLegalOpen(true)} onOpenLanguage={()=>setLangOpen(true)} onOpenTheme={()=>setThemeOpen(true)}
                         onOpenHelp={()=>setHelpOpen(true)}
                         onOpenSettings={()=>setSettingsOpen(true)}

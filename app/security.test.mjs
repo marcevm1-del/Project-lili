@@ -425,10 +425,11 @@ section("9g. Offers");
   check("the amount cannot be edited after an offer is made",
     /new\.amount\s*:=\s*old\.amount/.test(read("BACKEND-STATUS.md")) || true);
   check("a buyer cannot accept her own offer", true);   // verified live
-  check("expiry needs no scheduled job", /lili_offers_for_me/.test(remoteSrc));
+  check("expiry needs no scheduled job", /state === "pending" && new Date\(o\.expires_at\) < new Date\(\)/.test(remoteSrc));
   check("a duplicate open offer is explained, not dumped raw",
     /already have an offer open/.test(remoteSrc));
-  check("only the seller can counter", /Only the seller can counter/.test(remoteSrc));
+  // Either side may counter the other's offer; the database decides who, in one call.
+  check("a counter is one server-side step", /rpc\("lili_counter_offer"/.test(remoteSrc));
 }
 
 // ═══ 9g. OFFERS ════════════════════════════════════════════════════════════

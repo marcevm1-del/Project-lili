@@ -65,7 +65,13 @@ export default function OffersPage({ items = [], shops = [], onBack }) {
     finally { setBusy(null); }
   };
 
-  const mine = (o) => o.side === "buyer" || o.buyer_uid === "me";
+  // "Mine" means I made it, so I can only withdraw it; the other person
+  // answers. A live backend says so in `mine`; device-held offers are always
+  // the buyer's own. Deciding this from a `side` field the server never sent
+  // put Accept/Counter on a buyer's own offer and hid her Withdraw button.
+  const mine = (o) => (typeof o.mine === "boolean" ? o.mine
+                       : o.side === "buyer" || o.buyer_uid === "me");
+  const iAmBuyer = (o) => (o.role ? o.role === "buyer" : mine(o));
   const incoming = list.filter((o) => !mine(o));
   const outgoing = list.filter((o) => mine(o));
 
@@ -75,7 +81,8 @@ export default function OffersPage({ items = [], shops = [], onBack }) {
     const st = offers.displayState(o);
     const label = offers.STATE_LABEL[st] || offers.STATE_LABEL.pending;
     const open = st === "pending";
-    const isBuyer = mine(o);
+    const isMine = mine(o);
+    const isBuyer = iAmBuyer(o);
 
     return (
       <div style={{ background: C.white, border: `1px solid ${C.border}`,
@@ -91,7 +98,8 @@ export default function OffersPage({ items = [], shops = [], onBack }) {
               {item.title || "A piece"}
             </div>
             <div style={{ fontSize: 11, color: C.inkLt, marginTop: 1 }}>
-              {isBuyer ? (shop.name || "Seller") : "Offer from a buyer"}
+              {isMine ? (isBuyer ? (shop.name || "Seller") : "Your counter-offer")
+                      : (o.made_by === "seller" ? `Counter-offer from ${shop.name || "the seller"}` : "Offer from a buyer")}
               {item.price ? ` · asking ${money(item.price)}` : ""}
             </div>
           </div>
@@ -143,9 +151,9 @@ export default function OffersPage({ items = [], shops = [], onBack }) {
           </div>
         ) : open ? (
           <div style={{ marginTop: 10, display: "flex", gap: 8 }}>
-            {isBuyer ? (
-              // A buyer may ONLY withdraw. Not because this file says so —
-              // because lili_offers says so, and this agrees with it.
+            {isMine ? (
+              // Whoever made an offer may only withdraw it. Not because this
+              // file says so — because lili_offers says so, and this agrees.
               <button onClick={() => act(o.id, () => offers.withdrawOffer(o.id))}
                 disabled={busy === o.id}
                 style={{ ...btn, flex: 1, background: "none", color: C.terraTx,

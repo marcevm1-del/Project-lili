@@ -168,5 +168,12 @@ export const STRINGS = {
   app_group: { en: "The app", ar: "التطبيق" },
   its_live: { en: "It's live", ar: "أصبحت معروضة" },
   held_for_review: { en: "Held for review", ar: "قيد المراجعة" },
+  status_live: { en: "Live", ar: "معروض" },
+  status_sold: { en: "Sold", ar: "مباع" },
+  status_removed: { en: "Removed", ar: "أُزيل" },
+  mark_sold: { en: "Mark sold", ar: "تم البيع" },
+  relist: { en: "Relist", ar: "إعادة العرض" },
+  take_down: { en: "Take down", ar: "إزالة" },
+  take_down_confirm: { en: "Take this piece down? It can't be undone.", ar: "إزالة هذه القطعة؟ لا يمكن التراجع عن ذلك." },
   dismiss: { en: "Dismiss", ar: "إخفاء" },
 };
