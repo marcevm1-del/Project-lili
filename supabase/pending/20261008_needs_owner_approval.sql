@@ -1,4 +1,4 @@
--- lili: one fix from the 8 Oct 2026 review that is NOT applied yet.
+-- lili: two changes from the 8 Oct 2026 review that are NOT applied yet.
 --
 -- It uses DROP CONSTRAINT / DROP NOT NULL, which the Supabase connector treats
 -- as destructive, so it needs the project owner to run it. Paste this file into Supabase → SQL Editor for
@@ -35,5 +35,15 @@ alter table public.lili_messages add constraint lili_messages_sender_uid_fkey
 alter table public.lili_meets drop constraint lili_meets_proposed_by_fkey;
 alter table public.lili_meets add constraint lili_meets_proposed_by_fkey
   foreign key (proposed_by) references auth.users(id) on delete set null;
+
+-- ── 2. Saved-search alerts can be delivered ─────────────────────────────────
+-- Saved searches (migration lili_review_18) already count new matches in the
+-- app. The notification itself needs its own kind, which this CHECK does not
+-- list; until it does, the alert is skipped quietly.
+alter table public.lili_notifications drop constraint lili_notifications_kind_check;
+alter table public.lili_notifications add constraint lili_notifications_kind_check check (kind = any (array[
+  'message', 'offer', 'price_drop', 'moderation_outcome', 'moderation_report_outcome',
+  'listing_live', 'listing_blocked', 'shop_action', 'meet_proposed', 'meet_confirmed',
+  'meet_declined', 'meet_cancelled', 'saved_search']));
 
 commit;

@@ -609,6 +609,40 @@ export async function updateShop(id, patch) {
 // ── cart ───────────────────────────────────────────────────────────────────
 // Persisted because an abandoned cart that survives a restart is worth real
 // money, and because losing it on a crash is the kind of thing people uninstall over.
+// ── reviews ────────────────────────────────────────────────────────────────
+// Server-only: a review is about a meet two people agreed on the server, so a
+// device-only install has nothing to review and nothing to show.
+export async function getReviewsOwed() {
+  if (!remoteReady) return [];
+  try { return await remote.getReviewsOwed(); }
+  catch (e) { console.warn("reviews owed unavailable:", e && e.message); return []; }
+}
+export async function leaveReview(meetId, stars, body) {
+  if (!remoteReady) throw new Error(whyNoWrites || "Sign in to leave a review");
+  return remote.leaveReview(meetId, stars, body);
+}
+export async function getShopReviews(shopId) {
+  if (!remoteRead || typeof shopId !== "string") return [];
+  try { return await remote.getShopReviews(shopId); }
+  catch (e) { console.warn("shop reviews unavailable:", e && e.message); return []; }
+}
+
+// ── saved searches ─────────────────────────────────────────────────────────
+// Server-only, like reviews: an alert is sent by the database when someone
+// else lists, which a device-only install can never see.
+export const canSaveSearches = () => remoteReady;
+export async function getSavedSearches() {
+  if (!remoteReady) return [];
+  try { return await remote.getSavedSearches(); }
+  catch (e) { console.warn("saved searches unavailable:", e && e.message); return []; }
+}
+export async function saveSearch(query, opts) {
+  if (!remoteReady) throw new Error(whyNoWrites || "Sign in to save a search");
+  return remote.saveSearch(query, opts);
+}
+export const sawSearch = (id) => (remoteReady ? remote.sawSearch(id).catch(() => {}) : Promise.resolve());
+export const forgetSearch = (id) => (remoteReady ? remote.forgetSearch(id) : Promise.resolve());
+
 export const getCart = () => getJSON(K.cart, []);
 export const saveCart = (cart) => setJSON(K.cart, cart);
 

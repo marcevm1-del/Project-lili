@@ -117,7 +117,10 @@ const fromRow = (r) => r && ({ ...r,
 const ROW_COLUMNS = {
   lili_items: ["shop_id", "title", "title_ar", "subtitle", "brand", "price",
                "currency", "category", "condition", "size", "era", "color",
-               "description", "photos", "thumbs", "authenticated", "market_code"],
+               "description", "photos", "thumbs", "authenticated", "market_code",
+               // fit, flat measurements (cm) and disclosed flaws — migration
+               // lili_review_20; the server checks keys, ranges and the flaw list
+               "fit", "measurements", "flaws"],
   lili_shops: ["name", "name_ar", "bio", "banner", "seller_type", "market_code"],
 };
 
@@ -231,9 +234,73 @@ export async function watchItems(onChange, { limit = 60 } = {}) {
 
 export async function getShops() {
   const sb = await db();
-  const { data, error } = await sb.from("lili_shops").select("*").eq("status","active");
+  const [{ data, error }, rep] = await Promise.all([
+    sb.from("lili_shops").select("*").eq("status","active"),
+    sb.rpc("lili_reputations"),
+  ]);
   if (error) throw error;
-  return (data||[]).map(fromRow);
+  // Reputation is a nicety on top of the shop list: if it fails, the shops
+  // still load, just without stars.
+  const byShop = new Map(((rep && !rep.error && rep.data) || []).map((r) => [r.shop_id, r]));
+  return (data||[]).map((row) => {
+    const r = byShop.get(row.id);
+    return { ...fromRow(row), rating: r ? Number(r.rating) : null, reviews: r ? r.reviews : 0 };
+  });
+}
+
+// ── reviews ────────────────────────────────────────────────────────────────
+// Two-way and double-blind: each side rates the other once after a meet, and
+// neither review shows until both are in or 14 days have passed.
+
+/** Meets she can still review. */
+export async function getReviewsOwed() {
+  const sb = await db();
+  const { data, error } = await sb.rpc("lili_reviews_owed");
+  if (error) throw error;
+  return data || [];
+}
+
+export async function leaveReview(meetId, stars, body) {
+  const sb = await db();
+  const { data, error } = await sb.rpc("lili_leave_review",
+    { p_meet: meetId, p_stars: Number(stars), p_body: (body || "").slice(0, 500) || null });
+  if (error) throw error;
+  return data;
+}
+
+// ── saved searches ─────────────────────────────────────────────────────────
+// "Tell me when it's listed." Private to her; each one comes back with how many
+// matching pieces went live since she last opened it.
+export async function getSavedSearches() {
+  const sb = await db();
+  const { data, error } = await sb.rpc("lili_my_saved_searches");
+  if (error) throw error;
+  return data || [];
+}
+export async function saveSearch(query, { maxPrice = null, category = null } = {}) {
+  const sb = await db();
+  const { data, error } = await sb.rpc("lili_save_search",
+    { p_query: query, p_max_price: maxPrice, p_category: category });
+  if (error) throw error;
+  return data;
+}
+export async function sawSearch(id) {
+  const sb = await db();
+  const { error } = await sb.rpc("lili_saw_search", { p_id: id });
+  if (error) throw error;
+}
+export async function forgetSearch(id) {
+  const sb = await db();
+  const { error } = await sb.rpc("lili_forget_search", { p_id: id });
+  if (error) throw error;
+}
+
+/** A shop's visible reviews, newest first. Readable signed out. */
+export async function getShopReviews(shopId, limit = 20) {
+  const sb = await db();
+  const { data, error } = await sb.rpc("lili_shop_reviews", { p_shop: shopId, p_limit: limit });
+  if (error) throw error;
+  return data || [];
 }
 
 export async function createShop(form) {

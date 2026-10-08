@@ -5,6 +5,8 @@ import * as remote from "../backend/remote.js";
 import { withTimeout, BUDGET, isTimeout } from "../ux/timeout.js";
 import { PLACES, placeByKey, AVOID, OUTSIDE_HELP } from "./places.js";
 import { t } from "../i18n/t.js";
+import * as repo from "../data/repo.js";
+import ReviewPrompt from "../trust/ReviewPrompt.jsx";
 
 // ─────────────────────────────────────────────────────────────────────────────
 //  THE MEET, IN THE THREAD
@@ -66,6 +68,7 @@ export default function MeetPlan({ conversationId, itemId, onReport }) {
   const [busy, setBusy] = useState(false);
   const [problem, setProblem] = useState(null);
   const [showAvoid, setShowAvoid] = useState(false);
+  const [owed, setOwed] = useState({});        // meet id → who she would be rating
 
   const load = useCallback(async () => {
     if (!remote.isConfigured() || !conversationId) { setState("offline"); return; }
@@ -75,6 +78,11 @@ export default function MeetPlan({ conversationId, itemId, onReport }) {
         remote.currentUid().catch(() => null),
       ]);
       setMeets(rows || []); setMe(uid); setState("ready");
+      // Which of these she can still review. Asked separately so a slow or
+      // failed answer never holds up the plan itself.
+      repo.getReviewsOwed()
+        .then((list) => setOwed(Object.fromEntries((list || []).map((r) => [r.meet_id, r.other_role]))))
+        .catch(() => {});
     } catch (e) {
       setState(isTimeout(e) ? "unreachable" : "offline");
     }
@@ -187,6 +195,9 @@ export default function MeetPlan({ conversationId, itemId, onReport }) {
           // could not have guessed, and "it felt wrong" is the one that has to
           // reach a person rather than a counter.
           <div>
+            {/* Once answered, the question goes. It used to stay, and a
+                second tap met "a check-in is not edited afterwards". */}
+            {!live.checkin_state && <>
             <div style={{ fontSize: 13, color: C.ink, marginBottom: 8 }}>How did it go?</div>
             <div style={{ display: "flex", gap: 7, flexWrap: "wrap" }}>
               <button style={btn(true)} disabled={busy}
@@ -199,6 +210,12 @@ export default function MeetPlan({ conversationId, itemId, onReport }) {
                   if (onReport) onReport();
                 }}>Something felt wrong</button>
             </div>
+            </>}
+            {owed[live.id] && (
+              <div style={{ borderTop: `1px solid ${C.border}`, marginTop: 12, paddingTop: 12 }}>
+                <ReviewPrompt meetId={live.id} otherRole={owed[live.id]} />
+              </div>
+            )}
             <div style={{ fontSize: 11, color: C.inkLt, marginTop: 10, lineHeight: 1.6 }}>
               If you are in danger right now, {OUTSIDE_HELP[0].label} before us —
               lili can close a shop, and that is all it can do.
@@ -212,7 +229,14 @@ export default function MeetPlan({ conversationId, itemId, onReport }) {
   // ── proposing one ─────────────────────────────────────────────────────────
   if (!composing) {
     const past = meets.find((m) => m.state === "done" || m.checkin_state);
+    const toReview = meets.find((m) => owed[m.id]);
     return (
+      <>
+      {toReview && (
+        <div style={card}>
+          <ReviewPrompt meetId={toReview.id} otherRole={owed[toReview.id]} />
+        </div>
+      )}
       <div style={{ ...card, background: C.sand }}>
         <div style={{ display: "flex", alignItems: "center", gap: 10 }}>
           <Icon name="handshake" size={16} stroke={1.8} style={{ color: C.terraTx }} />
@@ -225,6 +249,7 @@ export default function MeetPlan({ conversationId, itemId, onReport }) {
           <button style={btn(true)} onClick={() => setComposing(true)}>Suggest</button>
         </div>
       </div>
+      </>
     );
   }
 

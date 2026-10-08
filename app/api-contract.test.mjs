@@ -63,9 +63,24 @@ for (const [fn, args] of [
   ["lili_withdraw_listing", { p_item: "00000000-0000-0000-0000-000000000000" }],
   ["lili_counter_offer", { p_offer: "00000000-0000-0000-0000-000000000000", p_amount: 1 }],
   ["lili_moderation_decide", { p_case: "00000000-0000-0000-0000-000000000000", p_decision: "dismiss", p_reason: "contract test" }],
+  ["lili_leave_review", { p_meet: "00000000-0000-0000-0000-000000000000", p_stars: 5 }],
+  ["lili_reviews_owed", {}],
+  ["lili_save_search", { p_query: "contract test" }],
+  ["lili_my_saved_searches", {}],
+  ["lili_forget_search", { p_id: "00000000-0000-0000-0000-000000000000" }],
 ]) {
   r = await rpc(fn, args);
   check(`${fn} exists but refuses a signed-out caller`, exists(r) && refused(r), `status ${r.status} ${r.json && r.json.code}`);
+}
+// Reputation is public; who wrote a review, and every saved search, are not.
+r = await rpc("lili_reputations");
+check("shop reputations are readable signed out", r.status === 200 && Array.isArray(r.json), `status ${r.status}`);
+r = await rpc("lili_shop_reviews", { p_shop: "00000000-0000-0000-0000-000000000000" });
+check("a shop's reviews are readable signed out", r.status === 200 && Array.isArray(r.json), `status ${r.status}`);
+check("a review never says who wrote it", !(r.json || []).some((x) => "reviewer_uid" in x));
+for (const table of ["lili_reviews", "lili_saved_searches"]) {
+  r = await call(`/rest/v1/${table}?select=*&limit=1`);
+  check(`${table} is not readable directly`, refused(r) || (r.status === 200 && (r.json || []).length === 0), `status ${r.status}`);
 }
 for (const fn of ["lili_invite_code", "lili_rate_ok", "lili_meet_guard"]) {
   r = await rpc(fn, fn === "lili_rate_ok" ? { p_action: "x", p_limit: 1, p_window: "1 hour" } : {});
@@ -87,6 +102,9 @@ if (process.env.LILI_TEST_EMAIL && process.env.LILI_TEST_PASSWORD) {
       ["lili_mark_sold", { p_item: "00000000-0000-0000-0000-000000000000", p_sold: true }],
       ["lili_withdraw_listing", { p_item: "00000000-0000-0000-0000-000000000000" }],
       ["lili_counter_offer", { p_offer: "00000000-0000-0000-0000-000000000000", p_amount: 1 }],
+      ["lili_leave_review", { p_meet: "00000000-0000-0000-0000-000000000000", p_stars: 5 }],
+      ["lili_reviews_owed", {}],
+      ["lili_my_saved_searches", {}],
     ]) {
       r = await rpc(fn, args, token);
       const msg = (r.json && r.json.message) || "";

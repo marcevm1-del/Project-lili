@@ -54,6 +54,8 @@ const ICON = {
   meet_confirmed: "check",
   meet_declined: "clock",
   meet_cancelled: "ban",
+  // A new piece for a saved search. Links to the item, like a price drop.
+  saved_search: "search",
 };
 
 const ago = (iso) => {

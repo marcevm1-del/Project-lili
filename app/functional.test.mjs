@@ -262,6 +262,7 @@ const payout = await page.evaluate(() => {
   // the sell form advertises what the seller receives
   return null;
 });
+let sawFitStep = false, fitStepHas = {};
 await label("Sell");
 await page.waitForTimeout(400);
 // a shop must exist before the listing form appears
@@ -287,11 +288,26 @@ if (await shopName.count()) {
   // the listing flow offers a mode, then walks steps — advance until the price
   // field appears rather than assuming how many screens there are
   for (let i = 0; i < 8 && await page.locator('input[placeholder="0"]:visible').count() === 0; i++) {
+    // On the details step, the questions a size label cannot answer.
+    if (!sawFitStep && await page.getByText("How does it fit?").count()) {
+      sawFitStep = true;
+      fitStepHas = {
+        measurements: await page.getByText("Measurements, laid flat").count() > 0,
+        flaws: await page.getByText("Anything to point out?").count() > 0,
+      };
+      await tap("Runs small");
+      await page.locator('input[aria-label^="Chest"]').first().fill("46").catch(() => {});
+      await tap("Pilling");
+      await page.getByText("How does it fit?").first().scrollIntoViewIfNeeded().catch(() => {});
+      await page.screenshot({ path: "screenshots/18-sell-fit-and-flaws.png" });
+    }
     const moved = await tap("Quick") || await tap("Guided") || await tap("Next")
                || await tap("Continue") || await tap("Skip");
     if (!moved) break;
   }
 }
+check("the listing asks how it fits, its measurements and its flaws",
+      sawFitStep && fitStepHas.measurements && fitStepHas.flaws, JSON.stringify(fitStepHas));
 const priceInput = page.locator('input[placeholder="0"]:visible').first();
 const reachedPrice = await priceInput.count() > 0
   && await priceInput.waitFor({ state: "visible", timeout: 4000 }).then(() => true, () => false);

@@ -480,6 +480,81 @@ function withHeart(items, savedIds) {
 }
 
 // ── search page (Jacob's Law: dedicated search tab like Depop/TikTok) ─────
+// "Tell me when it's listed": the search she just ran, kept on the server so the
+// database can tell her the moment a matching piece goes live. Vinted, Depop
+// and Vestiaire all have it; for a catalogue this young, where most searches
+// come back short, it is the difference between a dead end and a reason to
+// come back.
+function SaveSearchButton({q, filters, prominent}) {
+  const [state,setState] = useState("idle");   // idle | busy | saved | error
+  const [problem,setProblem] = useState(null);
+  useEffect(()=>{ setState("idle"); setProblem(null); },[q, filters.maxPrice, filters.category]);
+  if (!repo.canSaveSearches()) return null;
+  const maxPrice = filters.maxPrice != null && filters.maxPrice !== 999999 ? filters.maxPrice : null;
+  const category = filters.category && filters.category !== "All" ? filters.category : null;
+  const save = async () => {
+    setState("busy"); setProblem(null);
+    try { await repo.saveSearch(q.trim(), { maxPrice, category }); setState("saved"); }
+    catch (e) { setState("error"); setProblem((e && e.message) || "That didn't save."); }
+  };
+  const what = `“${q.trim()}”${category?` in ${category}`:""}${maxPrice?` under ${money(maxPrice)}`:""}`;
+  if (state === "saved") return (
+    <div role="status" style={{fontSize:12,color:C.inkLt,lineHeight:1.5,padding:prominent?"10px 0 0":"0 4px 10px"}}>
+      <Icon name="check" size={13} style={{color:C.greenTx,verticalAlign:"-2px"}}/> Saved. We'll tell you when something new matches {what}.
+    </div>
+  );
+  return (
+    <div style={{padding:prominent?"14px 0 0":"0 4px 10px"}}>
+      <button onClick={save} disabled={state==="busy"}
+        style={prominent
+          ? {background:C.btn,color:C.onBtn,border:"none",borderRadius:20,padding:"10px 20px",
+             fontSize:13,fontWeight:700,cursor:"pointer",fontFamily:"inherit"}
+          : {background:C.white,color:C.terraTx,border:`1.5px solid ${C.terra}`,borderRadius:20,
+             padding:"6px 14px",fontSize:12,fontWeight:700,cursor:"pointer",fontFamily:"inherit",
+             display:"inline-flex",alignItems:"center",gap:6}}>
+        {!prominent && <Icon name="bell" size={13}/>}
+        {state==="busy" ? "Saving…" : prominent ? "Tell me when it's listed" : "Save this search"}
+      </button>
+      {problem && <div role="alert" style={{fontSize:12,color:C.redTx,marginTop:6}}>{problem}</div>}
+    </div>
+  );
+}
+
+// Her saved searches, on the search landing, each with what has gone live
+// since she last looked.
+function SavedSearches({onPick}) {
+  const [list,setList] = useState([]);
+  const load = useCallback(()=>{ repo.getSavedSearches().then(r=>setList(r||[])); },[]);
+  useEffect(()=>{ load(); },[load]);
+  if (list.length===0) return null;
+  return (
+    <div style={{marginBottom:24}}>
+      <div style={{fontWeight:700,fontSize:14,color:C.ink,marginBottom:10}}>Your saved searches</div>
+      {list.map(s=>(
+        <div key={s.id} style={{display:"flex",alignItems:"center",gap:10,background:C.white,
+          border:`1px solid ${C.border}`,borderRadius:12,padding:"4px 4px 4px 12px",marginBottom:7}}>
+          <button onClick={()=>{ repo.sawSearch(s.id); onPick(s); }}
+            style={{flex:1,minWidth:0,background:"none",border:"none",textAlign:"start",cursor:"pointer",
+              padding:"8px 0",fontFamily:"inherit",color:C.ink,fontSize:13}}>
+            <span style={{fontWeight:600}}>{s.query}</span>
+            <span style={{color:C.inkLt,fontSize:11}}>
+              {s.category?` · ${s.category}`:""}{s.max_price?` · under ${money(Number(s.max_price))}`:""}
+            </span>
+          </button>
+          {s.new_count>0 && <span style={{background:C.btn,color:C.onBtn,fontSize:10,fontWeight:700,
+            borderRadius:10,padding:"2px 8px",whiteSpace:"nowrap"}}>{s.new_count} new</span>}
+          <button className="tap-round" aria-label={`Stop saving “${s.query}”`}
+            onClick={async()=>{ await repo.forgetSearch(s.id).catch(()=>{}); load(); }}
+            style={{background:"none",border:"none",color:C.inkLt,cursor:"pointer",width:36,height:36,
+              display:"flex",alignItems:"center",justifyContent:"center"}}>
+            <Icon name="close" size={14}/>
+          </button>
+        </div>
+      ))}
+    </div>
+  );
+}
+
 function SearchPage({items,shops,onSave,setModal,filters,setFilters,savedIds=[]}) {
   const [q,setQ] = useState("");
   const [showFilters,setShowFilters] = useState(false);
@@ -573,6 +648,12 @@ function SearchPage({items,shops,onSave,setModal,filters,setFilters,savedIds=[]}
           looking for Y2K looked as though nothing had been typed at all. */}
       {!active ? (
         <div style={{padding:"20px 14px"}}>
+          <SavedSearches onPick={(ss)=>{
+            setFilters(f=>({...f,
+              category: ss.category || "All",
+              maxPrice: ss.max_price != null ? Number(ss.max_price) : f.maxPrice}));
+            setQ(ss.query);
+          }}/>
           {trending.length>0 && <>
           <div style={{fontWeight:700,fontSize:14,color:C.ink,marginBottom:12}}>{t("in_stock_now")}</div>
           <div style={{display:"flex",flexWrap:"wrap",gap:8,marginBottom:24}}>
@@ -619,6 +700,7 @@ function SearchPage({items,shops,onSave,setModal,filters,setFilters,savedIds=[]}
                   <span> · some matched through Arabic or a near spelling</span>
                 )}
               </div>
+              <SaveSearchButton q={q} filters={filters}/>
               <div style={{display:"grid",gridTemplateColumns:"repeat(2,1fr)",gap:10}}>
                 {results.map(item=>(
                   <ItemTile key={item.id} item={item} onSave={onSave} onClick={()=>setModal(item)}/>
@@ -654,6 +736,7 @@ function SearchPage({items,shops,onSave,setModal,filters,setFilters,savedIds=[]}
                   Try a brand name, a category, or the Arabic word — both work.
                 </div>
               )}
+              <SaveSearchButton q={q} filters={filters} prominent/>
               {alternatives.length>0 && (
                 <div style={{marginTop:22}}>
                   <div style={{fontSize:11,color:C.inkLt,marginBottom:10}}>In stock right now</div>
@@ -844,6 +927,151 @@ function StoryViewer({story,shop,onClose}) {
 }
 
 // ── item tile ──────────────────────────────────────────────────────────────
+// ── fit, measurements, flaws ───────────────────────────────────────────────
+// A size label says what the tag says. Whether it fits is the question buyers
+// message about before buying and the reason they regret it after, and a
+// "Good" condition hides as much as it tells. These three answer both, in the
+// seller's words, in a form a buyer can compare across listings.
+const GARMENT_CATS = ["Dresses","Tops","Bottoms","Abayas"];
+const FIT_CATS = [...GARMENT_CATS, "Shoes"];
+const MEASURE_KEYS = {
+  Dresses: ["chest","waist","length"],
+  Tops:    ["chest","shoulders","sleeve","length"],
+  Bottoms: ["waist","hips","inseam","length"],
+  Abayas:  ["chest","sleeve","length"],
+};
+const MEASURE_LABEL = { chest:"Chest (pit to pit)", waist:"Waist", hips:"Hips", length:"Length",
+  shoulders:"Shoulders", sleeve:"Sleeve", inseam:"Inseam" };
+const FITS = [["small","Runs small"],["true","True to size"],["large","Runs large"]];
+const FLAWS_GARMENT = [["stain","Stain"],["pilling","Pilling"],["fading","Fading"],["hole","Small hole"],
+  ["missing_button","Missing button"],["altered","Altered"],["loose_thread","Loose thread"],["odour","Odour"]];
+const FLAWS_OTHER = [["scuff","Scuffs"],["wear","Visible wear"],["stain","Stain"],["loose_thread","Loose thread"],["odour","Odour"]];
+const FLAW_LABEL = Object.fromEntries([...FLAWS_GARMENT, ...FLAWS_OTHER]);
+
+function FitAndFlaws({form, setForm}) {
+  const cat = form.category;
+  const keys = MEASURE_KEYS[cat] || [];
+  const flawOpts = GARMENT_CATS.includes(cat) ? FLAWS_GARMENT : FLAWS_OTHER;
+  const flaws = form.flaws;            // null = not answered, [] = none
+  const lbl = {fontSize:11,fontWeight:700,color:C.inkLt,letterSpacing:0.5,textTransform:"uppercase",display:"block",marginBottom:6};
+  const chip = (on) => ({background:on?C.terra:C.white,color:on?C.white:C.ink,
+    border:`1.5px solid ${on?C.terra:C.border}`,borderRadius:20,padding:"7px 12px",
+    fontSize:12,cursor:"pointer",fontFamily:"inherit"});
+  const setM = (k, v) => {
+    const n = Number(String(v).replace(",", "."));
+    const m = { ...(form.measurements||{}) };
+    if (v === "" || !(n > 0)) delete m[k]; else m[k] = Math.min(300, Math.round(n * 10) / 10);
+    setForm({ ...form, measurements: m });
+  };
+  const toggleFlaw = (k) => {
+    const cur = Array.isArray(flaws) ? flaws : [];
+    setForm({ ...form, flaws: cur.includes(k) ? cur.filter(x=>x!==k) : [...cur, k] });
+  };
+  return (
+    <div style={{display:"flex",flexDirection:"column",gap:14}}>
+      {FIT_CATS.includes(cat) && (
+        <div>
+          <span style={lbl}>How does it fit?</span>
+          <div role="radiogroup" aria-label="How does it fit" style={{display:"flex",gap:7,flexWrap:"wrap"}}>
+            {FITS.map(([k,l])=>(
+              <button key={k} type="button" role="radio" aria-checked={form.fit===k} className="tap-target"
+                onClick={()=>setForm({...form,fit:form.fit===k?null:k})} style={chip(form.fit===k)}>{l}</button>
+            ))}
+          </div>
+        </div>
+      )}
+      {keys.length>0 && (
+        <div>
+          <span style={lbl}>Measurements, laid flat (cm) <span style={{textTransform:"none",fontWeight:400}}>· optional</span></span>
+          <div style={{display:"grid",gridTemplateColumns:"1fr 1fr",gap:8}}>
+            {keys.map(k=>(
+              <label key={k} style={{display:"flex",flexDirection:"column",gap:4,fontSize:11,color:C.inkLt}}>
+                {MEASURE_LABEL[k]}
+                <input inputMode="decimal" value={(form.measurements||{})[k] ?? ""} onChange={e=>setM(k,e.target.value)}
+                  placeholder="cm" aria-label={`${MEASURE_LABEL[k]} in centimetres`}
+                  style={{padding:"10px 12px",borderRadius:10,border:`1px solid ${C.border}`,fontSize:14,
+                    outline:"none",color:C.ink,background:C.white,boxSizing:"border-box",width:"100%"}}/>
+              </label>
+            ))}
+          </div>
+          <div style={{fontSize:11,color:C.inkLt,marginTop:6,lineHeight:1.5}}>
+            Two numbers save a dozen messages: buyers compare them with something they already own.
+          </div>
+        </div>
+      )}
+      <div>
+        <span style={lbl}>Anything to point out?</span>
+        <div style={{display:"flex",gap:7,flexWrap:"wrap"}}>
+          <button type="button" aria-pressed={Array.isArray(flaws)&&flaws.length===0} className="tap-target"
+            onClick={()=>setForm({...form,flaws:[]})} style={chip(Array.isArray(flaws)&&flaws.length===0)}>Nothing — no flaws</button>
+          {flawOpts.map(([k,l])=>(
+            <button key={k} type="button" aria-pressed={Array.isArray(flaws)&&flaws.includes(k)} className="tap-target"
+              onClick={()=>toggleFlaw(k)} style={chip(Array.isArray(flaws)&&flaws.includes(k))}>{l}</button>
+          ))}
+        </div>
+        <div style={{fontSize:11,color:C.inkLt,marginTop:6,lineHeight:1.5}}>
+          Saying so up front is what buyers trust — and a flaw she was told about is not a reason to back out at the meet.
+        </div>
+      </div>
+    </div>
+  );
+}
+
+// On the piece: size and how it runs, the measurements, and what the seller
+// disclosed — together, because "will it fit" and "what's it like" are read
+// as one question.
+function FitPanel({item}) {
+  const m = item.measurements && typeof item.measurements === "object" ? item.measurements : {};
+  const mk = Object.keys(m).filter(k => MEASURE_LABEL[k]);
+  const fit = FITS.find(([k]) => k === item.fit);
+  const flaws = Array.isArray(item.flaws) ? item.flaws : null;
+  if (!fit && mk.length === 0 && flaws === null) return null;
+  return (
+    <div style={{border:`1px solid ${C.border}`,borderRadius:12,padding:"12px 14px",marginBottom:14,background:C.white}}>
+      {(fit || mk.length>0) && (
+        <div style={{marginBottom:flaws!==null?10:0}}>
+          <div style={{fontSize:12,fontWeight:700,color:C.ink,marginBottom:mk.length?6:0}}>
+            Size {item.size}{fit ? ` · ${fit[1]}` : ""}
+            {fit && fit[0]!=="true" && <span style={{fontWeight:400,color:C.inkLt}}>
+              {fit[0]==="small" ? " — consider a size up" : " — consider a size down"}</span>}
+          </div>
+          {mk.length>0 && (
+            <div style={{display:"flex",flexWrap:"wrap",gap:"4px 14px"}}>
+              {mk.map(k=>(
+                <span key={k} style={{fontSize:12,color:C.inkLt}}>
+                  {MEASURE_LABEL[k].replace(" (pit to pit)","")} <b style={{color:C.ink}}>{m[k]} cm</b>
+                </span>
+              ))}
+            </div>
+          )}
+        </div>
+      )}
+      {flaws !== null && (
+        <div style={{fontSize:12,color:C.inkLt,lineHeight:1.5,
+          borderTop:(fit||mk.length)?`1px solid ${C.border}`:"none",paddingTop:(fit||mk.length)?10:0}}>
+          <b style={{color:C.ink}}>{item.condition}</b>
+          {flaws.length===0 ? " · no flaws noted by the seller"
+            : <> · the seller points out: {flaws.map(f=>FLAW_LABEL[f]||f).join(", ").toLowerCase()}</>}
+        </div>
+      )}
+    </div>
+  );
+}
+
+// The price, and — when she has lowered it — what it was. The database keeps
+// `previous_price` for the price-drop alert; showing it on the piece itself is
+// how every resale app tells a buyer the seller is ready to move.
+function PriceTag({item, size=14}) {
+  const was = Number(item.previousPrice);
+  const dropped = was > 0 && was > Number(item.price);
+  return (
+    <span style={{display:"inline-flex",alignItems:"baseline",gap:5,flexWrap:"wrap",minWidth:0}}>
+      <span style={{color:C.terraTx,fontWeight:800,fontSize:size,whiteSpace:"nowrap"}}>{money(item.price)}</span>
+      {dropped && <s aria-label={`was ${money(was)}`} style={{color:C.inkLt,fontSize:Math.round(size*0.72),whiteSpace:"nowrap"}}>{money(was)}</s>}
+    </span>
+  );
+}
+
 function ItemTile({item,onSave,onClick,loading}) {
   // A tile waiting on its own data renders the skeleton at the same size,
   // so its neighbours never move when it resolves.
@@ -872,18 +1100,21 @@ function ItemTile({item,onSave,onClick,loading}) {
             background:C.btn,color:C.onBtn,fontSize:9,fontWeight:700,
             padding:"2px 7px",borderRadius:10}}>{t("new")}</div>
         )}
-        <div style={{position:"absolute",bottom:8,left:8}}>
-          <Pill text={item.condition} bg={C.scrimEE} color={C.ink} fs={9}/>
-        </div>
       </div>
       <div style={{padding:"10px 10px 12px"}}>
+        {/* Brand first, as luxury resale reads: it is what she scans the grid for. */}
+        {item.brand && <div style={{fontSize:10,fontWeight:700,letterSpacing:1,color:C.inkLt,
+          textTransform:"uppercase",marginBottom:2,
+          whiteSpace:"nowrap",overflow:"hidden",textOverflow:"ellipsis"}}>{item.brand}</div>}
         <div style={{fontSize:13,fontWeight:600,color:C.ink,lineHeight:1.3,
           whiteSpace:"nowrap",overflow:"hidden",textOverflow:"ellipsis"}}>{item.title}</div>
         <div style={{fontSize:10,color:C.inkLt,marginBottom:4,
           whiteSpace:"nowrap",overflow:"hidden",textOverflow:"ellipsis"}}>{item.titleAr}</div>
-        <div style={{display:"flex",justifyContent:"space-between",alignItems:"center"}}>
-          <span style={{color:C.terraTx,fontWeight:800,fontSize:14}}>{money(item.price)}</span>
-          {item.size!=="OS" && <Pill text={item.size} bg={C.sand} color={C.inkLt} fs={9}/>}
+        <PriceTag item={item} size={14}/>
+        {/* Size and condition read together, as one line, under the price —
+            the two things she filters on in her head before she taps. */}
+        <div style={{fontSize:11,color:C.inkLt,marginTop:2,whiteSpace:"nowrap",overflow:"hidden",textOverflow:"ellipsis"}}>
+          {[item.size && item.size!=="OS" ? `Size ${item.size}` : null, item.condition].filter(Boolean).join(" · ")}
         </div>
       </div>
     </div>
@@ -951,9 +1182,14 @@ function NewInStrip({items,onSave,setModal,onSeeAll}) {
               </button>
             </div>
             <div style={{padding:"8px 10px 10px"}}>
+              {item.brand && <div style={{fontSize:10,fontWeight:700,letterSpacing:1,color:C.inkLt,
+                textTransform:"uppercase",whiteSpace:"nowrap",overflow:"hidden",textOverflow:"ellipsis"}}>{item.brand}</div>}
               <div style={{fontSize:12,fontWeight:600,color:C.ink,lineHeight:1.3,
                 whiteSpace:"nowrap",overflow:"hidden",textOverflow:"ellipsis"}}>{item.title}</div>
-              <div style={{color:C.terraTx,fontWeight:700,fontSize:12,marginTop:3}}>{money(item.price)}</div>
+              <div style={{marginTop:3}}><PriceTag item={item} size={13}/></div>
+              <div style={{fontSize:10,color:C.inkLt,marginTop:1,whiteSpace:"nowrap",overflow:"hidden",textOverflow:"ellipsis"}}>
+                {[item.size && item.size!=="OS" ? `Size ${item.size}` : null, item.condition].filter(Boolean).join(" · ")}
+              </div>
             </div>
           </div>
         ))}
@@ -1025,37 +1261,9 @@ function ItemModal({item,shop,onSave,onClose,onOffer,setTab,onAddToCart,onReport
       display:"flex",flexDirection:"column",justifyContent:"flex-end"}} onClick={onClose}>
       <div onClick={e=>e.stopPropagation()} style={{
         background:C.cream,borderRadius:"20px 20px 0 0",maxHeight:"92vh",overflowY:"auto"}}>
-        {/* image */}
-        <div className="lili-ratio-105" style={{position:"relative",overflow:"hidden",
-          background:`linear-gradient(145deg,${item.color},${item.color}99)`,
-          display:"flex",alignItems:"center",justifyContent:"center"}}>
-          <ItemPhoto item={item} full/>
-          <button className="tap-round" onClick={onClose} style={{position:"absolute",top:14,left:14,
-            background:C.scrimCC,border:"none",borderRadius:"50%",
-            width:44,height:44,cursor:"pointer",fontSize:18,color:C.ink,
-            backdropFilter:"blur(4px)",display:"flex",alignItems:"center",justifyContent:"center"}}>{backArrow()}</button>
-          <button onClick={()=>onSave(item.id)} className="tap-round" aria-label="Save" style={{position:"absolute",top:14,right:58,
-            background:item.saved?C.btn:C.scrimCC,border:"none",borderRadius:"50%",
-            width:34,height:34,cursor:"pointer",fontSize:16,
-            color:item.saved?C.white:C.inkLt,backdropFilter:"blur(4px)",
-            display:"flex",alignItems:"center",justifyContent:"center"}}>
-            <Icon name="heart" size={17} filled={!!item.saved}/>
-          </button>
-          <button onClick={()=>{onAddToCart(item); onClose();}} className="tap-round" aria-label="Add to cart" style={{position:"absolute",top:14,right:14,
-            background:C.btn,border:"none",borderRadius:"50%",
-            width:34,height:34,cursor:"pointer",fontSize:16,color:C.onBtn,
-            backdropFilter:"blur(4px)",display:"flex",alignItems:"center",justifyContent:"center",
-            boxShadow:"0 2px 8px #C4856A55"}}>
-            <Icon name="cart" size={30} stroke={1.3}/>
-          </button>
-          {/* dot indicators */}
-          <div style={{position:"absolute",bottom:12,left:"50%",transform:"translateX(-50%)",display:"flex",gap:5}}>
-            {[0,1,2].map(i=><div key={i} style={{width:6,height:6,borderRadius:"50%",
-              background:i===0?C.terra:C.scrim88}}/>)}
-          </div>
-        </div>
+        <ItemGallery item={item} onClose={onClose} onSave={onSave}/>
 
-        <div style={{padding:"18px 16px 36px"}}>
+        <div style={{padding:"18px 16px 0"}}>
           {/* price + title */}
           <div style={{display:"flex",justifyContent:"space-between",alignItems:"flex-start",marginBottom:6}}>
             <div style={{flex:1,paddingRight:10}}>
@@ -1064,7 +1272,7 @@ function ItemModal({item,shop,onSave,onClose,onOffer,setTab,onAddToCart,onReport
               {item.subtitle && <div style={{fontSize:12,color:C.inkLt,marginTop:2}}>{item.subtitle}</div>}
             </div>
             <div style={{textAlign:alignEnd()}}>
-              <div style={{color:C.terraTx,fontWeight:800,fontSize:20,whiteSpace:"nowrap"}}>{money(item.price)}</div>
+              <PriceTag item={item} size={20}/>
               {/* v2.8: this said "+ 8-10% LILI fee", charged to the BUYER on
                   top, while the sell flow said "lili takes 10%" off the
                   seller. Read together the two screens described a take rate
@@ -1088,6 +1296,8 @@ function ItemModal({item,shop,onSave,onClose,onOffer,setTab,onAddToCart,onReport
               </div>
             ))}
           </div>
+
+          <FitPanel item={item}/>
 
           {/* seller */}
           {/* v2.9.1: when the shop could not be resolved this block simply
@@ -1149,45 +1359,92 @@ function ItemModal({item,shop,onSave,onClose,onOffer,setTab,onAddToCart,onReport
             how to pay and where to meet.
           </div>
 
-          {/* actions */}
-          <div style={{display:"flex",flexDirection:"column",gap:10}}>
-            {/* lili is the marketplace, not the merchant. This line is what
-                keeps that true in law as well as in intent — it has to appear
-                before the buy button, not after it. */}
-            <div style={{marginBottom:12}}>
-              <SoldBy shopName={shop&&shop.name} sellerType={(shop&&shop.sellerType)||"private"}/>
-            </div>
+          {/* Play requires a reporting route on user-listed content. */}
+          <button onClick={()=>onReport&&onReport({kind:"listing",id:item.id,
+            title:item.title,shopId:item.shopId,shopName:shop&&shop.name})}
+            style={{width:"100%",background:"none",border:"none",
+              cursor:"pointer",fontSize:12,color:C.inkLt,padding:"6px 0 14px",
+              textDecoration:"underline",textUnderlineOffset:3}}>
+            {t("report_this_listing")}
+          </button>
+        </div>
 
-            <button onClick={()=>{onAddToCart(item); onClose();}}
-              style={{width:"100%",background:C.btn,color:C.onBtn,border:"none",
-                borderRadius:30,padding:"14px 0",fontWeight:700,cursor:"pointer",fontSize:14}}>
-              {t("add_to_cart")}
+        {/* actions — pinned to the bottom of the sheet, as on every resale app
+            a buyer already knows, so the next step is never a scroll away.
+            "Sold by … not by lili" rides in the same bar: it has to be read
+            before the buttons, and now it can never be scrolled past them. */}
+        <div style={{position:"sticky",bottom:0,zIndex:2,background:C.cream,
+          borderTop:`1px solid ${C.border}`,boxShadow:"0 -6px 18px #0000000f",
+          padding:"10px 16px calc(12px + env(safe-area-inset-bottom))",
+          display:"flex",flexDirection:"column",gap:9}}>
+          <SoldBy shopName={shop&&shop.name} sellerType={(shop&&shop.sellerType)||"private"} compact/>
+          <div style={{display:"flex",gap:8,alignItems:"stretch"}}>
+            <button onClick={()=>{onAddToCart(item); onClose();}} aria-label={t("add_to_cart")}
+              className="tap-round" style={{flex:"0 0 48px",minHeight:48,borderRadius:24,
+                background:C.white,border:`1.5px solid ${C.terra}`,color:C.terraTx,cursor:"pointer",
+                display:"flex",alignItems:"center",justifyContent:"center"}}>
+              <Icon name="cart" size={22} stroke={1.6}/><span className="sr-only">{t("add_to_cart")}</span>
             </button>
-            <div style={{display:"flex",gap:10}}>
-              <button onClick={()=>{ onMessageSeller && onMessageSeller(item); onClose(); }}
-                style={{flex:1,background:C.white,color:C.terraTx,
-                border:`1.5px solid ${C.terra}`,borderRadius:30,padding:"12px 0",
-                fontWeight:600,cursor:"pointer",fontSize:13}}>
-                {T.messageSelller[0]}<br/><span style={{fontSize:10,opacity:0.7}}>{T.messageSelller[1]}</span>
-              </button>
-              <button onClick={()=>onOffer(item)} style={{flex:1,background:C.sand,color:C.terraTx,
-                border:`1.5px solid ${C.terra}`,borderRadius:30,padding:"12px 0",
-                fontWeight:600,cursor:"pointer",fontSize:13}}>
-                {T.makeOffer[0]}<br/><span style={{fontSize:10,opacity:0.8}}>{T.makeOffer[1]}</span>
-              </button>
-            </div>
-
-            {/* Play requires a reporting route on user-listed content. */}
-            <button onClick={()=>onReport&&onReport({kind:"listing",id:item.id,
-              title:item.title,shopId:item.shopId,shopName:shop&&shop.name})}
-              style={{width:"100%",marginTop:14,background:"none",border:"none",
-                cursor:"pointer",fontSize:12,color:C.inkLt,padding:"6px 0",
-                textDecoration:"underline",textUnderlineOffset:3}}>
-              {t("report_this_listing")}
+            <button onClick={()=>onOffer(item)} style={{flex:1,background:C.white,color:C.terraTx,
+              border:`1.5px solid ${C.terra}`,borderRadius:24,padding:"8px 0",
+              fontWeight:700,cursor:"pointer",fontSize:13,lineHeight:1.25}}>
+              {T.makeOffer[0]}<br/><span style={{fontSize:11,fontWeight:600}}>{T.makeOffer[1]}</span>
+            </button>
+            <button onClick={()=>{ onMessageSeller && onMessageSeller(item); onClose(); }}
+              style={{flex:1.2,background:C.btn,color:C.onBtn,border:"none",borderRadius:24,
+                padding:"8px 0",fontWeight:700,cursor:"pointer",fontSize:13,lineHeight:1.25}}>
+              {T.messageSelller[0]}<br/><span style={{fontSize:11,fontWeight:600}}>{T.messageSelller[1]}</span>
             </button>
           </div>
         </div>
       </div>
+    </div>
+  );
+}
+
+// Every photo she uploaded, swiped like any gallery. The screen used to show
+// the first photo under three dots that never moved — whatever the listing
+// held — so a buyer had no way to see the other angles she was promised.
+function ItemGallery({item, onClose, onSave}) {
+  const photos = Array.isArray(item.photos) ? item.photos.filter(Boolean) : [];
+  const [index, setIndex] = useState(0);
+  const onScroll = (e) => {
+    const el = e.currentTarget;
+    const i = Math.round(Math.abs(el.scrollLeft) / Math.max(1, el.clientWidth));
+    if (i !== index) setIndex(i);
+  };
+  const roundBtn = {position:"absolute",top:14,zIndex:2,border:"none",borderRadius:"50%",
+    width:40,height:40,cursor:"pointer",backdropFilter:"blur(4px)",
+    display:"flex",alignItems:"center",justifyContent:"center"};
+  return (
+    <div className="lili-ratio-105" style={{overflow:"hidden",
+      background:`linear-gradient(145deg,${item.color},${item.color}99)`}}>
+      {photos.length > 1 ? (
+        <div className="lili-fill" onScroll={onScroll} aria-label={`${photos.length} photos`}
+          style={{display:"flex",overflowX:"auto",scrollSnapType:"x mandatory",scrollbarWidth:"none"}}>
+          {photos.map((src, i) => (
+            <img key={src + i} src={src} alt={`${item.title} — photo ${i + 1} of ${photos.length}`}
+              loading={i === 0 ? "eager" : "lazy"}
+              style={{flex:"0 0 100%",width:"100%",height:"100%",objectFit:"cover",scrollSnapAlign:"center"}}/>
+          ))}
+        </div>
+      ) : (
+        <ItemPhoto item={item} full/>
+      )}
+      <button className="tap-round" onClick={onClose} aria-label="Back"
+        style={{...roundBtn,left:14,background:C.scrimCC,color:C.ink,fontSize:18}}>{backArrow()}</button>
+      <button onClick={()=>onSave(item.id)} className="tap-round" aria-label="Save"
+        style={{...roundBtn,right:14,background:item.saved?C.btn:C.scrimCC,
+          color:item.saved?C.white:C.inkLt}}>
+        <Icon name="heart" size={18} filled={!!item.saved}/>
+      </button>
+      {photos.length > 1 && (
+        <div aria-hidden="true" style={{position:"absolute",bottom:12,left:"50%",transform:"translateX(-50%)",
+          display:"flex",gap:5,padding:"4px 8px",borderRadius:10,background:"#0003"}}>
+          {photos.map((_, i) => <div key={i} style={{width:6,height:6,borderRadius:"50%",
+            background:i===index?C.white:"#fff8"}}/>)}
+        </div>
+      )}
     </div>
   );
 }
@@ -2090,7 +2347,7 @@ function SellPage({myShop,onCreateShop,onAddItem,setTab,onListed}) {
   const [publishing,setPublishing] = useState(false);
   const [publishError,setPublishError] = useState(null);
   const [stepError,setStepError] = useState(null);
-  const [form,setForm] = useState({title:"",titleAr:"",category:"Dresses",size:"S",condition:"Like New",era:"Modern",brand:"",price:"",desc:""});
+  const [form,setForm] = useState({title:"",titleAr:"",category:"Dresses",size:"S",condition:"Like New",era:"Modern",brand:"",price:"",desc:"",fit:null,measurements:{},flaws:null});
   const [restored,setRestored] = useState(false);
 
   // must be before any early return
@@ -2259,6 +2516,11 @@ function SellPage({myShop,onCreateShop,onAddItem,setTab,onListed}) {
         subtitle:"",price:parsePrice(form.price) ?? 0,
         brand:form.brand||"Other",category:form.category,
         condition:form.condition,era:form.era,size:form.size,
+        // what a size label cannot say: how it runs, flat measurements, and
+        // what she disclosed. Empty measurements are not sent as {}.
+        fit:form.fit||null,
+        measurements:Object.keys(form.measurements||{}).length ? form.measurements : null,
+        flaws:Array.isArray(form.flaws) ? form.flaws : null,
         // v2.9: three fields here were inventions.
         //
         //   color:"#E8C4B8" — every listing published by every seller was the
@@ -2298,7 +2560,7 @@ function SellPage({myShop,onCreateShop,onAddItem,setTab,onListed}) {
     repo.clearDraft().catch(() => {});
     setPublishing(false);
     setMode("choose");setPhotos([]);setThumbs([]);setStep(1);setAuth(null);setStepError(null);
-    setForm({title:"",titleAr:"",category:"Dresses",size:"S",condition:"Like New",era:"Modern",brand:"",price:"",desc:""});
+    setForm({title:"",titleAr:"",category:"Dresses",size:"S",condition:"Like New",era:"Modern",brand:"",price:"",desc:"",fit:null,measurements:{},flaws:null});
     setTab("myshop");
   };
 
@@ -2473,7 +2735,7 @@ function SellPage({myShop,onCreateShop,onAddItem,setTab,onListed}) {
             <div style={{display:"grid",gridTemplateColumns:"repeat(3,1fr)",gap:8}}>
               {photos.map((p,i)=>(
                 <div key={i} className="lili-ratio-1" style={{borderRadius:10,overflow:"hidden",position:"relative"}}>
-                  <img src={p} style={{width:"100%",height:"100%",objectFit:"cover"}}/>
+                  <img src={p} alt={i===0?"Cover photo":`Photo ${i+1}`} style={{objectFit:"cover"}}/>
                   <button onClick={()=>setPhotos(ph=>ph.filter((_,j)=>j!==i))} style={{
                     position:"absolute",top:4,right:4,background:C.btn,border:"none",
                     borderRadius:"50%",width:22,height:22,color:C.onBtn,cursor:"pointer",fontSize:12,
@@ -2484,12 +2746,14 @@ function SellPage({myShop,onCreateShop,onAddItem,setTab,onListed}) {
               ))}
               {photos.length<LIMITS.maxPerListing && (
                 <label className="lili-ratio-1" style={{borderRadius:10,border:`2px dashed ${C.border}`,
-                  background:C.white,display:"flex",flexDirection:"column",
-                  alignItems:"center",justifyContent:"center",cursor:"pointer",gap:5}}>
+                  background:C.white,cursor:"pointer"}}>
                   <input type="file" accept="image/*" multiple onChange={handlePhotos} style={{display:"none"}}/>
-                  <span style={{fontSize:30,color:C.inkLt}}></span>
-                  <span style={{fontSize:11,color:C.terraTx,fontWeight:600}}>Add Photo</span>
-                  <span style={{fontSize:10,color:C.inkLt}}>Photos ({photos.length}/{LIMITS.maxPerListing})</span>
+                  <span className="lili-fill" style={{display:"flex",flexDirection:"column",
+                    alignItems:"center",justifyContent:"center",gap:5}}>
+                    <Icon name="plus" size={26}/>
+                    <span style={{fontSize:11,color:C.terraTx,fontWeight:600}}>Add Photo</span>
+                    <span style={{fontSize:10,color:C.inkLt}}>Photos ({photos.length}/{LIMITS.maxPerListing})</span>
+                  </span>
                 </label>
               )}
             </div>
@@ -2560,6 +2824,7 @@ function SellPage({myShop,onCreateShop,onAddItem,setTab,onListed}) {
                 </div>
               ))}
             </div>
+            <FitAndFlaws form={form} setForm={setForm}/>
             <div>
               <label style={{fontSize:11,fontWeight:700,color:C.inkLt,letterSpacing:0.5,textTransform:"uppercase",display:"block",marginBottom:6}}>{t("description")}</label>
               <textarea value={form.desc} onChange={e=>setForm({...form,desc:e.target.value})}
@@ -3082,6 +3347,49 @@ function SellersPage({shops,items,setTab,setViewShop,onFollow,isFollowing}) {
   );
 }
 
+// What buyers who met her said. Each review comes from a meet the two of them
+// agreed on lili, shown without the reviewer's name, and only once both sides
+// have reviewed (or 14 days have passed) — the server decides all three. The
+// average waits for five, as Stars does; the words are worth showing from one.
+function ShopReviews({shopId}) {
+  const [list,setList] = useState(null);
+  const [all,setAll] = useState(false);
+  useEffect(()=>{
+    let live = true;
+    repo.getShopReviews(shopId).then(r=>{ if(live) setList(r||[]); });
+    return ()=>{ live = false; };
+  },[shopId]);
+  if(!list || list.length===0) return null;
+  const shown = all ? list : list.slice(0,3);
+  return (
+    <section aria-label="Reviews" style={{marginBottom:16}}>
+      <div style={{fontSize:13,fontWeight:700,color:C.ink,marginBottom:8}}>
+        {list.length} review{list.length>1?"s":""} <span style={{fontWeight:400,color:C.inkLt,fontSize:11}}>· from meets arranged on lili</span>
+      </div>
+      {shown.map((r,i)=>(
+        <div key={i} style={{background:C.white,border:`1px solid ${C.border}`,borderRadius:12,
+          padding:"10px 12px",marginBottom:8}}>
+          <div style={{display:"flex",alignItems:"center",gap:6,marginBottom:r.body?4:0}}>
+            <span aria-label={`${r.stars} out of 5`} style={{color:C.terraTx,display:"inline-flex",gap:1}}>
+              {[1,2,3,4,5].map(n=><Icon key={n} name="star" size={12} filled={n<=r.stars}/>)}
+            </span>
+            <span style={{fontSize:11,color:C.inkLt}}>
+              a buyer · {new Date(r.created_at).toLocaleDateString(undefined,{month:"short",year:"numeric"})}
+            </span>
+          </div>
+          {r.body && <div style={{fontSize:13,color:C.ink,lineHeight:1.5}}>{r.body}</div>}
+        </div>
+      ))}
+      {list.length>3 && !all && (
+        <button onClick={()=>setAll(true)} style={{background:"none",border:"none",padding:0,
+          color:C.terraTx,fontSize:12,fontWeight:600,cursor:"pointer",fontFamily:"inherit"}}>
+          Show all {list.length}
+        </button>
+      )}
+    </section>
+  );
+}
+
 function ShopViewPage({shop,items,onSave,setModal,onBack,onReport,onFollow,following}) {
   const [q,setQ] = useState("");
   if(!shop) return null;
@@ -3128,6 +3436,7 @@ function ShopViewPage({shop,items,onSave,setModal,onBack,onReport,onFollow,follo
         </div>
         <Stars rating={shop.rating} reviews={shop.reviews} shop={shop}/>
         <div style={{fontSize:12,color:C.inkLt,marginTop:6,marginBottom:14}}>{shop.bio}</div>
+        <ShopReviews shopId={shop.id}/>
         {mine.length>0 && <SearchBar value={q} onChange={setQ}/>}
         <div style={{display:"grid",gridTemplateColumns:"repeat(2,1fr)",gap:10,marginTop:8}}>
           {shopItems.map(item=><ItemTile key={item.id} item={item} onSave={onSave} onClick={()=>setModal(item)}/>)}
@@ -4268,6 +4577,11 @@ export default function Marketplace() {
             // on a listing she can only look at.
             if (n.link_kind === "conversation") setTab("messages");
             else if (n.link_kind === "offer") setTab("offers");
+            else if (n.link_kind === "item" && n.kind === "saved_search") {
+              // the piece itself, which is what the alert was about
+              const hit = items.find(i => i.id === n.link_id);
+              if (hit) setModal(hit); else setTab("search");
+            }
             else if (n.link_kind === "item") setTab(n.kind === "price_drop" ? "saved" : "myshop");
           }}/>}
         {reporting && <ReportDialog subject={reporting} onClose={()=>setReporting(null)}/>}
