@@ -1,0 +1,776 @@
+﻿key,english,area,files
+a_reviewer_will_look_at_this_and_you_ll_get_the_,A reviewer will look at this and you'll get the outcome and the reason for it.,Reporting a listing or a person,compliance/ReportDialog.jsx
+claims_to_be_a_brand_it_isn_t,Claims to be a brand it isn't,Reporting a listing or a person,compliance/ReportDialog.jsx
+counterfeit_or_replica,Counterfeit or replica,Reporting a listing or a person,compliance/ReportDialog.jsx
+harassment_or_abuse,Harassment or abuse,Reporting a listing or a person,compliance/ReportDialog.jsx
+not_allowed_to_be_sold_here,Not allowed to be sold here,Reporting a listing or a person,compliance/ReportDialog.jsx
+offensive_or_inappropriate_imagery,Offensive or inappropriate imagery,Reporting a listing or a person,compliance/ReportDialog.jsx
+restricted_in_this_market,Restricted in this market,Reporting a listing or a person,compliance/ReportDialog.jsx
+scam_or_fraud,Scam or fraud,Reporting a listing or a person,compliance/ReportDialog.jsx
+something_else,Something else,Reporting a listing or a person,compliance/ReportDialog.jsx
+stolen_goods,Stolen goods,Reporting a listing or a person,compliance/ReportDialog.jsx
+the_other_person,The other person,Reporting a listing or a person,compliance/ReportDialog.jsx
+what_s_wrong_with_it,What's wrong with it,Reporting a listing or a person,compliance/ReportDialog.jsx
+wrong_category_or_misleading_description,Wrong category or misleading description,Reporting a listing or a person,compliance/ReportDialog.jsx
+a_building_lobby,A building lobby,Arranging to meet a seller,meet/places.js
+a_caf_a_counter_a_security_desk_a_person_you_cou,"A café, a counter, a security desk — a person you could speak to.",Arranging to meet a seller,meet/places.js
+a_car_park,A car park,Arranging to meet a seller,meet/places.js
+a_conversation_that_moves_to_whatsapp_is_one_we_,"A conversation that moves to WhatsApp is one we cannot read if you report her, and one you cannot attach as evidence.",Arranging to meet a seller,meet/places.js
+a_metro_station,A metro station,Arranging to meet a seller,meet/places.js
+a_reception_at_lunchtime_public_and_she_is_somew,"A reception at lunchtime. Public, and she is somewhere she is known.",Arranging to meet a seller,meet/places.js
+a_residential_or_office_lobby_with_a_concierge_y,A residential or office lobby with a concierge — yours or hers. Ask the desk first.,Arranging to meet a seller,meet/places.js
+after_dark_alone,"After dark, alone",Arranging to meet a seller,meet/places.js
+agree_where_and_when_you_ll_meet,Agree where and when you'll meet,Arranging to meet a seller,meet/MeetPlan.jsx
+anywhere_that_is_busy_staffed_and_easy_to_leave_,"Anywhere that is busy, staffed and easy to leave. Say where in the message.",Arranging to meet a seller,meet/places.js
+arrange_another_handover,Arrange another handover,Arranging to meet a seller,meet/MeetPlan.jsx
+busy_with_other_people,Busy with other people,Arranging to meet a seller,meet/places.js
+busy_staffed_indoors_easy_to_leave_suggest_the_p,"Busy, staffed, indoors, easy to leave. Suggest the place in the app so it is written down and you both agreed to it.",Arranging to meet a seller,meet/places.js
+check_it_before_you_pay,Check it before you pay,Arranging to meet a seller,meet/places.js
+dubai_police_non_emergency,"Dubai Police, non-emergency.",Arranging to meet a seller,meet/places.js
+easy_to_leave,Easy to leave,Arranging to meet a seller,meet/places.js
+emergency_anywhere_in_the_uae_if_you_feel_unsafe,"Emergency, anywhere in the UAE. If you feel unsafe right now, this, not us.",Arranging to meet a seller,meet/places.js
+her_home_or_yours,"Her home, or yours",Arranging to meet a seller,meet/places.js
+if_the_only_time_she_can_meet_is_late_and_out_of,"If the only time she can meet is late and out of the way, that is an answer.",Arranging to meet a seller,meet/places.js
+in_daylight_hours,In daylight hours,Arranging to meet a seller,meet/places.js
+in_summer_that_is_also_the_only_comfortable_opti,In summer that is also the only comfortable option.,Arranging to meet a seller,meet/places.js
+indoors_and_lit,Indoors and lit,Arranging to meet a seller,meet/places.js
+inside_the_concourse_not_the_car_park_staffed_fi,"Inside the concourse, not the car park. Staffed, filmed, and neither of you needs a car.",Arranging to meet a seller,meet/places.js
+keep_it_in_lili,Keep it in lili,Arranging to meet a seller,meet/places.js messages/MeetSafely.jsx
+meet_somewhere_public,Meet somewhere public,Arranging to meet a seller,meet/places.js messages/MeetSafely.jsx
+metro_taxi_rank_or_your_own_car_within_sight_you,"Metro, taxi rank or your own car within sight. You should never need permission to go.",Arranging to meet a seller,meet/places.js
+needs_your_answer,Needs your answer,Arranging to meet a seller,meet/MeetPlan.jsx
+nobody_behaves_badly_in_front_of_an_audience,Nobody behaves badly in front of an audience.,Arranging to meet a seller,meet/places.js
+nothing_about_a_resale_sale_needs_to_happen_at_1,Nothing about a resale sale needs to happen at 11pm.,Arranging to meet a seller,meet/places.js
+outside_her_work,Outside her work,Arranging to meet a seller,meet/places.js
+pick_a_time_that_hasn_t_happened_yet,Pick a time that hasn't happened yet.,Arranging to meet a seller,meet/MeetPlan.jsx
+places_to_say_no_to,Places to say no to,Arranging to meet a seller,meet/MeetPlan.jsx
+quiet_badly_lit_and_it_is_where_you_are_least_li,"Quiet, badly lit, and it is where you are least likely to be interrupted.",Arranging to meet a seller,meet/places.js
+serial_stitching_hardware_the_flaws_in_the_photo,"Serial, stitching, hardware, the flaws in the photographs. lili does not hold your money, so this is the moment — and it is the only one.",Arranging to meet a seller,meet/places.js
+somebody_works_there,Somebody works there,Arranging to meet a seller,meet/places.js
+somewhere_else,Somewhere else,Arranging to meet a seller,meet/places.js
+somewhere_with_tables_and_a_counter_order_someth,Somewhere with tables and a counter. Order something; it buys you both time.,Arranging to meet a seller,meet/places.js
+that_didn_t_reach_lili_nothing_changed_try_again,That didn't reach lili. Nothing changed — try again in a moment.,Arranging to meet a seller,meet/MeetPlan.jsx
+that_didn_t_work,That didn't work.,Arranging to meet a seller,meet/MeetPlan.jsx
+the_food_court_or_a_coffee_shop_on_the_ground_fl,"The food court or a coffee shop on the ground floor. Busy, indoors, staffed, cameras.",Arranging to meet a seller,meet/places.js
+the_most_common_thing_that_goes_wrong_is_not_a_f,The most common thing that goes wrong is not a fake bag. Being asked to come inside is itself the signal.,Arranging to meet a seller,meet/places.js
+the_uae_s_official_platform_for_reporting_online,The UAE's official platform for reporting online crime and fraud.,Arranging to meet a seller,meet/places.js
+which_one_e_g_the_caf_on_the_ground_floor,Which one? e.g. the café on the ground floor,Arranging to meet a seller,meet/MeetPlan.jsx
+which_place,Which place,Arranging to meet a seller,meet/MeetPlan.jsx
+a_cluttered_bed_makes_the_piece_hard_to_see_and_,A cluttered bed makes the piece hard to see and the seller hard to trust.,Listing something for sale,sell/listingQuality.js
+a_listing_without_a_photograph_does_not_sell_not,A listing without a photograph does not sell. Not rarely — it does not sell.,Listing something for sale,sell/listingQuality.js
+add_a_title,Add a title,Listing something for sale,sell/listingQuality.js
+add_an_arabic_title,Add an Arabic title,Listing something for sale,sell/listingQuality.js
+add_measurements,Add measurements,Listing something for sale,sell/listingQuality.js
+add_photos_2,Add photos,Listing something for sale,sell/listingQuality.js
+any_mark_or_wear_close_up,"Any mark or wear, close up",Listing something for sale,sell/listingQuality.js
+arabic_title_added,Arabic title added,Listing something for sale,sell/listingQuality.js
+band_derived_from_rebag_clair_2025_and_the_realr,"Band derived from Rebag Clair 2025 and The RealReal 2025 retention data — a guide, not an appraisal.",Listing something for sale,sell/listingQuality.js
+buyers_pay_for_worn_pieces_what_they_will_not_fo,"Buyers pay for worn pieces — what they will not forgive is finding the mark themselves. Naming it, and photographing it, is what makes the price make sense.",Listing something for sale,sell/listingQuality.js
+condition_stated,Condition stated,Listing something for sale,sell/listingQuality.js
+daylight_near_a_window,"Daylight, near a window",Listing something for sale,sell/listingQuality.js
+describe_the_wear,Describe the wear,Listing something for sale,sell/listingQuality.js
+description_is_solid,Description is solid,Listing something for sale,sell/listingQuality.js
+description_is_thin,Description is thin,Listing something for sale,sell/listingQuality.js
+enough_angles_for_a_buyer_to_decide_without_mess,Enough angles for a buyer to decide without messaging first.,Listing something for sale,sell/listingQuality.js
+fit_described,Fit described,Listing something for sale,sell/listingQuality.js
+front_back_label_and_any_flaw_close_up_the_extra,"Front, back, label, and any flaw close up. The extra shots are the ones that answer the question a buyer would otherwise message you about — or not bother to.",Listing something for sale,sell/listingQuality.js
+gorton_et_al_2024_eye_tracking_high_value_purcha,"Gorton et al. (2024), eye-tracking: high-value purchases need trust signals beyond the image.",Listing something for sale,sell/listingQuality.js
+half_this_market_searches_in_arabic_without_an_a,Half this market searches in Arabic. Without an Arabic title your piece is only findable by half the women who would buy it.,Listing something for sale,sell/listingQuality.js
+johnson_vang_van_der_heide_2015_own_photographs_,"Johnson, Vang & Van Der Heide (2015): own photographs beat stock images on bidders and final price.",Listing something for sale,sell/listingQuality.js
+ma_et_al_2019_75_000_listing_images_higher_image,"Ma et al. (2019), 75,000 listing images: higher image quality → 1.25× sale probability for handbags, 1.17× for shoes.",Listing something for sale,sell/listingQuality.js
+nearly_there,Nearly there,Listing something for sale,sell/ListingQuality.jsx
+oecd_euipo_2025_clothing_footwear_and_handbags_l,"OECD/EUIPO (2025): clothing, footwear and handbags lead global counterfeit seizures.",Listing something for sale,sell/listingQuality.js
+phone_cameras_are_honest_in_daylight_and_grainy_,Phone cameras are honest in daylight and grainy under warm indoor bulbs.,Listing something for sale,sell/listingQuality.js
+plain_background,Plain background,Listing something for sale,sell/listingQuality.js
+provenance_mentioned,Provenance mentioned,Listing something for sale,sell/listingQuality.js
+put_the_brand_in_the_title,Put the brand in the title,Listing something for sale,sell/listingQuality.js
+ready_to_list,Ready to list,Listing something for sale,sell/ListingQuality.jsx
+say_something_about_it,Say something about it,Listing something for sale,sell/listingQuality.js
+search_matches_on_the_title_first_brand_plus_wha,Search matches on the title first. Brand plus what the thing actually is — \,Listing something for sale,sell/listingQuality.js
+show_what_came_with_it,Show what came with it,Listing something for sale,sell/listingQuality.js
+showing_it_costs_you_nothing_hiding_it_costs_you,Showing it costs you nothing. Hiding it costs you the sale and the dispute.,Listing something for sale,sell/listingQuality.js
+sizes_are_not_the_same_across_brands_or_countrie,"Sizes are not the same across brands or countries. A bust and a length in centimetres prevents the return, and the return is where the sale is lost.",Listing something for sale,sell/listingQuality.js
+the_label_and_the_serial_or_date_code,"The label, and the serial or date code",Listing something for sale,sell/listingQuality.js
+the_realreal_2025_resale_report_fair_condition_s,The RealReal 2025 Resale Report: fair-condition sales +32% YoY; bags with visible wear +45%.,Listing something for sale,sell/listingQuality.js
+the_whole_piece_front_and_back,"The whole piece, front and back",Listing something for sale,sell/listingQuality.js
+this_is_the_photo_that_ends_the_authenticity_con,This is the photo that ends the authenticity conversation before it starts.,Listing something for sale,sell/listingQuality.js
+title_reads_well,Title reads well,Listing something for sale,sell/listingQuality.js
+wear_described,Wear described,Listing something for sale,sell/listingQuality.js
+where_you_bought_it_how_often_you_wore_it_why_yo,"Where you bought it, how often you wore it, why you're letting it go. Three sentences is enough, and it is the difference between a listing and an advert.",Listing something for sale,sell/listingQuality.js
+worn_or_held_for_scale,"Worn or held, for scale",Listing something for sale,sell/listingQuality.js
+worth_two_more_minutes,Worth two more minutes,Listing something for sale,sell/ListingQuality.jsx
+you_ve_got_the_shots_that_matter,You've got the shots that matter,Listing something for sale,sell/PhotoCoach.jsx
+add_more_photographs,Add more photographs,Listing several pieces at once,sell/BulkList.jsx
+can_t_list,Can't list,Listing several pieces at once,sell/BulkList.jsx
+category_condition_size,"Category, condition, size",Listing several pieces at once,sell/BulkList.jsx
+didn_t_send,Didn't send,Listing several pieces at once,sell/BulkList.jsx
+fewer_details,Fewer details,Listing several pieces at once,sell/BulkList.jsx
+it_didn_t_reach_lili_nothing_was_published,It didn't reach lili. Nothing was published.,Listing several pieces at once,sell/BulkList.jsx
+nothing_ready_yet,Nothing ready yet,Listing several pieces at once,sell/BulkList.jsx
+the_rest_are_below,The rest are below.,Listing several pieces at once,sell/BulkList.jsx
+this_can_t_be_listed_on_lili,This can't be listed on lili.,Listing several pieces at once,sell/BulkList.jsx
+what_is_it_e_g_zimmermann_floral_dress,What is it? e.g. Zimmermann floral dress,Listing several pieces at once,sell/BulkList.jsx
+you_can_close_this,You can close this.,Listing several pieces at once,sell/BulkList.jsx
+a_little_soft,A little soft,Errors the app reports when something fails,data/imageQuality.js
+add_at_least_one_photo_listings_without_one_rare,Add at least one photo — listings without one rarely sell.,Errors the app reports when something fails,data/images.js
+aed_15_000_and_above,"AED 15,000 and above",Errors the app reports when something fails,data/fees.js
+audemars_piguet,Audemars Piguet,Errors the app reports when something fails,data/resaleValue.js
+backend_is_not_configured,Backend is not configured,Errors the app reports when something fails,backend/remote.js
+couldn_t_read_that_file,Couldn't read that file,Errors the app reports when something fails,data/images.js
+couldn_t_read_that_image,Couldn't read that image,Errors the app reports when something fails,data/images.js
+enter_an_amount,Enter an amount,Errors the app reports when something fails,backend/remote.js data/offers.js
+every_write_is_attributed_to_an_authenticated_us,Every write is attributed to an authenticated user,Errors the app reports when something fails,data/repo.js
+get_items,GET  /items,Errors the app reports when something fails,data/repo.js
+get_shops,GET  /shops,Errors the app reports when something fails,data/repo.js
+khaleej_times_uae_luxury_resale_market_2025,"Khaleej Times, UAE luxury resale market (2025)",Errors the app reports when something fails,data/resaleValue.js
+most_searched_style_classic_flap_retention_not_p,Most-searched style (Classic Flap); retention not published as a single figure.,Errors the app reports when something fails,data/resaleValue.js
+move_closer_or_crop_in_so_it_fills_most_of_the_p,"Move closer, or crop in, so it fills most of the picture.",Errors the app reports when something fails,data/imageQuality.js
+move_next_to_a_window_and_turn_the_ceiling_light,"Move next to a window and turn the ceiling light off. Daylight, no flash.",Errors the app reports when something fails,data/imageQuality.js
+never_trust_a_client_supplied_id_owner_price_or_,"Never trust a client-supplied id, owner, price or status",Errors the app reports when something fails,data/repo.js
+no_file_chosen,No file chosen,Errors the app reports when something fails,data/images.js
+no_signal_your_offer_is_saved_but_hasn_t_been_se,No signal — your offer is saved but hasn't been sent yet.,Errors the app reports when something fails,data/offers.js
+nothing_to_send,Nothing to send,Errors the app reports when something fails,backend/remote.js data/conversations.js
+observed_uae_price_range_and_market_size,Observed UAE price range and market size.,Errors the app reports when something fails,data/resaleValue.js
+oecd_euipo_mapping_global_trade_in_fakes_2025,"OECD/EUIPO, Mapping Global Trade in Fakes (2025)",Errors the app reports when something fails,data/resaleValue.js
+only_the_seller_can_counter,Only the seller can counter,Errors the app reports when something fails,backend/remote.js
+open_a_shop_before_listing,Open a shop before listing,Errors the app reports when something fails,backend/remote.js
+patch_items_id,PATCH /items/:id,Errors the app reports when something fails,data/repo.js
+patch_shops_id,PATCH /shops/:id,Errors the app reports when something fails,data/repo.js
+patek_philippe,Patek Philippe,Errors the app reports when something fails,data/resaleValue.js
+please_try_again_if_it_keeps_happening_tell_us_a,"Please try again; if it keeps happening, tell us and we'll look.",Errors the app reports when something fails,data/repo.js
+post_items,POST /items,Errors the app reports when something fails,data/repo.js
+post_shops,POST /shops,Errors the app reports when something fails,data/repo.js
+price_is_the_only_reliable_single_counterfeit_in,"Price is the only reliable single counterfeit indicator, and only ~54–63% precise alone.",Errors the app reports when something fails,data/resaleValue.js
+priced_where_comparable_pieces_sell,Priced where comparable pieces sell.,Errors the app reports when something fails,data/resaleValue.js
+rebag_clair_report_6th_annual_december_2025,"Rebag Clair Report, 6th annual (December 2025)",Errors the app reports when something fails,data/resaleValue.js
+replace_these_six_with_authenticated_http_calls_,Replace these six with authenticated HTTP calls and the app becomes ,Errors the app reports when something fails,data/repo.js
+screening_runs_server_side_too_the_client_check_,"Screening runs server-side too — the client check is a courtesy, not a gate",Errors the app reports when something fails,data/repo.js
+semi_automatic_identification_of_counterfeit_off,Semi-Automatic Identification of Counterfeit Offers in Online Marketplaces (2015),Errors the app reports when something fails,data/resaleValue.js
+sideways_photograph,Sideways photograph,Errors the app reports when something fails,data/imageQuality.js
+soft_delete_only_moderation_needs_the_history,Soft delete only; moderation needs the history,Errors the app reports when something fails,data/repo.js
+speedy_13_yoy_murakami_collab_styles_exceeded_13,Speedy +13% YoY; Murakami collab styles exceeded 130% retention.,Errors the app reports when something fails,data/resaleValue.js
+step_out_of_direct_sun_or_turn_so_the_light_is_b,"Step out of direct sun, or turn so the light is behind you rather than behind the piece.",Errors the app reports when something fails,data/imageQuality.js
+tap_the_piece_on_your_screen_before_you_shoot_ho,"Tap the piece on your screen before you shoot, hold still, and take it again.",Errors the app reports when something fails,data/imageQuality.js
+tap_to_focus_on_the_fabric_and_retake_it_buyers_,Tap to focus on the fabric and retake it — buyers zoom in on stitching.,Errors the app reports when something fails,data/imageQuality.js
+that_can_be_right_for_a_rare_model_full_set_with,"That can be right for a rare model, full set with receipt, or a piece in exceptional condition. If it is, say which in the description — otherwise it will sit.",Errors the app reports when something fails,data/resaleValue.js
+that_file_type_isn_t_supported_use_a_photo,That file type isn't supported. Use a photo.,Errors the app reports when something fails,data/images.js
+that_message_is_too_long,That message is too long,Errors the app reports when something fails,backend/remote.js
+that_offer_expired_ask_her_to_make_another,That offer expired. Ask her to make another.,Errors the app reports when something fails,data/offers.js
+that_s_your_own_listing,That's your own listing,Errors the app reports when something fails,backend/remote.js
+the_feed_shows_tall_tiles_so_a_wide_photo_gets_c,"The feed shows tall tiles, so a wide photo gets cropped. Turn the phone upright.",Errors the app reports when something fails,data/imageQuality.js
+the_light_has_washed_it_out,The light has washed it out,Errors the app reports when something fails,data/imageQuality.js
+the_piece_is_small_in_the_frame,The piece is small in the frame,Errors the app reports when something fails,data/imageQuality.js
+the_realreal_2025_resale_report_september_2025,The RealReal 2025 Resale Report (September 2025),Errors the app reports when something fails,data/resaleValue.js
+this_one_is_out_of_focus,This one is out of focus,Errors the app reports when something fails,data/imageQuality.js
+tiffany_co_2,Tiffany & Co.,Errors the app reports when something fails,data/resaleValue.js
+too_dark_to_see_the_colour,Too dark to see the colour,Errors the app reports when something fails,data/imageQuality.js
+under_aed_500,Under AED 500,Errors the app reports when something fails,data/fees.js
+usd_467bn_2_3_of_world_trade_clothing_footwear_a,"USD 467bn, 2.3% of world trade; clothing, footwear and handbags lead seizures.",Errors the app reports when something fails,data/resaleValue.js
+value_retention_vs_original_retail_by_brand_and_,"Value retention vs original retail, by brand and model.",Errors the app reports when something fails,data/resaleValue.js
+waiting_for_her,Waiting for her,Errors the app reports when something fails,data/offers.js meet/MeetPlan.jsx
+you_already_have_an_offer_open_on_this_piece,You already have an offer open on this piece,Errors the app reports when something fails,backend/remote.js
+your_listing_didn_t_reach_lili_nothing_was_publi_2,Your listing didn't reach lili — nothing was published. ,Errors the app reports when something fails,data/repo.js
+yoy_resale_price_movement_condition_and_category,YoY resale price movement; condition and category demand data.,Errors the app reports when something fails,data/resaleValue.js
+georgia_serif,"Georgia,serif","Loading, errors and empty screens",ErrorBoundary.jsx Marketplace.jsx compliance/LegalCenter.jsx compliance/ModerationQueue.jsx compliance/ReportDialog.jsx compliance/ui.js invites/InviteRoster.jsx notifications/NotificationsSheet.jsx offers/OffersPage.jsx sell/BulkList.jsx settings/Settings.jsx
+retry_loading_this_photo,Retry loading this photo,"Loading, errors and empty screens",loading/Skeleton.jsx
+that_didn_t_work_twice_so_it_s_us_and_not_you_st,"That didn't work twice, so it's us and not you. Starting fresh usually clears it.","Loading, errors and empty screens",ErrorBoundary.jsx
+this_is_on_our_side_not_yours_nothing_you_were_d,"This is on our side, not yours. Nothing you were doing has been lost.","Loading, errors and empty screens",ErrorBoundary.jsx
+abaya_couture,Abaya Couture,The main shopping screens,Marketplace.jsx data/resaleValue.js
+accessories,Accessories,The main shopping screens,Marketplace.jsx
+add_a_bio_later_in_settings,Add a bio later in Settings,The main shopping screens,Marketplace.jsx
+add_to_cart_2,Add to cart,The main shopping screens,Marketplace.jsx
+agree_and_open_my_shop,Agree and open my shop,The main shopping screens,Marketplace.jsx
+balenciaga,Balenciaga,The main shopping screens,Marketplace.jsx data/resaleValue.js
+beautiful_zimmermann_ruffle_mini_dress_with_flor,Beautiful Zimmermann ruffle mini dress with floral print. Worn once to a brunch. Perfect condition.,The main shopping screens,Marketplace.jsx
+beautifully_crafted_linen_abaya_in_warm_white_wo,Beautifully crafted linen abaya in warm white. Worn once to a family gathering.,The main shopping screens,Marketplace.jsx
+before_your_first_piece_goes_up,Before your first piece goes up,The main shopping screens,Marketplace.jsx
+bottega_veneta,Bottega Veneta,The main shopping screens,Marketplace.jsx data/resaleValue.js
+bottega_veneta_pouch,Bottega Veneta Pouch,The main shopping screens,Marketplace.jsx
+buyer_protection,Buyer Protection,The main shopping screens,Marketplace.jsx
+carefully_loved_ready_for_a_second_life,"Carefully loved, ready for a second life",The main shopping screens,Marketplace.jsx
+cat_eye_tortoiseshell,Cat Eye · Tortoiseshell,The main shopping screens,Marketplace.jsx
+categories,Categories,The main shopping screens,Marketplace.jsx
+celine_cat_eye_sunglasses_in_tortoiseshell_come_,Celine cat-eye sunglasses in tortoiseshell. Come with original case and cleaning cloth.,The main shopping screens,Marketplace.jsx
+celine_sunglasses,Celine Sunglasses,The main shopping screens,Marketplace.jsx
+chanel_classic_flap_bag,Chanel Classic Flap Bag,The main shopping screens,Marketplace.jsx
+chlo_woody_tote,Chloé Woody Tote,The main shopping screens,Marketplace.jsx
+chlo_woody_tote_in_tan_and_white_barely_used_per,Chloé Woody tote in tan and white. Barely used. Perfect summer bag.,The main shopping screens,Marketplace.jsx
+christian_louboutin,Christian Louboutin,The main shopping screens,Marketplace.jsx data/resaleValue.js
+clean_lines_quiet_luxury_always,Clean lines. Quiet luxury. Always.,The main shopping screens,Marketplace.jsx
+clear_the_search_to_see_everything_she_has,Clear the search to see everything she has.,The main shopping screens,Marketplace.jsx
+couldn_t_add_that_photo,Couldn't add that photo,The main shopping screens,Marketplace.jsx
+couldn_t_open_that_conversation,Couldn't open that conversation.,The main shopping screens,Marketplace.jsx
+couldn_t_read_that_photo,Couldn't read that photo,The main shopping screens,Marketplace.jsx
+david_yurman,David Yurman,The main shopping screens,Marketplace.jsx data/resaleValue.js
+describe_your_piece_condition_details_why_you_lo,"Describe your piece — condition details, why you loved it, any wear... وصف القطعة",The main shopping screens,Marketplace.jsx
+designer_finds_timeless_vintage_gems,Designer finds & timeless vintage gems,The main shopping screens,Marketplace.jsx
+dubai_design_cream,Dubai Design · Cream,The main shopping screens,Marketplace.jsx
+dubai_finds,Dubai Finds,The main shopping screens,Marketplace.jsx
+dubai_modest_fashion,Dubai Modest Fashion,The main shopping screens,Marketplace.jsx data/resaleValue.js
+dubai_only_for_now,"Dubai only, for now",The main shopping screens,Marketplace.jsx
+elevated_everyday_from_dubai_with_love,Elevated everyday — from Dubai with love,The main shopping screens,Marketplace.jsx
+emirati_local_designer,Emirati / Local Designer,The main shopping screens,Marketplace.jsx data/resaleValue.js
+enter_amount,Enter amount...,The main shopping screens,Marketplace.jsx
+every_listing_screened,Every listing screened,The main shopping screens,Marketplace.jsx
+expert_verification,Expert verification,The main shopping screens,Marketplace.jsx
+follow_her_and_you_ll_see_the_first_piece_when_i,Follow her and you'll see the first piece when it goes up.,The main shopping screens,Marketplace.jsx
+gianvito_rossi,Gianvito Rossi,The main shopping screens,Marketplace.jsx data/resaleValue.js
+gianvito_rossi_gianvito_105_pumps_in_nude_pvc_mi,Gianvito Rossi Gianvito 105 pumps in nude PVC. Minor sole wear. Stunning on.,The main shopping screens,Marketplace.jsx
+gianvito_rossi_heels,Gianvito Rossi Heels,The main shopping screens,Marketplace.jsx
+haya_s_collection,Haya's Collection,The main shopping screens,Marketplace.jsx
+i_have_the_receipt_card_or_serial,"I have the receipt, card or serial",The main shopping screens,Marketplace.jsx
+i_ll_photograph_what_came_with_it,I'll photograph what came with it.,The main shopping screens,Marketplace.jsx
+iconic_van_cleef_arpels_vintage_alhambra_necklac,Iconic Van Cleef & Arpels Vintage Alhambra necklace. Yellow gold with malachite. Comes with original pouch.,The main shopping screens,Marketplace.jsx
+in_person_verification,In-person verification,The main shopping screens,Marketplace.jsx
+intrecciato_nude,Intrecciato · Nude,The main shopping screens,Marketplace.jsx
+invitation_code,Invitation code,The main shopping screens,Marketplace.jsx
+isabel_marant,Isabel Marant,The main shopping screens,Marketplace.jsx data/resaleValue.js
+it_s_saved_on_this_phone_and_will_go_the_moment_,It's saved on this phone and will go the moment you have signal.,The main shopping screens,Marketplace.jsx
+item_details,Item details,The main shopping screens,Marketplace.jsx
+jacquemus_le_chiquito,Jacquemus Le Chiquito,The main shopping screens,Marketplace.jsx
+jacquemus_le_chiquito_in_caramel_leather_absolut,Jacquemus Le Chiquito in caramel leather. Absolutely perfect condition with dustbag.,The main shopping screens,Marketplace.jsx
+jimmy_choo,Jimmy Choo,The main shopping screens,Marketplace.jsx data/resaleValue.js
+just_listed,Just listed,The main shopping screens,Marketplace.jsx
+last_step_then_you_re_live,Last step — then you're live,The main shopping screens,Marketplace.jsx
+leen_s_closet,Leen's Closet,The main shopping screens,Marketplace.jsx
+linen_abaya,Linen Abaya,The main shopping screens,Marketplace.jsx
+local_designer,Local Designer,The main shopping screens,Marketplace.jsx data/resaleValue.js
+louis_vuitton,Louis Vuitton,The main shopping screens,Marketplace.jsx data/resaleValue.js
+luxury_finds,Luxury finds,The main shopping screens,Marketplace.jsx
+luxury_pieces_curated_with_love_in_dubai_marina,Luxury pieces curated with love in Dubai Marina,The main shopping screens,Marketplace.jsx
+m12_5v14m5_12h14,M12 5v14M5 12h14,The main shopping screens,Marketplace.jsx
+m16_10a4_4_0_01_8_0,M16 10a4 4 0 01-8 0,The main shopping screens,Marketplace.jsx
+m18_8a6_6_0_006_8c0_7_3_9_3_9h18s_3_2_3_9m13_73_,M18 8A6 6 0 006 8c0 7-3 9-3 9h18s-3-2-3-9M13.73 21a2 2 0 01-3.46 0,The main shopping screens,Marketplace.jsx
+m20_21v_2a4_4_0_00_4_4h8a4_4_0_00_4_4v2,M20 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2,The main shopping screens,Marketplace.jsx
+m20_84_4_61a5_5_5_5_0_00_7_78_0l12_5_67l_1_06_1_,M20.84 4.61a5.5 5.5 0 00-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 00-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 000-7.78z,The main shopping screens,Marketplace.jsx
+m21_21l_4_35_4_35,M21 21l-4.35-4.35,The main shopping screens,Marketplace.jsx
+m3_9_5l12_3l9_6_5v20a1_1_0_01_1_1h5a1_1_0_01_1_1,M3 9.5L12 3l9 6.5V20a1 1 0 01-1 1H5a1 1 0 01-1-1V9.5z,The main shopping screens,Marketplace.jsx
+m6_2l3_6v14a2_2_0_002_2h14a2_2_0_002_2v6l_3_4z,M6 2L3 6v14a2 2 0 002 2h14a2 2 0 002-2V6l-3-4z,The main shopping screens,Marketplace.jsx
+m9_21v12h6v9,M9 21V12h6v9,The main shopping screens,Marketplace.jsx
+make_an_offer_2,Make an offer,The main shopping screens,Marketplace.jsx
+make_an_offer,Make an Offer,The main shopping screens,Marketplace.jsx
+manolo_blahnik,Manolo Blahnik,The main shopping screens,Marketplace.jsx data/resaleValue.js
+medium_beige_lambskin,Medium · Beige Lambskin,The main shopping screens,Marketplace.jsx
+message_seller,Message Seller,The main shopping screens,Marketplace.jsx
+message_with_your_offer,Message with your offer,The main shopping screens,Marketplace.jsx
+messages_stay_private,Messages stay private,The main shopping screens,Marketplace.jsx
+mini_bag_caramel,Mini Bag · Caramel,The main shopping screens,Marketplace.jsx
+minimal_by_mia,Minimal by Mia,The main shopping screens,Marketplace.jsx
+no_photograph_yet_a_piece_without_one_rarely_sel,No photograph yet — a piece without one rarely sells.,The main shopping screens,Marketplace.jsx
+no_price_yet_you_ll_need_one_to_publish,No price yet. You'll need one to publish.,The main shopping screens,Marketplace.jsx
+no_title_yet_you_ll_need_one_to_publish,No title yet. You'll need one to publish.,The main shopping screens,Marketplace.jsx
+not_yet_available,Not yet available,The main shopping screens,Marketplace.jsx
+notifications,Notifications,The main shopping screens,Marketplace.jsx notifications/NotificationsSheet.jsx
+nude_pumps_38,Nude Pumps 38,The main shopping screens,Marketplace.jsx
+offer_amount,Offer amount,The main shopping screens,Marketplace.jsx
+opening_a_shop_needs_an_account_it_s_how_your_bu,Opening a shop needs an account — it's how your buyers reach you and how you get paid.,The main shopping screens,Marketplace.jsx
+physical_inspection_in_dubai,Physical inspection in Dubai.,The main shopping screens,Marketplace.jsx
+picked_up_where_you_left_off,Picked up where you left off.,The main shopping screens,Marketplace.jsx
+reasons_on_every_decision,Reasons on every decision,The main shopping screens,Marketplace.jsx
+reformation,Reformation,The main shopping screens,Marketplace.jsx data/resaleValue.js
+reformation_fitted_midi_in_warm_terracotta_worn_,Reformation fitted midi in warm terracotta. Worn once to a brunch. Stunning silhouette.,The main shopping screens,Marketplace.jsx
+reformation_midi_dress,Reformation Midi Dress,The main shopping screens,Marketplace.jsx
+report_this_conversation,Report this conversation,The main shopping screens,Marketplace.jsx
+ruffle_mini,Ruffle Mini,The main shopping screens,Marketplace.jsx
+saint_laurent,Saint Laurent,The main shopping screens,Marketplace.jsx data/resaleValue.js
+search_for_items_brands_sellers,"Search for items, brands, sellers...",The main shopping screens,Marketplace.jsx
+search_items_brands_sellers,"Search items, brands, sellers...",The main shopping screens,Marketplace.jsx
+second_shelf,Second Shelf,The main shopping screens,Marketplace.jsx
+secure_payment,Secure Payment,The main shopping screens,Marketplace.jsx
+self_portrait,Self Portrait,The main shopping screens,Marketplace.jsx data/resaleValue.js
+send_message,Send message,The main shopping screens,Marketplace.jsx
+sign_in_first_an_invitation_is_attached_to_an_ac,Sign in first — an invitation is attached to an account.,The main shopping screens,Marketplace.jsx
+summer_edit,Summer edit,The main shopping screens,Marketplace.jsx
+tan_white_canvas,Tan & White Canvas,The main shopping screens,Marketplace.jsx
+tell_us_how_you_re_selling,Tell us how you're selling,The main shopping screens,Marketplace.jsx
+terracotta_fitted,Terracotta · Fitted,The main shopping screens,Marketplace.jsx
+that_code_has_already_been_used,That code has already been used.,The main shopping screens,Marketplace.jsx
+that_didn_t_send_try_again,That didn't send. Try again.,The main shopping screens,Marketplace.jsx
+the_best_pre_loved_pieces_in_the_uae,The best pre-loved pieces in the UAE,The main shopping screens,Marketplace.jsx
+the_frankie_shop,The Frankie Shop,The main shopping screens,Marketplace.jsx data/resaleValue.js
+the_iconic_bottega_veneta_pouch_in_nude_intrecci,"The iconic Bottega Veneta pouch in nude intrecciato leather. Like new, barely carried.",The main shopping screens,Marketplace.jsx
+the_vintage_edit,The Vintage Edit,The main shopping screens,Marketplace.jsx
+third_party_authentication_partner,Third-party authentication partner.,The main shopping screens,Marketplace.jsx
+tiffany_co,Tiffany & Co,The main shopping screens,Marketplace.jsx data/resaleValue.js
+timeless_chanel_classic_flap_in_beige_lambskin_w,"Timeless Chanel Classic Flap in beige lambskin with gold hardware. Gently used, excellent condition. Comes with dust bag and authenticity card.",The main shopping screens,Marketplace.jsx
+too_many_attempts_wait_an_hour_and_try_again_and,Too many attempts. Wait an hour and try again — and check you have the right code.,The main shopping screens,Marketplace.jsx
+try_part_of_her_name_in_either_language,"Try part of her name, in either language.",The main shopping screens,Marketplace.jsx
+type_the_code_first,Type the code first.,The main shopping screens,Marketplace.jsx
+van_cleef_arpels,Van Cleef & Arpels,The main shopping screens,Marketplace.jsx data/resaleValue.js
+van_cleef_vintage_alhambra,Van Cleef Vintage Alhambra,The main shopping screens,Marketplace.jsx
+verified_seller,Verified Seller,The main shopping screens,Marketplace.jsx
+we_couldn_t_reach_lili_just_now_your_code_is_fin,We couldn't reach lili just now. Your code is fine; try again in a moment.,The main shopping screens,Marketplace.jsx
+we_don_t_recognise_that_code_check_it_against_th,We don't recognise that code. Check it against the message it came in.,The main shopping screens,Marketplace.jsx
+weekend_picks,Weekend picks ,The main shopping screens,Marketplace.jsx
+what_you_like,What you like,The main shopping screens,Marketplace.jsx
+which_brand_it_s_the_first_thing_a_buyer_searche,Which brand? It's the first thing a buyer searches for.,The main shopping screens,Marketplace.jsx
+yellow_gold_malachite,Yellow Gold · Malachite,The main shopping screens,Marketplace.jsx
+you_re_browsing_without_an_account_create_one_fi,"You're browsing without an account. Create one first, then enter the code.",The main shopping screens,Marketplace.jsx
+you_re_told_who_you_re_buying_from,You're told who you're buying from,The main shopping screens,Marketplace.jsx
+your_listing_didn_t_reach_lili_nothing_was_publi,Your listing didn't reach lili — nothing was published. Please try again.,The main shopping screens,Marketplace.jsx
+zimmermann,Zimmermann,The main shopping screens,Marketplace.jsx data/resaleValue.js
+zimmermann_floral_dress,Zimmermann Floral Dress,The main shopping screens,Marketplace.jsx
+a_mall_a_caf_a_hotel_lobby_daylight_never_a_home,"A mall, a café, a hotel lobby. Daylight. Never a home address, and never a car park after dark.",Messages between two women,messages/MeetSafely.jsx
+check_the_piece_before_you_pay,Check the piece before you pay,Messages between two women,messages/MeetSafely.jsx
+dismiss_safety_note,Dismiss safety note,Messages between two women,messages/MeetSafely.jsx
+no_signal_your_message_is_saved_but_hasn_t_been_,No signal — your message is saved but hasn't been sent yet.,Messages between two women,data/conversations.js
+read_this_first,Read this first,Messages between two women,messages/MeetSafely.jsx
+serial_stitching_hardware_the_flaws_in_the_photo_2,"Serial, stitching, hardware, the flaws in the photos. lili does not hold your money, so the moment to be sure is before it leaves your hand.",Messages between two women,messages/MeetSafely.jsx
+that_message_is_too_long_2_000_characters_is_the,"That message is too long — 2,000 characters is the limit.",Messages between two women,data/conversations.js
+counter_amount,Counter amount,Making and answering offers,offers/OffersPage.jsx
+offer_from_a_buyer,Offer from a buyer,Making and answering offers,offers/OffersPage.jsx
+something_went_wrong_loading_your_offers,Something went wrong loading your offers.,Making and answering offers,offers/OffersPage.jsx
+that_didn_t_go_through,That didn't go through.,Making and answering offers,offers/OffersPage.jsx
+we_couldn_t_reach_lili_just_now_your_offers_are_,We couldn't reach lili just now. Your offers are safe — this is only the list.,Making and answering offers,offers/OffersPage.jsx
+your_price,Your price,Making and answering offers,offers/OffersPage.jsx
+most_saved,Most Saved,Search and filters,discovery/ranking.js
+newest_first,Newest First,Search and filters,discovery/filters.js discovery/ranking.js
+price_high_to_low,Price: High to Low,Search and filters,discovery/ranking.js
+price_low_to_high,Price: Low to High,Search and filters,discovery/ranking.js
+a_little_longer_8_characters_or_more,A little longer — 8 characters or more.,Signing in,auth/breachCheck.js
+add_padding,Add-Padding,Signing in,auth/breachCheck.js
+at_least_8_characters,At least 8 characters,Signing in,auth/AuthScreen.jsx
+carrying_on_without_an_account_keeps_everything_,"Carrying on without an account keeps everything on this phone. You'll need one before you can be paid, and before your shop is visible to anyone else. ",Signing in,auth/AuthScreen.jsx
+check_your_email,Check your email,Signing in,auth/AuthScreen.jsx
+couldn_t_reach_lili_check_your_connection,Couldn't reach lili. Check your connection.,Signing in,auth/AuthScreen.jsx
+create_your_account,Create your account,Signing in,auth/AuthScreen.jsx
+easy_to_guess_try_three_unrelated_words,Easy to guess. Try three unrelated words.,Signing in,auth/breachCheck.js
+enter_your_email_and_we_ll_send_a_reset_link,Enter your email and we'll send a reset link.,Signing in,auth/AuthScreen.jsx
+fine_a_few_more_characters_would_be_better,Fine. A few more characters would be better.,Signing in,auth/breachCheck.js
+i_already_have_an_account,I already have an account,Signing in,auth/AuthScreen.jsx
+i_m_new_here_create_an_account,I'm new here — create an account,Signing in,auth/AuthScreen.jsx
+m24_44c5_2_0_9_9_2_13_4_5_2l_6_2_5_2c29_2_35_1_2,M24 44c5.2 0 9.9-2 13.4-5.2l-6.2-5.2C29.2 35.1 26.7 36 24 36c-5.3 0-9.7-3.3-11.3-8l-6.5 5C9.5 39.6 16.2 44 24 44z,Signing in,auth/AuthScreen.jsx
+m43_6_20_1h42v20h24v8h11_3c_8_2_2_2_2_4_1_4_1_5_,M43.6 20.1H42V20H24v8h11.3c-.8 2.2-2.2 4.1-4.1 5.6l6.2 5.2C36.9 40.2 44 35 44 24c0-1.3-.1-2.6-.4-3.9z,Signing in,auth/AuthScreen.jsx
+m6_3_14_7l6_6_4_8c14_7_15_1_19_12_24_12c3_1_0_5_,M6.3 14.7l6.6 4.8C14.7 15.1 19 12 24 12c3.1 0 5.9 1.2 8 3.1l5.7-5.7C34.1 6.1 29.3 4 24 4 16.3 4 9.7 8.3 6.3 14.7z,Signing in,auth/AuthScreen.jsx
+one_moment,One moment…,Signing in,auth/AuthScreen.jsx
+please_pick_a_different_one,Please pick a different one.,Signing in,auth/breachCheck.js
+pop_your_email_in_first,Pop your email in first.,Signing in,auth/AuthScreen.jsx
+reset_link_sent_check_your_email,Reset link sent — check your email.,Signing in,auth/AuthScreen.jsx
+send_me_a_link,Send me a link,Signing in,auth/AuthScreen.jsx
+sign_in_and_your_shop_saves_and_cart_come_with_y,"Sign in and your shop, saves and cart come with you.",Signing in,auth/AuthScreen.jsx
+sign_in_to_lili,Sign in to lili,Signing in,auth/AuthScreen.jsx
+strong_length_does_more_than_symbols,Strong — length does more than symbols.,Signing in,auth/breachCheck.js
+that_email_and_password_don_t_match,That email and password don't match.,Signing in,auth/AuthScreen.jsx
+that_sign_in_method_isn_t_switched_on_for_this_a,That sign-in method isn't switched on for this app yet.,Signing in,auth/AuthScreen.jsx
+there_s_already_an_account_with_this_email_try_s,There's already an account with this email — try signing in.,Signing in,auth/AuthScreen.jsx
+this_password_is_one_of_the_most_common_there_is,This password is one of the most common there is — it's appeared in ,Signing in,auth/breachCheck.js
+too_many_tries_just_now_give_it_a_minute,Too many tries just now. Give it a minute.,Signing in,auth/AuthScreen.jsx
+welcome_back,Welcome back,Signing in,auth/AuthScreen.jsx
+you_can_browse_without_an_account_signing_in_is_,"You can browse without an account. Signing in is for selling, messaging and getting paid.",Signing in,auth/AuthScreen.jsx
+your_email_and_a_password_that_s_all_we_need,Your email and a password. That's all we need.,Signing in,auth/AuthScreen.jsx
+your_password,Your password,Signing in,auth/AuthScreen.jsx
+a_licensed_processor_holding_the_money_until_the,A licensed processor holding the money until the piece is in your hands is ,Help centre answers,HelpCentre.jsx
+between_6_and_10_of_the_sale_price_when_your_pie,"Between 6% and 10% of the sale price when your piece sells, higher on small ",Help centre answers,HelpCentre.jsx
+can_i_sell_if_i_m_not_a_business,Can I sell if I'm not a business?,Help centre answers,HelpCentre.jsx
+check_it_before_you_hand_anything_over_that_is_t,"Check it before you hand anything over — that is the moment, and right now ",Help centre answers,HelpCentre.jsx
+does_lili_hold_my_money,Does lili hold my money?,Help centre answers,HelpCentre.jsx
+no_not_yet_and_it_matters_that_you_know_it_you_a,"No. Not yet, and it matters that you know it. You and the seller agree a ",Help centre answers,HelpCentre.jsx
+something_s_wrong_with_a_listing,Something's wrong with a listing,Help centre answers,HelpCentre.jsx
+tap_report_on_the_listing_itself_counterfeits_an,Tap Report on the listing itself. Counterfeits and prohibited items go to a ,Help centre answers,HelpCentre.jsx
+that_the_seller_has_told_us_she_holds_proof_a_re,"That the seller has told us she holds proof — a receipt, a card, the papers ",Help centre answers,HelpCentre.jsx
+the_buyer_pays_you_directly_when_you_meet_so_it_,"The buyer pays you directly when you meet, so it's in your hands the same ",Help centre answers,HelpCentre.jsx
+the_woman_who_listed_it_lili_is_the_marketplace_,"The woman who listed it. lili is the marketplace, not the shop — she owns ",Help centre answers,HelpCentre.jsx
+what_does_authenticated_mean,What does 'Authenticated' mean?,Help centre answers,HelpCentre.jsx
+what_does_it_cost_to_sell,What does it cost to sell?,Help centre answers,HelpCentre.jsx
+what_if_it_turns_up_fake_or_not_as_described,"What if it turns up fake, or not as described?",Help centre answers,HelpCentre.jsx
+when_do_i_get_paid,When do I get paid?,Help centre answers,HelpCentre.jsx
+who_am_i_actually_buying_from,Who am I actually buying from?,Help centre answers,HelpCentre.jsx
+yes_most_sellers_here_are_clearing_their_own_war,Yes — most sellers here are clearing their own wardrobes. You tell us which ,Help centre answers,HelpCentre.jsx
+beta_roster,Beta roster,Privacy & safety centre,compliance/LegalCenter.jsx
+brand_name,Brand name,Privacy & safety centre,compliance/LegalCenter.jsx
+brand_owner_report_a_fake,Brand owner? Report a fake,Privacy & safety centre,compliance/LegalCenter.jsx
+copy_as_json,Copy as JSON,Privacy & safety centre,compliance/LegalCenter.jsx
+data_choices,Data choices,Privacy & safety centre,compliance/LegalCenter.jsx
+delete_my_account,Delete my account,Privacy & safety centre,compliance/LegalCenter.jsx
+delete_my_account_permanently,Delete my account permanently,Privacy & safety centre,compliance/LegalCenter.jsx
+email_and_push_about_new_drops,Email and push about new drops,Privacy & safety centre,compliance/LegalCenter.jsx
+everything_held_about_you,Everything held about you,Privacy & safety centre,compliance/LegalCenter.jsx
+gathering,Gathering…,Privacy & safety centre,compliance/LegalCenter.jsx
+get_a_copy_of_my_data,Get a copy of my data,Privacy & safety centre,compliance/LegalCenter.jsx
+how_a_dispute_is_handled,How a dispute is handled,Privacy & safety centre,compliance/LegalCenter.jsx
+how_lili_works,How lili works,Privacy & safety centre,compliance/LegalCenter.jsx
+how_listings_and_sellers_are_policed,How listings and sellers are policed,Privacy & safety centre,compliance/LegalCenter.jsx
+if_something_goes_wrong,If something goes wrong,Privacy & safety centre,compliance/LegalCenter.jsx compliance/agreements.js
+if_something_s_wrong,If something's wrong,Privacy & safety centre,compliance/LegalCenter.jsx
+internal_invitations_and_who_actually_listed,"Internal — invitations, and who actually listed",Privacy & safety centre,compliance/LegalCenter.jsx
+internal_reports_waiting_on_a_decision,Internal — reports waiting on a decision,Privacy & safety centre,compliance/LegalCenter.jsx
+item_names_seller_handles_and_what_identifies_th,"Item names, seller handles, and what identifies them as fake",Privacy & safety centre,compliance/LegalCenter.jsx
+moderation_queue,Moderation queue,Privacy & safety centre,compliance/LegalCenter.jsx compliance/ModerationQueue.jsx
+my_reports,My reports,Privacy & safety centre,compliance/LegalCenter.jsx
+nothing_was_deleted_we_couldn_t_reach_lili_your_,Nothing was deleted — we couldn't reach lili. Your account is untouched. Try again in a moment.,Privacy & safety centre,compliance/LegalCenter.jsx
+notice_received,Notice received,Privacy & safety centre,compliance/LegalCenter.jsx
+owns_the_item_sets_the_price_writes_the_listing__2,"Owns the item, sets the price, writes the listing, and hands it to you herself. The sale contract is with her — lili is not a party to it.",Privacy & safety centre,compliance/LegalCenter.jsx
+owns_the_item_sets_the_price_writes_the_listing_,"Owns the item, sets the price, writes the listing, packs and ships it, and handles the return. The sale contract is with them.",Privacy & safety centre,compliance/LegalCenter.jsx
+payments_tax_delivery,"Payments, tax & delivery",Privacy & safety centre,compliance/LegalCenter.jsx
+permanent_and_we_mean_it,"Permanent, and we mean it",Privacy & safety centre,compliance/LegalCenter.jsx
+registration_threshold,Registration threshold,Privacy & safety centre,compliance/LegalCenter.jsx
+report_a_counterfeit,Report a counterfeit,Privacy & safety centre,compliance/LegalCenter.jsx
+reports_you_ve_sent_and_their_state,Reports you've sent and their state,Privacy & safety centre,compliance/LegalCenter.jsx
+rights_holder_takedown_route,Rights-holder takedown route,Privacy & safety centre,compliance/LegalCenter.jsx
+rules_for_this_market_are_still_being_mapped,Rules for this market are still being mapped.,Privacy & safety centre,compliance/LegalCenter.jsx
+safety_moderation,Safety & moderation,Privacy & safety centre,compliance/LegalCenter.jsx
+seller_earnings_reporting,Seller earnings reporting,Privacy & safety centre,compliance/LegalCenter.jsx
+selling_rules_here,Selling rules here,Privacy & safety centre,compliance/LegalCenter.jsx
+show_me_pieces_i_d_like,Show me pieces I'd like,Privacy & safety centre,compliance/LegalCenter.jsx
+tax_on_the_seller_s_sale,Tax on the seller's sale,Privacy & safety centre,compliance/LegalCenter.jsx
+the_seller,The seller,Privacy & safety centre,compliance/LegalCenter.jsx
+this_device_is_not_connected_to_lili_so_this_is_,"This device is not connected to lili, so this is the phone's half only.",Privacy & safety centre,compliance/LegalCenter.jsx
+two_halves_what_lili_holds_about_your_account_an,"Two halves: what lili holds about your account, and what is stored only on this phone.",Privacy & safety centre,compliance/LegalCenter.jsx
+vat_on_our_commission,VAT on our commission,Privacy & safety centre,compliance/LegalCenter.jsx
+verification_payouts,Verification & payouts,Privacy & safety centre,compliance/LegalCenter.jsx
+we_couldn_t_reach_lili_for_the_server_half,We couldn't reach lili for the server half.,Privacy & safety centre,compliance/LegalCenter.jsx
+what_we_ask_for_and_when,"What we ask for, and when",Privacy & safety centre,compliance/LegalCenter.jsx
+what_you_ve_agreed_to_and_undo_it,"What you've agreed to, and undo it",Privacy & safety centre,compliance/LegalCenter.jsx
+who_holds_the_money_and_who_ships,Who holds the money and who ships,Privacy & safety centre,compliance/LegalCenter.jsx
+who_you_re_buying_from_and_who_owes_you_what,"Who you're buying from, and who owes you what",Privacy & safety centre,compliance/LegalCenter.jsx
+withdrawing_is_as_easy_as_giving_that_s_the_rule,"Withdrawing is as easy as giving — that's the rule here, and it's why this is one tap.",Privacy & safety centre,compliance/LegalCenter.jsx
+you_can_opt_out_of_sale_or_sharing_of_your_data_,You can opt out of sale or sharing of your data at any time.,Privacy & safety centre,compliance/LegalCenter.jsx
+your_account_is_gone,Your account is gone,Privacy & safety centre,compliance/LegalCenter.jsx
+invitations_need_the_backend,Invitations need the backend.,Invitations to the beta,invites/InviteRoster.jsx
+nobody_has_used_a_code_yet_hand_them_out_in_pers,Nobody has used a code yet. Hand them out in person; a code sent into a group chat is a code nobody feels responsible for.,Invitations to the beta,invites/InviteRoster.jsx
+we_couldn_t_reach_lili_just_now,We couldn't reach lili just now.,Invitations to the beta,invites/InviteRoster.jsx
+add_a_bio_so_buyers_know_who_they_re_buying_from,Add a bio so buyers know who they're buying from.,Settings,settings/Settings.jsx
+describe_your_style_what_you_sell_how_you_pack,"Describe your style, what you sell, how you pack…",Settings,settings/Settings.jsx
+this_can_t_be_listed,This can't be listed,When a listing is held for review,compliance/ListingScreen.jsx
+this_will_need_a_quick_check,This will need a quick check,When a listing is held for review,compliance/ListingScreen.jsx
+worth_fixing_before_you_publish,Worth fixing before you publish,When a listing is held for review,compliance/ListingScreen.jsx
+you_can_publish_a_reviewer_looks_at_it_before_it,You can publish — a reviewer looks at it before it goes live to buyers.,When a listing is held for review,compliance/ListingScreen.jsx
+you_can_publish_as_is_but_this_is_likely_to_cost,"You can publish as-is, but this is likely to cost you a sale.",When a listing is held for review,compliance/ListingScreen.jsx
+arabic_already_forced_that_work_so_urdu_and_pers,"Arabic already forced that work, so Urdu and Persian are cheaper than ",Elsewhere,i18n/languages.js
+follows_your_phone_s_own_light_or_dark_setting,Follows your phone's own light or dark setting.,Elsewhere,theme/theme.js
+interface_strings_can_start_machine_assisted_wit,Interface strings can start machine-assisted with human review. Legal ,Elsewhere,i18n/languages.js
+joined_this_month,Joined this month,Elsewhere,trust/TrustSignals.jsx
+latin_script_so_the_cheapest_of_these_to_add_wel,"Latin script, so the cheapest of these to add well.",Elsewhere,i18n/languages.js
+legal_text_platform_terms_seller_agreement_priva,"Legal text — Platform Terms, Seller Agreement, Privacy Notice — must be ",Elsewhere,i18n/languages.js
+m11_3_5h20_5v13l_9_9_9_9zm16_2_8_2v_1,M11 3.5H20.5V13l-9 9-9-9zM16.2 8.2v.1,Elsewhere,icons/Icon.jsx
+m11_4a7_7_0_1_1_0_14_7_7_0_0_1_0_14m16_2_16_2_20,M11 4a7 7 0 1 1 0 14 7 7 0 0 1 0-14M16.2 16.2 20.5 20.5,Elsewhere,icons/Icon.jsx
+m12_11_5a3_75_3_75_0_1_0_0_7_5_3_75_3_75_0_0_0_0,M12 11.5a3.75 3.75 0 1 0 0-7.5 3.75 3.75 0 0 0 0 7.5M4.5 20.5c0-3.6 3.4-5.75 7.5-5.75s7.5 2.15 7.5 5.75,Elsewhere,icons/Icon.jsx
+m12_20_2_4_9_13_3a4_4_4_4_0_0_1_0_6_4_4_7_4_7_0_,M12 20.2 4.9 13.3a4.4 4.4 0 0 1 0-6.4 4.7 4.7 0 0 1 6.5 0l.6.6.6-.6a4.7 4.7 0 0 1 6.5 0 4.4 4.4 0 0 1 0 6.4z,Elsewhere,icons/Icon.jsx
+m12_20_5_3_5_9_5_6_5_4_5h11l3_5zm3_5_9_5h17m8_5_,M12 20.5 3.5 9.5 6.5 4.5h11l3 5zM3.5 9.5h17M8.5 4.5 12 9.5 15.5 4.5M9 9.5l3 11 3-11,Elsewhere,icons/Icon.jsx
+m12_20_5_4_5_10_7_5_4_5h9l19_5_10zm4_5_10h15m7_5,M12 20.5 4.5 10 7.5 4.5h9L19.5 10zM4.5 10h15M7.5 4.5 12 10l4.5-5.5,Elsewhere,icons/Icon.jsx
+m12_20_5c0_4_5_4_7_6_1_2_9_6m12_6_10_4c_1_6_2_2_,M12 20.5c0-4.5.4-7.6 1.2-9.6M12.6 10.4c-1.6-2.2-4-3-6.6-2.2 1.4-2.4 4-3.2 6.6-1.9-.4-2.6 1-4.6 3.6-5-1.2 2.2-1 4 .4 5.4 2.2-1.4 4.6-1 6.2 1-2.6-.2-4.6.6-5.8 2.4,Elsewhere,icons/Icon.jsx
+m12_3_5_19_5_6v6c0_4_3_2_7_2_7_5_8_5c7_7_19_2_4_,M12 3.5 19.5 6v6c0 4-3.2 7.2-7.5 8.5C7.7 19.2 4.5 16 4.5 12V6z,Elsewhere,icons/Icon.jsx
+m12_3_5a5_5_5_5_0_0_1_5_5_5_5c0_4_1_5_5_5_2_6_5h,M12 3.5a5.5 5.5 0 0 1 5.5 5.5c0 4 1.5 5.5 2 6.5H4.5c.5-1 2-2.5 2-6.5A5.5 5.5 0 0 1 12 3.5M10 18.5a2 2 0 0 0 4 0,Elsewhere,icons/Icon.jsx
+m12_3_5a8_5_8_5_0_1_1_0_17_8_5_8_5_0_0_1_0_17m12,M12 3.5a8.5 8.5 0 1 1 0 17 8.5 8.5 0 0 1 0-17M12 7.5V12l3 2,Elsewhere,icons/Icon.jsx
+m12_3_5a8_5_8_5_0_1_1_0_17_8_5_8_5_0_0_1_0_17m3_,M12 3.5a8.5 8.5 0 1 1 0 17 8.5 8.5 0 0 1 0-17M3.5 12h17M12 3.5c2.2 2.3 3.4 5.3 3.4 8.5s-1.2 6.2-3.4 8.5c-2.2-2.3-3.4-5.3-3.4-8.5S9.8 5.8 12 3.5,Elsewhere,icons/Icon.jsx
+m12_3_5a8_5_8_5_0_1_1_0_17_8_5_8_5_0_0_1_0_17m6_,M12 3.5a8.5 8.5 0 1 1 0 17 8.5 8.5 0 0 1 0-17M6 6l12 12,Elsewhere,icons/Icon.jsx
+m12_3_5a8_5_8_5_0_1_1_0_17_8_5_8_5_0_0_1_0_17m9_,M12 3.5a8.5 8.5 0 1 1 0 17 8.5 8.5 0 0 1 0-17M9.6 9.4A2.5 2.5 0 0 1 14.5 10c0 1.7-2.5 2-2.5 3.6M12 16.8v.1,Elsewhere,icons/Icon.jsx
+m12_3_5c2_9_0_4_6_2_3_4_6_5_8_0_3_9_1_6_9_1_6_8_,M12 3.5c2.9 0 4.6 2.3 4.6 5.8 0 3.9-1 6.9-1.6 8.4-.5 1.3-1.5 1.9-3 1.9s-2.5-.6-3-1.9c-.6-1.5-1.6-4.5-1.6-8.4 0-3.5 1.7-5.8 4.6-5.8zM10 19.6l.5 1.9h3l.5-1.9,Elsewhere,icons/Icon.jsx
+m12_3_5l1_7_4_8_4_8_1_7_4_8_1_7l12_16_5l_1_7_4_8,M12 3.5l1.7 4.8 4.8 1.7-4.8 1.7L12 16.5l-1.7-4.8-4.8-1.7 4.8-1.7zM18.5 15.5l.8 2.2 2.2.8-2.2.8-.8 2.2-.8-2.2-2.2-.8 2.2-.8z,Elsewhere,icons/Icon.jsx
+m12_3_8l2_5_5_2_5_6_8_4_4_9_5_7_5_2_7_5_2_7_9_5_,M12 3.8l2.5 5.2 5.6.8-4 4 .9 5.7-5-2.7-5 2.7.9-5.7-4-4 5.6-.8z,Elsewhere,icons/Icon.jsx
+m12_4_21_19_5h3zm12_10v4_5m12_17_2v_1,M12 4 21 19.5H3zM12 10v4.5M12 17.2v.1,Elsewhere,icons/Icon.jsx
+m12_4v16m7_20h10m4_8_5h16m4_8_5_1_8_14h4_4zm20_8,M12 4v16M7 20h10M4 8.5h16M4 8.5 1.8 14h4.4zM20 8.5 17.8 14h4.4zM8 4.5h8,Elsewhere,icons/Icon.jsx
+m12_5_5v13m5_5_12h13,M12 5.5v13M5.5 12h13,Elsewhere,icons/Icon.jsx
+m14_5_5_7_5_12l7_7,M14.5 5 7.5 12l7 7,Elsewhere,icons/Icon.jsx
+m2_5_12s5_8_6_5_12_6_5_21_5_12_21_5_12_18_2_17_5,M2.5 12S5.8 6.5 12 6.5 21.5 12 21.5 12 18.2 17.5 12 17.5 2.5 12 2.5 12M12 15a3 3 0 1 0 0-6 3 3 0 0 0 0 6,Elsewhere,icons/Icon.jsx
+m2_5_5_5h19v13h_19zm2_5_10h19m5_5_14_5h3,M2.5 5.5h19v13h-19zM2.5 10h19M5.5 14.5h3,Elsewhere,icons/Icon.jsx
+m2_5_6_5h11v10h_11zm13_5_10h3_8l3_2_3_3v3_2h_7zm,M2.5 6.5h11v10h-11zM13.5 10h3.8l3.2 3.3v3.2h-7zM7 19.5a1.6 1.6 0 1 0 0-.01M17 19.5a1.6 1.6 0 1 0 0-.01,Elsewhere,icons/Icon.jsx
+m2_5_9_5_12_4l9_5_5_5zm5_9_5v8m9_5_9_5v8m14_5_9_,M2.5 9.5 12 4l9.5 5.5zM5 9.5v8M9.5 9.5v8M14.5 9.5v8M19 9.5v8M3 20.5h18,Elsewhere,icons/Icon.jsx
+m2_5_9_5h19m4_5_9_5c0_3_1_2_4_5_3_2_4_5s3_3_1_5_,M2.5 9.5h19M4.5 9.5c0 3 1.2 4.5 3.2 4.5s3.3-1.5 3.3-4.5M13 9.5c0 3 1.3 4.5 3.3 4.5s3.2-1.5 3.2-4.5M11 11h2,Elsewhere,icons/Icon.jsx
+m20_5_11_6c0_3_9_3_8_7_8_5_7a10_10_0_0_1_2_4_3l4,M20.5 11.6c0 3.9-3.8 7-8.5 7a10 10 0 0 1-2.4-.3L4.5 20l1.2-3.4A6.6 6.6 0 0 1 3.5 11.6c0-3.9 3.8-7 8.5-7s8.5 3.1 8.5 7z,Elsewhere,icons/Icon.jsx
+m20_5_14_8a8_6_8_6_0_0_1_9_2_3_5a8_6_8_6_0_1_0_1,M20.5 14.8A8.6 8.6 0 0 1 9.2 3.5a8.6 8.6 0 1 0 11.3 11.3,Elsewhere,icons/Icon.jsx
+m20_5_3_5_3_5_10_2l6_4_2_9_2_9_6_4z,M20.5 3.5 3.5 10.2l6.4 2.9 2.9 6.4z,Elsewhere,icons/Icon.jsx
+m3_5_10_2_12_3_5l8_5_6_7v19a1_5_1_5_0_0_1_1_5_1_,M3.5 10.2 12 3.5l8.5 6.7V19a1.5 1.5 0 0 1-1.5 1.5h-4v-6h-6v6h-4A1.5 1.5 0 0 1 3.5 19z,Elsewhere,icons/Icon.jsx
+m3_5_4_5h2_2l2_3_10_4a1_5_1_5_0_0_0_1_5_1_2h7_7a,M3.5 4.5h2.2l2.3 10.4a1.5 1.5 0 0 0 1.5 1.2h7.7a1.5 1.5 0 0 0 1.45-1.1L20.5 8H6.4M9.5 20a1 1 0 1 0 0-.01M17 20a1 1 0 1 0 0-.01,Elsewhere,icons/Icon.jsx
+m3_5_5_5h17v13h_17zm8_5_12a2_2_0_1_0_0_4_2_2_0_0,M3.5 5.5h17v13h-17zM8.5 12a2 2 0 1 0 0-4 2 2 0 0 0 0 4M5.5 16c.6-1.6 1.7-2.4 3-2.4s2.4.8 3 2.4M14.5 10h4M14.5 14h4,Elsewhere,icons/Icon.jsx
+m3_5_6_5h17m6_5_12h11m10_17_5h4,M3.5 6.5h17M6.5 12h11M10 17.5h4,Elsewhere,icons/Icon.jsx
+m3_5_8_5h3_2l1_4_2_3h7_8l1_4_2_3h3_2v10a1_5_1_5_,M3.5 8.5h3.2l1.4-2.3h7.8l1.4 2.3h3.2v10a1.5 1.5 0 0 1-1.5 1.5H5a1.5 1.5 0 0 1-1.5-1.5zM12 17a3.5 3.5 0 1 0 0-7 3.5 3.5 0 0 0 0 7,Elsewhere,icons/Icon.jsx
+m4_20v4m4_20h16m8_17v11m12_5_17v7_5m17_17v_4,M4 20V4M4 20h16M8 17V11M12.5 17V7.5M17 17v-4,Elsewhere,icons/Icon.jsx
+m4_9_5h16m4_9_5_5_6_4_5h12_8l20_9_5m5_5_9_5v19a1,M4 9.5h16M4 9.5 5.6 4.5h12.8L20 9.5M5.5 9.5V19a1.5 1.5 0 0 0 1.5 1.5h10a1.5 1.5 0 0 0 1.5-1.5V9.5M9.5 20.5v-5h5v5,Elsewhere,icons/Icon.jsx
+m5_8_5h14l1_12h4zm8_8_8_5v6_6a3_2_3_2_0_0_1_6_4_,M5 8.5h14l1 12H4zM8.8 8.5V6.6a3.2 3.2 0 0 1 6.4 0v1.9,Elsewhere,icons/Icon.jsx
+m5_9_5l7_7_7_7,M5 9.5l7 7 7-7,Elsewhere,icons/Icon.jsx
+m5_5_10_5h13v10h_13zm8_5_10_5v7_8a3_5_3_5_0_0_1_,M5.5 10.5h13v10h-13zM8.5 10.5V7.8a3.5 3.5 0 0 1 7 0v2.7,Elsewhere,icons/Icon.jsx
+m6_3_5h12v17l_2_1_4_2_1_4_2_1_4_2_1_4_2_1_4zm9_8,M6 3.5h12v17l-2-1.4-2 1.4-2-1.4-2 1.4-2-1.4zM9 8.5h6M9 12.5h6,Elsewhere,icons/Icon.jsx
+m6_6l12_12m18_6_6_18,M6 6l12 12M18 6 6 18,Elsewhere,icons/Icon.jsx
+m7_5_3_5h9l3_5_17h4zm7_5_8_5h9,M7.5 3.5h9l3.5 17H4zM7.5 8.5h9,Elsewhere,icons/Icon.jsx
+m8_5_10_5a3_3_0_1_0_0_6_3_3_0_0_0_0_6m2_5_20c0_3,M8.5 10.5a3 3 0 1 0 0-6 3 3 0 0 0 0 6M2.5 20c0-3 2.7-4.5 6-4.5s6 1.5 6 4.5M15.5 9.6a2.6 2.6 0 1 0 0-5.2M17 15.9c2.7.4 4.5 1.9 4.5 4.1,Elsewhere,icons/Icon.jsx
+m8_5_3_5h7l4_2_8_1_8_4_3_1_2_7_6_10_6h6_9l_6_10_,M8.5 3.5h7l4 2.8-1.8 4.3-1.2-.7.6 10.6H6.9l.6-10.6-1.2.7-1.8-4.3z,Elsewhere,icons/Icon.jsx
+m8_8_3_5_12_7l3_2_3_5_4_3_2_4_1_3_5_1_1_8_6h4_7l,M8.8 3.5 12 7l3.2-3.5 4.3 2.4-1.3 5 1.1 8.6H4.7l1.1-8.6-1.3-5zM12 7v13.5,Elsewhere,icons/Icon.jsx
+m9_3_5h6l2_5_3_4_2_2_1_7_3_2_4_1_1_1_4_3_8_1h6_5,M9 3.5h6l2.5 3.4-2.2 1.7.3 2.4-1.1 1.4 3 8.1H6.5l3-8.1-1.1-1.4.3-2.4-2.2-1.7z,Elsewhere,icons/Icon.jsx
+m9_3_5h6l3_2_3_6_1_6_1_9_1_4_11_5h5_9l1_4_11_5_1,M9 3.5h6l3.2 3.6-1.6 1.9 1.4 11.5H5.9l1.4-11.5-1.6-1.9zM12 4.2v16.3M9 3.5l3 2.6 3-2.6,Elsewhere,icons/Icon.jsx
+m9_5_5l7_7_7_7,M9.5 5l7 7-7 7,Elsewhere,icons/Icon.jsx
+match_my_phone,Match my phone,Elsewhere,theme/theme.js
+official_language_consumer_terms_must_be_availab,"Official language. Consumer terms must be available in Arabic, and ",Elsewhere,i18n/languages.js
+peach_and_cream_whatever_your_phone_is_doing,"Peach and cream, whatever your phone is doing.",Elsewhere,theme/theme.js
+right_to_left_like_arabic_layout_work_is_shared_,"Right-to-left, like Arabic. Layout work is shared with Arabic.",Elsewhere,i18n/languages.js
+rtl_languages_need_the_layout_mirrored_not_just_,"RTL languages need the layout mirrored, not just the strings swapped. ",Elsewhere,i18n/languages.js
+significant_resident_and_visitor_population_and_,"Significant resident and visitor population, and a strong luxury ",Elsewhere,i18n/languages.js
+the_keralite_community_in_the_uae_is_large_and_l,The Keralite community in the UAE is large and long-established — ,Elsewhere,i18n/languages.js
+the_rest_including_the_terms_is_being_translated,"The rest, including the terms, is being translated by a person ",Elsewhere,i18n/languages.js
+the_working_language_of_business_and_most_of_the,The working language of business and most of the app today.,Elsewhere,i18n/languages.js
+timeouterror,TimeoutError,Elsewhere,ux/timeout.js
+warm_near_black_easier_at_night_and_on_oled_scre,Warm near-black. Easier at night and on OLED screens.,Elsewhere,theme/theme.js
+a_business_seller_owes_you_statutory_returns_and,A business seller owes you statutory returns and warranties. Someone ,Rules and legal wording,compliance/agreements.js
+a_licensed_payment_processor,A licensed payment processor,Rules and legal wording,compliance/sellerRules.js
+a_photo_of_the_serial_card_or_receipt_does_this_,"A photo of the serial, card or receipt does this better than the words do.",Rules and legal wording,compliance/listingRules.js
+a_promoted_listing_carries_a_visible_promoted_la,"A promoted listing carries a visible 'Promoted' label — always, not on hover",Rules and legal wording,compliance/sellerRules.js
+a_report_is_a_row_it_lands_in_a_queue_a_moderato,"A report is a row. It lands in a queue a moderator opens, and the ",Rules and legal wording,compliance/claims.js
+a_reported_conversation,A reported conversation,Rules and legal wording,compliance/moderation.js
+a_security_definer_function_reads_every_table_th,A SECURITY DEFINER function reads every table that carries her id and ,Rules and legal wording,compliance/claims.js
+a_seller_can_contest_a_strike_contested_strikes_,A seller can contest a strike. Contested strikes don't count until decided ,Rules and legal wording,compliance/listingRules.js
+act_on_a_valid_takedown_notice_fast_and_log_when,"Act on a valid takedown notice fast, and log when you did",Rules and legal wording,compliance/intermediary.js
+add_authentication_or_a_receipt_or_check_the_pri,"Add authentication or a receipt, or check the price is right.",Rules and legal wording,compliance/listingRules.js
+add_your_year_of_birth,Add your year of birth,Rules and legal wording,compliance/ComplianceProvider.jsx
+adyen_for_platforms,Adyen for Platforms,Rules and legal wording,compliance/sellerRules.js
+alcohol_tobacco_or_vape,"Alcohol, tobacco or vape",Rules and legal wording,compliance/listingRules.js
+an_offer_expires_if_it_isn_t_answered,An offer expires if it isn't answered.,Rules and legal wording,compliance/claims.js
+appear_as_a_business_seller,Appear as a business seller,Rules and legal wording,compliance/sellerRules.js
+arabic_and_english_for_both_since_consumer_terms,"Arabic and English for both, since consumer terms need Arabic",Rules and legal wording,compliance/markets.js
+arabic_first_interface_not_arabic_as_secondary,"Arabic-first interface, not Arabic-as-secondary",Rules and legal wording,compliance/markets.js
+bank_account_or_payout_details_in_the_seller_s_o,Bank account or payout details in the seller's own name,Rules and legal wording,compliance/sellerRules.js
+before_you_start,Before you start,Rules and legal wording,compliance/ComplianceProvider.jsx
+being_read,Being read,Rules and legal wording,compliance/moderation.js
+being_the_intermediary_does_not_exempt_the_platf,Being the intermediary does not exempt the platform from tax. In several ,Rules and legal wording,compliance/sellerRules.js
+beneficial_owner_details,Beneficial owner details,Rules and legal wording,compliance/sellerRules.js
+block_a_seller_and_you_stop_seeing_her_everywher,"Block a seller and you stop seeing her, everywhere in the app.",Rules and legal wording,compliance/claims.js
+breaking_the_selling_rules_can_get_a_listing_rem,Breaking the selling rules can get a listing removed or a shop closed.,Rules and legal wording,compliance/claims.js
+bring_lili_in,Bring lili in,Rules and legal wording,compliance/sellerRules.js
+business_seller,Business seller,Rules and legal wording,compliance/intermediary.js compliance/sellerRules.js
+business_sellers_evidence_their_own_trade_or_e_t,Business sellers evidence their own trade or e-trader licence at onboarding,Rules and legal wording,compliance/markets.js
+buyer_pays_the_processor_not_lili,"Buyer pays the processor, not lili",Rules and legal wording,compliance/sellerRules.js
+casual_seller,Casual seller,Rules and legal wording,compliance/sellerRules.js
+chanel_herm_s_rolex_cartier_van_cleef_and_simila,"Chanel, Hermès, Rolex, Cartier, Van Cleef and similar are screened ",Rules and legal wording,compliance/agreements.js
+checkout_com,Checkout.com,Rules and legal wording,compliance/sellerRules.js
+cites_for_exotic_materials_launch_domestic_open_,CITES for exotic materials. Launch domestic; open corridors deliberately.,Rules and legal wording,compliance/sellerRules.js
+close_the_shop_hold_payouts,"Close the shop, hold payouts",Rules and legal wording,compliance/moderation.js
+confirm_locally,Confirm locally,Rules and legal wording,compliance/sellerRules.js
+consumer_law_applies_in_full_returns_warranties_,"Consumer law applies in full: returns, warranties, and a trading ",Rules and legal wording,compliance/intermediary.js
+consumer_rights_act_2015_online_safety_act,Consumer Rights Act 2015 + Online Safety Act,Rules and legal wording,compliance/markets.js
+counterfeit_takedown_route_with_a_named_responsi,Counterfeit takedown route with a named responsible person and a response clock,Rules and legal wording,compliance/markets.js
+counts_and_derived_columns_are_owned_by_the_serv,Counts and derived columns are owned by the server through column-level ,Rules and legal wording,compliance/claims.js
+creator_licence_checked_before_payment,Creator licence checked before payment,Rules and legal wording,compliance/sellerRules.js
+criteria_and_kinds_of_place_never_a_named_addres,"Criteria and kinds of place, never a named address and never an ",Rules and legal wording,compliance/claims.js
+cross_border_resale_drags_in_customs_duty_prohib,"Cross-border resale drags in customs, duty, prohibited-import lists and ",Rules and legal wording,compliance/sellerRules.js
+dac7_reporting_of_seller_identity_and_earnings_a,"DAC7 reporting of seller identity and earnings, annually",Rules and legal wording,compliance/markets.js
+decisions_must_be_immutable_once_written_correct,Decisions must be immutable once written. Correct by adding a new record.,Rules and legal wording,compliance/moderation.js
+declared_as_a_business_or_crosses_the_trader_rev,"Declared as a business, or crosses the trader review threshold",Rules and legal wording,compliance/sellerRules.js
+deemed_supplier_vat_assessed_the_platform_can_ow,Deemed-supplier VAT assessed — the platform can owe tax on others' sales,Rules and legal wording,compliance/markets.js
+describes_itself_relative_to_a_brand_rather_than,Describes itself relative to a brand rather than as one,Rules and legal wording,compliance/listingRules.js
+describes_the_item_as_a_copy_of_a_brand,Describes the item as a copy of a brand,Rules and legal wording,compliance/listingRules.js
+digital_services_act_omnibus_directive,Digital Services Act + Omnibus Directive,Rules and legal wording,compliance/markets.js
+distinguish_consumer_sellers_from_traders_in_the,Distinguish consumer sellers from traders in the listing flow,Rules and legal wording,compliance/markets.js
+don_t_edit_a_seller_s_listing_content_beyond_rem,Don't edit a seller's listing content beyond removing it,Rules and legal wording,compliance/intermediary.js
+don_t_set_or_cap_the_sale_price,Don't set or cap the sale price,Rules and legal wording,compliance/intermediary.js
+don_t_take_possession_of_stock_or_fulfil_the_ord,Don't take possession of stock or fulfil the order,Rules and legal wording,compliance/intermediary.js
+dsa_notice_and_action_with_statements_of_reasons,DSA notice-and-action with statements of reasons and an appeal route,Rules and legal wording,compliance/markets.js
+dubai_department_of_economy_tourism_consumer_pro,Dubai Department of Economy & Tourism — Consumer Protection,Rules and legal wording,compliance/markets.js
+electronic_marketplace_intermediary_services_not,Electronic marketplace / intermediary services — NOT retail trading. ,Rules and legal wording,compliance/markets.js
+enter_the_code_from_your_invitation,Enter the code from your invitation.,Rules and legal wording,compliance/ComplianceProvider.jsx
+erasure_covers_every_table_not_one_of_them_and_t,"Erasure covers every table, not one of them, and the receipt names the ",Rules and legal wording,compliance/claims.js
+escrow_is_the_design_not_the_present_tense,"Escrow is the design, not the present tense.",Rules and legal wording,compliance/claims.js
+european_union,European Union,Rules and legal wording,compliance/markets.js
+every_event_passes_a_consent_gate_before_it_is_q,"Every event passes a consent gate before it is queued, and a search ",Rules and legal wording,compliance/claims.js
+every_screen_that_mentions_payment_reads_how_mon,"Every screen that mentions payment reads HOW_MONEY_WORKS, which is one ",Rules and legal wording,compliance/claims.js
+everything_here_belongs_to_the_person_selling_it,Everything here belongs to the person selling it. She sets the price ,Rules and legal wording,compliance/agreements.js
+everything_i_list_is_genuine,Everything I list is genuine,Rules and legal wording,compliance/agreements.js
+expiry_is_a_database_column_and_a_pg_cron_job_th,Expiry is a database column and a pg_cron job that sweeps hourly. It ,Rules and legal wording,compliance/claims.js
+federal_decree_law_no_14_of_2023_trade_by_modern,Federal Decree-Law No. 14 of 2023 (trade by modern technological means),Rules and legal wording,compliance/markets.js
+federal_decree_law_no_36_of_2021_trademarks,Federal Decree-Law No. 36 of 2021 (Trademarks),Rules and legal wording,compliance/markets.js
+first_payout_or_aed_10_000_in_sales,"First payout, or AED 10,000 in sales",Rules and legal wording,compliance/sellerRules.js
+found_on_seven_surfaces_across_three_releases_th,Found on seven surfaces across three releases. There is no processor.,Rules and legal wording,compliance/claims.js
+gdpr_lawful_basis_register_dpo_assessment_eu_rep,"GDPR lawful-basis register, DPO assessment, EU representative",Rules and legal wording,compliance/markets.js
+generated_on_device_once_accounts_exist_the_serv,"Generated on-device. Once accounts exist, the server holds the ",Rules and legal wording,compliance/audit.js
+get_moderation_cases,GET  /moderation/cases,Rules and legal wording,compliance/moderation.js
+get_sellers_shopid_standing,GET  /sellers/:shopId/standing,Rules and legal wording,compliance/moderation.js
+government_id_emirates_id_or_passport,Government ID (Emirates ID or passport),Rules and legal wording,compliance/sellerRules.js
+grants_so_a_client_writing_to_them_is_refused_ra,"GRANTs, so a client writing to them is REFUSED rather than silently ",Rules and legal wording,compliance/claims.js
+help_us_fix_what_s_broken,Help us fix what's broken,Rules and legal wording,compliance/ComplianceProvider.jsx compliance/LegalCenter.jsx
+high_value_pieces_get_a_closer_look,High-value pieces get a closer look,Rules and legal wording,compliance/agreements.js
+hmrc_digital_platform_reporting,HMRC digital platform reporting,Rules and legal wording,compliance/markets.js
+hmrc_digital_platform_reporting_on_seller_earnin,"HMRC digital platform reporting on seller earnings, annually",Rules and legal wording,compliance/markets.js
+how_lili_is_licensed_and_regulated,How lili is licensed and regulated,Rules and legal wording,compliance/agreements.js
+i_am_the_seller_lili_is_not,I am the seller — lili is not,Rules and legal wording,compliance/agreements.js
+i_know_what_can_t_be_sold_here,I know what can't be sold here,Rules and legal wording,compliance/agreements.js
+i_ll_verify_who_i_am_before_i_get_paid,I'll verify who I am before I get paid,Rules and legal wording,compliance/agreements.js
+ico_registration,ICO registration,Rules and legal wording,compliance/markets.js
+identity_verified,Identity verified,Rules and legal wording,compliance/sellerRules.js
+if_i_start_selling_at_volume_i_ll_register_as_a_,If I start selling at volume I'll register as a business.,Rules and legal wording,compliance/agreements.js
+if_i_m_trading_as_a_business_i_hold_my_own_licen,If I'm trading as a business I hold my own licence and account for my ,Rules and legal wording,compliance/agreements.js
+if_it_is_the_real_brand_name_it_plainly_if_it_is,"If it is the real brand, name it plainly. If it isn't, list it under its own label.",Rules and legal wording,compliance/listingRules.js
+if_the_piece_has_wear_the_photos_don_t_show_say_,"If the piece has wear the photos don't show, say so — that explains the price.",Rules and legal wording,compliance/listingRules.js
+if_you_re_trading_switch_the_shop_to_a_business_,"If you're trading, switch the shop to a business seller — the buyer's rights depend on it.",Rules and legal wording,compliance/listingRules.js
+in_country_data_storage_or_an_sdaia_approved_tra,In-country data storage or an SDAIA-approved transfer basis,Rules and legal wording,compliance/markets.js
+independent_authentication_is_not_offered_yet_un,"Independent authentication is not offered yet — until it is, I'll show ",Rules and legal wording,compliance/agreements.js
+inform_act_verification_for_high_volume_third_pa,INFORM Act verification for high-volume third-party sellers,Rules and legal wording,compliance/markets.js
+inform_consumers_act,INFORM Consumers Act,Rules and legal wording,compliance/markets.js
+insists_on_authenticity_in_the_wording_rather_th,Insists on authenticity in the wording rather than showing it,Rules and legal wording,compliance/listingRules.js
+keep_the_app_working,Keep the app working,Rules and legal wording,compliance/ComplianceProvider.jsx
+list_items,List items,Rules and legal wording,compliance/sellerRules.js
+listing_a_fake_is_grounds_for_removing_my_shop_a,"Listing a fake is grounds for removing my shop, and in this market it ",Rules and legal wording,compliance/agreements.js
+listing_anything_at_all,Listing anything at all,Rules and legal wording,compliance/sellerRules.js
+listing_needs_a_verified_phone_number_before_the,Listing needs a verified phone number. Before the first payout I'll ,Rules and legal wording,compliance/agreements.js
+listing_photos_must_not_contain_nudity_or_sexual,Listing photos must not contain nudity or sexually suggestive posing. ,Rules and legal wording,compliance/markets.js
+listing_removed_seller_told_why,"Listing removed, seller told why",Rules and legal wording,compliance/listingRules.js
+listing_removed_selling_paused_7_days,"Listing removed, selling paused 7 days",Rules and legal wording,compliance/listingRules.js
+local_consumer_protection_authority,Local consumer protection authority,Rules and legal wording,compliance/sellerRules.js
+marketplace_facilitator_registration_the_platfor,Marketplace facilitator registration — the platform collects and remits ,Rules and legal wording,compliance/markets.js
+maroof_registration_for_the_platform,Maroof registration for the platform,Rules and legal wording,compliance/markets.js
+meet_somewhere_public_and_busy_these_are_the_qua,Meet somewhere public and busy. These are the qualities to look for.,Rules and legal wording,compliance/claims.js
+message_sellers,Message sellers,Rules and legal wording,compliance/sellerRules.js
+modelled_shots_should_be_modest_flat_lay_is_alwa,Modelled shots should be modest. Flat-lay is always safe.,Rules and legal wording,compliance/markets.js
+moderator_identity_must_come_from_an_authenticat,"Moderator identity must come from an authenticated session, not a parameter.",Rules and legal wording,compliance/moderation.js
+most_of_it_is_a_misunderstanding_about_condition,Most of it is a misunderstanding about condition or delivery.,Rules and legal wording,compliance/sellerRules.js
+my_own_licence_and_tax_are_mine_to_handle,My own licence and tax are mine to handle,Rules and legal wording,compliance/agreements.js
+my_photos_and_descriptions_are_honest,My photos and descriptions are honest,Rules and legal wording,compliance/agreements.js
+name_on_the_payout_account_must_match_the_id_pay,Name on the payout account must match the ID. Paying a third party is ,Rules and legal wording,compliance/sellerRules.js
+name_the_seller_on_every_listing_at_checkout_and,"Name the seller on every listing, at checkout, and on the receipt",Rules and legal wording,compliance/intermediary.js
+network_international,Network International,Rules and legal wording,compliance/sellerRules.js
+never_let_a_seller_nominate_a_payout_account_in_,Never let a seller nominate a payout account in someone else's name,Rules and legal wording,compliance/sellerRules.js
+never_let_lili_branding_imply_lili_is_selling_th,Never let lili branding imply lili is selling the item,Rules and legal wording,compliance/intermediary.js
+never_net_a_refund_off_a_future_payout_refund_th,Never net a refund off a future payout — refund the original payment,Rules and legal wording,compliance/sellerRules.js
+never_present_a_paid_placement_as_an_editorial_p,Never present a paid placement as an editorial pick or a staff favourite,Rules and legal wording,compliance/sellerRules.js
+never_take_buyer_funds_into_a_lili_bank_account_,Never take buyer funds into a lili bank account and pay sellers from it,Rules and legal wording,compliance/sellerRules.js
+no_action_needed,No action needed,Rules and legal wording,compliance/moderation.js
+no_counterfeits_no_replicas_no_items_described_a,"No counterfeits, no replicas, no items described as another brand. ",Rules and legal wording,compliance/agreements.js
+no_general_cooling_off_period_condition_disputes,No general cooling-off period — condition disputes only,Rules and legal wording,compliance/sellerRules.js
+no_health_slimming_or_medical_claims_on_any_garm,"No health, slimming or medical claims on any garment",Rules and legal wording,compliance/sellerRules.js
+no_platform_reporting_obligation_identified,No platform reporting obligation identified,Rules and legal wording,compliance/sellerRules.js
+no_provenance_stated,No provenance stated,Rules and legal wording,compliance/listingRules.js
+no_weapons_alcohol_tobacco_or_vapes_medicines_or,"No weapons, alcohol, tobacco or vapes, medicines or supplements, used ",Rules and legal wording,compliance/agreements.js
+no_on_current_reading,"No, on current reading",Rules and legal wording,compliance/sellerRules.js
+nobody_you_pay_her_directly,Nobody — you pay her directly,Rules and legal wording,compliance/sellerRules.js
+not_open_here_yet,Not open here yet,Rules and legal wording,compliance/ComplianceProvider.jsx
+nothing_about_how_you_use_the_app_is_collected_u,Nothing about how you use the app is collected unless you agree to it.,Rules and legal wording,compliance/claims.js
+nothing_generates_a_tracking_number,Nothing generates a tracking number.,Rules and legal wording,compliance/claims.js
+notifications_to_reporter_and_seller_are_the_ser,"Notifications to reporter and seller are the server's job, not the client's.",Rules and legal wording,compliance/moderation.js
+off_unless_you_want_it_one_tap_to_stop_always,"Off unless you want it. One tap to stop, always.",Rules and legal wording,compliance/ComplianceProvider.jsx
+one_breach_removes_the_listing_two_pauses_my_sel,One breach removes the listing. Two pauses my selling for a week. ,Rules and legal wording,compliance/agreements.js
+one_list_on_the_compliance_context_read_by_every,"One list on the compliance context, read by every surface that renders ",Rules and legal wording,compliance/claims.js
+online_safety_act_duties_assessed_for_user_to_us,Online Safety Act duties assessed for user-to-user content,Rules and legal wording,compliance/markets.js
+overturned,Overturned,Rules and legal wording,compliance/moderation.js
+paid_creator_promotion_in_the_uae_requires_the_c,Paid creator promotion in the UAE requires the creator to hold a media ,Rules and legal wording,compliance/sellerRules.js
+payments_via_a_cbuae_licensed_processor_that_hol,"Payments via a CBUAE-licensed processor that holds the float, not lili",Rules and legal wording,compliance/markets.js
+pdpl_federal_decree_law_no_45_of_2021,PDPL — Federal Decree-Law No. 45 of 2021,Rules and legal wording,compliance/markets.js
+pdpl_records_of_processing_and_a_data_subject_re,PDPL records of processing and a data-subject-request channel,Rules and legal wording,compliance/markets.js
+photograph_whatever_you_do_have_card_receipt_dus,"Photograph whatever you do have — card, receipt, dust bag, serial. Any of it helps.",Rules and legal wording,compliance/listingRules.js
+photos_show_the_actual_item_any_damage_wear_repa,"Photos show the actual item. Any damage, wear, repair or alteration is ",Rules and legal wording,compliance/agreements.js
+platform_terms_lili_user_and_seller_terms_seller,Platform Terms (lili↔user) and Seller Terms (seller↔buyer) drafted separately,Rules and legal wording,compliance/markets.js
+platform_trade_licence_for_marketplace_intermedi,Platform trade licence for marketplace/intermediary activity — not retail,Rules and legal wording,compliance/markets.js
+post_moderation_cases,POST /moderation/cases,Rules and legal wording,compliance/moderation.js
+post_moderation_cases_id_appeal,POST /moderation/cases/:id/appeal,Rules and legal wording,compliance/moderation.js
+post_moderation_cases_id_appeal_resolve,POST /moderation/cases/:id/appeal/resolve,Rules and legal wording,compliance/moderation.js
+post_moderation_cases_id_claim,POST /moderation/cases/:id/claim,Rules and legal wording,compliance/moderation.js
+post_moderation_cases_id_decide,POST /moderation/cases/:id/decide,Rules and legal wording,compliance/moderation.js
+price_claims_must_be_true_at_the_moment_shown_in,"Price claims must be true at the moment shown, including 'was' prices",Rules and legal wording,compliance/sellerRules.js
+privacy_notice,Privacy Notice,Rules and legal wording,compliance/agreements.js
+private_and_business_sellers_owe_you_different_t,Private and business sellers owe you different things,Rules and legal wording,compliance/agreements.js
+private_seller,Private seller,Rules and legal wording,compliance/intermediary.js
+private_vs_business_seller_status_shown_on_every,Private-vs-business seller status shown on every listing,Rules and legal wording,compliance/markets.js
+processor_holds_until_delivery_is_confirmed_or_t,Processor holds until delivery is confirmed or the window closes,Rules and legal wording,compliance/sellerRules.js
+processor_pays_the_seller_and_pays_lili_its_comm,Processor pays the seller and pays lili its commission separately,Rules and legal wording,compliance/sellerRules.js
+protected_species_material_needs_cites_paperwork,Protected species material — needs CITES paperwork we can't verify,Rules and legal wording,compliance/listingRules.js
+publish_who_sells_who_ships_who_refunds_before_t,"Publish who sells, who ships, who refunds — before the buyer pays",Rules and legal wording,compliance/intermediary.js
+reads_as_bulk_trade_not_a_personal_wardrobe,"Reads as bulk trade, not a personal wardrobe",Rules and legal wording,compliance/listingRules.js
+reads_like_a_business_listing_but_the_shop_is_re,Reads like a business listing but the shop is registered as private.,Rules and legal wording,compliance/listingRules.js
+receive_offers,Receive offers,Rules and legal wording,compliance/sellerRules.js
+receive_payouts,Receive payouts,Rules and legal wording,compliance/sellerRules.js
+refund_partial_refund_return_or_the_sale_stands_,"Refund, partial refund, return, or the sale stands. Reasons given.",Rules and legal wording,compliance/sellerRules.js
+refunds_are_issued_by_the_processor_against_the_,Refunds are issued by the processor against the original payment,Rules and legal wording,compliance/sellerRules.js
+registered_business_address,Registered business address,Rules and legal wording,compliance/sellerRules.js
+regulated_medicine_or_supplement,Regulated medicine or supplement,Rules and legal wording,compliance/listingRules.js
+remove_and_pause_the_shop,Remove and pause the shop,Rules and legal wording,compliance/moderation.js
+remove_and_warn_the_seller,Remove and warn the seller,Rules and legal wording,compliance/moderation.js
+remove_the_listing,Remove the listing,Rules and legal wording,compliance/moderation.js
+repeat_breaches_close_my_shop,Repeat breaches close my shop,Rules and legal wording,compliance/agreements.js
+report_a_listing_or_a_seller_and_a_person_reads_,Report a listing or a seller and a person reads it.,Rules and legal wording,compliance/claims.js
+reversed_on_appeal,Reversed on appeal,Rules and legal wording,compliance/moderation.js
+risk_passes_to_the_buyer_on_delivery_not_on_disp,"Risk passes to the buyer on delivery, not on dispatch",Rules and legal wording,compliance/sellerRules.js
+route_funds_through_a_cbuae_licensed_processor_d,Route funds through a CBUAE-licensed processor. Do not hold buyer ,Rules and legal wording,compliance/markets.js
+run_promoted_listings,Run promoted listings,Rules and legal wording,compliance/sellerRules.js
+saudi_arabia,Saudi Arabia,Rules and legal wording,compliance/markets.js
+saudi_e_commerce_law_2019_implementing_regulatio,Saudi E-Commerce Law (2019) + implementing regulations,Rules and legal wording,compliance/markets.js
+save_items,Save items,Rules and legal wording,compliance/sellerRules.js
+selfie_match_against_the_id,Selfie match against the ID,Rules and legal wording,compliance/sellerRules.js
+sell_above_the_casual_cap,Sell above the casual cap,Rules and legal wording,compliance/sellerRules.js
+seller_agreement_making_the_seller_the_merchant_,Seller agreement making the seller the merchant of record,Rules and legal wording,compliance/markets.js
+seller_bank_and_contact_details_verified_and_dis,Seller bank and contact details verified and disclosed under the INFORM Act,Rules and legal wording,compliance/markets.js
+seller_dispatches_within_3_working_days_of_the_s,Seller dispatches within 3 working days of the sale,Rules and legal wording,compliance/sellerRules.js
+selling_as_a_business,Selling as a business,Rules and legal wording,compliance/intermediary.js
+selling_as_a_business_switch_the_shop_to_a_busin,Selling as a business? Switch the shop to a business seller — the buyer's rights depend on it.,Rules and legal wording,compliance/listingRules.js
+selling_from_my_own_wardrobe,Selling from my own wardrobe,Rules and legal wording,compliance/intermediary.js
+shipping_live_is_false_no_carrier_account_no_lab,"SHIPPING.live is false: no carrier account, no label, no tracking ",Rules and legal wording,compliance/claims.js
+shop_closed_payouts_held_pending_review,"Shop closed, payouts held pending review",Rules and legal wording,compliance/listingRules.js
+show_me_things_i_d_actually_love,Show me things I'd actually love,Rules and legal wording,compliance/ComplianceProvider.jsx
+some_listings_are_held_for_review_before_they_ap,Some listings are held for review before they appear.,Rules and legal wording,compliance/claims.js
+state_patchwork_ccpa_cpra_vcdpa_and_others,"State patchwork — CCPA/CPRA, VCDPA, and others",Rules and legal wording,compliance/markets.js
+state_by_state_privacy_do_not_sell_link_opt_out_,"State-by-state privacy: do-not-sell link, opt-out signals",Rules and legal wording,compliance/markets.js
+stated_on_the_same_object_as_the_sentence_above_,Stated on the same object as the sentence above. What lili can do ,Rules and legal wording,compliance/claims.js
+statutory_returns_and_warranties_generally_do_no,Statutory returns and warranties generally do not apply to a private ,Rules and legal wording,compliance/intermediary.js
+staying_signed_in_your_saved_pieces_your_cart_wi,"Staying signed in, your saved pieces, your cart. Without these there's no app.",Rules and legal wording,compliance/ComplianceProvider.jsx
+stripe_connect,Stripe Connect,Rules and legal wording,compliance/sellerRules.js
+talk_to_the_seller,Talk to the seller,Rules and legal wording,compliance/sellerRules.js
+talk_to_the_seller_first_then_bring_us_in_we_rea,"Talk to the seller first, then bring us in — we read the listing, the ",Rules and legal wording,compliance/agreements.js
+tell_me_about_new_drops,Tell me about new drops,Rules and legal wording,compliance/ComplianceProvider.jsx
+that_code_has_already_been_used_if_that_wasn_t_y,"That code has already been used. If that wasn't you, tell us and we'll issue another.",Rules and legal wording,compliance/ComplianceProvider.jsx
+the_actions_exist_a_moderator_can_take_them_and_,"The actions exist, a moderator can take them, and each writes an ",Rules and legal wording,compliance/claims.js
+the_activity_on_the_licence_should_describe_oper,"The activity on the licence should describe operating a platform, ",Rules and legal wording,compliance/markets.js
+the_cart_said_this_while_writing_nothing_and_tel,The cart said this while writing nothing and telling nobody.,Rules and legal wording,compliance/claims.js
+the_payment_stays_with_the_processor_until_deliv,"The payment stays with the processor until delivery or 14 days, whichever first",Rules and legal wording,compliance/sellerRules.js
+the_price_you_see_is_the_price_she_set,The price you see is the price she set.,Rules and legal wording,compliance/claims.js
+the_processor_holds_the_payment_while_a_dispute_,The processor holds the payment while a dispute is open,Rules and legal wording,compliance/sellerRules.js
+the_rate_is_defined_and_the_payout_arithmetic_is,"The rate is defined and the payout arithmetic is tested, but nothing ",Rules and legal wording,compliance/claims.js
+the_rules_for_using_lili_itself_your_account_how,"The rules for using lili itself — your account, how you behave here, ",Rules and legal wording,compliance/agreements.js
+the_sale_is_between_me_and_the_buyer_i_own_the_i,"The sale is between me and the buyer. I own the item, I set the price, ",Rules and legal wording,compliance/agreements.js
+the_seller_is_told_which_rule_in_words_at_the_mo,"The seller is told which rule, in words, at the moment it happens.",Rules and legal wording,compliance/claims.js
+the_seller_ships_lili_supplies_the_label_the_tra,"The seller ships. lili supplies the label, the tracking and the clock.",Rules and legal wording,compliance/sellerRules.js
+the_server_timestamp_is_authoritative_never_trus,The server timestamp is authoritative — never trust the device clock for SLA.,Rules and legal wording,compliance/moderation.js
+there_is_no_authenticator_screening_for_counterf,There is no authenticator. Screening for counterfeit signals is not authentication.,Rules and legal wording,compliance/claims.js
+there_is_no_processor_no_account_and_no_code_pat,"There is no processor, no account and no code path that moves money. ",Rules and legal wording,compliance/claims.js
+there_is_no_returns_window_and_nothing_to_enforc,There is no returns window and nothing to enforce one with.,Rules and legal wording,compliance/claims.js
+there_is_no_shipping_integration_no_label_and_no,"There is no shipping integration, no label and no carrier.",Rules and legal wording,compliance/claims.js
+there_is_no_shipping_yet_you_arrange_to_meet_her,"There is no shipping yet. You arrange to meet her somewhere public and busy, and the piece changes hands there.",Rules and legal wording,compliance/sellerRules.js
+there_is_no_shipping_you_arrange_to_meet_and_the,"There is no shipping. You arrange to meet, and the piece changes hands there.",Rules and legal wording,compliance/claims.js
+this_is_the_tier_that_carries_consumer_law_dutie,This is the tier that carries consumer-law duties. The buyer gets returns ,Rules and legal wording,compliance/sellerRules.js
+three_closes_the_shop_and_holds_payouts_pending_,Three closes the shop and holds payouts pending review. I can contest ,Rules and legal wording,compliance/agreements.js
+tick_both_to_continue,Tick both to continue,Rules and legal wording,compliance/ComplianceProvider.jsx
+tracking_is_mandatory_an_untracked_parcel_is_an_,Tracking is mandatory — an untracked parcel is an undefendable dispute,Rules and legal wording,compliance/sellerRules.js
+trade_at_volume,Trade at volume,Rules and legal wording,compliance/sellerRules.js
+trade_licence_or_e_trader_licence_for_the_market,Trade licence or e-trader licence for the market,Rules and legal wording,compliance/sellerRules.js
+trader_identity_collection_and_verification_dsa_,Trader identity collection and verification (DSA Art. 30),Rules and legal wording,compliance/markets.js
+uk_gdpr_data_protection_act_2018,UK GDPR + Data Protection Act 2018,Rules and legal wording,compliance/markets.js
+under_appeal,Under appeal,Rules and legal wording,compliance/moderation.js
+united_arab_emirates,United Arab Emirates,Rules and legal wording,compliance/markets.js
+united_kingdom,United Kingdom,Rules and legal wording,compliance/markets.js
+united_states,United States,Rules and legal wording,compliance/markets.js
+unsettled_agent_vs_principal_turns_on_the_seller,Unsettled — agent vs principal turns on the seller agreement wording. Get this in writing.,Rules and legal wording,compliance/sellerRules.js
+used_intimate_apparel,Used intimate apparel,Rules and legal wording,compliance/listingRules.js
+uses_what_you_save_and_search_so_your_feed_looks,Uses what you save and search so your feed looks like your taste.,Rules and legal wording,compliance/ComplianceProvider.jsx
+using_lili_s_process_does_not_remove_the_buyer_s,Using lili's process does not remove the buyer's right to go to ,Rules and legal wording,compliance/sellerRules.js
+vat_on_the_commission_at_minimum_deemed_supplier,VAT on the COMMISSION at minimum; deemed-supplier question settled in writing,Rules and legal wording,compliance/markets.js
+vat_registration_number_where_the_seller_is_regi,"VAT registration number, where the seller is registered",Rules and legal wording,compliance/sellerRules.js
+verified_email,Verified email,Rules and legal wording,compliance/sellerRules.js
+verified_mobile_number,Verified mobile number,Rules and legal wording,compliance/sellerRules.js
+verified_no_such_programme_exists_in_dubai,Verified: no such programme exists in Dubai.,Rules and legal wording,compliance/claims.js
+we_closed_the_seller_s_shop,We closed the seller's shop.,Rules and legal wording,compliance/moderation.js
+we_couldn_t_reach_lili_just_now_try_again_when_y,We couldn't reach lili just now. Try again when you have signal.,Rules and legal wording,compliance/ComplianceProvider.jsx
+we_don_t_recognise_that_code_check_it_against_th_2,We don't recognise that code. Check it against the message we sent you.,Rules and legal wording,compliance/ComplianceProvider.jsx
+we_list_introduce_and_enforce_the_rules_we_never,"We list, introduce, and enforce the rules. We never hold your money and never own the item.",Rules and legal wording,compliance/sellerRules.js
+we_list_introduce_and_enforce_the_rules_your_mon,"We list, introduce, and enforce the rules. Your money never passes through lili, and we never own the item.",Rules and legal wording,compliance/sellerRules.js
+we_looked_at_this_and_it_doesn_t_break_our_rules,We looked at this and it doesn't break our rules. Here's why.,Rules and legal wording,compliance/moderation.js
+we_need_to_know_who_you_are_before_a_code_can_be,We need to know who you are before a code can be attached to you.,Rules and legal wording,compliance/ComplianceProvider.jsx
+we_read_the_listing_the_messages_and_the_trackin,"We read the listing, the messages and the tracking, and decide.",Rules and legal wording,compliance/sellerRules.js
+we_removed_the_listing_and_paused_the_seller,We removed the listing and paused the seller.,Rules and legal wording,compliance/moderation.js
+we_removed_the_listing_and_warned_the_seller,We removed the listing and warned the seller.,Rules and legal wording,compliance/moderation.js
+we_removed_the_listing_thank_you_for_flagging_it,We removed the listing. Thank you for flagging it.,Rules and legal wording,compliance/moderation.js
+what_we_hold_about_you_why_how_long_and_how_to_g,"What we hold about you, why, how long, and how to get it back or have ",Rules and legal wording,compliance/agreements.js
+which_screens_get_used_and_where_the_app_falls_o,Which screens get used and where the app falls over. We're not building a profile of you.,Rules and legal wording,compliance/ComplianceProvider.jsx
+written_disclosure_in_the_post,Written disclosure in the post,Rules and legal wording,compliance/sellerRules.js
+written_position_on_vat_agent_vs_principal_confi,"Written position on VAT agent vs principal, confirmed by a UAE tax adviser",Rules and legal wording,compliance/markets.js
+yes_the_platform_is_liable_for_vat_on_the_seller,Yes — the platform is liable for VAT on the seller's sale in defined cases,Rules and legal wording,compliance/sellerRules.js
+you_can_delete_your_account_and_it_is_actually_d,"You can delete your account, and it is actually deleted.",Rules and legal wording,compliance/claims.js
+you_can_get_a_copy_of_everything_lili_holds_abou,You can get a copy of everything lili holds about you.,Rules and legal wording,compliance/claims.js
+you_pay_the_processor_it_releases_the_money_to_h,You pay the processor. It releases the money to her once the piece reaches you.,Rules and legal wording,compliance/sellerRules.js
+you_re_already_on_the_list_go_ahead,You're already on the list — go ahead.,Rules and legal wording,compliance/ComplianceProvider.jsx
+you_re_in_welcome,You're in. Welcome.,Rules and legal wording,compliance/ComplianceProvider.jsx
+your_data_your_call,"Your data, your call",Rules and legal wording,compliance/ComplianceProvider.jsx
+your_listing_was_removed_and_selling_is_paused_w,Your listing was removed and selling is paused while we review your shop.,Rules and legal wording,compliance/moderation.js
+your_listing_was_removed_and_this_counts_as_a_st,Your listing was removed and this counts as a strike on your shop.,Rules and legal wording,compliance/moderation.js
+your_listing_was_removed_because_it_broke_a_mark,Your listing was removed because it broke a marketplace rule.,Rules and legal wording,compliance/moderation.js
+your_shop_is_closed_and_payouts_are_held_pending,Your shop is closed and payouts are held pending review.,Rules and legal wording,compliance/moderation.js
+your_year_of_birth,Your year of birth,Rules and legal wording,compliance/ComplianceProvider.jsx
+open_the_attached_conversation,Open the attached conversation,Internal — moderator screens,compliance/ModerationQueue.jsx
+seller_s_grounds_for_appeal,Seller's grounds for appeal,Internal — moderator screens,compliance/ModerationQueue.jsx
+she_did_not_attach_the_conversation_decide_on_wh,"She did not attach the conversation. Decide on what she wrote, or ask her.",Internal — moderator screens,compliance/ModerationQueue.jsx
+the_person_reported,The person reported,Internal — moderator screens,compliance/ModerationQueue.jsx
+the_person_who_reported,The person who reported,Internal — moderator screens,compliance/ModerationQueue.jsx
+why_one_or_two_sentences,Why — one or two sentences,Internal — moderator screens,compliance/ModerationQueue.jsx

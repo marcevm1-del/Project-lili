@@ -1,0 +1,240 @@
+@import "./theme/palette.css";
+
+/* ── global reset + native-app feel ─────────────────────────────────────── */
+*, *::before, *::after { box-sizing: border-box; }
+
+html, body, #root {
+  margin: 0;
+  padding: 0;
+  height: 100%;
+  background: var(--c-bg);
+}
+
+body {
+  /* stop the rubber-band / white-flash overscroll that gives away a WebView */
+  overscroll-behavior-y: none;
+  -webkit-overflow-scrolling: touch;
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+}
+
+/* no blue tap flash, no accidental text selection — except in real inputs */
+* {
+  -webkit-tap-highlight-color: transparent;
+  -webkit-touch-callout: none;
+  -webkit-user-select: none;
+  user-select: none;
+}
+input, textarea, select, [contenteditable="true"] {
+  -webkit-user-select: text;
+  user-select: text;
+}
+
+/* iOS/Android zoom-on-focus happens below 16px — keep form text at 16 */
+input, textarea, select { font-size: 16px; font-family: inherit; }
+
+/* A <button> with no font-size of its own inherits nothing — it takes the
+   browser's default, which in Chrome is 13.333px. `npm run uxlaws` measures
+   the rendered page and found that size on the tab bar, the category chips and
+   every other button whose label sits in a child span: a size no part of this
+   design system had chosen, arriving by default.
+   Invisible in practice, because those child spans set their own size. It
+   matters because the moment somebody puts text directly in a button it lands
+   at a size that is in no scale, and because a system with an unowned value in
+   it is a system nobody can reason about. 14 is the app's base UI size. */
+button { font-family: inherit; font-size: 14px; }
+
+/* A bare <p> carries the browser's own `margin: 1em 0`, which at 13px is 13px
+   of vertical space nobody in this project chose — and it was the last thing
+   `npm run uxlaws` found off the spacing rhythm, on the splash and the style
+   picker. Spacing is authored here, not inherited: every paragraph that wants
+   a gap sets one. */
+p { margin: 0; }
+
+/* slim scrollbars for the horizontal strips */
+::-webkit-scrollbar { width: 0; height: 0; }
+
+
+/* ── touch targets ────────────────────────────────────────────────────────
+   Measured in a real browser, many controls render below the 44px minimum:
+   filter chips 26px tall, icon buttons 26×29, back arrows 20×23. Growing them
+   visually would wreck a deliberately delicate layout.
+
+   So each button gets an invisible hit area centred on it. VERTICAL only —
+   the first attempt expanded both axes and a 44px-wide pseudo-element on a
+   narrow button pushed the whole page sideways. Height costs nothing because
+   the page already scrolls that way; width does not.
+
+   Icon-only buttons, which are narrow in both directions, are sized directly
+   via .tap-target below. */
+button { position: relative; }
+
+button::after {
+  content: "";
+  position: absolute;
+  top: 50%;
+  left: 0;
+  transform: translateY(-50%);
+  width: 100%;
+  height: 100%;
+  min-height: 44px;
+}
+
+/* square hit area for icon-only controls */
+.tap-target { min-width: 44px; min-height: 44px; }
+
+/* For small round buttons whose visual size is deliberate (the save heart on a
+   tile is 30px by design). Expands the hit area in both directions without
+   touching the rendered circle. */
+.tap-round::after { min-width: 44px; width: 44px; left: 50%; transform: translate(-50%, -50%); }
+
+/* Inputs need real height, not a hit area — the caret has to land in the field. */
+input:not([type="radio"]):not([type="checkbox"]),
+select,
+textarea { min-height: 44px; }
+
+
+/* ── focus visibility ─────────────────────────────────────────────────────
+   Fourteen components set `outline: none` on their inputs to kill the browser's
+   default ring — a common instinct, and a WCAG 2.4.7 failure: a keyboard user
+   loses all sense of where they are.
+
+   :focus-visible restores it only for keyboard and switch users. A tap or
+   click does not trigger it, so the design is untouched for everyone using a
+   finger, and it is drawn in the brand's own terracotta rather than the
+   browser's blue. */
+:focus-visible {
+  outline: 2.5px solid var(--c-accent-btn, #9E6050) !important;
+  outline-offset: 2px !important;
+  border-radius: 4px;
+}
+
+/* Inputs sit inside padded containers, so an offset ring can look detached —
+   they get a filled ring instead. */
+input:focus-visible,
+textarea:focus-visible,
+select:focus-visible {
+  outline-offset: 0 !important;
+  box-shadow: 0 0 0 3px rgba(158, 96, 80, 0.28);   /* was color-mix(), Chrome 111+ */
+}
+
+/* Never remove the indicator without replacing it. */
+:focus:not(:focus-visible) { outline: none; }
+
+
+/* ── viewport height, with a fallback ─────────────────────────────────────
+   `dvh` is Chrome 108 (late 2022). On anything older the declaration is
+   dropped and the element collapses to zero height — a blank screen on a
+   phone whose WebView is two years behind.
+
+   `vh` first, `dvh` second: old engines keep the vh value, new ones override
+   it and get the correct behaviour when the browser chrome collapses. */
+.full-height {
+  min-height: 100vh;
+  min-height: 100dvh;
+}
+
+
+/* ── safe areas, with fallbacks ───────────────────────────────────────────
+   `env()` is Chrome 69. Older engines treat the whole calc() as invalid and
+   DROP the declaration — so padding disappears entirely and content jams
+   against the edge of the screen.
+
+   Plain value first, calc() second. Old engines keep the plain padding;
+   new ones override it and clear the notch and gesture bar properly. */
+.safe-shell {
+  padding: 34px 20px;
+  padding: calc(env(safe-area-inset-top) + 34px) 20px calc(env(safe-area-inset-bottom) + 34px);
+}
+.safe-top {
+  padding-top: 0;
+  padding-top: env(safe-area-inset-top);
+}
+.safe-bottom {
+  padding-bottom: 4px;
+  padding-bottom: calc(4px + env(safe-area-inset-bottom));
+}
+.safe-sheet {
+  padding: 22px 20px;
+  padding: 22px 20px calc(env(safe-area-inset-bottom) + 22px);
+}
+
+/* ── per-item loading ─────────────────────────────────────────────────────
+   A slow, low-contrast sweep in the brand's own sand tone. Fast bright pulses
+   read as "something is wrong"; this reads as "this is coming". Uses the
+   theme tokens, so it stays warm in dark mode instead of turning grey. */
+.lili-shimmer {
+  background: linear-gradient(
+    100deg,
+    var(--c-sand) 20%,
+    var(--c-cream) 42%,
+    var(--c-sand) 62%
+  );
+  background-size: 260% 100%;
+  animation: lili-sweep 1.6s ease-in-out infinite;
+}
+
+@keyframes lili-sweep {
+  0%   { background-position: 140% 0; }
+  100% { background-position: -40% 0; }
+}
+
+/* Anyone who has asked their device for less motion gets a still placeholder,
+   not a slower one. Motion sensitivity is not a preference for subtlety. */
+@media (prefers-reduced-motion: reduce) {
+  .lili-shimmer { animation: none; background: var(--c-sand); }
+}
+
+/* ── reserved space ───────────────────────────────────────────────────────
+   The media box must occupy its final size BEFORE anything loads, or the grid
+   reflows as each photo arrives and the piece someone is about to tap moves
+   out from under their thumb.
+
+   `aspect-ratio` is Chrome 88; below that the declaration is dropped and the
+   box collapses to nothing. The padding-top trick works everywhere, so it
+   goes first and aspect-ratio overrides it on engines that support it. */
+.lili-ratio-tile {
+  position: relative;
+  width: 100%;
+  overflow: hidden;
+  padding-top: 117.65%;          /* 1 / 0.85 — the tile's ratio */
+}
+/* Only the MEDIA layer fills the box. The first version of this styled every
+   direct child, which turned the little condition-badge wrapper into a
+   full-size invisible overlay painted on top of everything — it silently
+   swallowed clicks on the retry button underneath. Badges keep their own
+   corner positioning; only these three fill. */
+.lili-ratio-tile > img,
+.lili-ratio-tile > .lili-shimmer,
+.lili-ratio-tile > .lili-fill {
+  position: absolute;
+  top: 0; right: 0; bottom: 0; left: 0;
+  width: 100%;
+  height: 100%;
+}
+
+@supports (aspect-ratio: 1) {
+  .lili-ratio-tile { padding-top: 0; aspect-ratio: 0.85; }
+}
+
+/* Skeletons should feel identical at any column width — the grid decides how
+   many fit, the tile just fills what it is given. */
+.lili-grid-item { min-width: 0; }
+
+/* Two more fixed-ratio boxes, same trick and same reason as .lili-ratio-tile:
+   the item photograph on a detail screen, and the square photo slots in the
+   listing flow. They used inline `aspectRatio`, which is Chrome 88 — below
+   that the box has no height, and on the listing screen that means the "add a
+   photo" target disappears entirely on a phone that has never updated its
+   WebView. There is no way to write a fallback in an inline style, which is
+   the whole argument for these living in the stylesheet. */
+.lili-ratio-105 { width: 100%; padding-top: 95.24%; }   /* 1 / 1.05 */
+.lili-ratio-1   { width: 100%; padding-top: 100%; }
+.lili-ratio-105 > *, .lili-ratio-1 > * { position: absolute; top: 0; right: 0; bottom: 0; left: 0; }
+.lili-ratio-1 { position: relative; }
+
+@supports (aspect-ratio: 1) {
+  .lili-ratio-105 { padding-top: 0; aspect-ratio: 1.05; }
+  .lili-ratio-1   { padding-top: 0; aspect-ratio: 1; }
+  .lili-ratio-105 > *, .lili-ratio-1 > * { position: static; }
+}

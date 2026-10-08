@@ -1,0 +1,27 @@
+{
+  "appId": "com.loveitorleaveit.lili",
+  "appName": "love it or leave it",
+  "webDir": "dist",
+  "android": {
+    "allowMixedContent": false,
+    "backgroundColor": "#FDEBD8"
+  },
+  "plugins": {
+    "SplashScreen": {
+      "launchAutoHide": false,
+      "backgroundColor": "#FDEBD8",
+      "androidSplashResourceName": "splash",
+      "androidScaleType": "CENTER_CROP",
+      "showSpinner": false,
+      "iosSpinnerStyle": "small"
+    },
+    "Keyboard": {
+      "resize": "native"
+    }
+  },
+  "ios": {
+    "backgroundColor": "#FDEBD8",
+    "contentInset": "always",
+    "scrollEnabled": true
+  }
+}
