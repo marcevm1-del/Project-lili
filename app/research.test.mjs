@@ -654,6 +654,18 @@ section("30. Every control in the filter sheet does something");
 
 check("size filters, having been stored and read by nothing",
   matchesFilters(CAT[3], { size:"38" }) && !matchesFilters(CAT[1], { size:"38" }));
+{
+  const S = { size:"S", fit:"small", flaws:[] }, M = { size:"M", fit:"true", flaws:["pilling"] },
+        OS = { size:"OS" }, NONE = { size:"S" };
+  check("'My sizes' keeps her sizes and one-size pieces, and drops the rest",
+    matchesFilters(S, { sizes:["S","38"] }) && matchesFilters(OS, { sizes:["S"] }) && !matchesFilters(M, { sizes:["S"] }));
+  check("'My sizes' off filters nothing", matchesFilters(M, { sizes:[] }) && matchesFilters(M, EMPTY_FILTERS));
+  check("fit filters on how the seller said it runs",
+    matchesFilters(S, { fit:"small" }) && !matchesFilters(M, { fit:"small" }) && !matchesFilters(NONE, { fit:"small" }));
+  check("'no flaws' means the seller said none — not that she didn't answer",
+    matchesFilters(S, { noFlaws:true }) && !matchesFilters(M, { noFlaws:true }) && !matchesFilters(NONE, { noFlaws:true }));
+  check("the new filters count as active", activeCount({ ...EMPTY_FILTERS, sizes:["S"], fit:"true", noFlaws:true }) === 3);
+}
 check("colour is gone rather than left filtering a field nobody fills",
   !/local\.color/.test(market) && !("color" in EMPTY_FILTERS));
 check("the heavy passes are memoised, not redone on every keystroke",

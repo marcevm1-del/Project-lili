@@ -351,7 +351,7 @@ function Stars({rating,reviews,shop}) {
     <span style={{display:"inline-flex",alignItems:"center",gap:3}}>
       <span style={{color:C.terraTx,display:"inline-flex",gap:1}}>{[0,1,2,3,4].map(i=><Icon key={i} name="star" size={10} filled={i<Math.floor(rating)}/>)}</span>
       <span style={{fontSize:10,fontWeight:600,color:C.ink}}>{rating}</span>
-      {reviews && <span style={{fontSize:9,color:C.inkLt}}>({reviews})</span>}
+      {reviews && <span style={{fontSize:10,color:C.inkLt}}>({reviews})</span>}
     </span>
   );
 }
@@ -372,7 +372,7 @@ function Stars({rating,reviews,shop}) {
 // and the real count everywhere else — including zero, which is a fact.
 const earnedFollowers = (shop) => (!shop || shop.demo ? null : (shop.followers ?? 0));
 
-function Pill({text,bg=C.sand,color=C.inkLt,fs=9}) {
+function Pill({text,bg=C.sand,color=C.inkLt,fs=10}) {
   return <span style={{background:bg,color,fontSize:fs,fontWeight:500,padding:"2px 8px",borderRadius:20,whiteSpace:"nowrap"}}>{text}</span>;
 }
 
@@ -433,7 +433,7 @@ function TopBar({left,center,right,noBorder}) {
       boxSizing:"content-box"}} className="safe-top">
       <div style={{width:44,display:"flex",alignItems:"center"}}>{left}</div>
       <div style={{flex:1,display:"flex",justifyContent:"center",alignItems:"center"}}>{center}</div>
-      <div style={{width:44,display:"flex",alignItems:"center",justifyContent:"flex-end"}}>{right}</div>
+      <div style={{minWidth:44,display:"flex",alignItems:"center",justifyContent:"flex-end"}}>{right}</div>
     </div>
   );
 }
@@ -789,7 +789,7 @@ function Monogram({shop, size=44}) {
 }
 
 // ── bottom tab bar (Jacob's Law: match Instagram + Depop + Noon conventions) ──
-function TabBar({tab,setTab,savedCount,myShop,cartCount}) {
+function TabBar({tab,setTab,myShop}) {
   const tabs = [
     { key:"home",
       icon: <svg width="22" height="22" viewBox="0 0 24 24" fill={tab==="home"?C.terra:"none"} stroke={tab==="home"?C.terra:C.inkLt} strokeWidth="1.8"><path d="M3 9.5L12 3l9 6.5V20a1 1 0 01-1 1H5a1 1 0 01-1-1V9.5z"/><path d="M9 21V12h6v9"/></svg>,
@@ -798,9 +798,13 @@ function TabBar({tab,setTab,savedCount,myShop,cartCount}) {
       icon: <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke={tab==="search"?C.terra:C.inkLt} strokeWidth="1.8"><circle cx="11" cy="11" r="7"/><path d="M21 21l-4.35-4.35"/></svg>,
       label:"Search" },
     { key: myShop ? "myshop" : "sell", icon: null, label:"Sell", plus:true },
-    { key:"saved",
-      icon: <svg width="22" height="22" viewBox="0 0 24 24" fill={tab==="saved"?C.terra:"none"} stroke={tab==="saved"?C.terra:C.inkLt} strokeWidth="1.8"><path d="M20.84 4.61a5.5 5.5 0 00-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 00-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 000-7.78z"/></svg>,
-      label:`Saved`, badge: savedCount||null },
+    // The inbox, not Saved, earns the fourth tab. lili takes no payment, so a
+    // sale happens in a conversation: the message, the offer, the meet plan.
+    // Those sat two taps deep under Profile while a list of hearts had a tab.
+    // Saved is a heart in the Home header now, and a row in Profile.
+    { key:"messages",
+      icon: <Icon name="chat" size={22} stroke={1.8} filled={tab==="messages"} style={{color:tab==="messages"?C.terra:C.inkLt}}/>,
+      label:"Inbox" },
     { key:"profile",
       icon: <svg width="22" height="22" viewBox="0 0 24 24" fill={tab==="profile"?C.terra:"none"} stroke={tab==="profile"?C.terra:C.inkLt} strokeWidth="1.8"><path d="M20 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>,
       label:"Profile" },
@@ -823,9 +827,9 @@ function TabBar({tab,setTab,savedCount,myShop,cartCount}) {
               </div>
             : t.icon}
           {t.badge>0 && <div style={{position:"absolute",top:6,left:"50%",marginLeft:-20,
-            background:C.btn,color:C.onBtn,fontSize:9,fontWeight:700,
+            background:C.btn,color:C.onBtn,fontSize:10,fontWeight:700,
             borderRadius:10,padding:"1px 5px",minWidth:16,textAlign:"center",lineHeight:"14px"}}>{t.badge}</div>}
-          {!t.plus && <span style={{fontSize:9,fontWeight:tab===t.key?700:400,color:tab===t.key?C.terraTx:C.inkLt}}>{t.label}</span>}
+          {!t.plus && <span style={{fontSize:10,fontWeight:tab===t.key?700:400,color:tab===t.key?C.terraTx:C.inkLt}}>{t.label}</span>}
         </button>
       ))}
     </div>
@@ -1097,7 +1101,7 @@ function ItemTile({item,onSave,onClick,loading}) {
             disagreeing about what "new" means would be worse than either. */}
         {isNewArrival(item) && (
           <div style={{position:"absolute",top:8,left:8,
-            background:C.btn,color:C.onBtn,fontSize:9,fontWeight:700,
+            background:C.btn,color:C.onBtn,fontSize:10,fontWeight:700,
             padding:"2px 7px",borderRadius:10}}>{t("new")}</div>
         )}
       </div>
@@ -1291,7 +1295,7 @@ function ItemModal({item,shop,onSave,onClose,onOffer,setTab,onAddToCart,onReport
           <div style={{display:"flex",gap:7,marginBottom:14,flexWrap:"wrap"}}>
             {[["Brand",item.brand],["Condition",item.condition],["Size",item.size],["Era",item.era]].map(([l,v])=>(
               <div key={l} style={{background:C.sand,borderRadius:8,padding:"5px 10px"}}>
-                <div style={{fontSize:9,color:C.inkLt,fontWeight:700,letterSpacing:0.5}}>{l.toUpperCase()}</div>
+                <div style={{fontSize:10,color:C.inkLt,fontWeight:700,letterSpacing:0.5}}>{l.toUpperCase()}</div>
                 <div style={{fontSize:11,color:C.ink,fontWeight:600}}>{v}</div>
               </div>
             ))}
@@ -1383,7 +1387,7 @@ function ItemModal({item,shop,onSave,onClose,onOffer,setTab,onAddToCart,onReport
               className="tap-round" style={{flex:"0 0 48px",minHeight:48,borderRadius:24,
                 background:C.white,border:`1.5px solid ${C.terra}`,color:C.terraTx,cursor:"pointer",
                 display:"flex",alignItems:"center",justifyContent:"center"}}>
-              <Icon name="cart" size={22} stroke={1.6}/><span className="sr-only">{t("add_to_cart")}</span>
+              <Icon name="bag" size={22} stroke={1.6}/><span className="sr-only">{t("add_to_cart")}</span>
             </button>
             <button onClick={()=>onOffer(item)} style={{flex:1,background:C.white,color:C.terraTx,
               border:`1.5px solid ${C.terra}`,borderRadius:24,padding:"8px 0",
@@ -1789,6 +1793,23 @@ function FiltersPanel({filters,setFilters,onClose,items}) {
               </div>
             </div>
           )}
+          {/* Fit and flaws — what the listing form asks since v2.12. */}
+          <div>
+            <div style={{fontSize:11,fontWeight:700,color:C.inkLt,letterSpacing:0.8,textTransform:"uppercase",marginBottom:8}}>Fit</div>
+            <div style={{display:"flex",gap:8,flexWrap:"wrap"}}>
+              {FITS.map(([k,l])=>(
+                <button key={k} onClick={()=>setLocal({...local,fit:local.fit===k?"":k})} aria-pressed={local.fit===k} style={{
+                  background:local.fit===k?C.terra:C.white,color:local.fit===k?C.white:C.ink,
+                  border:`1px solid ${local.fit===k?C.terra:C.border}`,
+                  borderRadius:20,padding:"5px 12px",fontSize:12,cursor:"pointer"}}>{l}</button>
+              ))}
+            </div>
+            <label style={{display:"flex",alignItems:"center",gap:10,marginTop:12,fontSize:13,color:C.ink,cursor:"pointer"}}>
+              <input type="checkbox" checked={!!local.noFlaws} onChange={e=>setLocal({...local,noFlaws:e.target.checked})}
+                style={{width:20,height:20,minHeight:0,accentColor:"var(--c-accent-btn)"}}/>
+              Only pieces with no flaws noted
+            </label>
+          </div>
           {/* The Colour swatch row was removed here, not disabled — see the
               note in discovery/filters.js. It filtered on a field the sell flow
               never asks for, so on a real catalogue it returned nothing. */}
@@ -1823,7 +1844,9 @@ function TasteSheet({ taste, onSave, onClose }) {
   const trap = useFocusTrap(onClose);
   const OPTIONS = ["Luxury","Dresses","Bags","Abayas","Shoes","Vintage"];
   const [picked,setPicked] = useState((taste && taste.categories) || []);
+  const [sizes,setSizes] = useState((taste && taste.sizes) || []);
   const toggle = (c) => setPicked(p => p.includes(c) ? p.filter(x=>x!==c) : [...p,c]);
+  const toggleSize = (z) => setSizes(p => p.includes(z) ? p.filter(x=>x!==z) : [...p,z]);
   return (
     <div onClick={onClose} style={{position:"fixed",top:0,right:0,bottom:0,left:0,zIndex:420,
       background:"#000a",display:"flex",flexDirection:"column",justifyContent:"flex-end"}}>
@@ -1847,10 +1870,21 @@ function TasteSheet({ taste, onSave, onClose }) {
                 fontFamily:"inherit"}}>{c}</button>
           ))}
         </div>
-        <button onClick={()=>{onSave(picked);onClose();}}
+        {/* The sizes she wears. Kept on this phone only, like the rest of her
+            taste; used for the "My sizes" switch on the feed and in search. */}
+        <div style={{fontSize:13,fontWeight:700,color:C.ink,marginBottom:8}}>Your sizes</div>
+        <div style={{display:"flex",flexWrap:"wrap",gap:7,marginBottom:18}}>
+          {SIZES.filter(z=>z!=="OS").map(z=>(
+            <button key={z} onClick={()=>toggleSize(z)} className="tap-target" aria-pressed={sizes.includes(z)}
+              style={{background:sizes.includes(z)?C.terra:C.white,color:sizes.includes(z)?C.white:C.ink,
+                border:`1.5px solid ${sizes.includes(z)?C.terra:C.border}`,borderRadius:10,
+                padding:"7px 12px",fontSize:13,cursor:"pointer",fontFamily:"inherit",minWidth:44}}>{z}</button>
+          ))}
+        </div>
+        <button onClick={()=>{onSave(picked,sizes);onClose();}}
           style={{width:"100%",background:C.btn,color:C.onBtn,border:"none",borderRadius:30,
             padding:"14px 0",fontWeight:700,fontSize:14,cursor:"pointer",fontFamily:"inherit"}}>
-          {picked.length ? t("save") : t("show_me_everything")}
+          {picked.length || sizes.length ? t("save") : t("show_me_everything")}
         </button>
       </div>
     </div>
@@ -1977,7 +2011,7 @@ function SplashScreen({onDone}) {
 }
 
 // ── home page ──────────────────────────────────────────────────────────────
-function HomePage({items,shops,onSave,setModal,filters,setFilters,stories,setActiveStory,cartCount,setTab,hydrated,onOpenNotifications,unreadCount=0,taste,personalise,onEditTaste}) {
+function HomePage({items,shops,onSave,setModal,filters,setFilters,stories,setActiveStory,cartCount,savedCount=0,setTab,hydrated,onOpenNotifications,unreadCount=0,taste,personalise,onEditTaste}) {
   const [q,setQ] = useState("");
   const [showFilters,setShowFilters] = useState(false);
   const shopFor = useCallback((i)=>{
@@ -2022,6 +2056,12 @@ function HomePage({items,shops,onSave,setModal,filters,setFilters,stories,setAct
                 <circle cx="8" cy="6" r="2" fill={C.cream}/><circle cx="16" cy="12" r="2" fill={C.cream}/><circle cx="10" cy="18" r="2" fill={C.cream}/>
               </svg>
             </button>
+            <button className="tap-round" aria-label="Saved" onClick={()=>setTab("saved")}
+              style={{background:"none",border:"none",cursor:"pointer",padding:2,position:"relative",display:"flex",alignItems:"center",justifyContent:"center",color:C.ink}}>
+              <Icon name="heart" size={22} stroke={1.8}/>
+              {savedCount > 0 && <div style={{position:"absolute",top:-2,right:-4,background:C.btn,color:C.onBtn,
+                fontSize:10,fontWeight:700,borderRadius:10,padding:"1px 5px",minWidth:16,textAlign:"center",lineHeight:"14px"}}>{savedCount}</div>}
+            </button>
             {/* v2.8: the bell opens something now, and the dot is earned.
                 It used to be a button with no onClick and a red dot that was
                 permanently lit — every user, forever, told they had something
@@ -2031,14 +2071,14 @@ function HomePage({items,shops,onSave,setModal,filters,setFilters,stories,setAct
               <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke={C.ink} strokeWidth="1.8"><path d="M18 8A6 6 0 006 8c0 7-3 9-3 9h18s-3-2-3-9M13.73 21a2 2 0 01-3.46 0"/></svg>
               {unreadCount > 0 && (
                 <div style={{position:"absolute",top:-2,right:-4,background:C.btn,color:C.onBtn,
-                  fontSize:9,fontWeight:700,borderRadius:10,padding:"1px 5px",minWidth:16,
+                  fontSize:10,fontWeight:700,borderRadius:10,padding:"1px 5px",minWidth:16,
                   textAlign:"center",lineHeight:"14px"}}>{unreadCount > 9 ? "9+" : unreadCount}</div>
               )}
             </button>
-            <button className="tap-round" aria-label="Cart" onClick={()=>setTab("cart")} style={{background:"none",border:"none",cursor:"pointer",padding:2,position:"relative"}}>
+            <button className="tap-round" aria-label="Shortlist" onClick={()=>setTab("cart")} style={{background:"none",border:"none",cursor:"pointer",padding:2,position:"relative"}}>
               <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke={C.ink} strokeWidth="1.8"><path d="M6 2L3 6v14a2 2 0 002 2h14a2 2 0 002-2V6l-3-4z"/><line x1="3" y1="6" x2="21" y2="6"/><path d="M16 10a4 4 0 01-8 0"/></svg>
               {cartCount > 0 && <div style={{position:"absolute",top:-2,right:-4,
-                background:C.btn,color:C.onBtn,fontSize:9,fontWeight:700,
+                background:C.btn,color:C.onBtn,fontSize:10,fontWeight:700,
                 borderRadius:10,padding:"1px 5px",minWidth:16,textAlign:"center",lineHeight:"14px"}}>{cartCount}</div>}
             </button>
           </div>
@@ -2046,6 +2086,24 @@ function HomePage({items,shops,onSave,setModal,filters,setFilters,stories,setAct
         <SearchBar value={q} onChange={setQ}/>
         {/* cat chips */}
         <div style={{display:"flex",gap:8,overflowX:"auto",padding:"0 14px 10px"}}>
+          {/* "My sizes" leads the row: the filter clothing buyers apply in
+              their heads before anything else. With no sizes saved it asks
+              for them instead of filtering on nothing. */}
+          {(()=>{
+            const mine = (taste && taste.sizes) || [];
+            const on = Array.isArray(filters.sizes) && filters.sizes.length > 0;
+            return (
+              <button aria-pressed={on}
+                onClick={()=> mine.length
+                  ? setFilters(f=>({...f, sizes: on ? [] : mine}))
+                  : onEditTaste && onEditTaste()}
+                style={{background:on?C.btn:C.white,color:on?C.onBtn:C.terraTx,
+                  border:`1.5px solid ${on?C.btn:C.terra}`,borderRadius:20,padding:"5px 12px",
+                  fontSize:12,fontWeight:700,flexShrink:0,cursor:"pointer",whiteSpace:"nowrap",minWidth:44}}>
+                {mine.length ? `My sizes · ${mine.join(", ")}` : "Set my sizes"}
+              </button>
+            );
+          })()}
           {CATS.map(c=>(
             <button key={c} onClick={()=>setFilters(f=>({...f,category:c}))} style={{
               background:(filters.category||"All")===c?C.btn:C.white,
@@ -2066,8 +2124,6 @@ function HomePage({items,shops,onSave,setModal,filters,setFilters,stories,setAct
         </div>
       </div>
 
-      {/* stories */}
-      <StoriesBar stories={stories} shops={shops} onStoryTap={(s,sh)=>setActiveStory({story:s,shop:sh})}/>
 
       {/* v2.9. This said "For You · \u0644\u0643\u0650 / Curated to your style" over the same
           global, unsorted array every user saw. Underneath it, the splash
@@ -2083,6 +2139,9 @@ function HomePage({items,shops,onSave,setModal,filters,setFilters,stories,setAct
       {/* New In strip */}
       <NewInStrip items={items} onSave={onSave} setModal={setModal}
         onSeeAll={()=>{setQ("");setFilters({...EMPTY_FILTERS,sort:DEFAULT_SORT});}}/>
+      {/* Shops come after the first pieces, not before them: a row of shop
+          circles above the feed pushed the first garment half a screen down. */}
+      <StoriesBar stories={stories} shops={shops} onStoryTap={(s,sh)=>setActiveStory({story:s,shop:sh})}/>
       <div style={{height:1,background:C.border,margin:"4px 14px 14px"}}/>
 
       {/* v2.11.1 — this heading sat ABOVE the New In strip while describing
@@ -2741,7 +2800,7 @@ function SellPage({myShop,onCreateShop,onAddItem,setTab,onListed}) {
                     borderRadius:"50%",width:22,height:22,color:C.onBtn,cursor:"pointer",fontSize:12,
                     display:"flex",alignItems:"center",justifyContent:"center"}}><Icon name="close" size={14} stroke={2}/></button>
                   {i===0 && <div style={{position:"absolute",bottom:4,left:4,background:"#000a",
-                    color:C.white,fontSize:9,padding:"2px 6px",borderRadius:8}}>Cover</div>}
+                    color:C.white,fontSize:10,padding:"2px 6px",borderRadius:8}}>Cover</div>}
                 </div>
               ))}
               {photos.length<LIMITS.maxPerListing && (
@@ -3488,7 +3547,7 @@ function ShopViewPage({shop,items,onSave,setModal,onBack,onReport,onFollow,follo
 //  as the rest of the app. With no backend configured a message is stored on
 //  the device and plainly marked as not sent — because the one thing this
 //  screen must never do again is answer on a seller's behalf.
-function MessagesPage({shops,items,onReport,openThreadId,onOpened,error}) {
+function MessagesPage({shops,items,onReport,openThreadId,onOpened,error,onOpenOffers}) {
   const [active,setActive] = useState(null);
   const [newMsg,setNewMsg] = useState("");
   const [threads,setThreads] = useState([]);
@@ -3728,7 +3787,10 @@ function MessagesPage({shops,items,onReport,openThreadId,onOpened,error}) {
 
   return (
     <div style={{paddingBottom:72}}>
-      <TopBar center={<span style={{fontFamily:"Georgia,serif",fontStyle:"italic",fontSize:18,color:C.terraTx}}>{t("messages")}</span>}/>
+      <TopBar center={<span style={{fontFamily:"Georgia,serif",fontStyle:"italic",fontSize:18,color:C.terraTx}}>{t("messages")}</span>}
+        right={onOpenOffers && <button onClick={onOpenOffers} style={{background:"none",border:`1.5px solid ${C.terra}`,
+          color:C.terraTx,borderRadius:20,padding:"6px 12px",fontSize:12,fontWeight:700,cursor:"pointer",fontFamily:"inherit",
+          display:"inline-flex",alignItems:"center",gap:5}}><Icon name="handshake" size={14}/>{t("offers")}</button>}/>
       {/* A conversation that could not be opened — a seller who has blocked
           you, a beta gate you are not part of — is said out loud. The old
           local-state path could not fail, so it never had to say anything;
@@ -3796,6 +3858,7 @@ function ProfilePage({myShop,items,setTab,onOpenLegal,onOpenLanguage,onOpenTheme
   const groups = [
     { title: t("your_shop_group"), rows: [
       {label:t("my_listings"),icon:"dress",action:()=>setTab(myShop?"myshop":"sell")},
+      {label:t("saved"),icon:"heart",action:()=>setTab("saved")},
       {label:t("offers"),icon:"handshake",action:()=>setTab("offers")},
       {label:t("messages"),icon:"chat",action:()=>setTab("messages")},
       {label:t("purchases"),icon:"cart",action:null,soon:true},
@@ -4017,7 +4080,7 @@ function CartPage({cart, shops, removeFromCart, setTab, onMessageSeller}) {
 
       {cart.length === 0 ? (
         <div style={{textAlign:"center", padding:"70px 24px", color:C.inkLt}}>
-          <Icon name="cart" size={30} stroke={1.4} style={{color:C.terra, marginBottom:12, opacity:0.85}}/>
+          <Icon name="bag" size={30} stroke={1.4} style={{color:C.terra, marginBottom:12, opacity:0.85}}/>
           <div style={{fontSize:14, color:C.ink}}>{t("nothing_on_your_list_yet")}</div>
           <div style={{fontSize:12, marginTop:7, lineHeight:1.65, maxWidth:280, margin:"7px auto 0"}}>
             {t("add_pieces_you_mean_to_ask_about")}
@@ -4143,11 +4206,18 @@ export default function Marketplace() {
   // now, and this is what listens.
   const [, setDirTick] = useState(getDir());
   useEffect(() => onDirChange(setDirTick), []);
-  const saveTaste = (picked) => {
-    const value = (Array.isArray(picked) && picked.length)
-      ? { categories: picked, at: new Date().toISOString() } : null;
+  const saveTaste = (picked, sizes) => {
+    const cats = Array.isArray(picked) ? picked : [];
+    // Sizes are kept when only the categories are being saved (the splash
+    // asks for categories alone) — an answer is not erased by a question that
+    // didn't ask for it.
+    const sz = Array.isArray(sizes) ? sizes : ((taste && taste.sizes) || []);
+    const value = (cats.length || sz.length)
+      ? { categories: cats, sizes: sz, at: new Date().toISOString() } : null;
     setTaste(value);
     store.setJSON(TASTE_KEY, value);
+    // a switched-on "My sizes" follows her new answer
+    setFilters(f => (Array.isArray(f.sizes) && f.sizes.length ? { ...f, sizes: sz } : f));
   };
   const [activeStory,setActiveStory] = useState(null);
   const [cart, setCart] = useState([]);
@@ -4452,8 +4522,8 @@ export default function Marketplace() {
   // and its real state — live, or held for review, which the screening step
   // already decided and already explained.
 
-  const effectiveTab = tab==="shopview"?"sellers":tab==="messages"?"profile"
-                     :tab==="offers"?"profile":tab==="cart"?"home":tab;
+  const effectiveTab = tab==="shopview"?"sellers":tab==="saved"?"home"
+                     :tab==="offers"?"messages":tab==="cart"?"home":tab;
 
   if(showSplash) return <SplashScreen onDone={(picked)=>{
     if (Array.isArray(picked) && picked.length) {
@@ -4501,7 +4571,7 @@ export default function Marketplace() {
           </div>
         )}
         <Suspense fallback={null}>
-        {tab==="home"       && <HomePage hydrated={hydrated} items={visibleItems} shops={visibleShops} onSave={onSave} setModal={setModal} filters={filters} setFilters={setFilters} stories={STORIES} setActiveStory={setActiveStory} cartCount={cartCount} setTab={setTab} onOpenNotifications={()=>setNotifOpen(true)} unreadCount={unread}
+        {tab==="home"       && <HomePage hydrated={hydrated} items={visibleItems} shops={visibleShops} onSave={onSave} setModal={setModal} filters={filters} setFilters={setFilters} stories={STORIES} setActiveStory={setActiveStory} cartCount={cartCount} savedCount={savedCount} setTab={setTab} onOpenNotifications={()=>setNotifOpen(true)} unreadCount={unread}
                               taste={taste} personalise={!!(consent && consent.personalisation)}
                               onEditTaste={()=>setTasteOpen(true)}/>}
         {tab==="search"     && <SearchPage items={visibleItems} shops={visibleShops} onSave={onSave} setModal={setModal} filters={filters} setFilters={setFilters} savedIds={savedIds}/>}
@@ -4529,7 +4599,7 @@ export default function Marketplace() {
                         onOpenSettings={()=>setSettingsOpen(true)}
                         onOpenAuth={()=>askToSignIn(null)} session={session}
                         onSignOut={async()=>{ await remote.signOut().catch(()=>{}); setSession(null); }}/>}
-        {tab==="messages"   && <MessagesPage shops={shops} items={items} onReport={s=>setReporting(s)}
+        {tab==="messages"   && <MessagesPage shops={shops} items={items} onReport={s=>setReporting(s)} onOpenOffers={()=>goTab("offers")}
                               openThreadId={openThreadId} onOpened={()=>setOpenThreadId(null)}
                               error={messageError}/>}
         {tab==="offers"     && <OffersPage items={items} shops={shops} onBack={()=>setTab("profile")}/>}
@@ -4537,7 +4607,7 @@ export default function Marketplace() {
                               onMessageSeller={messageSellerAbout}/>}
         </Suspense>
 
-        <TabBar tab={effectiveTab} setTab={goTab} savedCount={savedCount} myShop={myShop} cartCount={cartCount}/>
+        <TabBar tab={effectiveTab} setTab={goTab} myShop={myShop}/>
 
         {/* Every lazily-loaded overlay lives under this one boundary rather
             than one each. They are mutually exclusive — only one sheet is ever

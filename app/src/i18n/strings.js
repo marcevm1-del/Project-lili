@@ -18,7 +18,7 @@
 
 export const STRINGS = {
   add_photos: { en: "Add Photos", ar: "أضيفي صوراً" },
-  add_to_cart: { en: "Add to Cart", ar: "أضيفي للسلة" },
+  add_to_cart: { en: "Add to shortlist", ar: "أضيفي إلى قائمتك" },
   addresses: { en: "Addresses", ar: "العناوين" },
   agree_and_continue: { en: "Agree and continue", ar: "موافقة" },
   all_items: { en: "All Items", ar: "الكل" },
@@ -139,7 +139,7 @@ export const STRINGS = {
   withdraw: { en: "Withdraw", ar: "اسحبي" },
   worth_knowing: { en: "Worth knowing", ar: "للعلم" },
   year_of_birth: { en: "Year of birth", ar: "سنة الميلاد" },
-  your_cart: { en: "Your Cart", ar: "سلتك" },
+  your_cart: { en: "Your shortlist", ar: "قائمتك" },
   your_offer: { en: "Your Offer (AED)", ar: "عرضك (درهم)" },
   your_shop_is_empty: { en: "Your shop is empty", ar: "دكانك فارغ" },
   your_shop_name: { en: "Your Shop Name", ar: "اسم الدكان" },
@@ -154,7 +154,7 @@ export const STRINGS = {
   remove: { en: "Remove", ar: "إزالة" },
   this_is_a_list_not_a_basket: { en: "This is a list, not a basket.", ar: "هذه قائمة وليست سلة شراء." },
   this_seller: { en: "This seller", ar: "هذه البائعة" },
-  your_list: { en: "Your list", ar: "قائمتك" },
+  your_list: { en: "Your shortlist", ar: "قائمتك" },
   hi_is_this_still_available: { en: "Hi! Is this still available?", ar: "مرحباً! هل ما زالت متوفرة؟" },
   your_account: { en: "Your account", ar: "حسابك" },
   browsing_without_an_account: { en: "Browsing without an account", ar: "تتصفحين بدون حساب" },

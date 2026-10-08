@@ -140,9 +140,9 @@ const itemPrice = await page.evaluate(() => {
   return m ? Number(m[1].replace(/,/g, "")) : null;
 });
 check("the item shows a price", itemPrice !== null && itemPrice > 0, String(itemPrice));
-await tap("Add to Cart");
+await tap("Add to shortlist");
 await page.waitForTimeout(400);
-await label("Cart");
+await label("Shortlist");
 await page.waitForTimeout(400);
 
 // ── what this section used to assert, and why it doesn't any more ──────────
@@ -207,7 +207,7 @@ await page.waitForTimeout(500);
 const afterAsk = await bodyText();
 check("asking opens the conversation with that seller",
       /still available/i.test(afterAsk), afterAsk.slice(0, 140));
-await label("Cart");
+await label("Shortlist");
 await page.waitForTimeout(300);
 
 // ── search ────────────────────────────────────────────────────────────────

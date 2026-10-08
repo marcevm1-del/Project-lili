@@ -365,7 +365,8 @@ const SCREENS = [
   ["home", null],
   ["search", "Search"],
   ["saved", "Saved"],
-  ["cart", "Cart"],
+  ["cart", "Shortlist"],
+  ["inbox", "Inbox"],
   ["sell", "Sell"],
   ["profile", "Profile"],
 ];
@@ -374,7 +375,9 @@ let worstChoices = { screen: "", n: 0 };
 
 section("Fitts's Law — every target a thumb has to hit");
 for (const [screenName, navLabel] of SCREENS) {
-  if (navLabel) { if (!(await label(navLabel))) continue; }
+  // Saved and the shortlist are reached from the Home header, so start each
+  // screen from Home.
+  if (navLabel) { await label("Home"); if (!(await label(navLabel))) continue; }
   else { await label("Home"); }
   await page.waitForTimeout(350);
 

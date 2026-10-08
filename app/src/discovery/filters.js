@@ -19,6 +19,14 @@
 export const EMPTY_FILTERS = {
   category: "All", brand: "", condition: "", minPrice: 0, maxPrice: 999999,
   size: "", sort: "Newest First",
+  // "My sizes": the sizes she wears, applied as one switch. One-size pieces
+  // (bags, scarves) always pass — they fit everyone, and hiding them would
+  // empty half the luxury catalogue for no reason.
+  sizes: [],
+  // How it runs against its label ("small" / "true" / "large"), and pieces
+  // whose seller said there is nothing to point out. Both come from the
+  // listing form; a listing that did not answer does not match.
+  fit: "", noFlaws: false,
 };
 
 // v2.9: `color` is gone from the filter sheet, and this is the reason.
@@ -41,6 +49,10 @@ export function matchesFilters(item, f = {}) {
   if (f.brand && item.brand !== f.brand) return false;
   if (f.condition && item.condition !== f.condition) return false;
   if (f.size && String(item.size || "") !== String(f.size)) return false;
+  if (Array.isArray(f.sizes) && f.sizes.length && String(item.size || "") !== "OS"
+      && !f.sizes.map(String).includes(String(item.size || ""))) return false;
+  if (f.fit && item.fit !== f.fit) return false;
+  if (f.noFlaws && !(Array.isArray(item.flaws) && item.flaws.length === 0)) return false;
   const price = typeof item.price === "number" ? item.price : 0;
   if (price < (f.minPrice || 0)) return false;
   if (price > (f.maxPrice == null ? 999999 : f.maxPrice)) return false;
@@ -54,6 +66,9 @@ export function activeCount(f = {}) {
   if (f.brand) n++;
   if (f.condition) n++;
   if (f.size) n++;
+  if (Array.isArray(f.sizes) && f.sizes.length) n++;
+  if (f.fit) n++;
+  if (f.noFlaws) n++;
   if (f.minPrice) n++;
   if (f.maxPrice != null && f.maxPrice !== 999999) n++;
   return n;

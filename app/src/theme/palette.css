@@ -18,7 +18,11 @@
 [data-theme="light"] {
   color-scheme: light;
 
-  --c-bg:       #FDEBD8;
+  /* The page ground is cream, not peach. Peach behind every screen tinted the
+     photographs — a white shirt read pink — and the photograph is the product.
+     Peach stays as --c-peach for the splash and the moments that are about
+     lili rather than about a garment. */
+  --c-bg:       #FFF8F2;
   --c-peach:    #FDEBD8;
   --c-cream:    #FFF8F2;
   --c-white:    #FFFFFF;

@@ -116,10 +116,10 @@ if (!(await dismiss())) {
   violations++;
 }
 
-for (const [label, name] of [["Search", "search"], ["Saved", "saved"],
+for (const [label, name] of [["Search", "search"], ["Home", null], ["Saved", "saved"], ["Inbox", "inbox"],
                              ["Sell", "sell"], ["Profile", "profile"]]) {
   const b = page.locator(`button[aria-label="${label}"]`).first();
-  if (await b.count()) { await b.click(); await page.waitForTimeout(350); await scan(name); }
+  if (await b.count()) { await b.click(); await page.waitForTimeout(350); if (name) await scan(name); }
 }
 
 await tap("Appearance");   await scan("appearance");

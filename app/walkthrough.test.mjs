@@ -122,7 +122,7 @@ check("reaches the marketplace feed", /AED/.test(text()));
 
 // ── every tab ──────────────────────────────────────────────────────────────
 section("Navigation");
-const tabs = ["Search", "Sell", "Saved", "Profile", "Home"];
+const tabs = ["Search", "Sell", "Inbox", "Profile", "Home"];
 for (const t of tabs) {
   const n = errorsBefore();
   const ok = await tap(new RegExp(`^${t}$`));
@@ -145,7 +145,7 @@ if (tile) {
   noNewErrors(n, "item detail renders cleanly");
 
   n = errorsBefore();
-  await tap(/Add to Cart/);
+  await tap(/Add to shortlist/i);
   noNewErrors(n, "add to cart works");
 }
 
@@ -164,7 +164,7 @@ await tap(/Show .* Results|Close|✕/) || await tap(/Home/);
 // ── cart ───────────────────────────────────────────────────────────────────
 section("Cart and checkout");
 n = errorsBefore();
-const cartTab = clickables().find((b) => /Cart|السلة/.test(b.textContent || ""));
+const cartTab = clickables().find((b) => /Cart|Shortlist|السلة|قائمتك/.test(b.textContent || ""));
 if (cartTab) { await act(async () => cartTab.click()); await settle(); }
 noNewErrors(n, "cart renders");
 check("cart explains who the seller is",

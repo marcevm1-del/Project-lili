@@ -163,11 +163,11 @@ await auditScreen("06-home-feed");
 await page.locator('div:has-text("AED")').last().click({ timeout: 3000 }).catch(() => {});
 await page.waitForTimeout(400);
 await auditScreen("07-item-detail");
-await tap("Add to Cart");
+await tap("Add to shortlist");
 await page.waitForTimeout(300);
 
 await tapLabel("Search");   await auditScreen("08-search");
-await tapLabel("Saved");    await auditScreen("09-saved");
+await tapLabel("Home");     await tapLabel("Saved");    await auditScreen("09-saved");
 await tapLabel("Sell");     await auditScreen("10-sell");
 await tapLabel("Profile");  await auditScreen("11-profile");
 
