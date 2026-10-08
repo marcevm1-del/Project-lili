@@ -130,7 +130,10 @@ begin
   j := lili_moderation_claim(cs);
   j := lili_moderation_decide(cs, 'remove_listing', 'Photos match a known counterfeit listing.');
   select status into t from lili_items where id = i2; r := r || ' G3 item=' || t;
+  -- strikes are not readable by clients (migration 29); read them as the owner of the database
+  execute 'reset role';
   select strikes || '/' || status into t from lili_shops where id = s; r := r || ' G4 shop=' || t;
+  perform pg_temp.act(me, true);
   select count(*) into n from lili_notifications where kind = 'shop_action'; r := r || ' G5 seller_told=' || n;
   perform pg_temp.act(buyer);
   select count(*) into n from lili_notifications where kind = 'moderation_report_outcome'; r := r || ' G6 reporter_told=' || n;

@@ -103,6 +103,8 @@ Fixed live in `20261008*_lili_review_1..15_*.sql`; see `docs/review-2026-10-08.m
   live meet plan per conversation.
 - **26 — photo store listing** limited to the owner's folder.
 - **27 — crash reports** (`lili_report_error`, read with `select * from lili.recent_errors`).
+- **28 — client grants revoked** on tables only definer functions use (case evidence, invites); reference data read-only.
+- **29 — strike counts private.** Shops are readable column by column; `strikes` is not one of them.
 
 `supabase/tests/run.sh` rebuilds the database from these migrations in CI and runs
 `functional_test.sql` and `audit_regressions.sql` (26 assertions).

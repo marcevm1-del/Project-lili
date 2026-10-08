@@ -228,8 +228,13 @@ const anonRead = async (t) => { const { data, error } = await sb.from(t).select(
   check("anonymous browsing of live listings is allowed", !r.error, r.error && r.error.message);
 }
 {
-  const r = await anonRead("lili_shops");
-  check("anonymous browsing of shops is allowed", !r.error, r.error && r.error.message);
+  // what the app asks for (remote.js SHOP_COLUMNS) — `select *` is refused
+  // since strikes stopped being public
+  const { error } = await sb.from("lili_shops")
+    .select("id,owner_uid,name,name_ar,bio,banner,seller_type,status,followers,market_code,created_at,updated_at").limit(1);
+  check("anonymous browsing of shops is allowed", !error, error && error.message);
+  const st = await sb.from("lili_shops").select("strikes").limit(1);
+  check("a shop's strike count is not public", !!st.error, "strikes were readable");
 }
 for (const t of ["lili_profiles","lili_carts","lili_saves","lili_blocks","lili_moderation_cases","lili_audit"]) {
   const r = await anonRead(t);
@@ -489,8 +494,10 @@ section("10b. Server-owned columns");
     check(`the client never sends ${c}`, stripped.includes(`"${c}"`));
   }
   check("the strip list is described as an echo of the grant, not the control",
+    // anywhere in the file: it used to look only at the first 4,000
+    // characters, so adding code above the note failed a check about wording
     /revokes UPDATE|column privileges|lili_items_server_owned_columns/i.test(stripped +
-      read("src/backend/remote.js").slice(0, 4000)));
+      read("src/backend/remote.js")));
   for (const c of sellerOwns) {
     check(`a seller can still edit her own ${c}`, !stripped.includes(`"${c}"`));
   }

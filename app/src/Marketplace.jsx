@@ -54,6 +54,10 @@ const ListingScreen  = lazy(() => import("./compliance/ListingScreen.jsx"));
 const AgreementSheet = lazy(() => import("./compliance/AgreementSheet.jsx"));
 import { sellerClausesFor } from "./compliance/agreements.js";
 import * as repo from "./data/repo.js";
+import PriceTag from "./listing/PriceTag.jsx";
+import { FitAndFlaws, FitPanel, FITS } from "./listing/FitAndFlaws.jsx";
+import { SaveSearchButton, SavedSearches } from "./discovery/SavedSearches.jsx";
+import ShopReviews from "./trust/ShopReviews.jsx";
 import * as store from "./compliance/store.js";
 import { processImage, validateFile, LIMITS } from "./data/images.js";
 // imageQuality.js measures blur, exposure and framing pixel by pixel. It is
@@ -480,81 +484,7 @@ function withHeart(items, savedIds) {
     ids.includes(i.id) === !!i.saved ? i : { ...i, saved: ids.includes(i.id) });
 }
 
-// ── search page (Jacob's Law: dedicated search tab like Depop/TikTok) ─────
-// "Tell me when it's listed": the search she just ran, kept on the server so the
-// database can tell her the moment a matching piece goes live. Vinted, Depop
-// and Vestiaire all have it; for a catalogue this young, where most searches
-// come back short, it is the difference between a dead end and a reason to
-// come back.
-function SaveSearchButton({q, filters, prominent}) {
-  const [state,setState] = useState("idle");   // idle | busy | saved | error
-  const [problem,setProblem] = useState(null);
-  useEffect(()=>{ setState("idle"); setProblem(null); },[q, filters.maxPrice, filters.category]);
-  if (!repo.canSaveSearches()) return null;
-  const maxPrice = filters.maxPrice != null && filters.maxPrice !== 999999 ? filters.maxPrice : null;
-  const category = filters.category && filters.category !== "All" ? filters.category : null;
-  const save = async () => {
-    setState("busy"); setProblem(null);
-    try { await repo.saveSearch(q.trim(), { maxPrice, category }); setState("saved"); }
-    catch (e) { setState("error"); setProblem((e && e.message) || "That didn't save."); }
-  };
-  const what = `“${q.trim()}”${category?` in ${category}`:""}${maxPrice?` under ${money(maxPrice)}`:""}`;
-  if (state === "saved") return (
-    <div role="status" style={{fontSize:12,color:C.inkLt,lineHeight:1.5,padding:prominent?"10px 0 0":"0 4px 10px"}}>
-      <Icon name="check" size={13} style={{color:C.greenTx,verticalAlign:"-2px"}}/> Saved. We'll tell you when something new matches {what}.
-    </div>
-  );
-  return (
-    <div style={{padding:prominent?"14px 0 0":"0 4px 10px"}}>
-      <button onClick={save} disabled={state==="busy"}
-        style={prominent
-          ? {background:C.btn,color:C.onBtn,border:"none",borderRadius:20,padding:"10px 20px",
-             fontSize:13,fontWeight:700,cursor:"pointer",fontFamily:"inherit"}
-          : {background:C.white,color:C.terraTx,border:`1.5px solid ${C.terra}`,borderRadius:20,
-             padding:"6px 14px",fontSize:12,fontWeight:700,cursor:"pointer",fontFamily:"inherit",
-             display:"inline-flex",alignItems:"center",gap:6}}>
-        {!prominent && <Icon name="bell" size={13}/>}
-        {state==="busy" ? "Saving…" : prominent ? "Tell me when it's listed" : "Save this search"}
-      </button>
-      {problem && <div role="alert" style={{fontSize:12,color:C.redTx,marginTop:6}}>{problem}</div>}
-    </div>
-  );
-}
 
-// Her saved searches, on the search landing, each with what has gone live
-// since she last looked.
-function SavedSearches({onPick}) {
-  const [list,setList] = useState([]);
-  const load = useCallback(()=>{ repo.getSavedSearches().then(r=>setList(r||[])); },[]);
-  useEffect(()=>{ load(); },[load]);
-  if (list.length===0) return null;
-  return (
-    <div style={{marginBottom:24}}>
-      <div style={{fontWeight:700,fontSize:14,color:C.ink,marginBottom:10}}>Your saved searches</div>
-      {list.map(s=>(
-        <div key={s.id} style={{display:"flex",alignItems:"center",gap:10,background:C.white,
-          border:`1px solid ${C.border}`,borderRadius:12,padding:"4px 4px 4px 12px",marginBottom:7}}>
-          <button onClick={()=>{ repo.sawSearch(s.id); onPick(s); }}
-            style={{flex:1,minWidth:0,background:"none",border:"none",textAlign:"start",cursor:"pointer",
-              padding:"8px 0",fontFamily:"inherit",color:C.ink,fontSize:13}}>
-            <span style={{fontWeight:600}}>{s.query}</span>
-            <span style={{color:C.inkLt,fontSize:11}}>
-              {s.category?` · ${s.category}`:""}{s.max_price?` · under ${money(Number(s.max_price))}`:""}
-            </span>
-          </button>
-          {s.new_count>0 && <span style={{background:C.btn,color:C.onBtn,fontSize:10,fontWeight:700,
-            borderRadius:10,padding:"2px 8px",whiteSpace:"nowrap"}}>{s.new_count} new</span>}
-          <button className="tap-round" aria-label={`Stop saving “${s.query}”`}
-            onClick={async()=>{ await repo.forgetSearch(s.id).catch(()=>{}); load(); }}
-            style={{background:"none",border:"none",color:C.inkLt,cursor:"pointer",width:36,height:36,
-              display:"flex",alignItems:"center",justifyContent:"center"}}>
-            <Icon name="close" size={14}/>
-          </button>
-        </div>
-      ))}
-    </div>
-  );
-}
 
 function SearchPage({items,shops,onSave,setModal,filters,setFilters,savedIds=[]}) {
   const [q,setQ] = useState("");
@@ -932,150 +862,9 @@ function StoryViewer({story,shop,onClose}) {
 }
 
 // ── item tile ──────────────────────────────────────────────────────────────
-// ── fit, measurements, flaws ───────────────────────────────────────────────
-// A size label says what the tag says. Whether it fits is the question buyers
-// message about before buying and the reason they regret it after, and a
-// "Good" condition hides as much as it tells. These three answer both, in the
-// seller's words, in a form a buyer can compare across listings.
-const GARMENT_CATS = ["Dresses","Tops","Bottoms","Abayas"];
-const FIT_CATS = [...GARMENT_CATS, "Shoes"];
-const MEASURE_KEYS = {
-  Dresses: ["chest","waist","length"],
-  Tops:    ["chest","shoulders","sleeve","length"],
-  Bottoms: ["waist","hips","inseam","length"],
-  Abayas:  ["chest","sleeve","length"],
-};
-const MEASURE_LABEL = { chest:"Chest (pit to pit)", waist:"Waist", hips:"Hips", length:"Length",
-  shoulders:"Shoulders", sleeve:"Sleeve", inseam:"Inseam" };
-const FITS = [["small","Runs small"],["true","True to size"],["large","Runs large"]];
-const FLAWS_GARMENT = [["stain","Stain"],["pilling","Pilling"],["fading","Fading"],["hole","Small hole"],
-  ["missing_button","Missing button"],["altered","Altered"],["loose_thread","Loose thread"],["odour","Odour"]];
-const FLAWS_OTHER = [["scuff","Scuffs"],["wear","Visible wear"],["stain","Stain"],["loose_thread","Loose thread"],["odour","Odour"]];
-const FLAW_LABEL = Object.fromEntries([...FLAWS_GARMENT, ...FLAWS_OTHER]);
 
-function FitAndFlaws({form, setForm}) {
-  const cat = form.category;
-  const keys = MEASURE_KEYS[cat] || [];
-  const flawOpts = GARMENT_CATS.includes(cat) ? FLAWS_GARMENT : FLAWS_OTHER;
-  const flaws = form.flaws;            // null = not answered, [] = none
-  const lbl = {fontSize:11,fontWeight:700,color:C.inkLt,letterSpacing:0.5,textTransform:"uppercase",display:"block",marginBottom:6};
-  const chip = (on) => ({background:on?C.terra:C.white,color:on?C.white:C.ink,
-    border:`1.5px solid ${on?C.terra:C.border}`,borderRadius:20,padding:"7px 12px",
-    fontSize:12,cursor:"pointer",fontFamily:"inherit"});
-  const setM = (k, v) => {
-    const n = Number(String(v).replace(",", "."));
-    const m = { ...(form.measurements||{}) };
-    if (v === "" || !(n > 0)) delete m[k]; else m[k] = Math.min(300, Math.round(n * 10) / 10);
-    setForm({ ...form, measurements: m });
-  };
-  const toggleFlaw = (k) => {
-    const cur = Array.isArray(flaws) ? flaws : [];
-    setForm({ ...form, flaws: cur.includes(k) ? cur.filter(x=>x!==k) : [...cur, k] });
-  };
-  return (
-    <div style={{display:"flex",flexDirection:"column",gap:14}}>
-      {FIT_CATS.includes(cat) && (
-        <div>
-          <span style={lbl}>How does it fit?</span>
-          <div role="radiogroup" aria-label="How does it fit" style={{display:"flex",gap:7,flexWrap:"wrap"}}>
-            {FITS.map(([k,l])=>(
-              <button key={k} type="button" role="radio" aria-checked={form.fit===k} className="tap-target"
-                onClick={()=>setForm({...form,fit:form.fit===k?null:k})} style={chip(form.fit===k)}>{l}</button>
-            ))}
-          </div>
-        </div>
-      )}
-      {keys.length>0 && (
-        <div>
-          <span style={lbl}>Measurements, laid flat (cm) <span style={{textTransform:"none",fontWeight:400}}>· optional</span></span>
-          <div style={{display:"grid",gridTemplateColumns:"1fr 1fr",gap:8}}>
-            {keys.map(k=>(
-              <label key={k} style={{display:"flex",flexDirection:"column",gap:4,fontSize:11,color:C.inkLt}}>
-                {MEASURE_LABEL[k]}
-                <input inputMode="decimal" value={(form.measurements||{})[k] ?? ""} onChange={e=>setM(k,e.target.value)}
-                  placeholder="cm" aria-label={`${MEASURE_LABEL[k]} in centimetres`}
-                  style={{padding:"10px 12px",borderRadius:10,border:`1px solid ${C.border}`,fontSize:14,
-                    outline:"none",color:C.ink,background:C.white,boxSizing:"border-box",width:"100%"}}/>
-              </label>
-            ))}
-          </div>
-          <div style={{fontSize:11,color:C.inkLt,marginTop:6,lineHeight:1.5}}>
-            Two numbers save a dozen messages: buyers compare them with something they already own.
-          </div>
-        </div>
-      )}
-      <div>
-        <span style={lbl}>Anything to point out?</span>
-        <div style={{display:"flex",gap:7,flexWrap:"wrap"}}>
-          <button type="button" aria-pressed={Array.isArray(flaws)&&flaws.length===0} className="tap-target"
-            onClick={()=>setForm({...form,flaws:[]})} style={chip(Array.isArray(flaws)&&flaws.length===0)}>Nothing — no flaws</button>
-          {flawOpts.map(([k,l])=>(
-            <button key={k} type="button" aria-pressed={Array.isArray(flaws)&&flaws.includes(k)} className="tap-target"
-              onClick={()=>toggleFlaw(k)} style={chip(Array.isArray(flaws)&&flaws.includes(k))}>{l}</button>
-          ))}
-        </div>
-        <div style={{fontSize:11,color:C.inkLt,marginTop:6,lineHeight:1.5}}>
-          Saying so up front is what buyers trust — and a flaw she was told about is not a reason to back out at the meet.
-        </div>
-      </div>
-    </div>
-  );
-}
 
-// On the piece: size and how it runs, the measurements, and what the seller
-// disclosed — together, because "will it fit" and "what's it like" are read
-// as one question.
-function FitPanel({item}) {
-  const m = item.measurements && typeof item.measurements === "object" ? item.measurements : {};
-  const mk = Object.keys(m).filter(k => MEASURE_LABEL[k]);
-  const fit = FITS.find(([k]) => k === item.fit);
-  const flaws = Array.isArray(item.flaws) ? item.flaws : null;
-  if (!fit && mk.length === 0 && flaws === null) return null;
-  return (
-    <div style={{border:`1px solid ${C.border}`,borderRadius:12,padding:"12px 14px",marginBottom:14,background:C.white}}>
-      {(fit || mk.length>0) && (
-        <div style={{marginBottom:flaws!==null?10:0}}>
-          <div style={{fontSize:12,fontWeight:700,color:C.ink,marginBottom:mk.length?6:0}}>
-            Size {item.size}{fit ? ` · ${fit[1]}` : ""}
-            {fit && fit[0]!=="true" && <span style={{fontWeight:400,color:C.inkLt}}>
-              {fit[0]==="small" ? " — consider a size up" : " — consider a size down"}</span>}
-          </div>
-          {mk.length>0 && (
-            <div style={{display:"flex",flexWrap:"wrap",gap:"4px 14px"}}>
-              {mk.map(k=>(
-                <span key={k} style={{fontSize:12,color:C.inkLt}}>
-                  {MEASURE_LABEL[k].replace(" (pit to pit)","")} <b style={{color:C.ink}}>{m[k]} cm</b>
-                </span>
-              ))}
-            </div>
-          )}
-        </div>
-      )}
-      {flaws !== null && (
-        <div style={{fontSize:12,color:C.inkLt,lineHeight:1.5,
-          borderTop:(fit||mk.length)?`1px solid ${C.border}`:"none",paddingTop:(fit||mk.length)?10:0}}>
-          <b style={{color:C.ink}}>{item.condition}</b>
-          {flaws.length===0 ? " · no flaws noted by the seller"
-            : <> · the seller points out: {flaws.map(f=>FLAW_LABEL[f]||f).join(", ").toLowerCase()}</>}
-        </div>
-      )}
-    </div>
-  );
-}
 
-// The price, and — when she has lowered it — what it was. The database keeps
-// `previous_price` for the price-drop alert; showing it on the piece itself is
-// how every resale app tells a buyer the seller is ready to move.
-function PriceTag({item, size=14}) {
-  const was = Number(item.previousPrice);
-  const dropped = was > 0 && was > Number(item.price);
-  return (
-    <span style={{display:"inline-flex",alignItems:"baseline",gap:5,flexWrap:"wrap",minWidth:0}}>
-      <span style={{color:C.terraTx,fontWeight:800,fontSize:size,whiteSpace:"nowrap"}}>{money(item.price)}</span>
-      {dropped && <s aria-label={`was ${money(was)}`} style={{color:C.inkLt,fontSize:Math.round(size*0.72),whiteSpace:"nowrap"}}>{money(was)}</s>}
-    </span>
-  );
-}
 
 function ItemTile({item,onSave,onClick,loading}) {
   // A tile waiting on its own data renders the skeleton at the same size,
@@ -3489,48 +3278,6 @@ function SellersPage({shops,items,setTab,setViewShop,onFollow,isFollowing}) {
   );
 }
 
-// What buyers who met her said. Each review comes from a meet the two of them
-// agreed on lili, shown without the reviewer's name, and only once both sides
-// have reviewed (or 14 days have passed) — the server decides all three. The
-// average waits for five, as Stars does; the words are worth showing from one.
-function ShopReviews({shopId}) {
-  const [list,setList] = useState(null);
-  const [all,setAll] = useState(false);
-  useEffect(()=>{
-    let live = true;
-    repo.getShopReviews(shopId).then(r=>{ if(live) setList(r||[]); });
-    return ()=>{ live = false; };
-  },[shopId]);
-  if(!list || list.length===0) return null;
-  const shown = all ? list : list.slice(0,3);
-  return (
-    <section aria-label="Reviews" style={{marginBottom:16}}>
-      <div style={{fontSize:13,fontWeight:700,color:C.ink,marginBottom:8}}>
-        {list.length} review{list.length>1?"s":""} <span style={{fontWeight:400,color:C.inkLt,fontSize:11}}>· from meets arranged on lili</span>
-      </div>
-      {shown.map((r,i)=>(
-        <div key={i} style={{background:C.white,border:`1px solid ${C.border}`,borderRadius:12,
-          padding:"10px 12px",marginBottom:8}}>
-          <div style={{display:"flex",alignItems:"center",gap:6,marginBottom:r.body?4:0}}>
-            <span aria-label={`${r.stars} out of 5`} style={{color:C.terraTx,display:"inline-flex",gap:1}}>
-              {[1,2,3,4,5].map(n=><Icon key={n} name="star" size={12} filled={n<=r.stars}/>)}
-            </span>
-            <span style={{fontSize:11,color:C.inkLt}}>
-              a buyer · {new Date(r.created_at).toLocaleDateString(undefined,{month:"short",year:"numeric"})}
-            </span>
-          </div>
-          {r.body && <div style={{fontSize:13,color:C.ink,lineHeight:1.5}}>{r.body}</div>}
-        </div>
-      ))}
-      {list.length>3 && !all && (
-        <button onClick={()=>setAll(true)} style={{background:"none",border:"none",padding:0,
-          color:C.terraTx,fontSize:12,fontWeight:600,cursor:"pointer",fontFamily:"inherit"}}>
-          Show all {list.length}
-        </button>
-      )}
-    </section>
-  );
-}
 
 function ShopViewPage({shop,items,onSave,setModal,onBack,onReport,onFollow,following}) {
   const [q,setQ] = useState("");

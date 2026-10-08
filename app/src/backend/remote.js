@@ -307,10 +307,14 @@ export async function reportError(entry) {
   } catch { /* a report that cannot be sent is not worth a second error */ }
 }
 
+// A shop as anyone may see it. `strikes` is not here: a moderation sanction
+// count is not a public fact about a woman (migration 29 revokes it).
+const SHOP_COLUMNS = "id,owner_uid,name,name_ar,bio,banner,seller_type,status,followers,market_code,created_at,updated_at";
+
 export async function getShops() {
   const sb = await db();
   const [{ data, error }, rep] = await Promise.all([
-    sb.from("lili_shops").select("*").eq("status","active"),
+    sb.from("lili_shops").select(SHOP_COLUMNS).eq("status","active"),
     sb.rpc("lili_reputations"),
   ]);
   if (error) throw error;
@@ -382,14 +386,14 @@ export async function createShop(form) {
   const sb = await db();
   const uid = await currentUid();
   const { data, error } = await sb.from("lili_shops")
-    .insert({ ...toRow(form, "lili_shops"), owner_uid: uid }).select().single();
+    .insert({ ...toRow(form, "lili_shops"), owner_uid: uid }).select(SHOP_COLUMNS).single();
   if (error) throw error;
   return fromRow(data);
 }
 
 export async function updateShop(id, patch) {
   const sb = await db();
-  const { data, error } = await sb.from("lili_shops").update(toRow(patch, "lili_shops")).eq("id",id).select().single();
+  const { data, error } = await sb.from("lili_shops").update(toRow(patch, "lili_shops")).eq("id",id).select(SHOP_COLUMNS).single();
   if (error) throw error;
   return fromRow(data);
 }
@@ -397,7 +401,7 @@ export async function updateShop(id, patch) {
 export async function getMyShop() {
   const sb = await db();
   const uid = await currentUid();
-  const { data, error } = await sb.from("lili_shops").select("*").eq("owner_uid",uid).maybeSingle();
+  const { data, error } = await sb.from("lili_shops").select(SHOP_COLUMNS).eq("owner_uid",uid).maybeSingle();
   if (error) throw error;
   return fromRow(data);
 }
