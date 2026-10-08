@@ -87,6 +87,7 @@ Fixed live in `20261008*_lili_review_1..15_*.sql`; see `docs/review-2026-10-08.m
 - **18–19 — saved searches.** Up to 10 each, with a "new since you looked" count and an
   alert when a matching piece goes live (needs the pending SQL to deliver the alert).
 - **20 — fit, measurements, flaws** on listings, checked server-side.
+- **21 — meets completed** per shop (a public count), shown with the shop's earned trust signals.
 
 Design audit against Vinted, Depop, Grailed, Vestiaire and Poshmark: shared separately as
 a page; its priority matrix drives the next changes.
