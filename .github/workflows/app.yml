@@ -47,6 +47,28 @@ jobs:
       - name: Bundle budget
         run: npm run budget
 
+  # Can the repository rebuild the database? Starts a throwaway local Supabase,
+  # which applies every migration in supabase/migrations from zero and loads
+  # supabase/seed.sql, then runs the database tests against it.
+  database:
+    runs-on: ubuntu-latest
+    timeout-minutes: 25
+    defaults:
+      run:
+        working-directory: .
+    steps:
+      - uses: actions/checkout@v4
+      - uses: supabase/setup-cli@v1
+        with:
+          version: 2.48.3
+      - name: Rebuild the database from the migrations
+        run: supabase start -x imgproxy
+      - name: Database tests
+        run: bash supabase/tests/run.sh
+      - name: Stop
+        if: always()
+        run: supabase stop --no-backup
+
   apk:
     needs: test
     if: github.event_name != 'pull_request'

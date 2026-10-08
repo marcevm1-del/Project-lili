@@ -1,4 +1,4 @@
--- lili: three changes from the 8 Oct 2026 review that are NOT applied yet.
+-- lili: four changes from the 8 Oct 2026 review that are NOT applied yet.
 --
 -- It uses DROP CONSTRAINT / DROP NOT NULL, which the Supabase connector treats
 -- as destructive, so it needs the project owner to run it. Paste this file into Supabase → SQL Editor for
@@ -62,5 +62,138 @@ begin
 end; $$;
 revoke all on function lili.prune_retention() from public, anon, authenticated;
 select cron.schedule('lili-retention', '41 3 * * *', 'select lili.prune_retention()');
+
+-- ── 4. Erasure works outside the shared project ─────────────────────────────
+-- lili_erase_me named the other product's tables (entries, forum_*, profiles…)
+-- directly. In a project that holds only lili — the planned move — those
+-- tables do not exist and every erasure failed. They are now looked up by name
+-- and only if present; behaviour in the shared project is unchanged.
+CREATE OR REPLACE FUNCTION public.lili_erase_me()
+ RETURNS jsonb
+ LANGUAGE plpgsql
+ SECURITY DEFINER
+ SET search_path TO 'public', 'pg_temp'
+AS $function$
+declare
+  me uuid := auth.uid();
+  n_items int := 0; n_shops int := 0; n_msgs int := 0;
+  n_events int := 0; n_meets int := 0; n_cases int := 0; n_push int := 0;
+  elsewhere text[] := '{}';
+  account_removed boolean := false;
+begin
+  if me is null then
+    raise exception 'sign in first' using errcode = '42501';
+  end if;
+  if coalesce((auth.jwt() ->> 'is_anonymous')::boolean, false) then
+    raise exception 'there is no account to erase on an anonymous session'
+      using errcode = '22023';
+  end if;
+
+  select count(*) into n_cases from public.lili_moderation_cases mc
+   where mc.reported_by = me
+      or mc.target_item_id in (select id from public.lili_items where owner_uid = me)
+      or mc.shop_id in (select id from public.lili_shops where owner_uid = me);
+
+  -- ── what else is this sign-in used for ────────────────────────────────────
+  -- The other product's tables are looked up by name and only if they exist,
+  -- so this function also works in a project that holds lili alone (the
+  -- planned move out of the shared project). A static reference failed with
+  -- "relation does not exist" there, and erasure failed with it.
+  declare
+    t text; label text; found boolean;
+  begin
+    for t, label in select * from (values
+        ('entries', 'journal entries'), ('forum_threads', 'forum posts'), ('forum_posts', 'forum posts'),
+        ('annual_recaps', 'annual recaps'), ('climate_snapshots', 'saved snapshots'),
+        ('insight_history', 'insight history'), ('billing_consents', 'a billing consent record')) v(t, label)
+    loop
+      if to_regclass('public.' || t) is not null and not (label = any(elsewhere)) then
+        execute format('select exists (select 1 from public.%I where user_id = $1)', t) into found using me;
+        if found then elsewhere := array_append(elsewhere, label); end if;
+      end if;
+    end loop;
+    -- Personalisation, not existence: `handle_new_user` writes a shell row for
+    -- every signup, and `journey` defaults to 'explorer'. Only a departure from
+    -- what the trigger leaves behind is evidence of a second account.
+    if to_regclass('public.profiles') is not null then
+      execute $q$select exists (select 1 from public.profiles p
+                 where p.id = $1
+                   and (p.journey is distinct from 'explorer'
+                        or coalesce(array_length(p.trackers,1),0) > 0
+                        or p.handle is not null or p.bio is not null
+                        or p.avatar_url is not null or p.is_public or p.is_admin))$q$
+        into found using me;
+      if found then elsewhere := array_append(elsewhere, 'a set-up profile in the other app'); end if;
+    end if;
+  end;
+
+  -- ── lili's own data ───────────────────────────────────────────────────────
+  delete from public.lili_saves         where user_id = me;
+  delete from public.lili_carts         where user_id = me;
+  delete from public.lili_follows       where user_id = me;
+  delete from public.lili_notifications where user_id = me;
+  delete from public.lili_push_tokens   where user_id = me;   get diagnostics n_push = row_count;
+  delete from public.lili_events        where user_id = me;   get diagnostics n_events = row_count;
+  delete from public.lili_beta_members  where lili_beta_members.uid = me;
+  delete from public.lili_blocks        where user_id = me;
+  update public.lili_invites set redeemed_by = null, redeemed_at = null where redeemed_by = me;
+
+  delete from public.lili_offers where buyer_uid = me or seller_uid = me;
+
+  update public.lili_moderation_cases set target_item_id = null
+   where target_item_id in (select id from public.lili_items where owner_uid = me);
+  update public.lili_moderation_cases set shop_id = null
+   where shop_id in (select id from public.lili_shops where owner_uid = me);
+
+  delete from public.lili_items where owner_uid = me;   get diagnostics n_items = row_count;
+  delete from public.lili_shops where owner_uid = me;   get diagnostics n_shops = row_count;
+
+  update public.lili_messages
+     set body = '[This person deleted their account]'
+   where sender_uid = me and body <> '[This person deleted their account]';
+  get diagnostics n_msgs = row_count;
+
+  update public.lili_meets set place_note = null
+   where proposed_by = me and place_note is not null;
+  get diagnostics n_meets = row_count;
+
+  delete from public.lili_profiles where user_id = me;
+
+  -- ── the sign-in ───────────────────────────────────────────────────────────
+  if array_length(elsewhere, 1) is null then
+    delete from auth.users where id = me;
+    account_removed := true;
+  end if;
+
+  return jsonb_build_object(
+    'erased', jsonb_build_object(
+      'listings', n_items, 'shops', n_shops, 'analytics_events', n_events,
+      'device_registrations', n_push,
+      'saves_cart_follows_notifications', true, 'offers', true,
+      'lili_profile', true,
+      'account', account_removed),
+    'redacted', jsonb_build_object(
+      'messages', n_msgs,
+      'meet_notes', n_meets,
+      'why', 'A thread belongs to both people in it. Your messages now read "[This person deleted their account]" so the person you spoke to still has a conversation that makes sense.'),
+    'sign_in', case when account_removed then
+        jsonb_build_object(
+          'removed', true,
+          'why', 'This sign-in was used for lili and nothing else, so it has been deleted with everything on it.')
+      else
+        jsonb_build_object(
+          'removed', false,
+          'also_used_for', to_jsonb(elsewhere),
+          'why', 'Everything lili held about you is gone. Your sign-in itself is shared with another service, which still holds the things listed above — deleting it here would quietly destroy those too, and that is not ours to do.',
+          'how_to_finish', 'To close the sign-in itself, delete your account in that service, or write to the address in Privacy & Safety and ask us to pass the request on.')
+      end,
+    'kept', jsonb_build_object(
+      'moderation_cases', n_cases,
+      'why', 'A report is evidence in someone else''s complaint, or in one against you. Deleting it would erase their record, not just yours.',
+      'basis', 'Retained for establishing, exercising or defending legal claims, and to meet our obligations as an online platform. Held for 24 months from the decision, then deleted.',
+      'how_to_object', 'Write to the address in Privacy & Safety. A retention decision can be challenged.')
+  );
+end;
+$function$;
 
 commit;
