@@ -49,7 +49,7 @@ export async function applyTheme(mode = DEFAULT_MODE, { persist = true } = {}) {
     document.documentElement.setAttribute("data-theme", mode);
     // The browser chrome and the pull-down notification shade read this.
     const meta = document.querySelector('meta[name="theme-color"]');
-    if (meta) meta.setAttribute("content", effective === "dark" ? "#16110E" : "#FDEBD8");
+    if (meta) meta.setAttribute("content", effective === "dark" ? "#16110E" : "#FFF8F2");
   } catch { /* no document under test */ }
 
   if (persist) await store.set(KEY, mode);
@@ -67,7 +67,7 @@ async function syncStatusBar(effective) {
   try {
     const { StatusBar, Style } = await import("@capacitor/status-bar");
     await StatusBar.setStyle({ style: effective === "dark" ? Style.Dark : Style.Light });
-    await StatusBar.setBackgroundColor({ color: effective === "dark" ? "#16110E" : "#FDEBD8" });
+    await StatusBar.setBackgroundColor({ color: effective === "dark" ? "#16110E" : "#FFF8F2" });
   } catch { /* unavailable on some devices — non-fatal */ }
 }
 

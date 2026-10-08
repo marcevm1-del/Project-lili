@@ -680,13 +680,64 @@ export async function toggleFollow(shopId) {
  * Live feed. New and changed listings arrive without a pull-to-refresh.
  * Returns an unsubscribe function; a no-op with no backend.
  */
+/**
+ * Fold live changes into the list this phone holds. Pure, so it is tested.
+ * A piece that stops being live leaves the feed unless it is hers; her pending
+ * (unsent) copy is never overwritten by an echo; newest first.
+ */
+export function applyLivePatches(held, batch, me) {
+  const byId = new Map((held || []).map((i) => [i.id, i]));
+  for (const { id, row, deleted } of batch || []) {
+    const visible = row && (row.status === "live" || (me && row.owner_uid === me));
+    if (deleted || !visible) { if (!isPending(byId.get(id))) byId.delete(id); continue; }
+    const prev = byId.get(id);
+    if (prev && isPending(prev)) continue;
+    byId.set(id, prev ? { ...prev, ...row } : row);
+  }
+  return [...byId.values()].sort((a, b) =>
+    String(b.created_at || "").localeCompare(String(a.created_at || "")));
+}
+
 export async function watchItems(onChange) {
   if (!remoteReady) return () => {};
-  try { return await remote.watchItems(onChange); }
-  catch (e) {
+  let me = null;
+  remote.currentUid().then((u) => { me = u; }).catch(() => {});
+  // Changes arrive one row at a time and in bursts (a seller listing ten
+  // pieces); they are applied together, at most a few times a second.
+  let queue = [], timer = null;
+  const flush = async () => {
+    timer = null;
+    const batch = queue; queue = [];
+    const merged = applyLivePatches(await getJSON(K.items, []), batch, me);
+    await setJSON(K.items, merged);
+    onChange(merged);
+  };
+  try {
+    return await remote.watchItems((patch) => {
+      queue.push(patch);
+      if (!timer) timer = setTimeout(() => { flush().catch(() => {}); }, 400);
+    });
+  } catch (e) {
     console.warn("live feed unavailable:", e && e.message);
     return () => {};
   }
+}
+
+/**
+ * The next page of older pieces, merged into what this phone holds.
+ * Returns { items, more } — `more` is false once the server has nothing older.
+ */
+export const PAGE_SIZE = 60;
+export async function loadMoreItems() {
+  const held = await getJSON(K.items, []);
+  if (!remoteRead) return { items: held, more: false };
+  const server = held.filter((i) => !isPending(i) && i.created_at);
+  const oldest = server.reduce((m, i) => (!m || i.created_at < m ? i.created_at : m), null);
+  const page = await remote.getItems({ limit: PAGE_SIZE, before: oldest });
+  const seen = new Set(held.map((i) => i.id));
+  const merged = [...held, ...page.filter((i) => !seen.has(i.id))];
+  await setJSON(K.items, merged);
+  return { items: merged, more: page.length === PAGE_SIZE };
 }
 
 // ── maintenance ────────────────────────────────────────────────────────────

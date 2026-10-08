@@ -68,6 +68,7 @@ for (const [fn, args] of [
   ["lili_save_search", { p_query: "contract test" }],
   ["lili_my_saved_searches", {}],
   ["lili_forget_search", { p_id: "00000000-0000-0000-0000-000000000000" }],
+  ["lili_release_reservation", { p_item: "00000000-0000-0000-0000-000000000000" }],
 ]) {
   r = await rpc(fn, args);
   check(`${fn} exists but refuses a signed-out caller`, exists(r) && refused(r), `status ${r.status} ${r.json && r.json.code}`);
@@ -80,7 +81,11 @@ check("a shop's reviews are readable signed out", r.status === 200 && Array.isAr
 check("a review never says who wrote it", !(r.json || []).some((x) => "reviewer_uid" in x));
 r = await rpc("lili_shop_meets_done", { p_shop: "00000000-0000-0000-0000-000000000000" });
 check("a shop's completed meets are a public count", r.status === 200 && r.json === 0, `status ${r.status} ${JSON.stringify(r.json)}`);
-for (const table of ["lili_reviews", "lili_saved_searches"]) {
+r = await call("/rest/v1/lili_items?select=screening&limit=50");
+check("a listing's screening shows a verdict, never the rules that fired",
+  r.status === 200 && (r.json || []).every((x) => !x.screening || !("findings" in x.screening || "score" in x.screening)),
+  `status ${r.status}`);
+for (const table of ["lili_reviews", "lili_saved_searches", "lili_item_screening"]) {
   r = await call(`/rest/v1/${table}?select=*&limit=1`);
   check(`${table} is not readable directly`, refused(r) || (r.status === 200 && (r.json || []).length === 0), `status ${r.status}`);
 }
@@ -107,6 +112,7 @@ if (process.env.LILI_TEST_EMAIL && process.env.LILI_TEST_PASSWORD) {
       ["lili_leave_review", { p_meet: "00000000-0000-0000-0000-000000000000", p_stars: 5 }],
       ["lili_reviews_owed", {}],
       ["lili_my_saved_searches", {}],
+      ["lili_release_reservation", { p_item: "00000000-0000-0000-0000-000000000000" }],
     ]) {
       r = await rpc(fn, args, token);
       const msg = (r.json && r.json.message) || "";

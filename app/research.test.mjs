@@ -662,6 +662,28 @@ check("nothing is suggested from an empty catalogue",
     canonicalBrand("Dina Couture", A) === "Dina Couture" && canonicalBrand("Dio", A) === "Dio" && canonicalBrand("", A) === "");
 }
 
+{
+  const { applyLivePatches } = await import("./src/data/repo.js");
+  const held = [
+    { id:"a", status:"live", title:"A", created_at:"2026-10-01" },
+    { id:"b", status:"live", title:"B", created_at:"2026-10-02" },
+    { id:"p", pending:true, title:"Mine, unsent", created_at:"2026-10-03" },
+  ];
+  const out = applyLivePatches(held, [
+    { id:"c", row:{ id:"c", status:"live", title:"C", created_at:"2026-10-04" } },   // new piece
+    { id:"a", row:{ id:"a", status:"live", title:"A", saves:3, created_at:"2026-10-01" } }, // a save
+    { id:"b", row:{ id:"b", status:"sold", owner_uid:"someone", created_at:"2026-10-02" } }, // sold
+    { id:"p", row:{ id:"p", status:"in_review", owner_uid:"someone" } },              // echo of hers
+  ], "me");
+  check("a live change is applied in place, not refetched: new piece first, save counted, sold one gone",
+    out.map(i=>i.id).join(",") === "c,p,a" && out.find(i=>i.id==="a").saves === 3);
+  check("her own piece stays in her list when it leaves the feed",
+    applyLivePatches([{ id:"m", status:"live", owner_uid:"me" }],
+      [{ id:"m", row:{ id:"m", status:"in_review", owner_uid:"me" } }], "me")[0].status === "in_review");
+  check("a deleted piece leaves the list",
+    applyLivePatches([{ id:"x", status:"live" }], [{ id:"x", row:null, deleted:true }], "me").length === 0);
+}
+
 section("30. Every control in the filter sheet does something");
 
 check("size filters, having been stored and read by nothing",

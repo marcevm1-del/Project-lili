@@ -159,6 +159,14 @@ export async function declineOffer(id) {
   if (remoteReady) return remote.declineOffer(id);
   return decideLocally(id, "declined");
 }
+/** End an accepted offer's hold on the piece — either side may. */
+export async function releaseReservation(offer, { asBuyer }) {
+  if (remoteReady) return remote.releaseReservation(offer.item_id);
+  const list = await local();
+  await setJSON(K.offers, list.map((o) => (o.id === offer.id
+    ? { ...o, state: asBuyer ? "withdrawn" : "declined" } : o)));
+  return { ok: true };
+}
 export async function counterOffer(id, amount, message) {
   const value = Number(amount);
   if (!Number.isFinite(value) || value <= 0) throw new Error("Enter an amount");

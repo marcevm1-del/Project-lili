@@ -33,7 +33,7 @@ export async function initNativeShell() {
   if (!isNative()) return;
   try {
     await StatusBar.setStyle({ style: Style.Light });   // dark icons on light bg
-    await StatusBar.setBackgroundColor({ color: "#FDEBD8" });
+    await StatusBar.setBackgroundColor({ color: "#FFF8F2" });   // the page ground (cream), so the bar and the header meet without a seam
     await StatusBar.setOverlaysWebView({ overlay: false });
   } catch { /* status bar unavailable on some devices — non-fatal */ }
   try {

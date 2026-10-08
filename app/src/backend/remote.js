@@ -88,6 +88,8 @@ const clean = (o) => { const x = { ...(o||{}) }; SERVER_OWNED.forEach(k => delet
 const fromRow = (r) => r && ({ ...r,
   titleAr: r.title_ar, nameAr: r.name_ar, shopId: r.shop_id,
   previousPrice: r.previous_price,
+  // an accepted offer holds the piece for one buyer (migration 22)
+  reserved: !!r.reserved_offer,
   sellerType: r.seller_type, desc: r.description,
   photo: Array.isArray(r.photos) && r.photos.length ? r.photos[0] : null,
   // what a tile should load: the small one when we have it
@@ -157,7 +159,18 @@ export function isOffline(e) {
   return /failed to fetch|networkerror|network request failed|timeout|abort|ECONN|ENOTFOUND|socket/i.test(m);
 }
 
-export async function getItems({ limit = 60 } = {}) {
+// What a listing needs on a phone, and nothing else. `select("*")` also sent
+// three search vectors (the bulk of every row), so a 60-piece feed cost several
+// times what it showed.
+const ITEM_COLUMNS = [
+  "id", "owner_uid", "shop_id", "title", "title_ar", "subtitle", "brand", "category",
+  "price", "currency", "previous_price", "price_changed_at", "condition", "size", "era",
+  "fit", "measurements", "flaws", "color", "icon", "description", "photos", "thumbs",
+  "authenticated", "status", "screening", "reserved_offer", "saves", "market_code",
+  "created_at", "updated_at",
+].join(",");
+
+export async function getItems({ limit = 60, before = null } = {}) {
   const sb = await db();
   // Everyone's live pieces, plus her own in every state. Asking for live only
   // meant a seller who reopened the app lost sight of anything held for review
@@ -165,8 +178,11 @@ export async function getItems({ limit = 60 } = {}) {
   // security already lets an owner read her own rows; the feed filters them.
   const { data: { session } } = await sb.auth.getSession();
   const uid = session && session.user && session.user.id;
-  let q = sb.from("lili_items").select("*");
+  let q = sb.from("lili_items").select(ITEM_COLUMNS);
   q = uid ? q.or(`status.eq.live,owner_uid.eq.${uid}`) : q.eq("status", "live");
+  // `before` pages backwards through the feed (newest first). Without it the
+  // feed stopped at 60 and every older piece vanished from browsing.
+  if (before) q = q.lt("created_at", before);
   const { data, error } = await q.order("created_at",{ ascending:false }).limit(limit);
   if (error) throw error;
   return (data||[]).map(fromRow);
@@ -187,14 +203,14 @@ export async function addItem(item) {
   if (set.thumbs.length) row.thumbs = set.thumbs; else delete row.thumbs;
 
   const { data, error } = await sb.from("lili_items")
-    .insert({ ...row, owner_uid: uid, shop_id: shop.id }).select().single();
+    .insert({ ...row, owner_uid: uid, shop_id: shop.id }).select(ITEM_COLUMNS).single();
   if (error) throw error;
   return fromRow(data);   // status is the database's verdict, not our guess
 }
 
 export async function updateItem(id, patch) {
   const sb = await db();
-  const { data, error } = await sb.from("lili_items").update(toRow(patch)).eq("id",id).select().single();
+  const { data, error } = await sb.from("lili_items").update(toRow(patch)).eq("id",id).select(ITEM_COLUMNS).single();
   if (error) throw error;
   return fromRow(data);
 }
@@ -214,6 +230,18 @@ export async function removeItem(id) {
   return id;
 }
 
+/**
+ * End a reservation. The seller releases it (her acceptance becomes a
+ * decline); the buyer cancels it (her offer becomes withdrawn). Either way the
+ * piece is for sale again and the other person is told.
+ */
+export async function releaseReservation(itemId) {
+  const sb = await db();
+  const { data, error } = await sb.rpc("lili_release_reservation", { p_item: itemId });
+  if (error) throw error;
+  return data;
+}
+
 /** Mark a live piece sold (answers any open offers), or relist a sold one. */
 export async function markSold(id, sold = true) {
   const sb = await db();
@@ -222,12 +250,23 @@ export async function markSold(id, sold = true) {
   return data;
 }
 
-/** Live feed. Returns an unsubscribe function. */
-export async function watchItems(onChange, { limit = 60 } = {}) {
+/**
+ * Live feed. Calls `onPatch({ id, row, deleted })` for each change and returns
+ * an unsubscribe function.
+ *
+ * This used to answer every change to any listing with a fresh 60-row query —
+ * and a heart tapped anywhere changes `saves` on the listing — so every save by
+ * anyone made every open phone download the whole feed again. The change
+ * already carries the row; apply it.
+ */
+export async function watchItems(onPatch) {
   const sb = await db();
   const ch = sb.channel("lili-items")
-    .on("postgres_changes", { event:"*", schema:"public", table:"lili_items" },
-        async () => onChange(await getItems({ limit })))
+    .on("postgres_changes", { event:"*", schema:"public", table:"lili_items" }, (p) => {
+      const row = p.new && p.new.id ? p.new : null;
+      const id = (row && row.id) || (p.old && p.old.id);
+      if (id) onPatch({ id, row: row ? fromRow(row) : null, deleted: p.eventType === "DELETE" });
+    })
     .subscribe();
   return () => sb.removeChannel(ch);
 }

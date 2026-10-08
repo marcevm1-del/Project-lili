@@ -40,6 +40,7 @@ export default function OffersPage({ items = [], shops = [], onBack }) {
   const [busy, setBusy] = useState(null);
   const [error, setError] = useState(null);
   const [countering, setCountering] = useState(null);
+  const [releasing, setReleasing] = useState(null);   // offer id awaiting the second tap
   const [counterAmount, setCounterAmount] = useState("");
 
   // Bounded, for the same reason the notifications sheet is: an unreachable
@@ -204,6 +205,28 @@ export default function OffersPage({ items = [], shops = [], onBack }) {
             )}
             {" "}lili doesn't take payment or hold the
             piece — arrange the handover between yourselves, in the thread.
+            {/* The piece is held for this buyer until it is sold or one of
+                them lets it go. Two taps, because letting go tells the other
+                person and puts the piece back on sale. */}
+            <div style={{ marginTop: 8 }}>
+              {releasing === o.id ? (
+                <span style={{ display: "inline-flex", gap: 8, flexWrap: "wrap", alignItems: "center" }}>
+                  <span>She'll be told, and the piece goes back on sale.</span>
+                  <button onClick={() => { setReleasing(null); act(o.id, () => offers.releaseReservation(o, { asBuyer: isBuyer })); }}
+                    disabled={busy === o.id}
+                    style={{ ...btn, background: C.btn, color: C.onBtn }}>
+                    {isBuyer ? "Yes, cancel" : "Yes, release"}
+                  </button>
+                  <button onClick={() => setReleasing(null)}
+                    style={{ ...btn, background: "none", color: C.inkLt, border: `1px solid ${C.border}` }}>Keep it</button>
+                </span>
+              ) : (
+                <button onClick={() => setReleasing(o.id)} disabled={busy === o.id}
+                  style={{ ...btn, background: "none", color: C.terraTx, border: `1.5px solid ${C.terra}` }}>
+                  {isBuyer ? "I can't buy it after all" : "Release the reservation"}
+                </button>
+              )}
+            </div>
           </div>
         )}
       </div>

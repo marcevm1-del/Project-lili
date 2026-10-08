@@ -415,6 +415,7 @@ function ItemPhoto({item, size=56, compact, full}) {
     <>
       {state === STATE.LOADING && <MediaSkeleton/>}
       <img src={srcKey} alt={item.title} onLoad={onLoad} onError={onError}
+        loading={full ? "eager" : "lazy"} decoding="async"
         style={{width:"100%",height:"100%",objectFit:"cover",display:"block",
           // fades in over the skeleton rather than snapping, and is never
           // display:none — a hidden img in some engines never fires onLoad
@@ -1099,7 +1100,11 @@ function ItemTile({item,onSave,onClick,loading}) {
         </button>
         {/* Same derivation as the New In strip — the badge and the strip
             disagreeing about what "new" means would be worse than either. */}
-        {isNewArrival(item) && (
+        {item.reserved ? (
+          <div style={{position:"absolute",top:8,left:8,
+            background:C.ink,color:C.cream,fontSize:10,fontWeight:700,
+            padding:"2px 7px",borderRadius:10}}>Reserved</div>
+        ) : isNewArrival(item) && (
           <div style={{position:"absolute",top:8,left:8,
             background:C.btn,color:C.onBtn,fontSize:10,fontWeight:700,
             padding:"2px 7px",borderRadius:10}}>{t("new")}</div>
@@ -1393,10 +1398,14 @@ function ItemModal({item,shop,items=[],onOpenItem,onSave,onClose,onOffer,setTab,
                 display:"flex",alignItems:"center",justifyContent:"center"}}>
               <Icon name="bag" size={22} stroke={1.6}/><span className="sr-only">{t("add_to_cart")}</span>
             </button>
-            <button onClick={()=>onOffer(item)} style={{flex:1,background:C.white,color:C.terraTx,
+            <button onClick={()=>!item.reserved && onOffer(item)} disabled={!!item.reserved}
+              aria-label={item.reserved ? "Reserved for another buyer — offers are closed" : undefined}
+              style={{flex:1,background:C.white,color:C.terraTx,opacity:item.reserved?0.55:1,
               border:`1.5px solid ${C.terra}`,borderRadius:24,padding:"8px 0",
               fontWeight:700,cursor:"pointer",fontSize:13,lineHeight:1.25}}>
-              {T.makeOffer[0]}<br/><span style={{fontSize:11,fontWeight:600}}>{T.makeOffer[1]}</span>
+              {item.reserved
+                ? <>Reserved<br/><span style={{fontSize:11,fontWeight:600}}>محجوزة</span></>
+                : <>{T.makeOffer[0]}<br/><span style={{fontSize:11,fontWeight:600}}>{T.makeOffer[1]}</span></>}
             </button>
             <button onClick={()=>{ onMessageSeller && onMessageSeller(item); onClose(); }}
               style={{flex:1.2,background:C.btn,color:C.onBtn,border:"none",borderRadius:24,
@@ -2062,9 +2071,10 @@ function SplashScreen({onDone}) {
 }
 
 // ── home page ──────────────────────────────────────────────────────────────
-function HomePage({items,shops,onSave,setModal,filters,setFilters,stories,setActiveStory,cartCount,savedCount=0,setTab,hydrated,onOpenNotifications,unreadCount=0,taste,personalise,onEditTaste}) {
+function HomePage({items,shops,onSave,setModal,filters,setFilters,stories,setActiveStory,cartCount,savedCount=0,onLoadMore,setTab,hydrated,onOpenNotifications,unreadCount=0,taste,personalise,onEditTaste}) {
   const [q,setQ] = useState("");
   const [showFilters,setShowFilters] = useState(false);
+  const [loadingMore,setLoadingMore] = useState(false);
   const shopFor = useCallback((i)=>{
     const sh = shops.find(s=>s.id===i.shopId);
     return sh ? `${sh.name||""} ${sh.nameAr||""}` : "";
@@ -2232,6 +2242,20 @@ function HomePage({items,shops,onSave,setModal,filters,setFilters,stories,setAct
               <ItemTile key={item.id} item={item} onSave={onSave} onClick={()=>setModal(item)}/>
             ))}
       </div>
+      {/* The feed comes 60 at a time. It used to stop at 60 with no way on,
+          so every older piece simply vanished from browsing. */}
+      {!showingSkeletons && shown.length>0 && onLoadMore && (
+        <div style={{textAlign:"center",padding:"18px 0 6px"}}>
+          <button onClick={async()=>{ if(loadingMore) return; setLoadingMore(true);
+              try { await onLoadMore(); } finally { setLoadingMore(false); } }}
+            disabled={loadingMore}
+            style={{background:"none",border:`1.5px solid ${C.terra}`,color:C.terraTx,borderRadius:20,
+              padding:"10px 22px",fontSize:13,fontWeight:700,cursor:"pointer",fontFamily:"inherit",
+              opacity:loadingMore?0.6:1}}>
+            {loadingMore ? "Loading…" : "Show more pieces"}
+          </button>
+        </div>
+      )}
       {/* v2.9: this used to render alongside the skeletons — six loading tiles
           and "Nothing found" on the screen at the same time on every cold
           start — and it could not tell an empty catalogue from filters set too
@@ -4392,10 +4416,9 @@ export default function Marketplace() {
     let off = null, alive = true;
     // `setItems(fresh)` wholesale used to wipe a listing she had written offline
     // seconds earlier. mergeLive keeps anything still marked pending.
-    repo.watchItems((fresh) => {
-      if (!alive || !Array.isArray(fresh)) return;
-      repo.mergeLive(fresh).then((merged) => { if (alive) setItems(merged); }).catch(() => {});
-    })
+    // Each change is applied to what is already on screen (repo.watchItems);
+    // her offline pieces are kept, exactly as mergeLive did.
+    repo.watchItems((merged) => { if (alive && Array.isArray(merged)) setItems(merged); })
       .then((fn) => { if (alive) off = fn; else fn && fn(); })
       .catch(() => {});
     return () => { alive = false; if (off) off(); };
@@ -4514,6 +4537,17 @@ export default function Marketplace() {
     catch (e) { console.warn("save refused:", e && e.message); setSavedIds(before); }
   };
   const savedCount = savedIds.length;
+  // Older pieces, a page at a time. Offered only when the server sent a full
+  // page — a shorter one means there is nothing older to fetch.
+  const [noMore,setNoMore] = useState(false);
+  const canLoadMore = repo.canRead() && !noMore
+    && items.filter(i=>i.created_at && !i.pending).length >= repo.PAGE_SIZE;
+  const loadMore = async () => {
+    try {
+      const r = await repo.loadMoreItems();
+      setItems(r.items); if (!r.more) setNoMore(true);
+    } catch (e) { console.warn("could not load more:", e && e.message); }
+  };
   // Tapping a tab while a settings screen is open changed the tab underneath
   // and left the overlay covering it — the app looked frozen. Navigation should
   // always win: choosing a destination closes whatever was on top of it.
@@ -4629,7 +4663,8 @@ export default function Marketplace() {
           </div>
         )}
         <Suspense fallback={null}>
-        {tab==="home"       && <HomePage hydrated={hydrated} items={visibleItems} shops={visibleShops} onSave={onSave} setModal={setModal} filters={filters} setFilters={setFilters} stories={STORIES} setActiveStory={setActiveStory} cartCount={cartCount} savedCount={savedCount} setTab={setTab} onOpenNotifications={()=>setNotifOpen(true)} unreadCount={unread}
+        {tab==="home"       && <HomePage hydrated={hydrated} items={visibleItems} shops={visibleShops} onSave={onSave} setModal={setModal} filters={filters} setFilters={setFilters} stories={STORIES} setActiveStory={setActiveStory} cartCount={cartCount} savedCount={savedCount} setTab={setTab}
+                              onLoadMore={canLoadMore ? loadMore : null} onOpenNotifications={()=>setNotifOpen(true)} unreadCount={unread}
                               taste={taste} personalise={!!(consent && consent.personalisation)}
                               onEditTaste={()=>setTasteOpen(true)}/>}
         {tab==="search"     && <SearchPage items={visibleItems} shops={visibleShops} onSave={onSave} setModal={setModal} filters={filters} setFilters={setFilters} savedIds={savedIds}/>}
