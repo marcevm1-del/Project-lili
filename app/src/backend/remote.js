@@ -9,6 +9,8 @@
 //  this file only asks. Bypass the app and call PostgREST by hand and the same
 //  rules apply, because they are row-level policies and triggers, not code.
 // ─────────────────────────────────────────────────────────────────────────────
+import * as store from "../compliance/store.js";
+
 let cfg = null, client = null;
 
 export function isConfigured() { return !!(cfg && cfg.url && cfg.publishableKey); }
@@ -19,6 +21,29 @@ export function configure(next) {
   return isConfigured();
 }
 
+// Where the session lives. supabase-js defaults to the WebView's localStorage,
+// which Android and iOS may clear under storage pressure — signing her out at
+// random — and which any script on the page can read. On a phone this is the
+// native key/value store (compliance/store.js); in a browser it is still
+// localStorage. A session saved the old way is carried over on first read, so
+// nobody is signed out by the change.
+const authStorage = {
+  async getItem(key) {
+    const v = await store.get(key);
+    if (v != null) return v;
+    try {
+      const old = window.localStorage.getItem(key);
+      if (old != null) { await store.set(key, old); return old; }
+    } catch { /* no localStorage — nothing to carry over */ }
+    return null;
+  },
+  setItem: (key, value) => store.set(key, value),
+  async removeItem(key) {
+    await store.remove(key);
+    try { window.localStorage.removeItem(key); } catch { /* fine */ }
+  },
+};
+
 async function db() {
   if (client) return client;
   if (!isConfigured()) throw new Error("Backend is not configured");
@@ -28,7 +53,7 @@ async function db() {
   // dashboard configuration, and still cannot collide with the other
   // application already living in public.
   db: { schema: "public" },
-    auth: { persistSession: true, autoRefreshToken: true },
+    auth: { persistSession: true, autoRefreshToken: true, storage: authStorage },
   });
   return client;
 }

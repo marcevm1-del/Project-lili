@@ -69,6 +69,29 @@ jobs:
         if: always()
         run: supabase stop --no-backup
 
+  # iOS has never been built (audit M-7). This proves the project compiles for
+  # the simulator on every push; it does not sign or ship anything.
+  ios:
+    runs-on: macos-15
+    timeout-minutes: 45
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+          cache-dependency-path: app/package-lock.json
+      - run: npm ci
+      - run: npm run build
+      - run: npx cap sync ios
+      - name: Build for the iOS simulator
+        working-directory: app/ios/App
+        run: |
+          set -o pipefail
+          xcodebuild -workspace App.xcworkspace -scheme App -configuration Debug \
+            -sdk iphonesimulator -destination 'generic/platform=iOS Simulator' \
+            CODE_SIGNING_ALLOWED=NO build | tail -40
+
   apk:
     needs: test
     if: github.event_name != 'pull_request'

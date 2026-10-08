@@ -695,6 +695,14 @@ check("nothing is suggested from an empty catalogue",
     /isNativePlatform/.test(main) && /localhost/.test(main) && /connectReporter/.test(main));
 }
 
+{
+  const rem = read("./src/backend/remote.js");
+  check("the session lives in the native store, not WebView localStorage",
+    /storage: authStorage/.test(rem) && /store\.get\(key\)/.test(rem));
+  check("an existing session is carried over, so nobody is signed out by the move",
+    /localStorage\.getItem\(key\)/.test(rem) && /await store\.set\(key, old\)/.test(rem));
+}
+
 section("30. Every control in the filter sheet does something");
 
 check("size filters, having been stored and read by nothing",
