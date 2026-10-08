@@ -225,8 +225,11 @@ export async function updateItem(id, patch) {
  */
 export async function removeItem(id) {
   const sb = await db();
+  const { data: own } = await sb.from("lili_items").select("photos,thumbs").eq("id", id).maybeSingle();
   const { error } = await sb.rpc("lili_withdraw_listing", { p_item: id });
   if (error) throw error;
+  // A piece taken down never comes back, so neither should its photographs.
+  if (own) await removePhotos([...(own.photos || []), ...(own.thumbs || [])]);
   return id;
 }
 
@@ -269,6 +272,14 @@ export async function watchItems(onPatch) {
     })
     .subscribe();
   return () => sb.removeChannel(ch);
+}
+
+/** Append one scrubbed crash report (ux/errorReport.js). Never throws. */
+export async function reportError(entry) {
+  try {
+    const sb = await db();
+    await sb.rpc("lili_report_error", entry);
+  } catch { /* a report that cannot be sent is not worth a second error */ }
 }
 
 export async function getShops() {
@@ -616,6 +627,51 @@ export async function uploadPhoto(dataUrl) {
   return data.publicUrl;
 }
 
+// The storage path of one of our public photo URLs, or null for anything else.
+const photoPath = (url) => {
+  const m = String(url || "").match(new RegExp(`/object/public/${BUCKET}/(.+)$`));
+  return m ? decodeURIComponent(m[1].split("?")[0]) : null;
+};
+
+/**
+ * Delete photos from storage. Best effort: a photo that cannot be removed now
+ * must not block taking a listing down or erasing an account.
+ *
+ * Until this existed, nothing anywhere deleted a photo — erased accounts and
+ * withdrawn listings left every picture publicly reachable at its URL forever.
+ */
+export async function removePhotos(urls) {
+  const paths = [...new Set((urls || []).map(photoPath).filter(Boolean))];
+  if (!paths.length) return 0;
+  try {
+    const sb = await db();
+    const { error } = await sb.storage.from(BUCKET).remove(paths);
+    if (error) throw error;
+    return paths.length;
+  } catch (e) {
+    console.warn("photos not removed:", e && e.message);
+    return 0;
+  }
+}
+
+/** Every photo in her own folder — used when she erases her account. */
+async function removeAllMyPhotos() {
+  const sb = await db();
+  const uid = await currentUid();
+  if (!uid) return 0;
+  let removed = 0;
+  for (let round = 0; round < 20; round++) {           // 20 x 100 photos is far past any real wardrobe
+    const { data, error } = await sb.storage.from(BUCKET).list(uid, { limit: 100 });
+    if (error || !data || !data.length) break;
+    const paths = data.map((f) => `${uid}/${f.name}`);
+    const r = await sb.storage.from(BUCKET).remove(paths);
+    if (r.error) break;
+    removed += paths.length;
+    if (data.length < 100) break;
+  }
+  return removed;
+}
+
 /** Uploads what needs uploading, in parallel, and keeps the order. */
 export async function uploadPhotos(list) {
   const arr = (list || []).filter(Boolean);
@@ -837,10 +893,14 @@ export async function exportMe() {
 export async function eraseMe() {
   const sb = await db();
   await ensureUser();
+  // Photos first, while the session that owns the folder still exists. If the
+  // erasure itself then fails she can retry; her pictures are already gone,
+  // which is the half she asked for.
+  const photosRemoved = await removeAllMyPhotos().catch(() => 0);
   const { data, error } = await sb.rpc("lili_erase_me");
   if (error) throw error;
   try { await sb.auth.signOut(); } catch { /* the account is gone either way */ }
-  return data;
+  return data && typeof data === "object" ? { ...data, photos_removed: photosRemoved } : data;
 }
 
 // ── the meet ───────────────────────────────────────────────────────────────

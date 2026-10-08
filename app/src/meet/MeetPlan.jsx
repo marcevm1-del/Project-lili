@@ -103,7 +103,11 @@ export default function MeetPlan({ conversationId, itemId, onReport }) {
       // proposed it". Showing it is better than inventing a friendlier lie.
       setProblem(isTimeout(e)
         ? "That didn't reach lili. Nothing changed — try again in a moment."
-        : (e && e.message) || "That didn't work.");
+        : e && e.code === "23505"
+          // one live plan per conversation: the other person got there first
+          ? "There's already a plan in this conversation. Here it is."
+          : (e && e.message) || "That didn't work.");
+      if (e && e.code === "23505") load();
     }
     setBusy(false);
   };

@@ -1,4 +1,4 @@
--- lili: two changes from the 8 Oct 2026 review that are NOT applied yet.
+-- lili: three changes from the 8 Oct 2026 review that are NOT applied yet.
 --
 -- It uses DROP CONSTRAINT / DROP NOT NULL, which the Supabase connector treats
 -- as destructive, so it needs the project owner to run it. Paste this file into Supabase → SQL Editor for
@@ -45,5 +45,22 @@ alter table public.lili_notifications add constraint lili_notifications_kind_che
   'message', 'offer', 'price_drop', 'moderation_outcome', 'moderation_report_outcome',
   'listing_live', 'listing_blocked', 'shop_action', 'meet_proposed', 'meet_confirmed',
   'meet_declined', 'meet_cancelled', 'saved_search']));
+
+-- ── 3. Retention ────────────────────────────────────────────────────────────
+-- Analytics events are kept 13 months and read notifications 90 days, instead
+-- of forever. A nightly job; nothing else deletes these rows.
+create or replace function lili.prune_retention()
+returns jsonb language plpgsql security definer set search_path to 'public', 'pg_temp'
+as $$
+declare n_events int; n_notes int;
+begin
+  delete from public.lili_events where created_at < now() - interval '13 months';
+  get diagnostics n_events = row_count;
+  delete from public.lili_notifications where read_at is not null and read_at < now() - interval '90 days';
+  get diagnostics n_notes = row_count;
+  return jsonb_build_object('events', n_events, 'notifications', n_notes);
+end; $$;
+revoke all on function lili.prune_retention() from public, anon, authenticated;
+select cron.schedule('lili-retention', '41 3 * * *', 'select lili.prune_retention()');
 
 commit;

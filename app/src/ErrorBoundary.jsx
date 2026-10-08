@@ -1,5 +1,6 @@
 import { Component } from "react";
 import { t } from "./i18n/t.js";
+import { report } from "./ux/errorReport.js";
 
 // ─────────────────────────────────────────────────────────────────────────────
 //  ERROR BOUNDARY
@@ -42,7 +43,7 @@ export default class ErrorBoundary extends Component {
   }
 
   report(error, info) {
-    // Kept local for now. Wire this to a crash service and the payload is ready.
+    // A copy stays on the phone (the last 20), and a scrubbed one is reported.
     const entry = {
       message: String(error && error.message).slice(0, 500),
       stack: String((error && error.stack) || "").slice(0, 2000),
@@ -57,6 +58,8 @@ export default class ErrorBoundary extends Component {
     } catch { /* storage unavailable — the console line below still fires */ }
     // eslint-disable-next-line no-console
     console.error("lili crashed:", entry.message);
+    // and now it leaves the phone too, scrubbed (ux/errorReport.js)
+    report("crash", error, entry.screen);
   }
 
   retry = () => {

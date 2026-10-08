@@ -72,6 +72,13 @@ export const STRINGS = {
   love_it_or_leave_it: { en: "love it or leave it", ar: "أحبيها أو اتركيها" },
   meeting_to_hand_it_over: { en: "Meeting to hand it over?", ar: "تسليم يداً بيد" },
   messages: { en: "Messages", ar: "الرسائل" },
+  // the tab bar: it was hard-coded English, so the most-seen words in the app
+  // stayed English in Arabic mode
+  tab_home: { en: "Home", ar: "الرئيسية" },
+  tab_search: { en: "Search", ar: "بحث" },
+  tab_sell: { en: "Sell", ar: "بيع" },
+  tab_inbox: { en: "Inbox", ar: "الرسائل" },
+  tab_profile: { en: "Profile", ar: "حسابي" },
   my_listings: { en: "My Listings", ar: "قطعي" },
   new: { en: "NEW", ar: "جديد" },
   new_shop: { en: "New shop", ar: "دكان جديد" },

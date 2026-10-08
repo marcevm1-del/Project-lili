@@ -794,21 +794,21 @@ function TabBar({tab,setTab,myShop}) {
   const tabs = [
     { key:"home",
       icon: <svg width="22" height="22" viewBox="0 0 24 24" fill={tab==="home"?C.terra:"none"} stroke={tab==="home"?C.terra:C.inkLt} strokeWidth="1.8"><path d="M3 9.5L12 3l9 6.5V20a1 1 0 01-1 1H5a1 1 0 01-1-1V9.5z"/><path d="M9 21V12h6v9"/></svg>,
-      label:"Home" },
+      label:t("tab_home") },
     { key:"search",
       icon: <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke={tab==="search"?C.terra:C.inkLt} strokeWidth="1.8"><circle cx="11" cy="11" r="7"/><path d="M21 21l-4.35-4.35"/></svg>,
-      label:"Search" },
-    { key: myShop ? "myshop" : "sell", icon: null, label:"Sell", plus:true },
+      label:t("tab_search") },
+    { key: myShop ? "myshop" : "sell", icon: null, label:t("tab_sell"), plus:true },
     // The inbox, not Saved, earns the fourth tab. lili takes no payment, so a
     // sale happens in a conversation: the message, the offer, the meet plan.
     // Those sat two taps deep under Profile while a list of hearts had a tab.
     // Saved is a heart in the Home header now, and a row in Profile.
     { key:"messages",
       icon: <Icon name="chat" size={22} stroke={1.8} filled={tab==="messages"} style={{color:tab==="messages"?C.terra:C.inkLt}}/>,
-      label:"Inbox" },
+      label:t("tab_inbox") },
     { key:"profile",
       icon: <svg width="22" height="22" viewBox="0 0 24 24" fill={tab==="profile"?C.terra:"none"} stroke={tab==="profile"?C.terra:C.inkLt} strokeWidth="1.8"><path d="M20 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>,
-      label:"Profile" },
+      label:t("tab_profile") },
   ];
   return (
     <div style={{position:"fixed",bottom:0,left:0,right:0,zIndex:100,
@@ -2635,7 +2635,8 @@ function SellPage({myShop,onCreateShop,onAddItem,setTab,onListed}) {
     setPublishing(true); setPublishError(null);
     try {
       const created = await onAddItem({
-        id:Date.now(),shopId:myShop?.id||99,
+        // her shop's id; the form is only reachable once a shop exists
+        id:Date.now(),shopId:myShop && myShop.id,
         title:form.title,
         // v2.9.1: this was `form.titleAr || form.title`.
         //

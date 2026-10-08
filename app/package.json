@@ -45,7 +45,8 @@
     "payments": "node payments.mjs",
     "uxlaws": "node uxlaws.mjs",
     "contract": "node api-contract.test.mjs",
-    "verify:ci": "npm run build && node ci-suites.mjs"
+    "verify:ci": "npm run build && node ci-suites.mjs",
+    "budget": "node bundle-budget.mjs"
   },
   "dependencies": {
     "@capacitor/android": "^7.6.9",

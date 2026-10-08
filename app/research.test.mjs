@@ -684,6 +684,17 @@ check("nothing is suggested from an empty catalogue",
     applyLivePatches([{ id:"x", status:"live" }], [{ id:"x", row:null, deleted:true }], "me").length === 0);
 }
 
+{
+  const { scrub } = await import("./src/ux/errorReport.js");
+  const out = scrub("Failed for leen@example.com at https://x.supabase.co/rest/v1/items?id=eq.123&token=abc, order 1234567890", 500);
+  check("a crash report carries no email, query string or long number",
+    !/@example\.com/.test(out) && !/token=abc/.test(out) && !/1234567890/.test(out) && /\[email\]/.test(out));
+  check("a crash report is capped in length", scrub("x".repeat(9000), 500).length === 500);
+  const main = read("./src/main.jsx");
+  check("only the real app reports crashes, never tests on localhost",
+    /isNativePlatform/.test(main) && /localhost/.test(main) && /connectReporter/.test(main));
+}
+
 section("30. Every control in the filter sheet does something");
 
 check("size filters, having been stored and read by nothing",
