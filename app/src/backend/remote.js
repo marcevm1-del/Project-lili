@@ -941,9 +941,17 @@ export async function eraseMyEvents() {
 export async function getShopStats(shopId) {
   if (!shopId) return null;
   const sb = await db();
-  const { data, error } = await sb.rpc("lili_shop_stats", { p_shop: shopId });
+  const [{ data, error }, meets] = await Promise.all([
+    sb.rpc("lili_shop_stats", { p_shop: shopId }),
+    sb.rpc("lili_shop_meets_done", { p_shop: shopId }),
+  ]);
   if (error) throw error;
-  return (Array.isArray(data) ? data[0] : data) || null;
+  const row = (Array.isArray(data) ? data[0] : data) || null;
+  // Handovers completed through a meet plan both sides agreed: the track
+  // record lili can vouch for, since it sees no payment. Optional — if it
+  // fails, the rest of the stats still show.
+  if (row) row.meets_done = meets && !meets.error && Number.isFinite(meets.data) ? meets.data : 0;
+  return row;
 }
 
 // ── notifications ──────────────────────────────────────────────────────────

@@ -140,6 +140,16 @@ const itemPrice = await page.evaluate(() => {
   return m ? Number(m[1].replace(/,/g, "")) : null;
 });
 check("the item shows a price", itemPrice !== null && itemPrice > 0, String(itemPrice));
+{
+  // Her other pieces sit under this one, and open in place.
+  const more = page.getByText(/^More from /).first();
+  const hasMore = await more.count() > 0;
+  if (hasMore) {
+    await more.scrollIntoViewIfNeeded().catch(() => {});
+    await page.screenshot({ path: "screenshots/19-more-from-shop.png" });
+  }
+  check("the item page shows more from the same shop", hasMore);
+}
 await tap("Add to shortlist");
 await page.waitForTimeout(400);
 await label("Shortlist");

@@ -78,6 +78,8 @@ check("shop reputations are readable signed out", r.status === 200 && Array.isAr
 r = await rpc("lili_shop_reviews", { p_shop: "00000000-0000-0000-0000-000000000000" });
 check("a shop's reviews are readable signed out", r.status === 200 && Array.isArray(r.json), `status ${r.status}`);
 check("a review never says who wrote it", !(r.json || []).some((x) => "reviewer_uid" in x));
+r = await rpc("lili_shop_meets_done", { p_shop: "00000000-0000-0000-0000-000000000000" });
+check("a shop's completed meets are a public count", r.status === 200 && r.json === 0, `status ${r.status} ${JSON.stringify(r.json)}`);
 for (const table of ["lili_reviews", "lili_saved_searches"]) {
   r = await call(`/rest/v1/${table}?select=*&limit=1`);
   check(`${table} is not readable directly`, refused(r) || (r.status === 200 && (r.json || []).length === 0), `status ${r.status}`);

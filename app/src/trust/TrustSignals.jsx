@@ -60,7 +60,7 @@ export default function TrustSignals({ shop, compact }) {
   if (shop && shop.demo) {
     return (
       <span style={{
-        fontSize: compact ? 9.5 : 10.5, fontWeight: 700, color: C.inkLt,
+        fontSize: compact ? 10 : 11, fontWeight: 700, color: C.inkLt,
         background: C.sand, border: `1px solid ${C.border}`,
         borderRadius: 20, padding: compact ? "3px 8px" : "4px 10px",
         display: "inline-block",
@@ -74,6 +74,9 @@ export default function TrustSignals({ shop, compact }) {
   if (state !== "ready" || !stats) return null;
 
   const chips = [];
+  if (stats.meets_done > 0) {
+    chips.push({ icon: "handshake", text: `${stats.meets_done} meet${stats.meets_done > 1 ? "s" : ""} completed`, strong: true });
+  }
   if (stats.sold_count > 0) {
     chips.push({ icon: "check", text: `${stats.sold_count} sold`, strong: true });
   }
@@ -91,7 +94,7 @@ export default function TrustSignals({ shop, compact }) {
     <div style={{ display: "flex", flexWrap: "wrap", gap: 6, alignItems: "center" }}>
       {isNew && (
         <span style={{
-          fontSize: compact ? 9.5 : 10.5, fontWeight: 700, color: C.terraTx,
+          fontSize: compact ? 10 : 11, fontWeight: 700, color: C.terraTx,
           background: C.white, border: `1px solid ${C.border}`,
           borderRadius: 20, padding: compact ? "3px 8px" : "4px 10px",
         }}>
@@ -101,13 +104,13 @@ export default function TrustSignals({ shop, compact }) {
       {chips.map((c) => (
         <span key={c.text} style={{
           display: "inline-flex", alignItems: "center", gap: 4,
-          fontSize: compact ? 9.5 : 10.5,
+          fontSize: compact ? 10 : 11,
           fontWeight: c.strong ? 700 : 500,
           color: c.strong ? C.ink : C.inkLt,
           background: C.white, border: `1px solid ${C.border}`,
           borderRadius: 20, padding: compact ? "3px 8px" : "4px 10px",
         }}>
-          <Icon name={c.icon} size={compact ? 9 : 10} stroke={2} />
+          <Icon name={c.icon} size={compact ? 10 : 11} stroke={2} />
           {c.text}
         </span>
       ))}

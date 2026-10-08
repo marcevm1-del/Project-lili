@@ -1256,7 +1256,7 @@ function PriceContext({ item }) {
 }
 
 // ── item detail modal ──────────────────────────────────────────────────────
-function ItemModal({item,shop,onSave,onClose,onOffer,setTab,onAddToCart,onReport,onFollow,following,onMessageSeller}) {
+function ItemModal({item,shop,items=[],onOpenItem,onSave,onClose,onOffer,setTab,onAddToCart,onReport,onFollow,following,onMessageSeller}) {
   const trap = useFocusTrap(onClose, {active: !!item});
   if(!item) return null;
   return (
@@ -1363,6 +1363,8 @@ function ItemModal({item,shop,onSave,onClose,onOffer,setTab,onAddToCart,onReport
             how to pay and where to meet.
           </div>
 
+          <MoreFromShop item={item} shop={shop} items={items} onOpen={onOpenItem}/>
+
           {/* Play requires a reporting route on user-listed content. */}
           <button onClick={()=>onReport&&onReport({kind:"listing",id:item.id,
             title:item.title,shopId:item.shopId,shopName:shop&&shop.name})}
@@ -1403,6 +1405,31 @@ function ItemModal({item,shop,onSave,onClose,onOffer,setTab,onAddToCart,onReport
         </div>
       </div>
     </div>
+  );
+}
+
+// Her other pieces, under this one. A buyer who likes one piece from a
+// wardrobe is the likeliest buyer of the next, and a single meet can cover
+// several — the one place a meet-and-pay marketplace has a basket.
+function MoreFromShop({item, shop, items, onOpen}) {
+  const more = (items||[]).filter(i=>i.shopId===item.shopId && i.id!==item.id
+    && (!i.status || i.status==="live")).slice(0,8);
+  if (!shop || more.length===0 || !onOpen) return null;
+  return (
+    <section aria-label={`More from ${shop.name}`} style={{margin:"4px 0 16px"}}>
+      <div style={{fontSize:13,fontWeight:700,color:C.ink,marginBottom:8}}>More from {shop.name}</div>
+      <div style={{display:"flex",gap:10,overflowX:"auto",paddingBottom:4}}>
+        {more.map(i=>(
+          <button key={i.id} onClick={()=>onOpen(i)} aria-label={`${i.brand||""} ${i.title}, ${money(i.price)}`}
+            style={{flex:"0 0 112px",background:"none",border:"none",padding:0,textAlign:"start",cursor:"pointer",fontFamily:"inherit"}}>
+            <div className="lili-ratio-tile" style={{borderRadius:10}}><ItemPhoto item={i} size={30}/></div>
+            <div style={{fontSize:10,fontWeight:700,letterSpacing:1,color:C.inkLt,textTransform:"uppercase",marginTop:6,
+              whiteSpace:"nowrap",overflow:"hidden",textOverflow:"ellipsis"}}>{i.brand}</div>
+            <PriceTag item={i} size={13}/>
+          </button>
+        ))}
+      </div>
+    </section>
   );
 }
 
@@ -4618,7 +4645,7 @@ export default function Marketplace() {
             and a spinner that flashes for forty milliseconds reads worse than a
             beat of quiet. */}
         <Suspense fallback={null}>
-        {modal && <ItemModal item={modal} shop={shops.find(s=>s.id===modal.shopId)} onSave={onSave} onClose={()=>setModal(null)} onOffer={item=>{setOfferModal(item);setModal(null);}} setTab={setTab} onAddToCart={addToCart} onMessageSeller={messageSellerAbout}
+        {modal && <ItemModal item={modal} shop={shops.find(s=>s.id===modal.shopId)} items={visibleItems} onOpenItem={setModal} onSave={onSave} onClose={()=>setModal(null)} onOffer={item=>{setOfferModal(item);setModal(null);}} setTab={setTab} onAddToCart={addToCart} onMessageSeller={messageSellerAbout}
           onReport={s=>{setReporting(s); setModal(null);}}
           onFollow={toggleFollow} following={modal&&isFollowing(modal.shopId)}/>}
         {offerModal && <OfferModal item={offerModal} shop={shops.find(s=>s.id===offerModal.shopId)} onClose={()=>setOfferModal(null)} onSubmit={()=>{
