@@ -9,7 +9,7 @@
 
 begin;
 
--- ── 1. Erasure keeps the other person's half of a conversation ───────────────
+-- ── 1. Erasure works, and keeps the other person's half of a conversation ────
 -- lili_erase_me redacts a deleted user's messages and promises the person she
 -- spoke to keeps a thread that makes sense. But with ON DELETE CASCADE,
 -- deleting the auth user deleted every conversation she was in, with both
@@ -18,6 +18,11 @@ alter table public.lili_conversations alter column buyer_uid  drop not null;
 alter table public.lili_conversations alter column seller_uid drop not null;
 alter table public.lili_messages      alter column sender_uid drop not null;
 alter table public.lili_meets         alter column proposed_by drop not null;
+-- Found by the functional test: lili_case_evidence links to the reporter and
+-- the conversation with ON DELETE SET NULL, but both columns were NOT NULL, so
+-- erasure failed outright for anyone who had ever attached a chat to a report.
+alter table public.lili_case_evidence alter column disclosed_by    drop not null;
+alter table public.lili_case_evidence alter column conversation_id drop not null;
 
 alter table public.lili_conversations drop constraint lili_conversations_buyer_uid_fkey;
 alter table public.lili_conversations add constraint lili_conversations_buyer_uid_fkey

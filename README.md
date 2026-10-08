@@ -7,9 +7,11 @@ lili is a curated resale marketplace for the UAE (Capacitor app + Supabase backe
 | Path | Contents |
 |---|---|
 | `docs/claude-notes/` | Release notes, launch runbook, legal/security reviews (v2.8 → v2.11.7) |
-| `supabase/migrations/` | Every lili database migration (70), exported from the live project's history |
+| `supabase/migrations/` | Every lili database migration (72), exported from the live project's history |
 | `supabase/pending/` | Fixes written but not yet applied — need the owner to run them |
 | `docs/review-2026-10-08.md` | Full review of the live database code and what was fixed |
+| `docs/functional-and-market-review-2026-10-08.md` | End-to-end test results and comparison with similar apps |
+| `supabase/tests/functional_test.sql` | Re-runnable end-to-end test (rolls itself back) |
 
 The app source tree (`src/`, `web/`, npm scripts) is not in this repository yet.
 
