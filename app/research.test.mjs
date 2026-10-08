@@ -1560,6 +1560,8 @@ check("no half-pixel type size is written anywhere", halfSizes.length === 0,
   halfSizes.slice(0, 4).join(", "));
 check("a bare <button> is in the type system rather than at the browser default",
   /button\s*\{[^}]*font-size:\s*14px/.test(read("./src/index.css")));
+check("in Arabic, an English sentence ends with its full stop on the right side",
+  /\[dir="rtl"\] p,[\s\S]*?unicode-bidi:\s*plaintext;[\s\S]*?-webkit-match-parent/.test(read("./src/index.css")));
 check("the category chips render one language, like the other 118 labels",
   /categoryLabel/.test(market) && !/CATS_AR\[c\]\?\s*`\s*·/.test(market));
 

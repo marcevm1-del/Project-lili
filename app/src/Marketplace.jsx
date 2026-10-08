@@ -1110,10 +1110,12 @@ function ItemTile({item,onSave,onClick,loading}) {
         {item.brand && <div style={{fontSize:10,fontWeight:700,letterSpacing:1,color:C.inkLt,
           textTransform:"uppercase",marginBottom:2,
           whiteSpace:"nowrap",overflow:"hidden",textOverflow:"ellipsis"}}>{item.brand}</div>}
-        <div style={{fontSize:13,fontWeight:600,color:C.ink,lineHeight:1.3,
-          whiteSpace:"nowrap",overflow:"hidden",textOverflow:"ellipsis"}}>{item.title}</div>
-        <div style={{fontSize:10,color:C.inkLt,marginBottom:4,
-          whiteSpace:"nowrap",overflow:"hidden",textOverflow:"ellipsis"}}>{item.titleAr}</div>
+        {/* One title, in her language. Both on every card doubled the text in
+            the grid and halved the room for the garment; the Arabic title is
+            still searched, and shown in full on the piece itself. */}
+        <div dir="auto" style={{fontSize:13,fontWeight:600,color:C.ink,lineHeight:1.3,marginBottom:4,
+          whiteSpace:"nowrap",overflow:"hidden",textOverflow:"ellipsis"}}>
+          {getLang()==="ar" && item.titleAr ? item.titleAr : item.title}</div>
         <PriceTag item={item} size={14}/>
         {/* Size and condition read together, as one line, under the price —
             the two things she filters on in her head before she taps. */}
@@ -1188,8 +1190,8 @@ function NewInStrip({items,onSave,setModal,onSeeAll}) {
             <div style={{padding:"8px 10px 10px"}}>
               {item.brand && <div style={{fontSize:10,fontWeight:700,letterSpacing:1,color:C.inkLt,
                 textTransform:"uppercase",whiteSpace:"nowrap",overflow:"hidden",textOverflow:"ellipsis"}}>{item.brand}</div>}
-              <div style={{fontSize:12,fontWeight:600,color:C.ink,lineHeight:1.3,
-                whiteSpace:"nowrap",overflow:"hidden",textOverflow:"ellipsis"}}>{item.title}</div>
+              <div dir="auto" style={{fontSize:12,fontWeight:600,color:C.ink,lineHeight:1.3,
+                whiteSpace:"nowrap",overflow:"hidden",textOverflow:"ellipsis"}}>{getLang()==="ar" && item.titleAr ? item.titleAr : item.title}</div>
               <div style={{marginTop:3}}><PriceTag item={item} size={13}/></div>
               <div style={{fontSize:10,color:C.inkLt,marginTop:1,whiteSpace:"nowrap",overflow:"hidden",textOverflow:"ellipsis"}}>
                 {[item.size && item.size!=="OS" ? `Size ${item.size}` : null, item.condition].filter(Boolean).join(" · ")}
