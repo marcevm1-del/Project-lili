@@ -2,6 +2,13 @@
 
 lili is a curated resale marketplace for the UAE (Capacitor app + Supabase backend).
 
+## Start here
+
+- [docs/ARCHITECTURE.md](docs/ARCHITECTURE.md): how the app, database and CI fit together
+- [docs/SECURITY.md](docs/SECURITY.md): trust boundaries, what is public, abuse controls, secrets
+- [docs/RUNBOOK.md](docs/RUNBOOK.md): what to do when something is wrong
+- The `app/*.md` files are release notes and reviews kept as history.
+
 ## What is in this repository
 
 | Path | Contents |
@@ -88,6 +95,17 @@ Fixed live in `20261008*_lili_review_1..15_*.sql`; see `docs/review-2026-10-08.m
   alert when a matching piece goes live (needs the pending SQL to deliver the alert).
 - **20 — fit, measurements, flaws** on listings, checked server-side.
 - **21 — meets completed** per shop (a public count), shown with the shop's earned trust signals.
+- **22–23 — one piece, one buyer.** One accepted offer per item; accepting reserves the piece and
+  declines rival offers; either side can release it; take-down releases it.
+- **24 — screening details private.** The rules that fired and the score move to a table no client
+  can read; listings keep the verdict.
+- **25 — abuse and integrity.** Saves and follows rate-limited; AED 200 floor in the database; one
+  live meet plan per conversation.
+- **26 — photo store listing** limited to the owner's folder.
+- **27 — crash reports** (`lili_report_error`, read with `select * from lili.recent_errors`).
+
+`supabase/tests/run.sh` rebuilds the database from these migrations in CI and runs
+`functional_test.sql` and `audit_regressions.sql` (26 assertions).
 
 Design audit against Vinted, Depop, Grailed, Vestiaire and Poshmark: shared separately as
 a page; its priority matrix drives the next changes.
