@@ -150,6 +150,37 @@ check("the item shows a price", itemPrice !== null && itemPrice > 0, String(item
   }
   check("the item page shows more from the same shop", hasMore);
 }
+{
+  // One tap to a sensible offer: 10% under fills the amount, rounded to AED 10.
+  const offerBtn = page.locator('button:has-text("Make an Offer")').last();
+  if (await offerBtn.count()) {
+    await offerBtn.click().catch(() => {});
+    await page.waitForTimeout(400);
+    const chip = page.locator('button:has-text("10% under")').first();
+    const hasChip = await chip.count() > 0;
+    let filled = null;
+    if (hasChip) {
+      await chip.click();
+      await page.waitForTimeout(200);
+      filled = Number(await page.locator('input[aria-label="Offer amount"]').inputValue());
+      await page.screenshot({ path: "screenshots/20-offer-quick.png" });
+    }
+    // the asking price as the offer sheet shows it ("Excellent · AED 1,800")
+    const asking = await page.evaluate(() => {
+      const d = [...document.querySelectorAll('[role="dialog"]')].pop();
+      const m = d && d.innerText.match(/·\s*AED\s*([\d,]+)/);
+      return m ? Number(m[1].replace(/,/g, "")) : null;
+    });
+    const expected = asking ? Math.max(10, Math.round(asking * 0.9 / 10) * 10) : null;
+    check("a quick offer fills 10% under, rounded to AED 10", hasChip && filled === expected,
+          `chip ${hasChip}, filled ${filled}, expected ${expected}`);
+    await label("Close");
+    await page.waitForTimeout(300);
+    // the offer sheet replaced the piece; open it again for the list checks
+    await tile.click({ timeout: 3000 }).catch(() => {});
+    await page.waitForTimeout(400);
+  } else check("the item page has a Make an Offer button", false);
+}
 await tap("Add to shortlist");
 await page.waitForTimeout(400);
 await label("Shortlist");

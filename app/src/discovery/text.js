@@ -146,3 +146,32 @@ export function fuzzyIncludes(hayTokens, needle) {
   }
   return null;
 }
+
+/**
+ * The approved spelling of a brand she typed, or what she typed.
+ *
+ * "zimmerman", "Zimmermann " and "ZIMMERMANN" were three brands: three entries
+ * in search, three price bands, and the counterfeit price floor (which keys on
+ * the approved name) never ran for two of them. This snaps case, accents,
+ * spacing and punctuation ("hermes" → "Hermès", "tiffany and co" →
+ * "Tiffany & Co"), and one slip of the finger in a long name. A word it does
+ * not recognise is kept exactly as written — an unknown designer is not a
+ * typo of a known one.
+ */
+export function canonicalBrand(input, approved = []) {
+  const raw = String(input || "").trim().replace(/\s+/g, " ");
+  if (!raw) return raw;
+  const key = (s) => fold(String(s).replace(/&/g, " and ")).replace(/[^a-z0-9؀-ۿ]/g, "");
+  const k = key(raw);
+  if (!k) return raw;
+  for (const b of approved) if (key(b) === k) return b;
+  // one typo, only in names long enough that one letter is not the whole name
+  if (k.length >= 6) {
+    const near = approved.filter((b) => {
+      const bk = key(b);
+      return Math.abs(bk.length - k.length) <= 1 && editDistance(bk, k, 1) <= 1;
+    });
+    if (near.length === 1) return near[0];
+  }
+  return raw;
+}

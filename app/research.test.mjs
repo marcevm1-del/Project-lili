@@ -650,6 +650,18 @@ check("suggestions are drawn from stock, never hardcoded",
 check("nothing is suggested from an empty catalogue",
   suggestions([], "chanel").length === 0);
 
+{
+  const { canonicalBrand } = await import("./src/discovery/text.js");
+  const A = ["Hermès","Zimmermann","Tiffany & Co","Chloé","Celine","Self Portrait","Dior"];
+  check("a brand typed any way is the approved spelling",
+    canonicalBrand("hermes", A) === "Hermès" && canonicalBrand(" ZIMMERMANN ", A) === "Zimmermann"
+    && canonicalBrand("tiffany and co", A) === "Tiffany & Co" && canonicalBrand("self-portrait", A) === "Self Portrait");
+  check("one slip in a long brand name is corrected",
+    canonicalBrand("Zimmerman", A) === "Zimmermann" && canonicalBrand("Celinee", A) === "Celine");
+  check("an unknown designer is kept as written, not 'corrected' into a known one",
+    canonicalBrand("Dina Couture", A) === "Dina Couture" && canonicalBrand("Dio", A) === "Dio" && canonicalBrand("", A) === "");
+}
+
 section("30. Every control in the filter sheet does something");
 
 check("size filters, having been stored and read by nothing",

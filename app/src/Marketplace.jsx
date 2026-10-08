@@ -74,7 +74,7 @@ import * as offers from "./data/offers.js";
 // that sheet appears rather than on the first paint of the feed.
 import * as fees from "./data/fees.js";
 import { searchLocal, diagnose, suggestions } from "./discovery/search.js";
-import { tokens, fuzzyIncludes } from "./discovery/text.js";
+import { tokens, fuzzyIncludes, canonicalBrand } from "./discovery/text.js";
 import { matchesFilters, activeCount, EMPTY_FILTERS } from "./discovery/filters.js";
 import { applySort, availableSorts, isNewArrival, affinityOrder, tasteLabel,
          DEFAULT_SORT, TASTE_KEY } from "./discovery/ranking.js";
@@ -1652,6 +1652,28 @@ function OfferModal({item,shop,onClose,onSubmit}) {
               </div>
             </div>
 
+            {/* One tap to a sensible offer, as Vinted and Poshmark do: most
+                offers land 10–20% under, and typing a number on a phone is the
+                step where people give up. Rounded to AED 10 — "AED 1,147" reads
+                like a calculator, not a person. */}
+            {item.price >= 50 && (
+              <div role="group" aria-label="Quick offers" style={{display:"flex",gap:7,marginBottom:12,flexWrap:"wrap"}}>
+                {[10,15,20].map(pct=>{
+                  const v = Math.max(10, Math.round(item.price*(1-pct/100)/10)*10);
+                  const on = value === v;
+                  return (
+                    <button key={pct} type="button" onClick={()=>setAmount(String(v))} aria-pressed={on}
+                      style={{flex:"1 1 90px",background:on?C.btn:C.white,color:on?C.onBtn:C.ink,
+                        border:`1.5px solid ${on?C.btn:C.border}`,borderRadius:12,padding:"8px 6px",
+                        cursor:"pointer",fontFamily:"inherit",lineHeight:1.3}}>
+                      <div style={{fontSize:14,fontWeight:700}}>{money(v)}</div>
+                      <div style={{fontSize:11,opacity:on?1:0.8}}>{pct}% under</div>
+                    </button>
+                  );
+                })}
+              </div>
+            )}
+
             <input value={note} onChange={e=>setNote(e.target.value)} maxLength={500}
               aria-label="Message with your offer"
               placeholder={t("say_why_if_you_like_it_helps")}
@@ -2602,7 +2624,7 @@ function SellPage({myShop,onCreateShop,onAddItem,setTab,onListed}) {
         // its absence, honestly, at weight 10.
         titleAr:(form.titleAr||"").trim()||null,
         subtitle:"",price:parsePrice(form.price) ?? 0,
-        brand:form.brand||"Other",category:form.category,
+        brand:canonicalBrand(form.brand, APPROVED_BRANDS)||"Other",category:form.category,
         condition:form.condition,era:form.era,size:form.size,
         // what a size label cannot say: how it runs, flat measurements, and
         // what she disclosed. Empty measurements are not sent as {}.
@@ -2894,11 +2916,18 @@ function SellPage({myShop,onCreateShop,onAddItem,setTab,onListed}) {
                     tells her makes her piece findable. */}
                 <input value={form[key]} onChange={e=>setForm({...form,[key]:e.target.value})} placeholder={ph}
                   dir={key==="titleAr" ? "rtl" : undefined} aria-label={lbl}
+                  {...(key==="brand" ? {
+                    list:"lili-brands", autoComplete:"off",
+                    // "hermes" becomes "Hermès" when she leaves the field, so
+                    // one brand is one brand in search and in the price check
+                    onBlur:e=>setForm(f=>({...f,brand:canonicalBrand(e.target.value, APPROVED_BRANDS)})),
+                  } : {})}
                   style={{width:"100%",padding:"12px 12px",borderRadius:10,border:`1px solid ${C.border}`,
                     fontSize:14,outline:"none",color:C.ink,boxSizing:"border-box",
                     textAlign:key==="titleAr" ? "right" : alignStart()}}/>
               </div>
             ))}
+            <datalist id="lili-brands">{APPROVED_BRANDS.map(b=><option key={b} value={b}/>)}</datalist>
             <div style={{display:"grid",gridTemplateColumns:"1fr 1fr",gap:10}}>
               {[["Category","category",ITEM_CATS],["Size","size",SIZES],
                 ["Condition","condition",CONDITIONS],["Era","era",ERAS]].map(([lbl,key,opts])=>(
