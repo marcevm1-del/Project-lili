@@ -85,7 +85,7 @@ export default function InviteRoster({ onBack }) {
   const stat = (n, label, tone) => (
     <div key={label} style={{ flex: 1, textAlign: "center" }}>
       <div style={{ fontWeight: 700, fontSize: 20, color: tone || C.ink }}>{n}</div>
-      <div style={{ fontSize: 10, color: C.inkLt, lineHeight: 1.3, marginTop: 2 }}>{label}</div>
+      <div style={{ fontSize: 11, color: C.inkLt, lineHeight: 1.3, marginTop: 2 }}>{label}</div>
     </div>
   );
 

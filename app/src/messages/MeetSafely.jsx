@@ -90,7 +90,7 @@ export default function MeetSafely({ onDismiss }) {
               <div>
                 <div style={{ fontSize: 12, fontWeight: 600, color: C.ink }}>
                   {pt.en}
-                  <span style={{ fontSize: 10, color: C.inkLt, fontWeight: 400 }}> · {pt.ar}</span>
+                  <span style={{ fontSize: 11, color: C.inkLt, fontWeight: 400 }}> · {pt.ar}</span>
                 </div>
                 <div style={{ fontSize: 11, color: C.inkLt, lineHeight: 1.55, marginTop: 2 }}>
                   {pt.why}
@@ -98,7 +98,7 @@ export default function MeetSafely({ onDismiss }) {
               </div>
             </div>
           ))}
-          <div style={{ fontSize: 10, color: C.inkLt, lineHeight: 1.55 }}>
+          <div style={{ fontSize: 11, color: C.inkLt, lineHeight: 1.55 }}>
             lili does not take payment or hold funds. The sale is between the two
             of you.
           </div>

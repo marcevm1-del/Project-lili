@@ -3,6 +3,7 @@ import { C } from "../compliance/ui.js";
 import Icon from "../icons/Icon.jsx";
 import * as remote from "../backend/remote.js";
 import { withTimeout, BUDGET, isTimeout } from "../ux/timeout.js";
+import { meetLabel, phoneOffUaeTime, uaeWallClockToInstant } from "./when.js";
 import { PLACES, placeByKey, AVOID, OUTSIDE_HELP } from "./places.js";
 import { t } from "../i18n/t.js";
 import * as repo from "../data/repo.js";
@@ -41,20 +42,13 @@ import ReviewPrompt from "../trust/ReviewPrompt.jsx";
 //  the app offers criteria and examples, never an endorsement.
 // ─────────────────────────────────────────────────────────────────────────────
 
-const fmt = (iso) => {
-  if (!iso) return "";
-  const d = new Date(iso);
-  return d.toLocaleString(undefined, { weekday: "short", day: "numeric", month: "short",
-                                       hour: "numeric", minute: "2-digit" });
-};
+const fmt = (iso) => meetLabel(iso);
 
-/** Sensible defaults: tomorrow, mid-afternoon. Never late, never right now. */
+/** Sensible defaults: tomorrow, mid-afternoon, on UAE clocks. Never late, never right now. */
 function defaultWhen() {
-  const d = new Date();
-  d.setDate(d.getDate() + 1);
-  d.setHours(16, 0, 0, 0);
+  const d = new Date(Date.now() + 4 * 3600000 + 86400000);  // UAE wall clock, tomorrow
   const pad = (n) => String(n).padStart(2, "0");
-  return `${d.getFullYear()}-${pad(d.getMonth() + 1)}-${pad(d.getDate())}T${pad(d.getHours())}:${pad(d.getMinutes())}`;
+  return `${d.getUTCFullYear()}-${pad(d.getUTCMonth() + 1)}-${pad(d.getUTCDate())}T16:00`;
 }
 
 export default function MeetPlan({ conversationId, itemId, onReport }) {
@@ -113,7 +107,7 @@ export default function MeetPlan({ conversationId, itemId, onReport }) {
   };
 
   const propose = () => act(async () => {
-    const at = new Date(when);
+    const at = uaeWallClockToInstant(when);
     if (!(at.getTime() > Date.now())) throw new Error("Pick a time that hasn't happened yet.");
     await remote.proposeMeet({ conversationId, itemId, placeKey,
                                placeNote: note.trim(), meetAt: at.toISOString() });
@@ -285,7 +279,12 @@ export default function MeetPlan({ conversationId, itemId, onReport }) {
         aria-label="Which place" style={{ ...field, marginBottom: 10 }} />
 
       <input type="datetime-local" value={when} onChange={(e) => setWhen(e.target.value)}
-        aria-label="When" style={{ ...field, marginBottom: 12 }} />
+        aria-label="When (UAE time)" style={{ ...field, marginBottom: phoneOffUaeTime() ? 4 : 12 }} />
+      {phoneOffUaeTime() && (
+        <div style={{ fontSize: 11, color: C.inkLt, marginBottom: 12 }}>
+          Your phone isn't on UAE time. The time above is read as UAE time: {meetLabel(uaeWallClockToInstant(when))}
+        </div>
+      )}
 
       {problem && (
         <div role="alert" style={{ fontSize: 12, color: C.redTx, lineHeight: 1.5, marginBottom: 10 }}>

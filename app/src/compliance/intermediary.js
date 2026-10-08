@@ -105,7 +105,7 @@ export function SoldBy({ shopName, sellerType = "private", compact }) {
         background: t.consumerRightsApply ? C.terra : C.white,
         color: t.consumerRightsApply ? C.white : C.inkLt,
         border: `1px solid ${t.consumerRightsApply ? C.terra : C.border}`,
-        borderRadius: 20, padding: "2px 8px", fontSize: 10, fontWeight: 700,
+        borderRadius: 20, padding: "2px 8px", fontSize: 11, fontWeight: 700,
         whiteSpace: "nowrap",
       },
     }, t.badge)

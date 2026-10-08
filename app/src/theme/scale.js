@@ -27,12 +27,15 @@
 //
 //  ── the scale
 //
-//  Eleven sizes for interface text, then the display sizes, which are one-off
+//  Ten sizes for interface text, then the display sizes, which are one-off
 //  and not part of a rhythm — a splash logo is not "text at a size".
 //
-//  9   micro-labels, all caps       · CONDITION, SIZE, BRAND
-//  10  captions, timestamps
-//  11  secondary text               · the most-used size in the app
+//  11 is the floor. Micro-labels (CONDITION, SIZE, BRAND), captions and
+//  timestamps used to sit at 9 and 10; on a 6-inch phone held at arm's length
+//  in a mall that is below what a lot of people can read, and the labels it
+//  was used for — price notes, badges, counts — are the ones a buyer needs.
+//
+//  11  secondary text, captions, badges · the most-used size in the app
 //  12  body                         · the second most-used
 //  13  emphasised body, list titles
 //  14  section headings, buttons
@@ -50,7 +53,7 @@
 // ─────────────────────────────────────────────────────────────────────────────
 
 /** Interface type. Anything larger is display, and listed separately. */
-export const TYPE = [9, 10, 11, 12, 13, 14, 15, 16, 18, 20, 22, 24];
+export const TYPE = [11, 12, 13, 14, 15, 16, 18, 20, 22, 24];
 
 /**
  * Display sizes, which are not type.

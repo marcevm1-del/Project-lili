@@ -43,7 +43,7 @@ export default function ModerationQueue({ onBack }) {
                                       border: `1px solid ${C.border}`, padding: "12px 8px",
                                       textAlign: "center" }}>
               <div style={{ fontFamily: "Georgia,serif", fontWeight: 700, fontSize: 20, color: colour }}>{n}</div>
-              <div style={{ fontSize: 10, color: C.inkLt, marginTop: 2 }}>{label}</div>
+              <div style={{ fontSize: 11, color: C.inkLt, marginTop: 2 }}>{label}</div>
             </div>
           ))}
         </div>
@@ -84,7 +84,7 @@ export default function ModerationQueue({ onBack }) {
                 {i.title || i.targetId}
               </div>
               {i.reportCount > 1 && (
-                <span style={{ background: C.btn, color: C.onBtn, fontSize: 10, fontWeight: 700,
+                <span style={{ background: C.btn, color: C.onBtn, fontSize: 11, fontWeight: 700,
                                borderRadius: 20, padding: "2px 7px" }}>×{i.reportCount}</span>
               )}
             </div>
@@ -171,7 +171,7 @@ function CaseView({ item, onBack, onChanged }) {
               <div style={{ ...card, maxHeight: 260, overflowY: "auto" }}>
                 {(transcript.transcript || []).map((m, i) => (
                   <div key={i} style={{ marginBottom: 10 }}>
-                    <div style={{ fontSize: 10, color: C.inkLt, marginBottom: 2 }}>
+                    <div style={{ fontSize: 11, color: C.inkLt, marginBottom: 2 }}>
                       {m.from === "reporter" ? "The person who reported" : "The person reported"}
                     </div>
                     <div style={{ fontSize: 12, color: C.ink, lineHeight: 1.5 }}>{m.body}</div>
@@ -303,7 +303,7 @@ function Pill({ state }) {
                    dismissed: C.inkLt, appealed: C.gold, overturned: C.green }[state]
                  || C.inkLt;   // an unfamiliar state still needs to be visible
   return (
-    <span style={{ fontSize: 10, fontWeight: 700, color: colour,
+    <span style={{ fontSize: 11, fontWeight: 700, color: colour,
                    border: `1px solid ${colour}`, borderRadius: 20, padding: "2px 8px" }}>
       {s ? s.label : state}
     </span>

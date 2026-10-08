@@ -80,7 +80,7 @@ function Menu({ onPick, onClose }) {
     <Shell title="Privacy & Safety" subtitle="الخصوصية والأمان" onBack={onClose}>
       {groups.map(([title, rows]) => (
         <div key={title} style={{ marginBottom: 8 }}>
-          <div style={{ fontSize: 10, fontWeight: 700, letterSpacing: 0.8,
+          <div style={{ fontSize: 11, fontWeight: 700, letterSpacing: 0.8,
                         textTransform: "uppercase", color: C.inkLt,
                         margin: "8px 4px 8px" }}>{title}</div>
           {rows.map(([key, label, sub]) => (
@@ -447,7 +447,7 @@ function SellingView({ onBack }) {
             <div style={{ fontFamily: "Georgia,serif", fontWeight: 700, fontSize: 15, color: C.terraTx }}>
               {t.name}
             </div>
-            <div style={{ fontSize: 10, color: C.inkLt }}>Tier {t.tier}</div>
+            <div style={{ fontSize: 11, color: C.inkLt }}>Tier {t.tier}</div>
           </div>
           {t.trigger && <div style={{ fontSize: 11, color: C.inkLt, marginTop: 3 }}>
             Triggered by: {t.trigger}</div>}
@@ -545,7 +545,7 @@ function DisputesView({ onBack }) {
               </div>
             </div>
             {st.window !== "—" && (
-              <span style={{ fontSize: 10, color: C.inkLt, whiteSpace: "nowrap" }}>{st.window}</span>
+              <span style={{ fontSize: 11, color: C.inkLt, whiteSpace: "nowrap" }}>{st.window}</span>
             )}
           </div>
         </div>

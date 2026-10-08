@@ -60,7 +60,7 @@ export default function PhotoCoach({ count = 0, findings = [] }) {
               </div>
             </div>
           ))}
-          <div style={{ fontSize: 10, color: C.inkLt, lineHeight: 1.5 }}>
+          <div style={{ fontSize: 11, color: C.inkLt, lineHeight: 1.5 }}>
             Checked on your phone — the photograph isn't sent anywhere to be
             looked at. You can list it as it is; this is a suggestion, not a rule.
           </div>
@@ -94,7 +94,7 @@ export default function PhotoCoach({ count = 0, findings = [] }) {
             {PHOTO_CHECKLIST.map((s) => (
               <li key={s.id} style={{ fontSize: 12, color: C.ink, lineHeight: 1.5 }}>
                 {s.en}
-                <span style={{ fontSize: 10, color: C.inkLt }}> · {s.ar}</span>
+                <span style={{ fontSize: 11, color: C.inkLt }}> · {s.ar}</span>
                 {s.why && (
                   <div style={{ fontSize: 11, color: C.inkLt, lineHeight: 1.5, marginTop: 1 }}>
                     {s.why}
@@ -103,7 +103,7 @@ export default function PhotoCoach({ count = 0, findings = [] }) {
               </li>
             ))}
           </ol>
-          <div style={{ fontSize: 10, color: C.inkLt, marginTop: 10, lineHeight: 1.55 }}>
+          <div style={{ fontSize: 11, color: C.inkLt, marginTop: 10, lineHeight: 1.55 }}>
             Marketplace research is consistent on this: better photographs sell
             more, and the effect is largest on handbags and shoes — about 1.25×
             and 1.17× the chance of selling, in a study of 75,000 listing images

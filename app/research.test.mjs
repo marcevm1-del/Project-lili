@@ -1611,6 +1611,27 @@ for (const f of styleFiles) {
 }
 check("no half-pixel type size is written anywhere", halfSizes.length === 0,
   halfSizes.slice(0, 4).join(", "));
+const tinyType = [];
+for (const f of allSrc.filter((f) => /\.(jsx|js)$/.test(f))) {
+  const body = stripComments(readFileSync(f, "utf8"));
+  for (const m of body.matchAll(/fontSize:\s*([0-9]+)\b/g)) if (+m[1] < 11) tinyType.push(`${f}: ${m[1]}`);
+}
+check("no interface text is set below the 11px floor", tinyType.length === 0 && TYPE[0] === 11,
+  tinyType.slice(0, 4).join(", "));
+{
+  const w = await import("./src/meet/when.js");
+  const now = new Date("2026-10-08T10:00:00Z");
+  check("a meet time names the day and says it is UAE time",
+    w.meetLabel("2026-10-09T14:30:00Z", now) === "Tomorrow, 6:30 pm (UAE)");
+  check("'today' and 'tomorrow' turn over at midnight in Dubai, not UTC",
+    w.meetLabel("2026-10-08T19:59:00Z", now).startsWith("Today") &&
+    w.meetLabel("2026-10-08T20:01:00Z", now).startsWith("Tomorrow"));
+  check("a time picked on the phone is read as UAE wall-clock time",
+    w.uaeWallClockToInstant("2026-10-09T16:00").toISOString() === "2026-10-09T12:00:00.000Z");
+  check("the meet screen proposes UAE time, not the phone's zone",
+    /uaeWallClockToInstant\(when\)/.test(read("./src/meet/MeetPlan.jsx")) &&
+    !/new Date\(when\)/.test(read("./src/meet/MeetPlan.jsx")));
+}
 check("a bare <button> is in the type system rather than at the browser default",
   /button\s*\{[^}]*font-size:\s*14px/.test(read("./src/index.css")));
 check("in Arabic, an English sentence ends with its full stop on the right side",

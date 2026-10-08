@@ -138,7 +138,7 @@ function Row({ lang, selected, requested, onClick }) {
       {selected && <Icon name="check" size={15} stroke={2.2} style={{ color: C.terraTx }} />}
       {planned && (
         <span style={{
-          fontSize: 10, fontWeight: 700, whiteSpace: "nowrap", borderRadius: 20,
+          fontSize: 11, fontWeight: 700, whiteSpace: "nowrap", borderRadius: 20,
           padding: "3px 10px",
           background: requested ? C.terra : C.sand,
           color: requested ? C.white : C.inkLt,

@@ -87,7 +87,7 @@ export default function ListingQuality({ form, photos, compact }) {
                 <span style={{ fontSize: 12, fontWeight: 600, lineHeight: 1.45, flex: 1 }}>
                   {c.title}
                 </span>
-                <span style={{ fontSize: 10, color: C.inkLt, marginTop: 2 }}>
+                <span style={{ fontSize: 11, color: C.inkLt, marginTop: 2 }}>
                   {open === c.id ? "−" : "why"}
                 </span>
               </button>
@@ -96,7 +96,7 @@ export default function ListingQuality({ form, photos, compact }) {
                               margin: "5px 0 2px 18px" }}>
                   {c.why}
                   {c.evidence && (
-                    <div style={{ fontSize: 10, opacity: 0.75, marginTop: 5, lineHeight: 1.5 }}>
+                    <div style={{ fontSize: 11, opacity: 0.75, marginTop: 5, lineHeight: 1.5 }}>
                       {c.evidence}
                     </div>
                   )}
@@ -107,7 +107,7 @@ export default function ListingQuality({ form, photos, compact }) {
         </div>
       )}
 
-      <div style={{ fontSize: 10, color: C.inkLt, marginTop: 10, lineHeight: 1.5 }}>
+      <div style={{ fontSize: 11, color: C.inkLt, marginTop: 10, lineHeight: 1.5 }}>
         Advice, not a gate — you can publish at any score.
       </div>
     </div>

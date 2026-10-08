@@ -186,12 +186,12 @@ export default function NotificationsSheet({ onClose, onOpenLink }) {
                 </div>
               )}
             </div>
-            <span style={{ fontSize: 10, color: C.inkLt, flexShrink: 0 }}>{ago(n.created_at)}</span>
+            <span style={{ fontSize: 11, color: C.inkLt, flexShrink: 0 }}>{ago(n.created_at)}</span>
           </button>
         ))}
 
         {state === "ready" && list.length > 0 && (
-          <div style={{ fontSize: 10, color: C.inkLt, marginTop: 10, lineHeight: 1.6 }}>
+          <div style={{ fontSize: 11, color: C.inkLt, marginTop: 10, lineHeight: 1.6 }}>
             These are written by lili itself — nobody can send you one directly.
           </div>
         )}

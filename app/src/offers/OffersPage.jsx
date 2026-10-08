@@ -108,7 +108,7 @@ export default function OffersPage({ items = [], shops = [], onBack }) {
             <div style={{ fontSize: 15, fontWeight: 800, color: C.terraTx }}>
               {money(o.amount)}
             </div>
-            <div style={{ fontSize: 10, color: open ? C.inkLt : C.ink,
+            <div style={{ fontSize: 11, color: open ? C.inkLt : C.ink,
                           fontWeight: open ? 400 : 700 }}>
               {open ? timeLeft(o) : label.en}
             </div>

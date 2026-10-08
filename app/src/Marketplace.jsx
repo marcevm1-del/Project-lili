@@ -354,8 +354,8 @@ function Stars({rating,reviews,shop}) {
   return (
     <span style={{display:"inline-flex",alignItems:"center",gap:3}}>
       <span style={{color:C.terraTx,display:"inline-flex",gap:1}}>{[0,1,2,3,4].map(i=><Icon key={i} name="star" size={10} filled={i<Math.floor(rating)}/>)}</span>
-      <span style={{fontSize:10,fontWeight:600,color:C.ink}}>{rating}</span>
-      {reviews && <span style={{fontSize:10,color:C.inkLt}}>({reviews})</span>}
+      <span style={{fontSize:11,fontWeight:600,color:C.ink}}>{rating}</span>
+      {reviews && <span style={{fontSize:11,color:C.inkLt}}>({reviews})</span>}
     </span>
   );
 }
@@ -449,17 +449,34 @@ function BackBtn({onBack}) {
 }
 
 // ── search bar (Jacob's Law: Instagram/Depop style — grey pill, tap to focus) ──
-function SearchBar({value,onChange,autoFocus=false,placeholder="Search..."}) {
+// Filters live at the end of the search field, where people look for them in
+// every resale app, rather than as a fourth icon in the header. The count says
+// how many are on, so a narrowed feed never looks like an empty marketplace.
+function SearchBar({value,onChange,autoFocus=false,placeholder="Search...",onFilters,filterCount=0}) {
   return (
     <div style={{display:"flex",alignItems:"center",gap:8,background:"#F2EAE4",
-      borderRadius:12,padding:"10px 14px",margin:"0 14px 10px"}}>
-      <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke={C.inkLt} strokeWidth="2.2"><circle cx="11" cy="11" r="7"/><path d="M21 21l-4.35-4.35"/></svg>
+      borderRadius:12,padding:onFilters?"4px 4px 4px 14px":"10px 14px",margin:"0 14px 10px"}}>
+      <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke={C.inkLt} strokeWidth="2.2" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="M21 21l-4.35-4.35"/></svg>
       <input value={value} onChange={e=>onChange(e.target.value)}
         placeholder={placeholder}
+        aria-label="Search"
         autoFocus={autoFocus}
-        style={{flex:1,background:"none",border:"none",outline:"none",
+        style={{flex:1,minWidth:0,background:"none",border:"none",outline:"none",
           fontSize:14,color:C.ink,fontFamily:"inherit"}}/>
-      {value && <button onClick={()=>onChange("")} style={{background:"none",border:"none",cursor:"pointer",color:C.inkLt,fontSize:14,lineHeight:1}}><Icon name="close" size={14} stroke={2}/></button>}
+      {value && <button aria-label="Clear search" onClick={()=>onChange("")} style={{background:"none",border:"none",cursor:"pointer",color:C.inkLt,fontSize:14,lineHeight:1}}><Icon name="close" size={14} stroke={2}/></button>}
+      {onFilters && (
+        <button className="tap-round" aria-label={filterCount ? `Filters, ${filterCount} on` : "Filters"} onClick={onFilters}
+          style={{background:filterCount?C.btn:"none",border:"none",cursor:"pointer",borderRadius:10,
+            minWidth:44,minHeight:40,display:"flex",alignItems:"center",justifyContent:"center",gap:4,
+            color:filterCount?C.onBtn:C.ink,padding:"0 8px"}}>
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" aria-hidden="true">
+            <line x1="4" y1="6" x2="20" y2="6"/><line x1="4" y1="12" x2="20" y2="12"/>
+            <line x1="4" y1="18" x2="20" y2="18"/>
+            <circle cx="8" cy="6" r="2" fill={filterCount?C.btn:"#F2EAE4"}/><circle cx="16" cy="12" r="2" fill={filterCount?C.btn:"#F2EAE4"}/><circle cx="10" cy="18" r="2" fill={filterCount?C.btn:"#F2EAE4"}/>
+          </svg>
+          {filterCount > 0 && <span style={{fontSize:12,fontWeight:700}}>{filterCount}</span>}
+        </button>
+      )}
     </div>
   );
 }
@@ -758,9 +775,9 @@ function TabBar({tab,setTab,myShop}) {
               </div>
             : t.icon}
           {t.badge>0 && <div style={{position:"absolute",top:6,left:"50%",marginLeft:-20,
-            background:C.btn,color:C.onBtn,fontSize:10,fontWeight:700,
+            background:C.btn,color:C.onBtn,fontSize:11,fontWeight:700,
             borderRadius:10,padding:"1px 5px",minWidth:16,textAlign:"center",lineHeight:"14px"}}>{t.badge}</div>}
-          {!t.plus && <span style={{fontSize:10,fontWeight:tab===t.key?700:400,color:tab===t.key?C.terraTx:C.inkLt}}>{t.label}</span>}
+          {!t.plus && <span style={{fontSize:11,fontWeight:tab===t.key?700:400,color:tab===t.key?C.terraTx:C.inkLt}}>{t.label}</span>}
         </button>
       ))}
     </div>
@@ -802,7 +819,7 @@ function StoriesBar({stories,shops,onStoryTap}) {
                 as "The Vintage …", so the two rules disagreed with each other
                 as well as with her.
                 Two lines, and an ellipsis only if it genuinely does not fit. */}
-            <span style={{fontSize:10,color:C.ink,fontWeight:500,
+            <span style={{fontSize:11,color:C.ink,fontWeight:500,
               maxWidth:66,textAlign:"center",lineHeight:1.3,
               display:"-webkit-box",WebkitBoxOrient:"vertical",WebkitLineClamp:2,
               overflow:"hidden",overflowWrap:"anywhere"}}>
@@ -891,17 +908,17 @@ function ItemTile({item,onSave,onClick,loading}) {
             disagreeing about what "new" means would be worse than either. */}
         {item.reserved ? (
           <div style={{position:"absolute",top:8,left:8,
-            background:C.ink,color:C.cream,fontSize:10,fontWeight:700,
+            background:C.ink,color:C.cream,fontSize:11,fontWeight:700,
             padding:"2px 7px",borderRadius:10}}>Reserved</div>
         ) : isNewArrival(item) && (
           <div style={{position:"absolute",top:8,left:8,
-            background:C.btn,color:C.onBtn,fontSize:10,fontWeight:700,
+            background:C.btn,color:C.onBtn,fontSize:11,fontWeight:700,
             padding:"2px 7px",borderRadius:10}}>{t("new")}</div>
         )}
       </div>
       <div style={{padding:"10px 10px 12px"}}>
         {/* Brand first, as luxury resale reads: it is what she scans the grid for. */}
-        {item.brand && <div style={{fontSize:10,fontWeight:700,letterSpacing:1,color:C.inkLt,
+        {item.brand && <div style={{fontSize:11,fontWeight:700,letterSpacing:1,color:C.inkLt,
           textTransform:"uppercase",marginBottom:2,
           whiteSpace:"nowrap",overflow:"hidden",textOverflow:"ellipsis"}}>{item.brand}</div>}
         {/* One title, in her language. Both on every card doubled the text in
@@ -982,12 +999,12 @@ function NewInStrip({items,onSave,setModal,onSeeAll}) {
               </button>
             </div>
             <div style={{padding:"8px 10px 10px"}}>
-              {item.brand && <div style={{fontSize:10,fontWeight:700,letterSpacing:1,color:C.inkLt,
+              {item.brand && <div style={{fontSize:11,fontWeight:700,letterSpacing:1,color:C.inkLt,
                 textTransform:"uppercase",whiteSpace:"nowrap",overflow:"hidden",textOverflow:"ellipsis"}}>{item.brand}</div>}
               <div dir="auto" style={{fontSize:12,fontWeight:600,color:C.ink,lineHeight:1.3,
                 whiteSpace:"nowrap",overflow:"hidden",textOverflow:"ellipsis"}}>{getLang()==="ar" && item.titleAr ? item.titleAr : item.title}</div>
               <div style={{marginTop:3}}><PriceTag item={item} size={13}/></div>
-              <div style={{fontSize:10,color:C.inkLt,marginTop:1,whiteSpace:"nowrap",overflow:"hidden",textOverflow:"ellipsis"}}>
+              <div style={{fontSize:11,color:C.inkLt,marginTop:1,whiteSpace:"nowrap",overflow:"hidden",textOverflow:"ellipsis"}}>
                 {[item.size && item.size!=="OS" ? `Size ${item.size}` : null, item.condition].filter(Boolean).join(" · ")}
               </div>
             </div>
@@ -1044,7 +1061,7 @@ function PriceContext({ item }) {
       <div style={{fontSize:11,color:C.ink,lineHeight:1.5}}>
         Pieces of this kind usually resell here for <b>{range}</b>.{where ? ` ${where}` : ""}
       </div>
-      <div style={{fontSize:10,color:C.inkLt,lineHeight:1.5,marginTop:4}}>
+      <div style={{fontSize:11,color:C.inkLt,lineHeight:1.5,marginTop:4}}>
         A guide from published resale data, not an appraisal of this piece.
       </div>
     </div>
@@ -1081,7 +1098,7 @@ function ItemModal({item,shop,items=[],onOpenItem,onSave,onClose,onOffer,setTab,
 
                   One fee, one place, one direction: the seller pays a
                   commission, the buyer pays the price on the tag. */}
-              <div style={{fontSize:10,color:C.inkLt,marginTop:1}}>the price she's asking</div>
+              <div style={{fontSize:11,color:C.inkLt,marginTop:1}}>the price she's asking</div>
             </div>
           </div>
 
@@ -1091,7 +1108,7 @@ function ItemModal({item,shop,items=[],onOpenItem,onSave,onClose,onOffer,setTab,
           <div style={{display:"flex",gap:7,marginBottom:14,flexWrap:"wrap"}}>
             {[["Brand",item.brand],["Condition",item.condition],["Size",item.size],["Era",item.era]].map(([l,v])=>(
               <div key={l} style={{background:C.sand,borderRadius:8,padding:"5px 10px"}}>
-                <div style={{fontSize:10,color:C.inkLt,fontWeight:700,letterSpacing:0.5}}>{l.toUpperCase()}</div>
+                <div style={{fontSize:11,color:C.inkLt,fontWeight:700,letterSpacing:0.5}}>{l.toUpperCase()}</div>
                 <div style={{fontSize:11,color:C.ink,fontWeight:600}}>{v}</div>
               </div>
             ))}
@@ -1124,7 +1141,7 @@ function ItemModal({item,shop,items=[],onOpenItem,onSave,onClose,onOffer,setTab,
                 <div style={{fontSize:11,color:C.inkLt}}>{shop.nameAr} · {shop.handle}</div>
                 <div style={{display:"flex",alignItems:"center",gap:6,marginTop:3}}>
                   <Stars rating={shop.rating} reviews={shop.reviews} shop={shop}/>
-                  {earnedFollowers(shop) !== null && <span style={{fontSize:10,color:C.inkLt}}>· {earnedFollowers(shop)} followers</span>}
+                  {earnedFollowers(shop) !== null && <span style={{fontSize:11,color:C.inkLt}}>· {earnedFollowers(shop)} followers</span>}
                 </div>
               </div>
               <button style={{background:"none",border:`1.5px solid ${C.terra}`,
@@ -1223,7 +1240,7 @@ function MoreFromShop({item, shop, items, onOpen}) {
           <button key={i.id} onClick={()=>onOpen(i)} aria-label={`${i.brand||""} ${i.title}, ${money(i.price)}`}
             style={{flex:"0 0 112px",background:"none",border:"none",padding:0,textAlign:"start",cursor:"pointer",fontFamily:"inherit"}}>
             <div className="lili-ratio-tile" style={{borderRadius:10}}><ItemPhoto item={i} size={30}/></div>
-            <div style={{fontSize:10,fontWeight:700,letterSpacing:1,color:C.inkLt,textTransform:"uppercase",marginTop:6,
+            <div style={{fontSize:11,fontWeight:700,letterSpacing:1,color:C.inkLt,textTransform:"uppercase",marginTop:6,
               whiteSpace:"nowrap",overflow:"hidden",textOverflow:"ellipsis"}}>{i.brand}</div>
             <PriceTag item={i} size={13}/>
           </button>
@@ -1319,11 +1336,11 @@ function PayoutBox({price}) {
         color:C.inkLt,lineHeight:1.7}}>
         <span>
           lili's fee · {b.ratePercent}%
-          {b.minimumApplied && <span style={{fontSize:10}}> (minimum {fees.money(fees.MINIMUM_FEE)})</span>}
+          {b.minimumApplied && <span style={{fontSize:11}}> (minimum {fees.money(fees.MINIMUM_FEE)})</span>}
         </span>
         <span>− {fees.money(b.commission)}</span>
       </div>
-      <div style={{fontSize:10,color:C.inkLt,marginTop:8,lineHeight:1.6,
+      <div style={{fontSize:11,color:C.inkLt,marginTop:8,lineHeight:1.6,
         borderTop:`1px solid ${C.border}`,paddingTop:8}}>
         Includes {Math.round(fees.VAT.rate*100)}% VAT. The rate falls as the price
         rises — {b.band.label} is {b.ratePercent}%.
@@ -1508,7 +1525,7 @@ function OfferModal({item,shop,onClose,onSubmit}) {
               fontWeight:700,fontSize:14,cursor:sending?"default":"pointer"}}>
               {sending ? t("sending") : t("send_offer")}
             </button>
-            <div style={{fontSize:10,color:C.inkLt,textAlign:"center",marginTop:10,lineHeight:1.55}}>
+            <div style={{fontSize:11,color:C.inkLt,textAlign:"center",marginTop:10,lineHeight:1.55}}>
               She has {offers.EXPIRY_HOURS} hours to answer. The amount can't be
               changed once sent — by either of you.
             </div>
@@ -1796,7 +1813,7 @@ function SplashScreen({onDone}) {
           {[["shield","Every listing screened"],["palm","Dubai only, for now"],["scales","You're told who you're buying from"]].map(([ic,lb])=>(
             <div key={lb} style={{textAlign:"center",maxWidth:92}}>
               <div style={{marginBottom:4,display:"flex",justifyContent:"center"}}><Icon name={ic} size={22} stroke={1.4}/></div>
-              <div style={{fontSize:10,color:C.inkLt,lineHeight:1.35}}>{lb}</div>
+              <div style={{fontSize:11,color:C.inkLt,lineHeight:1.35}}>{lb}</div>
             </div>
           ))}
         </div>
@@ -1836,7 +1853,7 @@ function SplashScreen({onDone}) {
             transition:"all 0.2s"}}>
             <Placeholder item={s} size={30}/>
             <span style={{fontSize:12,fontWeight:600}}>{s.label}</span>
-            <span style={{fontSize:10,color:C.inkLt}}>{s.labelAr}</span>
+            <span style={{fontSize:11,color:C.inkLt}}>{s.labelAr}</span>
           </button>
         ))}
       </div>
@@ -1899,18 +1916,11 @@ function HomePage({items,shops,onSave,setModal,filters,setFilters,stories,setAct
         <div style={{display:"flex",justifyContent:"space-between",alignItems:"center",padding:"12px 14px 8px"}}>
           <LiliWordmark size={15}/>
           <div style={{display:"flex",gap:12,alignItems:"center"}}>
-            <button className="tap-round" aria-label="Filters" onClick={()=>setShowFilters(true)} style={{background:"none",border:"none",cursor:"pointer",color:C.inkLt,padding:2}}>
-              <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke={C.ink} strokeWidth="1.8">
-                <line x1="4" y1="6" x2="20" y2="6"/><line x1="4" y1="12" x2="20" y2="12"/>
-                <line x1="4" y1="18" x2="20" y2="18"/>
-                <circle cx="8" cy="6" r="2" fill={C.cream}/><circle cx="16" cy="12" r="2" fill={C.cream}/><circle cx="10" cy="18" r="2" fill={C.cream}/>
-              </svg>
-            </button>
             <button className="tap-round" aria-label="Saved" onClick={()=>setTab("saved")}
               style={{background:"none",border:"none",cursor:"pointer",padding:2,position:"relative",display:"flex",alignItems:"center",justifyContent:"center",color:C.ink}}>
               <Icon name="heart" size={22} stroke={1.8}/>
               {savedCount > 0 && <div style={{position:"absolute",top:-2,right:-4,background:C.btn,color:C.onBtn,
-                fontSize:10,fontWeight:700,borderRadius:10,padding:"1px 5px",minWidth:16,textAlign:"center",lineHeight:"14px"}}>{savedCount}</div>}
+                fontSize:11,fontWeight:700,borderRadius:10,padding:"1px 5px",minWidth:16,textAlign:"center",lineHeight:"14px"}}>{savedCount}</div>}
             </button>
             {/* v2.8: the bell opens something now, and the dot is earned.
                 It used to be a button with no onClick and a red dot that was
@@ -1921,19 +1931,19 @@ function HomePage({items,shops,onSave,setModal,filters,setFilters,stories,setAct
               <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke={C.ink} strokeWidth="1.8"><path d="M18 8A6 6 0 006 8c0 7-3 9-3 9h18s-3-2-3-9M13.73 21a2 2 0 01-3.46 0"/></svg>
               {unreadCount > 0 && (
                 <div style={{position:"absolute",top:-2,right:-4,background:C.btn,color:C.onBtn,
-                  fontSize:10,fontWeight:700,borderRadius:10,padding:"1px 5px",minWidth:16,
+                  fontSize:11,fontWeight:700,borderRadius:10,padding:"1px 5px",minWidth:16,
                   textAlign:"center",lineHeight:"14px"}}>{unreadCount > 9 ? "9+" : unreadCount}</div>
               )}
             </button>
             <button className="tap-round" aria-label="Shortlist" onClick={()=>setTab("cart")} style={{background:"none",border:"none",cursor:"pointer",padding:2,position:"relative"}}>
               <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke={C.ink} strokeWidth="1.8"><path d="M6 2L3 6v14a2 2 0 002 2h14a2 2 0 002-2V6l-3-4z"/><line x1="3" y1="6" x2="21" y2="6"/><path d="M16 10a4 4 0 01-8 0"/></svg>
               {cartCount > 0 && <div style={{position:"absolute",top:-2,right:-4,
-                background:C.btn,color:C.onBtn,fontSize:10,fontWeight:700,
+                background:C.btn,color:C.onBtn,fontSize:11,fontWeight:700,
                 borderRadius:10,padding:"1px 5px",minWidth:16,textAlign:"center",lineHeight:"14px"}}>{cartCount}</div>}
             </button>
           </div>
         </div>
-        <SearchBar value={q} onChange={setQ}/>
+        <SearchBar value={q} onChange={setQ} onFilters={()=>setShowFilters(true)} filterCount={narrowed}/>
         {/* cat chips */}
         <div style={{display:"flex",gap:8,overflowX:"auto",padding:"0 14px 10px"}}>
           {/* "My sizes" leads the row: the filter clothing buyers apply in
@@ -2134,11 +2144,11 @@ function CategoriesPage({setFilters,setTab,items,onSave,setModal}) {
               onMouseLeave={e=>e.currentTarget.style.transform=""}>
               <Icon name={cat.icon} size={30} stroke={1.4} style={{color:C.terraTx}}/>
               <span style={{fontSize:12,fontWeight:600,color:C.ink}}>{cat.name}</span>
-              <span style={{fontSize:10,color:C.inkLt}}>{cat.ar}</span>
+              <span style={{fontSize:11,color:C.inkLt}}>{cat.ar}</span>
               {/* The count is the point: a category with nothing in it is a
                   door that opens onto an empty room, and this is cheaper than
                   letting her find that out by walking through it. */}
-              <span style={{fontSize:10,color:C.inkLt}}>
+              <span style={{fontSize:11,color:C.inkLt}}>
                 {cat.count===0 ? "none yet" : `${cat.count} ${cat.count===1?"piece":"pieces"}`}
               </span>
             </button>
@@ -2665,7 +2675,7 @@ function SellPage({myShop,onCreateShop,onAddItem,setTab,onListed}) {
                     borderRadius:"50%",width:22,height:22,color:C.onBtn,cursor:"pointer",fontSize:12,
                     display:"flex",alignItems:"center",justifyContent:"center"}}><Icon name="close" size={14} stroke={2}/></button>
                   {i===0 && <div style={{position:"absolute",bottom:4,left:4,background:"#000a",
-                    color:C.white,fontSize:10,padding:"2px 6px",borderRadius:8}}>Cover</div>}
+                    color:C.white,fontSize:11,padding:"2px 6px",borderRadius:8}}>Cover</div>}
                 </div>
               ))}
               {photos.length<LIMITS.maxPerListing && (
@@ -2676,7 +2686,7 @@ function SellPage({myShop,onCreateShop,onAddItem,setTab,onListed}) {
                     alignItems:"center",justifyContent:"center",gap:5}}>
                     <Icon name="plus" size={26}/>
                     <span style={{fontSize:11,color:C.terraTx,fontWeight:600}}>Add Photo</span>
-                    <span style={{fontSize:10,color:C.inkLt}}>Photos ({photos.length}/{LIMITS.maxPerListing})</span>
+                    <span style={{fontSize:11,color:C.inkLt}}>Photos ({photos.length}/{LIMITS.maxPerListing})</span>
                   </span>
                 </label>
               )}
@@ -3147,7 +3157,7 @@ function MyShopPage({shop,items,setTab,justListed,onDismissListed,onMarkSold,onT
         <div style={{display:"flex",gap:20,marginTop:12,paddingBottom:14,borderBottom:`1px solid ${C.border}`}}>
           {[[myItems.length,t("listings")],[shop.followers||0,t("followers")],[sold,t("sales")]].map(([n,l])=>(
             <div key={l}><span style={{fontWeight:800,color:C.terraTx,fontSize:16}}>{n}</span>
-              <span style={{fontSize:10,color:C.inkLt,marginLeft:4}}>{l}</span></div>
+              <span style={{fontSize:11,color:C.inkLt,marginLeft:4}}>{l}</span></div>
           ))}
         </div>
         <div style={{display:"grid",gridTemplateColumns:"repeat(2,1fr)",gap:10,marginTop:14}}>
@@ -3162,7 +3172,7 @@ function MyShopPage({shop,items,setTab,justListed,onDismissListed,onMarkSold,onT
                   whiteSpace:"nowrap",overflow:"hidden",textOverflow:"ellipsis"}}>{item.title}</div>
                 <div style={{color:C.terraTx,fontWeight:700,fontSize:13,marginTop:3}}>{money(item.price)}</div>
                 {badge(item.status) && (
-                  <div style={{fontSize:10,fontWeight:700,color:C.inkLt,marginTop:3,
+                  <div style={{fontSize:11,fontWeight:700,color:C.inkLt,marginTop:3,
                     textTransform:"uppercase",letterSpacing:0.5}}>{badge(item.status)}</div>
                 )}
                 {/* A seller could list a piece and never touch it again: no
@@ -3238,7 +3248,7 @@ function SellersPage({shops,items,setTab,setViewShop,onFollow,isFollowing}) {
                 <div style={{fontSize:11,color:C.inkLt}}>{shop.nameAr} · {shop.handle}</div>
                 <div style={{display:"flex",alignItems:"center",gap:6,marginTop:4}}>
                   <Stars rating={shop.rating} reviews={shop.reviews} shop={shop}/>
-                  <span style={{fontSize:10,color:C.inkLt}}>{earnedFollowers(shop) !== null ? `· ${earnedFollowers(shop)} · ${count} items` : `· ${count} items`}</span>
+                  <span style={{fontSize:11,color:C.inkLt}}>{earnedFollowers(shop) !== null ? `· ${earnedFollowers(shop)} · ${count} items` : `· ${count} items`}</span>
                 </div>
               </div>
               {/* v2.9: also had no onClick. */}
@@ -3514,7 +3524,7 @@ function MessagesPage({shops,items,onReport,openThreadId,onOpened,error,onOpenOf
             {/* Was "Online"/"Offline" against a boolean nothing maintained.
                 The piece the two of you are talking about is both true and
                 more useful at the top of a thread. */}
-            <div style={{fontSize:10,color:C.inkLt,maxWidth:170,whiteSpace:"nowrap",
+            <div style={{fontSize:11,color:C.inkLt,maxWidth:170,whiteSpace:"nowrap",
               overflow:"hidden",textOverflow:"ellipsis"}}>{item?.title||shop?.handle||""}</div>
           </div>}
           right={
@@ -3579,7 +3589,7 @@ function MessagesPage({shops,items,onReport,openThreadId,onOpened,error,onOpenOf
                 padding:"10px 14px",fontSize:13,lineHeight:1.45,
                 border:m.mine?"none":`1px solid ${C.border}`}}>
                 {m.text}
-                <div style={{fontSize:10,opacity:0.6,marginTop:4,textAlign:alignEnd()}}>
+                <div style={{fontSize:11,opacity:0.6,marginTop:4,textAlign:alignEnd()}}>
                   {timeLabel(m.at)}
                   {m.mine && m.delivered === false && " · not sent"}
                   {m.mine && m.delivered !== false && m.read && " · read"}
@@ -3655,7 +3665,7 @@ function MessagesPage({shops,items,onReport,openThreadId,onOpened,error,onOpenOf
                   <div style={{flex:1,minWidth:0}}>
                     <div style={{display:"flex",justifyContent:"space-between",marginBottom:2}}>
                       <span style={{fontWeight:700,fontSize:13,color:C.ink}}>{shop?.name||"Seller"}</span>
-                      <span style={{fontSize:10,color:C.inkLt}}>{timeLabel(when)}</span>
+                      <span style={{fontSize:11,color:C.inkLt}}>{timeLabel(when)}</span>
                     </div>
                     <div style={{fontSize:12,color:C.inkLt,whiteSpace:"nowrap",overflow:"hidden",textOverflow:"ellipsis"}}>{preview}</div>
                     {item&&<div style={{fontSize:11,color:C.terraTx,marginTop:3,fontWeight:500}}>{item.title}</div>}
@@ -3753,7 +3763,7 @@ function ProfilePage({myShop,items,setTab,onOpenLegal,onOpenLanguage,onOpenTheme
           {[[myItems,t("listings")],[myShop ? (myShop.followers || 0) : 0,t("followers")]].map(([n,l])=>(
             <div key={l} style={{textAlign:"center"}}>
               <div style={{fontWeight:800,fontSize:22,color:C.terraTx}}>{n}</div>
-              <div style={{fontSize:10,color:C.inkLt,marginTop:2}}>{l}</div>
+              <div style={{fontSize:11,color:C.inkLt,marginTop:2}}>{l}</div>
             </div>
           ))}
         </div>
@@ -3780,7 +3790,7 @@ function ProfilePage({myShop,items,setTab,onOpenLegal,onOpenLanguage,onOpenTheme
             <div key={group.title} style={{marginBottom: gi < groups.length - 1 ? 16 : 0}}>
               {/* Common region: one label, one run of rows, one border. The eye
                   resolves three groups faster than it reads thirteen labels. */}
-              <div style={{fontSize:10,fontWeight:700,letterSpacing:0.8,
+              <div style={{fontSize:11,fontWeight:700,letterSpacing:0.8,
                 textTransform:"uppercase",color:C.inkLt,padding:"0 4px 8px"}}>
                 {group.title}
               </div>
@@ -3807,7 +3817,7 @@ function ProfilePage({myShop,items,setTab,onOpenLegal,onOpenLanguage,onOpenTheme
                           border:`1px solid ${C.border}`,borderRadius:20,padding:"3px 10px"}}>{item.trailing}</span>
                       : item.action
                       ? <span style={{marginLeft:"auto",color:C.inkLt}}>›</span>
-                      : <span style={{marginLeft:"auto",fontSize:10,fontWeight:700,
+                      : <span style={{marginLeft:"auto",fontSize:11,fontWeight:700,
                           color:C.inkLt,border:`1px solid ${C.border}`,borderRadius:20,
                           padding:"2px 8px",whiteSpace:"nowrap"}}>Soon</span>}
                   </button>
@@ -3837,7 +3847,7 @@ function ProfilePage({myShop,items,setTab,onOpenLegal,onOpenLanguage,onOpenTheme
           </div>
           <div style={{display:"flex",justifyContent:"center",gap:18,marginTop:12,flexWrap:"wrap"}}>
             {[["tag","Every listing screened"],["lock","Messages stay private"],["scales","Reasons on every decision"]].map(([icon,t])=>(
-              <span key={t} style={{fontSize:10,color:C.inkLt,display:"inline-flex",
+              <span key={t} style={{fontSize:11,color:C.inkLt,display:"inline-flex",
                 alignItems:"center",gap:4}}>
                 <Icon name={icon} size={10} stroke={2}/>{t}
               </span>

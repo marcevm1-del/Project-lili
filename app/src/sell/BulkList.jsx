@@ -167,7 +167,7 @@ export default function BulkList({ categories, conditions, brands, sizes,
     funnel.track(funnel.EVENTS.LISTING_LIVE, { bulk: ready.length });
   };
 
-  const label = { fontSize: 10, fontWeight: 700, color: C.inkLt, letterSpacing: 0.4,
+  const label = { fontSize: 11, fontWeight: 700, color: C.inkLt, letterSpacing: 0.4,
                   textTransform: "uppercase", display: "block", marginBottom: 4 };
   const field = { width: "100%", padding: "8px 10px", borderRadius: 9, fontSize: 13,
                   border: `1px solid ${C.border}`, outline: "none", background: C.white,

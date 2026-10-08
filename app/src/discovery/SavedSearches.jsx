@@ -66,7 +66,7 @@ export function SavedSearches({onPick}) {
               {s.category?` · ${s.category}`:""}{s.max_price?` · under ${money(Number(s.max_price))}`:""}
             </span>
           </button>
-          {s.new_count>0 && <span style={{background:C.btn,color:C.onBtn,fontSize:10,fontWeight:700,
+          {s.new_count>0 && <span style={{background:C.btn,color:C.onBtn,fontSize:11,fontWeight:700,
             borderRadius:10,padding:"2px 8px",whiteSpace:"nowrap"}}>{s.new_count} new</span>}
           <button className="tap-round" aria-label={`Stop saving “${s.query}”`}
             onClick={async()=>{ await repo.forgetSearch(s.id).catch(()=>{}); load(); }}
