@@ -7,7 +7,9 @@ lili is a curated resale marketplace for the UAE (Capacitor app + Supabase backe
 | Path | Contents |
 |---|---|
 | `docs/claude-notes/` | Release notes, launch runbook, legal/security reviews (v2.8 → v2.11.7) |
-| `supabase/migrations/` | Every lili database migration (60), exported from the live project's history |
+| `supabase/migrations/` | Every lili database migration (70), exported from the live project's history |
+| `supabase/pending/` | Fixes written but not yet applied — need the owner to run them |
+| `docs/review-2026-10-08.md` | Full review of the live database code and what was fixed |
 
 The app source tree (`src/`, `web/`, npm scripts) is not in this repository yet.
 
@@ -20,7 +22,7 @@ The app source tree (`src/`, `web/`, npm scripts) is not in this repository yet.
   empty of lili's schema (lili still runs on the project above); see the open decision in
   `docs/claude-notes/claude_10-day-launch-options.md` (§5).
 
-`supabase/migrations/` holds the complete lili history (21 Aug → 25 Sep 2026), file names
+`supabase/migrations/` holds the complete lili history (21 Aug → 8 Oct 2026), file names
 matching the versions recorded in the live project. The other product's migrations in the
 same project are deliberately not included.
 
@@ -37,7 +39,15 @@ same project are deliberately not included.
    `WITH CHECK` runs after BEFORE triggers and `screen_listing` always rewrites both
    columns, so every listing insert failed with 42501. No seller could list.
 
-## Still for a human (dashboard only)
+### Review of 8 Oct 2026
+
+Fifteen bugs fixed live (`20261008*_lili_review_*.sql`); see `docs/review-2026-10-08.md`.
+
+## Still for a human
+
+- **Run `supabase/pending/20261008_needs_owner_approval.sql`** in the SQL editor.
+  It stops account deletion from wiping the other person's conversations, and adds
+  "take a listing down" for sellers.
 
 - **Authentication → Sign In / Providers → Anonymous sign-ins: turn on.** Until then
   every install runs device-only.
