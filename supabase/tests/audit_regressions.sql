@@ -137,6 +137,15 @@ begin
     j ? 'saved_searches' and j ? 'reviews_you_wrote' and j ? 'reviews_about_you');
   execute 'reset role';
 
+  -- ── strikes are private; one read policy on follows ─────────────────────
+  perform pg_temp.ok('a shop''s strike count is not readable by clients',
+    not has_column_privilege('anon', 'public.lili_shops', 'strikes', 'select')
+    and not has_column_privilege('authenticated', 'public.lili_shops', 'strikes', 'select')
+    and has_column_privilege('anon', 'public.lili_shops', 'name', 'select'));
+  perform pg_temp.ok('follows has one read policy (pending SQL item 5)',
+    (select count(*) from pg_policies where schemaname = 'public' and tablename = 'lili_follows'
+       and cmd in ('SELECT', 'ALL')) = 1);
+
   select count(*), string_agg(label, '; ') filter (where not ok) into total, bad from _r;
   if bad is null then
     raise exception 'ALL_PASSED %', total;

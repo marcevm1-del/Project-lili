@@ -1,10 +1,10 @@
--- lili: four changes from the 8 Oct 2026 review that are NOT applied yet.
+-- lili: five changes from the 8 Oct 2026 review that are NOT applied yet.
 --
 -- It uses DROP CONSTRAINT / DROP NOT NULL, which the Supabase connector treats
 -- as destructive, so it needs the project owner to run it. Paste this file into Supabase → SQL Editor for
 -- project yjsmkjwvoolsszsedony and press Run. It is one transaction; nothing
 -- here deletes any data: the DROPs only swap a foreign-key rule and relax a
--- NOT NULL.
+-- NOT NULL, and one DROP POLICY removes a duplicate of another policy.
 
 begin;
 
@@ -195,5 +195,11 @@ begin
   );
 end;
 $function$;
+
+-- ── 5. One read policy on follows (L-3) ─────────────────────────────────────
+-- follows_count_read has exactly the condition of follows_own, which already
+-- covers SELECT; Postgres evaluates both on every read. Dropping it changes
+-- nobody's access.
+drop policy if exists follows_count_read on public.lili_follows;
 
 commit;

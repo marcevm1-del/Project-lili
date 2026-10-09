@@ -1055,15 +1055,23 @@ function PriceContext({ item }) {
     : price > band.high ? "This one is above that range."
     : "This one sits inside that range.";
 
+  // M-11: one line on the screen where she decides; the provenance is a tap away.
+  const short = price <= 0 ? null
+    : price < band.low ? "under that" : price > band.high ? "above that" : "inside that";
   return (
     <div style={{background:C.sand,border:`1px solid ${C.border}`,borderRadius:12,
-      padding:"10px 12px",marginBottom:14}}>
-      <div style={{fontSize:11,color:C.ink,lineHeight:1.5}}>
-        Pieces of this kind usually resell here for <b>{range}</b>.{where ? ` ${where}` : ""}
+      padding:"8px 12px",marginBottom:14}}>
+      <div style={{fontSize:12,color:C.ink,lineHeight:1.5}}>
+        Usually resells here for <b>{range}</b>{short ? ` · this one is ${short}` : ""}
       </div>
-      <div style={{fontSize:11,color:C.inkLt,lineHeight:1.5,marginTop:4}}>
-        A guide from published resale data, not an appraisal of this piece.
-      </div>
+      <details style={{marginTop:2}}>
+        <summary style={{fontSize:11,color:C.inkLt,cursor:"pointer",minHeight:24,
+          display:"flex",alignItems:"center"}}>How this works</summary>
+        <div style={{fontSize:11,color:C.inkLt,lineHeight:1.5,marginTop:2}}>
+          Pieces of this kind, in this condition, from published resale data.{where ? ` ${where}` : ""}{" "}
+          A guide, not an appraisal of this piece.
+        </div>
+      </details>
     </div>
   );
 }
@@ -1126,10 +1134,9 @@ function ItemModal({item,shop,items=[],onOpenItem,onSave,onClose,onOffer,setTab,
             <div style={{padding:"12px 0",borderTop:`1px solid ${C.border}`,
               borderBottom:`1px solid ${C.border}`,marginBottom:14,
               fontSize:12,color:C.inkLt,lineHeight:1.6}}>
-              We can't load this seller's shop right now, so we can't tell you
-              whether she sells privately or as a business — and that changes
-              your rights. Open the piece again in a moment before you commit to
-              anything.
+              Seller details didn't load, so we can't say whether this is a
+              private or a business sale — it changes your rights. Try again
+              before you commit.
             </div>
           )}
           {shop && (
@@ -1172,8 +1179,7 @@ function ItemModal({item,shop,items=[],onOpenItem,onSave,onClose,onOffer,setTab,
               nothing else on this screen tells her. */}
           <div style={{fontSize:11,color:C.inkLt,lineHeight:1.6,marginBottom:18,
             paddingTop:12,borderTop:`1px solid ${C.border}`}}>
-            lili doesn't take payment or handle delivery. You and the seller agree
-            how to pay and where to meet.
+            lili doesn't take payment or deliver — you and the seller agree both.
           </div>
 
           <MoreFromShop item={item} shop={shop} items={items} onOpen={onOpenItem}/>

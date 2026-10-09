@@ -52,6 +52,6 @@ updates. Without them, uninstall the previous build first.
 
 - Run `supabase/pending/20261008_needs_owner_approval.sql` (SQL editor, one
   paste): erasure keeps the other person's threads; saved-search alerts are
-  delivered; retention jobs; erasure works outside the shared project.
+  delivered; retention jobs; erasure works outside the shared project; one read policy on follows.
 - Move lili to its own Pro project with point-in-time recovery.
 - Add the keystore secrets.

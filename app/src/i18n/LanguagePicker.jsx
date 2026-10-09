@@ -73,11 +73,6 @@ export default function LanguagePicker({ onBack, onChange }) {
 
   return (
     <Shell title="Language" subtitle="اللغة · भाषा · ഭാഷ" onBack={onBack}>
-      <p style={p}>
-        The UAE speaks dozens of languages and most residents are working in
-        their second or third. We'd rather add these properly than badly.
-      </p>
-
       <div style={head}>Available now</div>
       {ready.map((l) => (
         <Row key={l.code} lang={l} selected={current === l.code} onClick={() => choose(l)} />
@@ -85,14 +80,16 @@ export default function LanguagePicker({ onBack, onChange }) {
 
       <div style={head}>Not translated yet</div>
       <p style={{ ...p, fontSize: 12, marginBottom: 12 }}>
-        Tap one to tell us you want it. We're ordering the work by what people
-        actually ask for — not by which is easiest.
+        Tap one to ask for it — the most-asked comes first.
       </p>
       {planned.map((l) => (
         <Row key={l.code} lang={l} requested={requested.includes(l.code)}
              onClick={() => askFor(l)} />
       ))}
 
+      <details style={{ marginTop: 8 }}>
+        <summary style={{ fontSize: 12, color: C.inkLt, cursor: "pointer", minHeight: 44,
+                          display: "flex", alignItems: "center" }}>How this works</summary>
       <Note>
         Numbers already work in every script here — type a price in
         ١٢٩٠٠, ১২৯০০, ൧൨൯൦൦ or 12,900 and lili reads all of them the same way.
@@ -102,6 +99,7 @@ export default function LanguagePicker({ onBack, onChange }) {
         English — we would rather tell you that than machine-translate a
         refund policy and hope.
       </Note>
+      </details>
     </Shell>
   );
 }

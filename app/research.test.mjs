@@ -1045,7 +1045,7 @@ check("a listing written offline is not wiped by the next live update",
 check("a failed refresh keeps the device copy rather than blanking the screen",
   /keeping the device copy|return null;/.test(repoSrc));
 check("an unresolvable seller is stated, not hidden",
-  /can't load this seller's shop/.test(market));
+  /Seller details didn't load[\s\S]{0,120}changes your rights/.test(market));
 
 section("43. Deletion deletes, and export exports");
 

@@ -222,6 +222,9 @@ const T = ["lili_shops","lili_items","lili_profiles","lili_follows","lili_saves"
            "lili_carts","lili_blocks","lili_moderation_cases","lili_audit"];
 
 // anonymous reads
+// A raw HTTP probe. An unreachable server is a failed check, not a crash that
+// takes the rest of the suite (and its summary line) down with it.
+const probe = (url, init) => fetch(url, init).catch((e) => ({ status: 599, unreachable: e.message }));
 const anonRead = async (t) => { const { data, error } = await sb.from(t).select("*").limit(1); return { data, error }; };
 {
   const r = await anonRead("lili_items");
@@ -263,7 +266,7 @@ for (const [t, row] of [
 {
   const { error } = await sb.from("lili_items").select("owner_uid").limit(1);
   check("owner ids are not exposed to anonymous readers on hidden rows", true);
-  const r = await fetch(`${cfg.url}/rest/v1/`, { headers: { apikey: cfg.publishableKey } });
+  const r = await probe(`${cfg.url}/rest/v1/`, { headers: { apikey: cfg.publishableKey } });
   check("the API root responds without leaking a stack trace", r.status < 500, `HTTP ${r.status}`);
 }
 // other app's tables must not be reachable through lili's key in a harmful way
@@ -284,7 +287,7 @@ section("9. Photo storage");
   check("nobody can write into another seller's folder", !!e2, e2 && e2.message);
   const { error: e3 } = await sb.storage.from("lili-photos").remove(["anything.png"]);
   check("anonymous cannot delete photos", !!e3 || true);
-  const res = await fetch(`${cfg.url}/storage/v1/object/public/lili-photos/missing.png`);
+  const res = await probe(`${cfg.url}/storage/v1/object/public/lili-photos/missing.png`);
   check("a missing photo does not 500", res.status < 500, `HTTP ${res.status}`);
   check("photos are uploaded, not embedded as data URLs in rows", /uploadPhotos/.test(remoteSrc));
   check("each upload is namespaced by user id", /\$\{uid\}\//.test(remoteSrc));
@@ -470,8 +473,8 @@ check("no plaintext http endpoints in source",
   "w3.org namespaces are identifiers, not URLs the app calls");
 check("the breach API is https", /https:\/\/api\.pwnedpasswords\.com/.test(breach));
 {
-  const r = await fetch(cfg.url + "/rest/v1/", { headers: { apikey: cfg.publishableKey } });
-  const hsts = r.headers.get("strict-transport-security");
+  const r = await probe(cfg.url + "/rest/v1/", { headers: { apikey: cfg.publishableKey } });
+  const hsts = r.headers && r.headers.get("strict-transport-security");
   hsts ? ok("backend sends HSTS", hsts.slice(0, 40)) : note("backend does not send HSTS");
 }
 
