@@ -21,6 +21,7 @@ import { join } from "node:path";
 import { createClient } from "@supabase/supabase-js";
 import cfg from "./src/backend/config.js";
 
+import { marketSource } from "./market-source.mjs";
 let pass = 0, fail = 0, warn = 0;
 const failures = [];
 const ok   = (l, extra) => { pass++; console.log(`  \x1b[32m✓\x1b[0m ${l}${extra ? ` \x1b[2m${extra}\x1b[0m` : ""}`); };
@@ -375,7 +376,7 @@ section("9e. Trust signals");
   check("shop stats are readable without an account", !st.error, st.error && st.error.message);
   const src2 = read("src/trust/TrustSignals.jsx");
   check("a rating is never shown without enough real reviews",
-    /reviews < 5/.test(read("src/Marketplace.jsx")));
+    /reviews < 5/.test(marketSource()));
   check("a new shop is labelled honestly rather than given a score",
     /New shop/.test(src2));
   check("nothing is shown when nothing is earned", /if \(state !== "ready"/.test(src2));

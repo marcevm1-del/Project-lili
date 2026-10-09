@@ -14,6 +14,7 @@
 // ─────────────────────────────────────────────────────────────────────────────
 import { readFileSync, readdirSync, statSync, existsSync } from "node:fs";
 
+import { marketSource } from "./market-source.mjs";
 let pass = 0, fail = 0;
 const failures = [];
 function check(name, ok) {
@@ -241,7 +242,7 @@ section("11. Honesty invariants — nothing fabricated ships");
 const stripComments = (s) =>
   s.replace(/\/\*[\s\S]*?\*\//g, "").replace(/(^|[^:])\/\/.*$/gm, "$1");
 
-const market = stripComments(read("./src/Marketplace.jsx"));
+const market = stripComments(marketSource());
 const repo = stripComments(read("./src/data/repo.js"));
 
 check("no seed shop carries a fabricated rating",
@@ -268,10 +269,10 @@ check("the photo limit in the copy comes from the limit, not a typed number",
 // ─────────────────────────────────────────────────────────────────────────────
 section("12. Design tokens that were referenced but never defined");
 
-const tokens = read("./src/Marketplace.jsx").match(/const C = \{[\s\S]*?\n\};/)[0];
+const tokens = marketSource().match(/const C = \{[\s\S]*?\n\};/)[0];
 const uiTokens = read("./src/compliance/ui.js").match(/export const C = \{[\s\S]*?\n\};/)[0];
 for (const t of ["terraTx", "btn", "onBtn"]) {
-  check(`C.${t} is defined in Marketplace.jsx`, new RegExp(`${t}\\s*:`).test(tokens));
+  check(`C.${t} is defined in the market tokens`, new RegExp(`${t}\\s*:`).test(tokens));
   check(`C.${t} is defined in compliance/ui.js`, new RegExp(`${t}\\s*:`).test(uiTokens));
 }
 
@@ -1631,6 +1632,16 @@ check("no interface text is set below the 11px floor", tinyType.length === 0 && 
   check("the meet screen proposes UAE time, not the phone's zone",
     /uaeWallClockToInstant\(when\)/.test(read("./src/meet/MeetPlan.jsx")) &&
     !/new Date\(when\)/.test(read("./src/meet/MeetPlan.jsx")));
+}
+{
+  const { undefinedNames } = await import("./undefined-names.mjs");
+  const u = undefinedNames("src");
+  check("every name a screen uses is declared or imported in its own file", u.length === 0,
+    u.slice(0, 4).join(", "));
+  const { MARKET_FILES } = await import("./market-source.mjs");
+  const mpLines = read("./src/Marketplace.jsx").split("\n").length;
+  check("Marketplace.jsx is the shell, not every screen", mpLines < 2000 && MARKET_FILES.length > 5,
+    `${mpLines} lines`);
 }
 check("a bare <button> is in the type system rather than at the browser default",
   /button\s*\{[^}]*font-size:\s*14px/.test(read("./src/index.css")));

@@ -3,6 +3,7 @@
 // state that never advances.
 import { JSDOM } from "jsdom";
 
+import { marketSource } from "./market-source.mjs";
 const dom = new JSDOM("<!doctype html><html><body><div id=root></div></body></html>", {
   url: "https://localhost/", pretendToBeVisual: true,
 });
@@ -457,7 +458,7 @@ check("semantic aliases exist for new code",
 
 // the bug this guards: colours built by string concatenation silently produce
 // "var(--c-white)cc", which the browser drops entirely
-const mk = readFileSyncSafe("./src/Marketplace.jsx");
+const mk = marketSource();
 check("no colour value is built by string concatenation",
   !/C\.[a-zA-Z]+\s*\+\s*"/.test(mk));
 check("palette resolves through CSS variables", /var\(--c-ink\)/.test(mk));
@@ -480,7 +481,7 @@ check("ID verification waits until she's actually being paid",
 check("every clause still carries its Arabic",
   ag.SELLER_AGREEMENT.every(c => c.bodyAr && c.titleAr));
 
-const mk2 = readFileSyncSafe("./src/Marketplace.jsx");
+const mk2 = marketSource();
 check("shop setup asks for one field, not four",
   !/اسم الدكان \(Arabic\)/.test(mk2) && !/Describe your style/.test(mk2));
 check("bio and banner moved to settings, not deleted from the product",
@@ -521,7 +522,7 @@ const referenced = new Set([...appSrc.matchAll(/<Icon\s+name="([a-zA-Z]+)"/g)].m
 const unknown = [...referenced].filter(n => !names.includes(n));
 check("no listing references a missing icon", unknown.length === 0, unknown.join(", "));
 
-const mk3 = readFileSyncSafe("./src/Marketplace.jsx");
+const mk3 = marketSource();
 check("shop identity is a monogram, not a picture", /Monogram|charAt\(0\)\.toUpperCase/.test(mk3));
 check("listings fall back to a category icon", /Placeholder item=/.test(mk3));
 
@@ -632,7 +633,7 @@ check("the row keeps links, and drops the field when there are none",
 console.log("\n24. Photos are sized for where they are shown");
 const imgs = await import("./src/data/images.js");
 const rsrc2 = readFileSyncSafe("./src/backend/remote.js");
-const mk4 = readFileSyncSafe("./src/Marketplace.jsx");
+const mk4 = marketSource();
 
 check("a thumbnail size is defined", imgs.LIMITS.thumbDimension < imgs.LIMITS.maxDimension);
 check("both sizes are produced at capture", /processImage\(raw, LIMITS\.thumbDimension\)/.test(mk4));

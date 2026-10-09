@@ -16,6 +16,7 @@
 import { readFileSync, readdirSync, statSync } from "node:fs";
 import { join } from "node:path";
 
+import { marketSource } from "./market-source.mjs";
 let pass = 0, fail = 0;
 const failures = [];
 const check = (name, ok, detail) => {
@@ -160,7 +161,7 @@ const picker = readFileSync("src/i18n/LanguagePicker.jsx", "utf8");
 check("choosing a language sets the strings, not only the direction",
   /setLang\(lang\.code\)/.test(picker) && /setDir\(lang\.dir\)/.test(picker));
 check("and the tree is told, so it re-renders",
-  /onDirChange/.test(readFileSync("src/Marketplace.jsx", "utf8")));
+  /onDirChange/.test(marketSource()));
 
 section("8. The translator's file round-trips");
 

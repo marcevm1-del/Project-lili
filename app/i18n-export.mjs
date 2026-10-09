@@ -126,7 +126,7 @@ const AREA = [
   [/loading\/|ErrorBoundary/,   "Loading, errors and empty screens"],
   [/notifications\//,           "Notifications"],
   [/data\/|backend\//,          "Errors the app reports when something fails"],
-  [/Marketplace/,               "The main shopping screens"],
+  [/Marketplace|market\/|pages\//, "The main shopping screens"],
 ];
 const areaOf = (f) => (AREA.find(([re]) => re.test(f)) || [null, "Elsewhere"])[1];
 

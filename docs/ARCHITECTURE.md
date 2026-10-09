@@ -29,7 +29,9 @@ multi-step actions (each runs in one transaction).
 
 | Path | Role |
 |---|---|
-| `src/Marketplace.jsx` | Root state and most screens (large; split planned, audit H-14) |
+| `src/Marketplace.jsx` | Root state, tab bar, home feed and splash (~1,300 lines) |
+| `src/market/` | Shared tokens and atoms (`shared.jsx`), item sheet, offer sheet, filters |
+| `src/pages/` | Search, sell, shops, messages, profile, shortlist |
 | `src/data/repo.js` | One door to data: server when connected, the device otherwise |
 | `src/backend/remote.js` | Every Supabase call; row mapping (`fromRow` / `toRow` allowlist) |
 | `src/backend/config.js` | Project URL and publishable key (public by design) |
@@ -70,4 +72,5 @@ GitHub Actions (`.github/workflows/app.yml`):
 ## Known structural risks
 
 See the audit report. In short: the shared Supabase project on the free plan,
-no staging environment, and the size of `Marketplace.jsx`.
+no staging environment. (`Marketplace.jsx` was split into `src/market` and
+`src/pages`; `undefined-names.mjs` checks every file imports what it uses.)
