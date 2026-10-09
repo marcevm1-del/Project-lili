@@ -142,7 +142,7 @@ section("Gate");
 await auditScreen("01-market-gate");
 await tap("look around anyway");
 await page.locator("input").first().fill("1994");
-await tap("I agree to lili's Platform Terms");
+await tap("I agree to lili's Terms of Use");
 await tap("I agree to Privacy Notice");
 await auditScreen("02-terms-and-age");
 await tap("Agree and continue");

@@ -67,7 +67,7 @@ console.log("\n2. Age + terms (one screen)");
 check("asks for year of birth", /Year of birth/i.test(text()));
 check("states the market's minimum age", /18/.test(text()));
 check("age and contract share a screen, cutting a gate",
-  /Year of birth/i.test(text()) && /Platform Terms/.test(text()));
+  /Year of birth/i.test(text()) && /Terms of Use/.test(text()));
 
 const input = document.querySelector("input");
 check("has a year field", !!input);
@@ -78,7 +78,7 @@ const setVal = (el, v) => {
   setter.call(el, v);
   el.dispatchEvent(new dom.window.Event("input", { bubbles: true }));
 };
-for (const re of [/I agree to lili's Platform Terms/, /I agree to Privacy Notice/]) {
+for (const re of [/I agree to lili's Terms of Use/, /I agree to Privacy Notice/]) {
   const b = findBtn(re);
   if (b) { await act(async () => { b.click(); }); await settle(); }
 }
@@ -101,7 +101,7 @@ console.log("\n4. Consent");
 check("reaches the consent sheet", /Your data, your call/.test(text()));
 check("marketing is off by default", /Off unless you want it/.test(text()));
 check("consent is unbundled from contract acceptance",
-  !/I agree to lili's Platform Terms/.test(text()));
+  !/I agree to lili's Terms of Use/.test(text()));
 const saveBtn = buttons().find((b) => /Save choices/.test(b.textContent));
 check("consent can be saved on its own", saveBtn && !saveBtn.disabled);
 await act(async () => { saveBtn.click(); });

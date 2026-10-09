@@ -47,18 +47,28 @@ alter table public.lili_notifications add constraint lili_notifications_kind_che
   'meet_declined', 'meet_cancelled', 'saved_search']));
 
 -- ── 3. Retention ────────────────────────────────────────────────────────────
--- Analytics events are kept 13 months and read notifications 90 days, instead
--- of forever. A nightly job; nothing else deletes these rows.
+-- What the Privacy Notice and the Account Deletion & Data Retention Policy
+-- promise (app/src/legal/facts.js RETENTION): analytics 13 months, read
+-- notifications 90 days, crash reports 90 days, moderation decisions and their
+-- evidence 24 months from the decision. A nightly job; nothing else deletes
+-- these rows. Evidence goes with its case (lili_case_evidence cascades).
 create or replace function lili.prune_retention()
 returns jsonb language plpgsql security definer set search_path to 'public', 'pg_temp'
 as $$
-declare n_events int; n_notes int;
+declare n_events int; n_notes int; n_errors int; n_cases int;
 begin
   delete from public.lili_events where created_at < now() - interval '13 months';
   get diagnostics n_events = row_count;
   delete from public.lili_notifications where read_at is not null and read_at < now() - interval '90 days';
   get diagnostics n_notes = row_count;
-  return jsonb_build_object('events', n_events, 'notifications', n_notes);
+  delete from public.lili_client_errors where at < now() - interval '90 days';
+  get diagnostics n_errors = row_count;
+  delete from public.lili_moderation_cases
+   where decided_at is not null and decided_at < now() - interval '24 months'
+     and state <> 'appealed';
+  get diagnostics n_cases = row_count;
+  return jsonb_build_object('events', n_events, 'notifications', n_notes,
+                            'crash_reports', n_errors, 'moderation_cases', n_cases);
 end; $$;
 revoke all on function lili.prune_retention() from public, anon, authenticated;
 select cron.schedule('lili-retention', '41 3 * * *', 'select lili.prune_retention()');

@@ -52,6 +52,11 @@ updates. Without them, uninstall the previous build first.
 
 - Run `supabase/pending/20261008_needs_owner_approval.sql` (SQL editor, one
   paste): erasure keeps the other person's threads; saved-search alerts are
-  delivered; retention jobs; erasure works outside the shared project; one read policy on follows.
+  delivered; retention jobs; erasure works outside the shared project; one read policy on follows. The retention periods the policies promise only hold once this has run.
 - Move lili to its own Pro project with point-in-time recovery.
 - Add the keystore secrets.
+- Policies: fill in `OPERATOR` in `app/src/legal/facts.js` (legal entity, licence,
+  address, privacy and brand-owner inboxes), have UAE counsel review
+  `docs/policies/`, commission the Arabic text, then set `LEGALLY_REVIEWED = true`
+  and run `node app/policies-build.mjs`. Host `app/web/` on the owned domain and
+  give the stores `policies/privacy.html` and `delete-account.html`.

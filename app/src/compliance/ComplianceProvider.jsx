@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState, lazy, Suspense } from "react";
 import { ComplianceContext, useCompliance } from "./context.js";
 import { Capacitor } from "@capacitor/core";
 import { MARKETS, getMarket, listMarkets, DEFAULT_MARKET, POLICY_VERSION } from "./markets.js";
@@ -13,6 +13,9 @@ import * as funnel from "../analytics/funnel.js";
 import { shiftEnd, alignStart } from "../i18n/direction.js";
 import { APP_VERSION } from "../version.js";
 import { t } from "../i18n/t.js";
+// The full documents behind the two signup ticks. Lazy: most people never open them.
+const PolicyViewer = lazy(() => import("../legal/PolicyViewer.jsx"));
+const POLICY_FOR = { "platform-terms": "terms", "privacy-notice": "privacy" };
 
 export { useCompliance };
 
@@ -336,6 +339,7 @@ function AgeGate({ m, onConfirm, failed }) {
 function TermsGate({ m, onAccept, onConfirmAge, age }) {
   const [ticked, setTicked] = useState({});
   const [open, setOpen] = useState(null);
+  const [reading, setReading] = useState(null);
   const [year, setYear] = useState("");
   const needsAge = !age?.passed;
   // Accepts ١٩٩٦ as readily as 1996 — an Arabic keyboard is the default for
@@ -389,10 +393,16 @@ function TermsGate({ m, onAccept, onConfirmAge, age }) {
         </>
       )}
 
+      {reading && (
+        <Suspense fallback={null}>
+          <PolicyViewer initial={reading} onBack={() => setReading(null)} />
+        </Suspense>
+      )}
       {ACCEPT.map((a) => {
         const on = !!ticked[a.id];
         return (
-          <button key={a.id} onClick={() => setTicked((t) => ({ ...t, [a.id]: !t[a.id] }))}
+          <div key={a.id}>
+          <button onClick={() => setTicked((t) => ({ ...t, [a.id]: !t[a.id] }))}
             style={{ ...acceptRow, borderColor: on ? C.terra : C.border }}>
             <div style={{ ...tickBox, background: on ? C.terra : C.white,
                           borderColor: on ? C.terra : C.border }}>
@@ -408,6 +418,15 @@ function TermsGate({ m, onAccept, onConfirmAge, age }) {
               </div>
             </div>
           </button>
+          {POLICY_FOR[a.id] && (
+            <button onClick={() => setReading(POLICY_FOR[a.id])}
+              style={{ background: "none", border: "none", color: C.terraTx, fontSize: 13, fontWeight: 600,
+                       textDecoration: "underline", textUnderlineOffset: 3, cursor: "pointer",
+                       padding: "4px 0 12px", minHeight: 44 }}>
+              Read the full {a.title.replace(/^lili's /, "")}
+            </button>
+          )}
+          </div>
         );
       })}
 

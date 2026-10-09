@@ -82,7 +82,7 @@ await page.goto(`http://localhost:${PORT}/`, { waitUntil: "networkidle" });
 await page.waitForTimeout(400);
 await tap("look around anyway");
 await page.locator("input").first().fill("1994");
-await tap("I agree to lili's Platform Terms");
+await tap("I agree to lili's Terms of Use");
 await tap("I agree to Privacy Notice");
 await tap("Agree and continue");
 await tap("Save choices");

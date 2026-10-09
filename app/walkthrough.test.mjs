@@ -107,7 +107,7 @@ await tap(/look around anyway/i);
 const yearField = document.querySelector("input");
 check("reaches the age + terms screen", !!yearField);
 await setInput(yearField, "1994");
-await tap(/I agree to lili's Platform Terms/);
+await tap(/I agree to lili's Terms of Use/);
 await tap(/I agree to Privacy Notice/);
 await tap(/Agree and continue/);
 check("passes the terms gate", /Your data, your call/.test(text()));

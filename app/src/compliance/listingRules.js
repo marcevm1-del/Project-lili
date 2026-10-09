@@ -192,16 +192,21 @@ export function screenListing({ title = "", description = "", brand = "",
 // ── repeat infringement ────────────────────────────────────────────────────
 // Safe harbour is conditional on removing sellers who keep doing it. A policy
 // nobody enforces is worse than no policy — it's evidence you knew.
+//
+// v2.12: this described a ladder the server never ran ("paused 7 days",
+// "12 months rolling", "payouts held" — lili makes no payouts). It now says
+// what lili_moderation_decide does: strikes are totals that don't expire, and
+// three close the shop. legal/facts.js states the same and the test compares.
 export const STRIKE_POLICY = {
-  window: "12 months rolling",
+  window: "Strikes count in total and don't expire",
   thresholds: [
     { strikes: 1, action: "Listing removed, seller told why" },
-    { strikes: 2, action: "Listing removed, selling paused 7 days" },
-    { strikes: 3, action: "Shop closed, payouts held pending review" },
+    { strikes: 2, action: "Listing removed; one more strike closes the shop" },
+    { strikes: 3, action: "Shop closed" },
   ],
   counterNotice:
-    "A seller can contest a strike. Contested strikes don't count until decided " +
-    "— required under the EU DSA and fair everywhere else.",
+    "The seller can appeal within 14 days. A different moderator decides, and a " +
+    "successful appeal removes the strike and restores what it took.",
 };
 
 export function strikeOutcome(strikes) {

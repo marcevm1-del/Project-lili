@@ -7,6 +7,7 @@ lili is a curated resale marketplace for the UAE (Capacitor app + Supabase backe
 - [docs/ARCHITECTURE.md](docs/ARCHITECTURE.md): how the app, database and CI fit together
 - [docs/SECURITY.md](docs/SECURITY.md): trust boundaries, what is public, abuse controls, secrets
 - [docs/RUNBOOK.md](docs/RUNBOOK.md): what to do when something is wrong
+- [docs/policies/](docs/policies/README.md): the twelve policies (Terms, Privacy, Seller, Prohibited Items, Authenticity, Community, Safety, Payments & Scams, Offers, Reviews, Appeals, Deletion). Edit `app/src/legal/policies.js`, then run `node app/policies-build.mjs`; the same text is in the app and in `app/web/policies/` for hosting.
 - The `app/*.md` files are release notes and reviews kept as history.
 
 ## What is in this repository
@@ -106,6 +107,8 @@ Fixed live in `20261008*_lili_review_1..15_*.sql`; see `docs/review-2026-10-08.m
 - **28 — client grants revoked** on tables only definer functions use (case evidence, invites); reference data read-only.
 - **29 — strike counts private.** Shops are readable column by column; `strikes` is not one of them.
 - **30 — index on `reserved_offer`**, the foreign key added in 22.
+- **31 — appeals.** The seller sees decisions about her and can appeal for 14 days; a different moderator rules; overturning removes the strike and restores the listing. Client roles lose TRUNCATE, REFERENCES and TRIGGER on every lili table.
+- **32 — appeals queue** for moderators: the decision under appeal and the seller's grounds.
 
 `supabase/tests/run.sh` rebuilds the database from these migrations in CI and runs
 `functional_test.sql` and `audit_regressions.sql` (26 assertions).

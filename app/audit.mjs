@@ -169,9 +169,8 @@ check("Code", "Safe-area insets respected", has(/safe-area-inset-bottom/));
 // ── things no script can settle ────────────────────────────────────────────
 note("Licensing", "Trade licence for marketplace activity",
      "A company matter. The activity must read as intermediary services, not retail.");
-check("Legal", "Seller Agreement drafted", existsSync("SELLER-AGREEMENT-DRAFT.md"));
-check("Legal", "Platform Terms and Privacy Notice drafted",
-      existsSync("PLATFORM-TERMS-AND-PRIVACY-DRAFT.md"));
+check("Legal", "Terms, Privacy Notice, Seller Policy and nine more drafted (src/legal/policies.js)",
+      existsSync("src/legal/policies.js") && existsSync("web/policies/privacy.html"));
 note("Legal", "All three documents reviewed by UAE counsel",
      "Drafts exist and are marked as drafts. None may be published unreviewed.");
 note("Legal", "Terms of Sale (seller to buyer)",

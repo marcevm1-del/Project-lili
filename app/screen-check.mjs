@@ -10,7 +10,7 @@ const b=await chromium.launch(); const pg=await (await b.newContext({viewport:{w
 const t=async x=>{const e=pg.locator(`button:has-text("${x}")`).first();if(await e.count()){await e.click({timeout:1500}).catch(()=>{});await pg.waitForTimeout(230);return true;}return false;};
 await pg.goto("http://localhost:4321/",{waitUntil:"networkidle"}); await pg.waitForTimeout(350);
 await t("look around anyway"); await pg.locator("input").first().fill("1994");
-await t("I agree to lili's Platform Terms"); await t("I agree to Privacy Notice");
+await t("I agree to lili's Terms of Use"); await t("I agree to Privacy Notice");
 await t("Agree and continue"); await t("Save choices"); await t("Shop Now"); await t("Skip");
 await pg.waitForTimeout(350);
 await pg.locator('button[aria-label="Sell"]').first().click(); await pg.waitForTimeout(350);

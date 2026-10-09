@@ -17,7 +17,7 @@ const sec=t=>console.log(`\n\x1b[1m${t}\x1b[0m`);
 const t=async x=>{const e=pg.locator(`button:has-text("${x}")`).first();if(await e.count()){await e.scrollIntoViewIfNeeded({timeout:800}).catch(()=>{});await e.click({timeout:1800}).catch(()=>{});await pg.waitForTimeout(260);return true;}return false;};
 const lbl=async l=>{const e=pg.locator(`button[aria-label="${l}"]`).first();if(await e.count()){await e.click({timeout:1800});await pg.waitForTimeout(320);return true;}return false;};
 const txt=()=>pg.evaluate(()=>document.body.innerText);
-const boot=async()=>{await t("look around anyway");const y=pg.locator("input").first();if(await y.count())await y.fill("1994").catch(()=>{});await t("I agree to lili's Platform Terms");await t("I agree to Privacy Notice");await t("Agree and continue");await t("Save choices");await t("Shop Now");await t("Skip");await pg.waitForTimeout(400);};
+const boot=async()=>{await t("look around anyway");const y=pg.locator("input").first();if(await y.count())await y.fill("1994").catch(()=>{});await t("I agree to lili's Terms of Use");await t("I agree to Privacy Notice");await t("Agree and continue");await t("Save choices");await t("Shop Now");await t("Skip");await pg.waitForTimeout(400);};
 
 console.log("\n\x1b[1mSETTINGS\x1b[0m");
 await pg.goto("http://localhost:4330/",{waitUntil:"networkidle"}); await pg.waitForTimeout(350); await boot();

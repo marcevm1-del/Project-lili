@@ -88,7 +88,7 @@ async function passGate() {
   await tap("look around anyway", o);
   const yr = page.locator("input").first();
   if (await yr.count()) await yr.fill("1994").catch(() => {});
-  await tap("I agree to lili's Platform Terms", o);
+  await tap("I agree to lili's Terms of Use", o);
   await tap("I agree to Privacy Notice", o);
   await tap("Agree and continue", o);
   await tap("Save choices", o);

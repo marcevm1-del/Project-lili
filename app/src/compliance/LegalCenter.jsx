@@ -13,6 +13,7 @@ import { STRIKE_POLICY } from "./listingRules.js";
 // whether or not she will ever be a moderator. Loaded on the tap now.
 const ModerationQueue = lazy(() => import("./ModerationQueue.jsx"));
 const InviteRoster    = lazy(() => import("../invites/InviteRoster.jsx"));
+const PolicyViewer    = lazy(() => import("../legal/PolicyViewer.jsx"));
 import { listQueue, myReports, STATES as MOD_STATES, queueStats } from "./moderation.js";
 import Icon from "../icons/Icon.jsx";
 import * as remote from "../backend/remote.js";
@@ -36,12 +37,13 @@ export default function LegalCenter({ onClose }) {
   if (view === "invites")  return <Suspense fallback={null}><InviteRoster onBack={back} /></Suspense>;
   if (view === "rules")    return <RulesView onBack={back} />;
   if (view === "rights")   return <RightsHolderView onBack={back} />;
+  if (view === "policies") return <Suspense fallback={null}><PolicyViewer onBack={back} /></Suspense>;
   return <Menu onPick={setView} onClose={onClose} />;
 }
 
 function Menu({ onPick, onClose }) {
   const { m, policyVersion } = useCompliance();
-  // v2.11 — the same thirteen rows, in four groups.
+  // v2.11 — the same thirteen rows, in four groups. v2.12 adds the policies.
   //
   // `npm run ux` has flagged this menu since it was written: "Group them —
   // legal, safety, and your data are three different errands." It was right,
@@ -54,6 +56,9 @@ function Menu({ onPick, onClose }) {
   // role is a menu that leaks roles, and neither screen can do anything
   // without the claim.
   const groups = [
+    ["Policies", [
+      ["policies", "All policies",        "Terms, privacy, selling, safety, appeals — in full"],
+    ]],
     ["Your data", [
       ["consent",  "Data choices",        "What you've agreed to, and undo it"],
       ["data",     "Get a copy of my data", "Everything held about you"],
@@ -65,7 +70,7 @@ function Menu({ onPick, onClose }) {
       ["selling",  "Verification & payouts", "What we ask for, and when"],
     ]],
     ["If something is wrong", [
-      ["activity", "My reports",          "Reports you've sent and their state"],
+      ["activity", "My reports and decisions", "Reports you sent, decisions about you, appeals"],
       ["disputes", "If something goes wrong", "How a dispute is handled"],
       ["safety",   "Safety & moderation",  "How listings and sellers are policed"],
       ["rights",   "Brand owner? Report a fake", "Rights-holder takedown route"],
@@ -341,7 +346,9 @@ function ActivityView({ onBack }) {
 
   const reports = cases;
   return (
-    <Shell title="My reports" subtitle="بلاغاتي" onBack={onBack}>
+    <Shell title="My reports and decisions" subtitle="بلاغاتي والقرارات" onBack={onBack}>
+      <DecisionsAboutMe />
+      <div style={{ ...sectionHead, marginTop: 4 }}>Reports you made</div>
       {reports.length === 0 && (
         <p style={p}>You haven't reported anything. Nothing to see is a good sign.</p>
       )}
@@ -374,6 +381,85 @@ function ActivityView({ onBack }) {
         EU DSA, and the right way to run a marketplace anywhere.
       </Note>
     </Shell>
+  );
+}
+
+/**
+ * Decisions made about her listings or shop, and the appeal route the policy
+ * promises: 14 days from the decision, decided by a different moderator, and a
+ * successful appeal removes the strike (lili_moderation_appeal, migration 31).
+ */
+function DecisionsAboutMe() {
+  const [rows, setRows] = useState(null);
+  const [open, setOpen] = useState(null);
+  const [grounds, setGrounds] = useState("");
+  const [busy, setBusy] = useState(false);
+  const [problem, setProblem] = useState("");
+
+  const load = async () => {
+    if (!remote.isConfigured()) { setRows([]); return; }
+    try { setRows(await remote.decisionsAboutMe()); } catch { setRows([]); }
+  };
+  useEffect(() => { load(); }, []);
+
+  const send = async (id) => {
+    setBusy(true); setProblem("");
+    try {
+      await remote.appealDecision(id, grounds.trim());
+      setOpen(null); setGrounds(""); await load();
+    } catch (e) {
+      setProblem((e && e.message) || "The appeal didn't send. Check your connection and try again.");
+    }
+    setBusy(false);
+  };
+
+  if (!rows || rows.length === 0) return null;
+  const outcome = (r) => r.state === "appealed" ? "Appeal under review"
+    : r.state === "overturned" ? "Overturned on appeal: the strike was removed"
+    : r.appeal && r.appeal.outcome === "upheld" ? "Appeal not upheld"
+    : null;
+
+  return (
+    <>
+      <div style={sectionHead}>Decisions about you</div>
+      {rows.map((r) => (
+        <div key={r.id} style={{ background: C.white, border: `1px solid ${C.border}`,
+                                 borderRadius: 12, padding: "12px 16px", marginBottom: 10 }}>
+          <div style={{ fontSize: 13, color: C.ink, fontWeight: 600 }}>{r.label}</div>
+          <div style={{ fontSize: 11, color: C.inkLt, marginTop: 3 }}>
+            {new Date(r.decided_at).toLocaleDateString()}
+            {r.strike > 0 ? ` · ${r.strike} strike${r.strike > 1 ? "s" : ""}` : ""}
+          </div>
+          {r.reason && (
+            <div style={{ fontSize: 12, color: C.inkLt, marginTop: 8, lineHeight: 1.6 }}>{r.reason}</div>
+          )}
+          {outcome(r) && (
+            <div style={{ fontSize: 12, color: C.terraTx, marginTop: 8 }}>● {outcome(r)}</div>
+          )}
+          {r.appeal && r.appeal.reason && (
+            <div style={{ fontSize: 12, color: C.inkLt, marginTop: 6, lineHeight: 1.6 }}>{r.appeal.reason}</div>
+          )}
+          {r.can_appeal && open !== r.id && (
+            <button onClick={() => { setOpen(r.id); setProblem(""); }}
+              style={{ marginTop: 10, background: "none", border: `1.5px solid ${C.terra}`, color: C.terraTx,
+                       borderRadius: 20, padding: "8px 14px", fontSize: 12, fontWeight: 600, cursor: "pointer", minHeight: 44 }}>
+              Appeal this decision · until {new Date(r.appeal_by).toLocaleDateString()}
+            </button>
+          )}
+          {open === r.id && (
+            <div style={{ marginTop: 10 }}>
+              <Field multiline value={grounds} onChange={setGrounds}
+                     placeholder="Why the decision was wrong, and what shows it: a receipt, a serial, a photo" />
+              {problem && <div role="alert" style={{ fontSize: 12, color: C.redTx, marginBottom: 8 }}>{problem}</div>}
+              <Btn onClick={() => send(r.id)} disabled={busy || grounds.trim().length < 10}>
+                {busy ? "Sending…" : "Send appeal"}
+              </Btn>
+              <GhostBtn onClick={() => setOpen(null)}>Cancel</GhostBtn>
+            </div>
+          )}
+        </div>
+      ))}
+    </>
   );
 }
 

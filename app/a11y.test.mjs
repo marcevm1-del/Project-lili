@@ -81,7 +81,7 @@ await scan("market gate");
 await tap("look around anyway");
 await page.locator("input").first().fill("1994");
 await scan("age + terms");
-await tap("I agree to lili's Platform Terms");
+await tap("I agree to lili's Terms of Use");
 await tap("I agree to Privacy Notice");
 await tap("Agree and continue");
 await scan("consent");

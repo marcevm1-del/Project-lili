@@ -1,3 +1,5 @@
+> **Superseded on 9 Oct 2026.** Written for a payments-and-delivery model lili does not run (a licensed processor holding funds, payouts, shipping labels, an authentication badge). The current policies are generated from `app/src/legal/policies.js`; see `docs/policies/README.md`. Kept for counsel because the clauses will matter if payments or delivery are added.
+
 # SELLER AGREEMENT — WORKING DRAFT
 
 **This is not a legal document. It is a structured draft for a UAE-qualified

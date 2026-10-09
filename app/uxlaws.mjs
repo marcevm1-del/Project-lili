@@ -347,7 +347,7 @@ const measureGate = async (where) => {
 await measureGate("market gate");
 await tap("look around anyway");
 await page.locator("input").first().fill("1994").catch(() => {});
-await tap("I agree to lili's Platform Terms");
+await tap("I agree to lili's Terms of Use");
 await tap("I agree to Privacy Notice");
 await tap("Agree and continue");
 await page.waitForTimeout(300);

@@ -254,7 +254,7 @@ function CaseView({ item, onBack, onChanged }) {
             )}
           </div>
 
-          {item.decision.appealable && item.state === "upheld" && !item.appeal && (
+          {!item.remote && item.decision.appealable && item.state === "upheld" && !item.appeal && (
             <>
               <div style={head}>Seller appeal</div>
               <div style={{ fontSize: 12, color: C.inkLt, lineHeight: 1.55, marginBottom: 10 }}>
@@ -272,8 +272,14 @@ function CaseView({ item, onBack, onChanged }) {
             <>
               <div style={head}>Appeal pending</div>
               <div style={{ ...card, fontSize: 12, color: C.inkLt, lineHeight: 1.6 }}>
-                {item.appeal.grounds}
+                {(item.appeal && item.appeal.grounds) || "The seller's grounds didn't load. Open the case again."}
               </div>
+              <div style={{ fontSize: 12, color: C.inkLt, lineHeight: 1.55, marginBottom: 10 }}>
+                The seller receives your reason. A moderator other than the one who
+                made the decision has to rule on the appeal.
+              </div>
+              <Field multiline value={note} onChange={setNote}
+                     placeholder="Your reason — one or two sentences" />
               <Btn onClick={() => act(() => mod.resolveAppeal(item.id, true, note))}>
                 Uphold the original decision
               </Btn>

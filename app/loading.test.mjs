@@ -31,7 +31,7 @@ async function boot(page, opts = {}) {
   await tap("look around anyway");
   const yr = page.locator("input").first();
   if (await yr.count()) await yr.fill("1994").catch(() => {});
-  await tap("I agree to lili's Platform Terms");
+  await tap("I agree to lili's Terms of Use");
   await tap("I agree to Privacy Notice");
   await tap("Agree and continue");
   await tap("Save choices");

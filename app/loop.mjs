@@ -13,7 +13,7 @@ await pg.goto("http://localhost:4406/",{waitUntil:"domcontentloaded"});
 await pg.waitForTimeout(500);
 await t("look around anyway");
 const y=pg.locator("input").first(); if(await y.count()) await y.fill("1994").catch(()=>{});
-await t("I agree to lili's Platform Terms"); await t("I agree to Privacy Notice");
+await t("I agree to lili's Terms of Use"); await t("I agree to Privacy Notice");
 await t("Agree and continue"); await t("Save choices"); await t("Shop Now"); await t("Skip");
 await pg.locator('button[aria-label="Sell"]').click({timeout:3000}); await pg.waitForTimeout(300);
 await pg.locator('input[placeholder*="Desert Rose"]').fill("T");

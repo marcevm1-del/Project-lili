@@ -521,6 +521,41 @@ export async function decideCase(caseId, decision, reason) {
   return data;
 }
 
+// ── appeals (migration 31) ─────────────────────────────────────────────────
+// The person a decision is about sees it and can contest it for 14 days; a
+// moderator other than the one who decided rules on the appeal.
+
+/** Decisions made about me or my shop, newest first, each saying whether it can still be appealed. */
+export async function decisionsAboutMe() {
+  const sb = await db();
+  const { data, error } = await sb.rpc("lili_decisions_about_me");
+  if (error) throw error;
+  return data || [];
+}
+
+export async function appealDecision(caseId, grounds) {
+  const sb = await db();
+  const { data, error } = await sb.rpc("lili_moderation_appeal", { p_case: caseId, p_grounds: grounds });
+  if (error) throw error;
+  return data;
+}
+
+/** Moderator-only: appealed cases with the decision under appeal and the grounds. */
+export async function moderationAppeals() {
+  const sb = await db();
+  const { data, error } = await sb.rpc("lili_moderation_appeals");
+  if (error) throw error;
+  return data || [];
+}
+
+export async function resolveAppeal(caseId, overturn, reason) {
+  const sb = await db();
+  const { data, error } = await sb.rpc("lili_moderation_resolve_appeal", {
+    p_case: caseId, p_overturn: !!overturn, p_reason: reason });
+  if (error) throw error;
+  return data;
+}
+
 // ── sign-in ────────────────────────────────────────────────────────────────
 // Three ways in, and browsing needs none of them. Identity is required to sell
 // and to be paid; a shopper looking at dresses should not have to prove who

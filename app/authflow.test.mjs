@@ -26,7 +26,7 @@ const txt=()=>pg.evaluate(()=>document.body.innerText);
 await pg.goto("http://localhost:4420/",{waitUntil:"networkidle"}); await pg.waitForTimeout(400);
 await t("look around anyway");
 const y=pg.locator("input").first(); if(await y.count()) await y.fill("1994").catch(()=>{});
-await t("I agree to lili's Platform Terms"); await t("I agree to Privacy Notice");
+await t("I agree to lili's Terms of Use"); await t("I agree to Privacy Notice");
 await t("Agree and continue"); await t("Save choices"); await t("Shop Now"); await t("Skip");
 await pg.waitForTimeout(400);
 

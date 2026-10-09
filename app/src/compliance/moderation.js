@@ -191,6 +191,17 @@ export async function listQueue({ state, overdueOnly } = {}) {
     try {
       const rows = await remote.listCases(state || null);
       let items = (rows || []).map(fromServer);
+      // The queue rows carry no decision. An appealed case needs the decision
+      // under appeal and the seller's grounds, or there is nothing to weigh.
+      if (items.some((i) => i.state === "appealed")) {
+        const appeals = await remote.moderationAppeals().catch(() => []);
+        const byId = new Map(appeals.map((a) => [a.id, a]));
+        items = items.map((i) => {
+          const a = byId.get(i.id);
+          return a ? { ...i, decision: { ...(a.decision || {}), decidedBy: a.decided_by },
+                       appeal: a.appeal || null } : i;
+        });
+      }
       if (overdueOnly) items = items.filter(isOverdue);
       lastServerList = items;
       return items;              // the RPC already sorts overdue-first
@@ -291,8 +302,12 @@ export async function decide(caseId, actionKey, note, sellerStrikesBefore = 0) {
   }, "moderation.decided", { action: actionKey, strikesAfter });
 }
 
-/** Counter-notice. An appealed strike does not count until it is resolved. */
+/**
+ * Counter-notice. On the server only the person the decision is about can
+ * appeal (lili_moderation_appeal); the device copy keeps the old behaviour.
+ */
 export async function appeal(caseId, grounds) {
+  if (serverQueue) return remote.appealDecision(caseId, grounds);
   return patch(caseId, (i) => {
     i.state = "appealed";
     i.appeal = { grounds: (grounds || "").slice(0, 2000), at: Date.now(), outcome: null };
@@ -300,6 +315,13 @@ export async function appeal(caseId, grounds) {
 }
 
 export async function resolveAppeal(caseId, uphold, note) {
+  if (serverQueue) {
+    // A moderator other than the one who decided; overturning removes the
+    // strike and restores what it took (lili_moderation_resolve_appeal).
+    const res = await remote.resolveAppeal(caseId, !uphold, note || "");
+    await record("moderation.appeal_resolved", { caseId, uphold, remote: true });
+    return { id: caseId, state: uphold ? "upheld" : "overturned", remote: true, res };
+  }
   return patch(caseId, (i) => {
     i.state = uphold ? "upheld" : "overturned";
     i.appeal = { ...(i.appeal || {}), outcome: uphold ? "upheld" : "overturned",

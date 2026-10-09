@@ -10,7 +10,7 @@ const t=async x=>{const e=pg.locator(`button:has-text("${x}")`).first();if(await
 let p=0,f=0; const c=(l,ok,x="")=>{ok?p++:f++;console.log(`  ${ok?"✓":"✗"} ${l}${!ok&&x?"\n      "+x:""}`);};
 await pg.goto("http://localhost:4330/",{waitUntil:"networkidle"}); await pg.waitForTimeout(350);
 await t("look around anyway"); await pg.locator("input").first().fill("1994");
-await t("I agree to lili's Platform Terms"); await t("I agree to Privacy Notice");
+await t("I agree to lili's Terms of Use"); await t("I agree to Privacy Notice");
 await t("Agree and continue"); await t("Save choices"); await t("Shop Now"); await t("Skip");
 await pg.waitForTimeout(400);
 await pg.locator('button[aria-label="Profile"]').click(); await pg.waitForTimeout(400);

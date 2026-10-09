@@ -10,6 +10,7 @@ do $$
 declare
   me uuid; b1 uuid; b2 uuid; s uuid; i uuid; i2 uuid; cv uuid; mt uuid;
   o1 uuid; o2 uuid; ss uuid; j jsonb; n int; t text; bad text; total int;
+  i3 uuid; cs uuid; k0 int; k1 int;
 begin
   create temp table _r (label text, ok boolean) on commit drop;
   grant all on _r to public;
@@ -27,6 +28,14 @@ begin
     end if;
   end $f$;
   grant execute on function pg_temp.act(uuid) to public;
+  create function pg_temp.mod(u uuid) returns void language plpgsql as $f$
+  begin
+    execute 'reset role';
+    perform set_config('request.jwt.claims', json_build_object('sub',u,'role','authenticated',
+      'app_metadata', json_build_object('moderator',true))::text, true);
+    execute 'set local role authenticated';
+  end $f$;
+  grant execute on function pg_temp.mod(uuid) to public;
 
   select id into me from auth.users order by created_at limit 1;
   select id into b1 from auth.users where id <> me order by created_at limit 1;
@@ -145,6 +154,49 @@ begin
   perform pg_temp.ok('follows has one read policy (pending SQL item 5)',
     (select count(*) from pg_policies where schemaname = 'public' and tablename = 'lili_follows'
        and cmd in ('SELECT', 'ALL')) = 1);
+
+  -- ── appeals (migration 31) ───────────────────────────────────────────────
+  insert into lili_items(owner_uid, shop_id, title, brand, price, category)
+    values (me, s, 'Appealed linen shirt', 'Toteme', 600, 'Tops') returning id into i3;
+  perform pg_temp.act(b2);
+  insert into lili_moderation_cases(kind, target_item_id, reasons, detail)
+    values ('listing', i3, array['counterfeit'], 'Looks fake to me');
+  execute 'reset role';
+  select id into cs from lili_moderation_cases where target_item_id = i3;
+  select coalesce(strikes, 0) into k0 from lili_shops where id = s;
+  perform pg_temp.mod(b1);
+  j := lili_moderation_decide(cs, 'remove_listing', 'Logo stitching does not match the brand.');
+  perform pg_temp.act(me);
+  select count(*) into n from lili_decisions_about_me() d where d.id = cs and d.can_appeal;
+  perform pg_temp.ok('the seller sees the decision about her and that she can appeal', n = 1);
+  perform pg_temp.act(b2);
+  select count(*) into n from lili_decisions_about_me() d where d.id = cs;
+  perform pg_temp.ok('the reporter does not see it as a decision about her', n = 0);
+  begin perform lili_moderation_appeal(cs, 'It is genuine, I have the receipt.');
+        perform pg_temp.ok('only the person sanctioned can appeal', false);
+  exception when others then perform pg_temp.ok('only the person sanctioned can appeal', true); end;
+  perform pg_temp.act(me);
+  j := lili_moderation_appeal(cs, 'It is genuine, I have the receipt and the card.');
+  perform pg_temp.ok('the seller can appeal within 14 days', j ->> 'state' = 'appealed');
+  perform pg_temp.mod(b1);
+  begin perform lili_moderation_resolve_appeal(cs, true, 'Receipt checked and it matches.');
+        perform pg_temp.ok('the moderator who decided cannot decide the appeal', false);
+  exception when others then perform pg_temp.ok('the moderator who decided cannot decide the appeal', true); end;
+  perform pg_temp.mod(b2);
+  j := lili_moderation_resolve_appeal(cs, true, 'Receipt checked and it matches the piece.');
+  execute 'reset role';
+  select coalesce(strikes, 0) into k1 from lili_shops where id = s;
+  perform pg_temp.ok('an overturned appeal removes the strike and restores the listing',
+    k1 = k0 and (select status from lili_items where id = i3) = 'live'
+    and (select state from lili_moderation_cases where id = cs) = 'overturned');
+  perform pg_temp.ok('the seller is told the appeal succeeded',
+    exists (select 1 from lili_notifications where user_id = me and title = 'Your appeal succeeded'));
+
+  -- ── no client role holds TRUNCATE (it skips row-level security) ──────────
+  perform pg_temp.ok('no client role can truncate a lili table',
+    not exists (select 1 from information_schema.role_table_grants
+                 where table_schema = 'public' and table_name like 'lili\_%'
+                   and grantee in ('anon', 'authenticated') and privilege_type in ('TRUNCATE', 'TRIGGER', 'REFERENCES')));
 
   select count(*), string_agg(label, '; ') filter (where not ok) into total, bad from _r;
   if bad is null then

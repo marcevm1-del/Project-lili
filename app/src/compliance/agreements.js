@@ -23,14 +23,16 @@
 //  ACKNOWLEDGE. Asking a user to tick a box about our licence would be theatre.
 // ─────────────────────────────────────────────────────────────────────────────
 
-export const AGREEMENT_VERSION = "2026-08-12";
+// v2.12: the full policies (src/legal) replace the summaries; a material
+// change, so everyone is asked again, as the Terms of Use promise.
+export const AGREEMENT_VERSION = "2026-10-09";
 
 // ── signup: the contract ───────────────────────────────────────────────────
 export const ACCEPT = [
   {
     id: "platform-terms",
-    title: "lili's Platform Terms",
-    titleAr: "شروط المنصة",
+    title: "lili's Terms of Use",
+    titleAr: "شروط الاستخدام",
     body:
       "The rules for using lili itself — your account, how you behave here, " +
       "and what we can do if you break them. This is the only contract lili " +

@@ -1643,6 +1643,61 @@ check("no interface text is set below the 11px floor", tinyType.length === 0 && 
   check("Marketplace.jsx is the shell, not every screen", mpLines < 2000 && MARKET_FILES.length > 5,
     `${mpLines} lines`);
 }
+{
+  // ── The policies say what the code does (src/legal) ───────────────────────
+  const F = await import("./src/legal/facts.js");
+  const { POLICIES, policyText } = await import("./src/legal/policies.js");
+  const { EXPIRY_HOURS } = await import("./src/data/offers.js");
+  const { getMarket } = await import("./src/compliance/markets.js");
+  const { STRIKE_POLICY } = await import("./src/compliance/listingRules.js");
+  const migDir = "../supabase/migrations";
+  const migs = readdirSync(migDir).map((f) => readFileSync(`${migDir}/${f}`, "utf8")).join("\n");
+  const pendingSql = readFileSync("../supabase/pending/20261008_needs_owner_approval.sql", "utf8");
+  const ae = getMarket("AE");
+  check("policies quote the offer expiry the app enforces", F.OFFER_EXPIRY_HOURS === EXPIRY_HOURS);
+  check("policies quote the market's minimum price and age",
+    F.MIN_PRICE === ae.minListingPrice && F.MIN_AGE === ae.minAge);
+  check("the appeal window in the policy is the one the server enforces",
+    F.APPEAL_WINDOW_DAYS === 14 && /lili_moderation_appeal[\s\S]*interval '14 days'/.test(migs)
+    && /appealWindowDays: 14/.test(read("./src/compliance/moderation.js")));
+  check("the review window in the policy is the one the server enforces",
+    new RegExp(`interval '${F.REVIEW_WINDOW_DAYS} days' then raise exception 'reviews`).test(migs)
+    || new RegExp(`lili_leave_review[\\s\\S]*interval '${F.REVIEW_WINDOW_DAYS} days'`).test(migs));
+  const missingLimits = F.LIMITS.filter((l) =>
+    !new RegExp(`lili_rate_ok\\('${l.key.replace(".", "\\.")}', ${l.limit}, interval '${l.per}'\\)`).test(migs));
+  check("every limit a policy states is the one the database applies", missingLimits.length === 0,
+    missingLimits.map((l) => l.key).join(", "));
+  const missingRetention = F.RETENTION.filter((r) => r.sql && !pendingSql.includes(`interval '${r.sql}'`));
+  check("every retention period a policy promises has a job that deletes on time", missingRetention.length === 0,
+    missingRetention.map((r) => r.what).join(", "));
+  check("the strike ladder in the policy matches the app's and the server's",
+    F.STRIKES.ladder.map((x) => x.strikes).join() === STRIKE_POLICY.thresholds.map((x) => x.strikes).join()
+    && new RegExp(`v_strikes >= ${F.STRIKES.closeAt} then 'closed'`).test(migs)
+    && !/payout|7 days|12 months/i.test(JSON.stringify(STRIKE_POLICY)));
+  const ids = POLICIES.map((p) => p.id);
+  check("twelve policies, each with a title in both languages, a summary and sections",
+    POLICIES.length >= 12 && new Set(ids).size === ids.length
+    && POLICIES.every((p) => p.title && /[\u0600-\u06FF]/.test(p.titleAr) && p.summary && p.sections.length >= 2));
+  const all = POLICIES.map(policyText).join("\n");
+  const FALSE_CLAIMS = [/escrow/i, /authentic\s*&\s*verified/i, /we (ship|deliver)\b/i, /payouts?\b/i,
+    /buyer protection/i, /secure storage/i, /12 months rolling/i, /we (will )?refund/i, /licensed payment provider/i];
+  const found = FALSE_CLAIMS.filter((re) => re.test(all));
+  check("no policy promises a feature lili doesn't have", found.length === 0, found.join(" "));
+  check("the policies say plainly that lili takes no payment and authenticates nothing",
+    /does not take payment/.test(all) && /does not authenticate/.test(all) && /cannot refund/.test(all));
+  check("both signup ticks open the full document they agree to",
+    /POLICY_FOR = \{ "platform-terms": "terms", "privacy-notice": "privacy" \}/.test(read("./src/compliance/ComplianceProvider.jsx"))
+    && ids.includes("terms") && ids.includes("privacy"));
+  check("the policies are one tap away in Privacy & Safety",
+    /\["policies", "All policies"/.test(read("./src/compliance/LegalCenter.jsx")));
+  check("a seller can see decisions about her and appeal them in the app",
+    /function DecisionsAboutMe/.test(read("./src/compliance/LegalCenter.jsx"))
+    && /lili_moderation_appeal/.test(read("./src/backend/remote.js"))
+    && /lili_moderation_resolve_appeal/.test(read("./src/backend/remote.js")));
+  const { execFileSync } = await import("node:child_process");
+  let fresh = true; try { execFileSync("node", ["policies-build.mjs", "--check"], { stdio: "pipe" }); } catch { fresh = false; }
+  check("the hosted policy pages match the app's text", fresh, "run: node policies-build.mjs");
+}
 check("a bare <button> is in the type system rather than at the browser default",
   /button\s*\{[^}]*font-size:\s*14px/.test(read("./src/index.css")));
 check("in Arabic, an English sentence ends with its full stop on the right side",
