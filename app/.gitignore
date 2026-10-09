@@ -1,0 +1,26 @@
+node_modules/
+dist/
+android/app/build/
+android/build/
+android/.gradle/
+android/local.properties
+android/app/src/main/assets/public/
+*.keystore
+*.jks
+keystore.properties
+.DS_Store
+
+# ── never commit these ────────────────────────────────────────────────────
+# The upload key IS the app's identity on Play. Lose control of it and someone
+# else can ship an update to your users; lose it entirely and you cannot.
+*.jks
+*.keystore
+android/keystore.properties
+android/lili-release.jks
+
+# Service-role keys bypass every row-level policy in the database.
+.env
+.env.*
+**/service-role*
+
+funnel.html

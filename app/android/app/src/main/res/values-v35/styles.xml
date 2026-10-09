@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!--
+        Android 15 (API 35) forces edge-to-edge for apps targeting SDK 35, which
+        makes the WebView draw behind the status bar and the navigation bar. The
+        StatusBar.setOverlaysWebView(false) call the app makes is ignored, so
+        the header collided with the clock and the Add to Cart button sat under
+        the system back button.
+
+        Opting out restores the normal insets, so the WebView starts below the
+        status bar and ends above the navigation bar on every screen at once.
+        The CSS env() padding stays in place as a second layer for devices that
+        do report insets.
+    -->
+    <style name="AppTheme.NoActionBar" parent="Theme.AppCompat.DayNight.NoActionBar">
+        <item name="windowActionBar">false</item>
+        <item name="windowNoTitle">true</item>
+        <item name="android:background">@null</item>
+        <item name="android:windowOptOutEdgeToEdgeEnforcement">true</item>
+        <item name="android:statusBarColor">@color/colorPrimaryDark</item>
+        <item name="android:navigationBarColor">@color/colorPrimaryDark</item>
+    </style>
+</resources>

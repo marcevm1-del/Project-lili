@@ -1,0 +1,119 @@
+/* ─────────────────────────────────────────────────────────────────────────
+   THEME TOKENS
+
+   Both themes are defined here as CSS custom properties, and the JS palette
+   objects point at these variables. That is what makes theming ~2,000 inline
+   styles possible without editing them: `C.ink` becomes `var(--c-ink)`, and
+   the browser re-resolves every one of them the instant `data-theme` changes.
+
+   Dark is not an inversion. lili's identity is warm — peach, terracotta,
+   cream — so the dark theme is built on warm near-blacks rather than the
+   blue-greys most dark modes default to. Inverting a warm brand produces a
+   cold one, which is how apps lose their character after dark.
+
+   Contrast is measured, not eyeballed. See `npm run contrast`.
+   ───────────────────────────────────────────────────────────────────────── */
+
+:root,
+[data-theme="light"] {
+  color-scheme: light;
+
+  /* The page ground is cream, not peach. Peach behind every screen tinted the
+     photographs — a white shirt read pink — and the photograph is the product.
+     Peach stays as --c-peach for the splash and the moments that are about
+     lili rather than about a garment. */
+  --c-bg:       #FFF8F2;
+  --c-peach:    #FDEBD8;
+  --c-cream:    #FFF8F2;
+  --c-white:    #FFFFFF;
+  --c-sand:     #F5E6D8;
+  --c-border:   #F0DDD0;
+
+  --c-ink:      #5C4A3A;
+  --c-ink-lt:   #756358;   /* darkened from #9C8577, which was 2.99:1 on
+                              peach and failed WCAG AA for text */
+
+  --c-terra:    #C4856A;
+  --c-terra-dk: #9E6050;
+  --c-terra-tx: #8D604C;   /* terracotta as TEXT — 4.6:1 on peach */
+
+  /* Primary button. White on #C4856A is 3.04:1 — below AA, because 15px bold
+     is not "large text". The deeper terracotta already in the brand palette
+     carries white at 4.95:1. */
+  --c-accent-btn: #9E6050;
+  --c-on-accent:  #FFFFFF;
+
+  --c-gold:     #C9A96E;
+  --c-gold-tx:  #7D6944;
+  --c-rose:     #EDBBAC;
+  --c-green:    #7DAA8A;
+  --c-green-tx: #52705B;
+  --c-red:      #C4756A;
+  --c-red-tx:   #995B53;
+
+  /* translucent overlays — these replace `C.white + "cc"` string building,
+     which would silently produce "var(--c-white)cc" once tokens went in */
+  --c-scrim-88: rgba(255, 255, 255, 0.53);
+  --c-scrim-cc: rgba(255, 255, 255, 0.80);
+  --c-scrim-dd: rgba(255, 255, 255, 0.87);
+  --c-scrim-ee: rgba(255, 255, 255, 0.93);
+
+  --c-shadow:   rgba(196, 133, 106, 0.20);
+}
+
+[data-theme="dark"] {
+  color-scheme: dark;
+
+  --c-bg:       #16110E;
+  --c-peach:    #16110E;
+  --c-cream:    #1F1814;
+  --c-white:    #241C17;
+  --c-sand:     #2E241D;
+  --c-border:   #3A2E26;
+
+  --c-ink:      #F2E4D8;
+  --c-ink-lt:   #B39C8B;
+
+  --c-terra:    #D9997A;
+  --c-terra-dk: #C4856A;
+  --c-terra-tx: #D9997A;
+
+  /* In dark mode the accent is lightened, so white on it drops to 2.39:1.
+     Dark text on a light accent is the correct pairing here — 7.8:1. */
+  --c-accent-btn: #D9997A;
+  --c-on-accent:  #16110E;
+
+  --c-gold:     #D9BC85;
+  --c-gold-tx:  #D9BC85;
+  --c-rose:     #E8B5A4;
+  --c-green:    #8FBE9C;
+  --c-green-tx: #8FBE9C;
+  --c-red:      #E08D80;
+  --c-red-tx:   #E08D80;
+
+  --c-scrim-88: rgba(22, 17, 14, 0.55);
+  --c-scrim-cc: rgba(22, 17, 14, 0.82);
+  --c-scrim-dd: rgba(22, 17, 14, 0.88);
+  --c-scrim-ee: rgba(22, 17, 14, 0.94);
+
+  --c-shadow:   rgba(0, 0, 0, 0.45);
+}
+
+@media (prefers-color-scheme: dark) {
+  [data-theme="system"] {
+    color-scheme: dark;
+    --c-bg: #16110E; --c-peach: #16110E; --c-cream: #1F1814; --c-white: #241C17;
+    --c-sand: #2E241D; --c-border: #3A2E26;
+    --c-ink: #F2E4D8; --c-ink-lt: #B39C8B;
+    --c-terra: #D9997A; --c-terra-dk: #C4856A; --c-terra-tx: #D9997A;
+    --c-accent-btn: #D9997A; --c-on-accent: #16110E;
+    --c-gold: #D9BC85; --c-gold-tx: #D9BC85; --c-rose: #E8B5A4;
+    --c-green: #8FBE9C; --c-green-tx: #8FBE9C;
+    --c-red: #E08D80; --c-red-tx: #E08D80;
+    --c-scrim-88: rgba(22,17,14,.55); --c-scrim-cc: rgba(22,17,14,.82);
+    --c-scrim-dd: rgba(22,17,14,.88); --c-scrim-ee: rgba(22,17,14,.94);
+    --c-shadow: rgba(0,0,0,.45);
+  }
+}
+
+html, body { background: var(--c-bg); }

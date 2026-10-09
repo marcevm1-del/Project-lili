@@ -1,0 +1,189 @@
+name: Test and build the lili app
+
+# Every push to main (and to Claude's working branches) runs every test suite,
+# builds the Android APK and publishes it as a GitHub Release, so the phone
+# only needs a browser to install the latest build.
+on:
+  push:
+    branches: [main, "claude/**"]
+    paths: ["app/**", "supabase/**", ".github/workflows/app.yml"]
+  pull_request:
+    paths: ["app/**", ".github/workflows/app.yml"]
+  workflow_dispatch:
+
+concurrency:
+  group: app-${{ github.ref }}
+  cancel-in-progress: true
+
+defaults:
+  run:
+    working-directory: app
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    timeout-minutes: 40
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+          cache-dependency-path: app/package-lock.json
+      - run: npm ci
+      # A shipped dependency with a known high or critical advisory fails the
+      # build (Capacitor 7.6.8 had a critical one and nothing noticed).
+      - name: Dependency advisories (shipped code)
+        run: npm audit --omit=dev --audit-level=high
+      - run: npx playwright install --with-deps chromium
+      # Builds once, then runs each suite and fails unless every one of them
+      # printed a summary with at least its expected number of passing checks.
+      # Includes the live API contract and security checks against Supabase.
+      - name: All suites
+        run: npm run verify:ci
+        env:
+          LILI_TEST_EMAIL: ${{ secrets.LILI_TEST_EMAIL }}
+          LILI_TEST_PASSWORD: ${{ secrets.LILI_TEST_PASSWORD }}
+      - name: Bundle budget
+        run: npm run budget
+
+  # Can the repository rebuild the database? Starts a throwaway local Supabase,
+  # which applies every migration in supabase/migrations from zero and loads
+  # supabase/seed.sql, then runs the database tests against it.
+  database:
+    runs-on: ubuntu-latest
+    timeout-minutes: 25
+    defaults:
+      run:
+        working-directory: .
+    steps:
+      - uses: actions/checkout@v4
+      - uses: supabase/setup-cli@v1
+        with:
+          version: 2.48.3
+      - name: Rebuild the database from the migrations
+        run: supabase start -x imgproxy
+      - name: Database tests
+        run: bash supabase/tests/run.sh
+      - name: Stop
+        if: always()
+        run: supabase stop --no-backup
+
+  # iOS has never been built (audit M-7). This proves the project compiles for
+  # the simulator on every push; it does not sign or ship anything.
+  ios:
+    runs-on: macos-15
+    timeout-minutes: 45
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+          cache-dependency-path: app/package-lock.json
+      - run: npm ci
+      - run: npm run build
+      - run: npx cap sync ios
+      - name: Build for the iOS simulator
+        working-directory: app/ios/App
+        run: |
+          set -o pipefail
+          xcodebuild -workspace App.xcworkspace -scheme App -configuration Debug \
+            -sdk iphonesimulator -destination 'generic/platform=iOS Simulator' \
+            CODE_SIGNING_ALLOWED=NO build | tail -40
+
+  apk:
+    # A build is published only when the app suites AND the rebuilt database pass.
+    needs: [test, database]
+    if: github.event_name != 'pull_request'
+    runs-on: ubuntu-latest
+    timeout-minutes: 40
+    permissions:
+      contents: write   # to publish the release
+    env:
+      LILI_VERSION_NAME: 2.11.7-b${{ github.run_number }}
+      HAS_KEY: ${{ secrets.ANDROID_KEYSTORE_BASE64 != '' }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+          cache-dependency-path: app/package-lock.json
+      - uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: 21
+          cache: gradle
+      # Above the checked-in 10, and higher on every run, so Android accepts
+      # each build as an update.
+      - run: echo "LILI_VERSION_CODE=$((1000 + GITHUB_RUN_NUMBER))" >> "$GITHUB_ENV"
+      - run: npm ci
+      - run: npm run build
+      - run: npx cap sync android
+
+      # With the four signing secrets set, the APK is signed with lili's own
+      # key, so each new build installs as an update over the last one.
+      # Without them it is a debug build: it installs, but every build is
+      # signed with a different throwaway key, so the old one must be
+      # uninstalled first. The key never touches the repository.
+      - name: Signing key
+        if: env.HAS_KEY == 'true'
+        env:
+          KEYSTORE_B64: ${{ secrets.ANDROID_KEYSTORE_BASE64 }}
+          STORE_PW: ${{ secrets.ANDROID_KEYSTORE_PASSWORD }}
+          KEY_ALIAS: ${{ secrets.ANDROID_KEY_ALIAS }}
+          KEY_PW: ${{ secrets.ANDROID_KEY_PASSWORD }}
+        run: |
+          echo "$KEYSTORE_B64" | base64 -d > android/lili-release.jks
+          printf 'storeFile=../lili-release.jks\nstorePassword=%s\nkeyAlias=%s\nkeyPassword=%s\n' \
+            "$STORE_PW" "$KEY_ALIAS" "$KEY_PW" > android/keystore.properties
+
+      - name: Build
+        working-directory: app/android
+        run: |
+          if [ "$HAS_KEY" = "true" ]; then
+            ./gradlew --no-daemon assembleRelease
+            cp app/build/outputs/apk/release/app-release.apk "$RUNNER_TEMP/lili.apk"
+          else
+            ./gradlew --no-daemon assembleDebug
+            cp app/build/outputs/apk/debug/app-debug.apk "$RUNNER_TEMP/lili.apk"
+          fi
+          rm -f lili-release.jks keystore.properties
+
+      - name: Check the APK
+        run: |
+          APKSIGNER=$(ls "$ANDROID_HOME"/build-tools/*/apksigner | sort -V | tail -1)
+          AAPT=$(ls "$ANDROID_HOME"/build-tools/*/aapt | sort -V | tail -1)
+          "$APKSIGNER" verify --print-certs "$RUNNER_TEMP/lili.apk" | tee "$RUNNER_TEMP/cert.txt"
+          "$AAPT" dump badging "$RUNNER_TEMP/lili.apk" | head -3
+          unzip -l "$RUNNER_TEMP/lili.apk" | grep -q 'assets/public/index.html'
+          echo "SIGNER=$(grep -m1 'SHA-256' "$RUNNER_TEMP/cert.txt" | awk '{print $NF}')" >> "$GITHUB_ENV"
+          echo "SHA=$(sha256sum "$RUNNER_TEMP/lili.apk" | cut -d' ' -f1)" >> "$GITHUB_ENV"
+
+      - uses: actions/upload-artifact@v4
+        with:
+          name: lili-apk
+          path: ${{ runner.temp }}/lili.apk
+
+      - name: Publish the download
+        env:
+          GH_TOKEN: ${{ github.token }}
+          BRANCH: ${{ github.ref_name }}
+        run: |
+          TAG="build-${{ github.run_number }}"
+          KIND=$([ "$HAS_KEY" = "true" ] && echo "release-signed" || echo "debug-signed — uninstall the previous build first")
+          PRE=$([ "$BRANCH" = "main" ] && echo "" || echo "--prerelease")
+          cat > "$RUNNER_TEMP/notes.md" <<EOF
+          **Install on Android:** open this page on the phone, tap **lili.apk**, then Open.
+          If asked, allow your browser to install unknown apps (Settings → Apps → your browser → Install unknown apps).
+
+          - Version: $LILI_VERSION_NAME (code $LILI_VERSION_CODE), from \`$BRANCH\` @ ${GITHUB_SHA::7}
+          - Signing: $KIND
+          - Signer SHA-256: \`$SIGNER\`
+          - File SHA-256: \`$SHA\`
+          - Every test suite passed on this commit before it was built.
+          EOF
+          gh release create "$TAG" "$RUNNER_TEMP/lili.apk" --repo "$GITHUB_REPOSITORY" \
+            --target "$GITHUB_SHA" --title "lili $LILI_VERSION_NAME" \
+            --notes-file "$RUNNER_TEMP/notes.md" $PRE
