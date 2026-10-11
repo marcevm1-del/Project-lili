@@ -30,6 +30,7 @@ const NotificationsSheet = lazy(() => import("./notifications/NotificationsSheet
 const MeetSafely = lazy(() => import("./messages/MeetSafely.jsx"));
 const MeetPlan = lazy(() => import("./meet/MeetPlan.jsx"));
 const LanguagePicker = lazy(() => import("./i18n/LanguagePicker.jsx"));
+const ProfilePreferences = lazy(() => import("./profile/ProfilePreferences.jsx"));
 const ThemePicker = lazy(() => import("./theme/ThemePicker.jsx"));
 const PhotoCoach = lazy(() => import("./sell/PhotoCoach.jsx"));
 const ListingQuality = lazy(() => import("./sell/ListingQuality.jsx"));
@@ -51,7 +52,8 @@ const ListingScreen  = lazy(() => import("./compliance/ListingScreen.jsx"));
 const AgreementSheet = lazy(() => import("./compliance/AgreementSheet.jsx"));
 import { sellerClausesFor } from "./compliance/agreements.js";
 import * as repo from "./data/repo.js";
-import { C, PalmBg, Lili, LiliWordmark, T, SHOPS, ITEMS, CATS, categoryLabel, SIZES, ITEM_CATS, STORIES, Avatar, ItemPhoto, TopBar, SearchBar, withHeart, Placeholder, ItemTile } from "./market/shared.jsx";
+import { normalise as normalisePrefs, fitsMe, hasSizes, isEmpty as prefsEmpty, summary as prefsSummary } from "./profile/preferences.js";
+import { C, PalmBg, Lili, LiliWordmark, T, SHOPS, ITEMS, CATS, categoryLabel, SIZES, ITEM_CATS, STORIES, Avatar, ItemPhoto, TopBar, SearchBar, withHeart, Placeholder, ItemTile, BRANDS } from "./market/shared.jsx";
 import { FiltersPanel } from "./market/FiltersPanel.jsx";
 import { ItemModal } from "./market/ItemModal.jsx";
 import { OfferModal } from "./market/OfferModal.jsx";
@@ -327,13 +329,11 @@ function NewInStrip({items,onSave,setModal,onSeeAll}) {
  * a trap. Settings is shop-configuration; this belongs next to the feed it
  * reorders.
  */
-function TasteSheet({ taste, onSave, onClose }) {
+function TasteSheet({ taste, onSave, onClose, onMore }) {
   const trap = useFocusTrap(onClose);
   const OPTIONS = ["Luxury","Dresses","Bags","Abayas","Shoes","Vintage"];
   const [picked,setPicked] = useState((taste && taste.categories) || []);
-  const [sizes,setSizes] = useState((taste && taste.sizes) || []);
   const toggle = (c) => setPicked(p => p.includes(c) ? p.filter(x=>x!==c) : [...p,c]);
-  const toggleSize = (z) => setSizes(p => p.includes(z) ? p.filter(x=>x!==z) : [...p,z]);
   return (
     <div onClick={onClose} style={{position:"fixed",top:0,right:0,bottom:0,left:0,zIndex:420,
       background:"#000a",display:"flex",flexDirection:"column",justifyContent:"flex-end"}}>
@@ -349,7 +349,7 @@ function TasteSheet({ taste, onSave, onClose }) {
         </p>
         <div style={{display:"flex",flexWrap:"wrap",gap:8,marginBottom:18}}>
           {OPTIONS.map(c=>(
-            <button key={c} onClick={()=>toggle(c)} className="tap-target"
+            <button key={c} onClick={()=>toggle(c)} className="tap-target" aria-pressed={picked.includes(c)}
               style={{background:picked.includes(c)?C.terra:C.white,
                 color:picked.includes(c)?C.white:C.ink,
                 border:`1.5px solid ${picked.includes(c)?C.terra:C.border}`,
@@ -357,21 +357,19 @@ function TasteSheet({ taste, onSave, onClose }) {
                 fontFamily:"inherit"}}>{c}</button>
           ))}
         </div>
-        {/* The sizes she wears. Kept on this phone only, like the rest of her
-            taste; used for the "My sizes" switch on the feed and in search. */}
-        <div style={{fontSize:13,fontWeight:700,color:C.ink,marginBottom:8}}>Your sizes</div>
-        <div style={{display:"flex",flexWrap:"wrap",gap:7,marginBottom:18}}>
-          {SIZES.filter(z=>z!=="OS").map(z=>(
-            <button key={z} onClick={()=>toggleSize(z)} className="tap-target" aria-pressed={sizes.includes(z)}
-              style={{background:sizes.includes(z)?C.terra:C.white,color:sizes.includes(z)?C.white:C.ink,
-                border:`1.5px solid ${sizes.includes(z)?C.terra:C.border}`,borderRadius:10,
-                padding:"7px 12px",fontSize:13,cursor:"pointer",fontFamily:"inherit",minWidth:44}}>{z}</button>
-          ))}
-        </div>
-        <button onClick={()=>{onSave(picked,sizes);onClose();}}
+        {/* v2.12: sizes, brands, condition and budget live in Profile → My
+            preferences, one per kind of piece. One editor, not two. */}
+        {onMore && (
+          <button onClick={()=>{ onSave(picked); onMore(); }}
+            style={{display:"block",background:"none",border:"none",color:C.terraTx,fontSize:13,fontWeight:600,
+              textDecoration:"underline",textUnderlineOffset:3,cursor:"pointer",padding:"0 0 16px",minHeight:44,fontFamily:"inherit"}}>
+            Sizes, brands and budget
+          </button>
+        )}
+        <button onClick={()=>{onSave(picked);onClose();}}
           style={{width:"100%",background:C.btn,color:C.onBtn,border:"none",borderRadius:30,
             padding:"14px 0",fontWeight:700,fontSize:14,cursor:"pointer",fontFamily:"inherit"}}>
-          {picked.length || sizes.length ? t("save") : t("show_me_everything")}
+          {picked.length ? t("save") : t("show_me_everything")}
         </button>
       </div>
     </div>
@@ -498,7 +496,7 @@ function SplashScreen({onDone}) {
 }
 
 // ── home page ──────────────────────────────────────────────────────────────
-function HomePage({items,shops,onSave,setModal,filters,setFilters,stories,setActiveStory,cartCount,savedCount=0,onLoadMore,setTab,hydrated,onOpenNotifications,unreadCount=0,taste,personalise,onEditTaste}) {
+function HomePage({items,shops,onSave,setModal,filters,setFilters,stories,setActiveStory,cartCount,savedCount=0,onLoadMore,setTab,hydrated,onOpenNotifications,unreadCount=0,taste,personalise,onEditTaste,onOpenPrefs}) {
   const [q,setQ] = useState("");
   const [showFilters,setShowFilters] = useState(false);
   const [loadingMore,setLoadingMore] = useState(false);
@@ -567,21 +565,24 @@ function HomePage({items,shops,onSave,setModal,filters,setFilters,stories,setAct
         <SearchBar value={q} onChange={setQ} onFilters={()=>setShowFilters(true)} filterCount={narrowed}/>
         {/* cat chips */}
         <div style={{display:"flex",gap:8,overflowX:"auto",padding:"0 14px 10px"}}>
-          {/* "My sizes" leads the row: the filter clothing buyers apply in
-              their heads before anything else. With no sizes saved it asks
-              for them instead of filtering on nothing. */}
+          {/* "For me" leads the row: her sizes (each listing against the size
+              for its own kind of piece), the condition and budget she set in
+              My preferences. With nothing set it opens that screen instead of
+              filtering on nothing. */}
           {(()=>{
-            const mine = (taste && taste.sizes) || [];
-            const on = Array.isArray(filters.sizes) && filters.sizes.length > 0;
+            const prefs = normalisePrefs(taste);
+            const set = hasSizes(prefs) || prefs.minCondition || prefs.maxPrice;
+            const on = !!filters.forMe;
+            const line = prefsSummary(prefs);
             return (
               <button aria-pressed={on}
-                onClick={()=> mine.length
-                  ? setFilters(f=>({...f, sizes: on ? [] : mine}))
-                  : onEditTaste && onEditTaste()}
+                onClick={()=> set
+                  ? setFilters(f=>({...f, forMe: on ? null : prefs}))
+                  : onOpenPrefs && onOpenPrefs()}
                 style={{background:on?C.btn:C.white,color:on?C.onBtn:C.terraTx,
                   border:`1.5px solid ${on?C.btn:C.terra}`,borderRadius:20,padding:"5px 12px",
                   fontSize:12,fontWeight:700,flexShrink:0,cursor:"pointer",whiteSpace:"nowrap",minWidth:44}}>
-                {mine.length ? `My sizes · ${mine.join(", ")}` : "Set my sizes"}
+                {set ? `For me${line ? ` · ${line}` : ""}` : "Set my sizes"}
               </button>
             );
           })()}
@@ -618,7 +619,10 @@ function HomePage({items,shops,onSave,setModal,filters,setFilters,stories,setAct
           principle. The feature exists now, so the header may say so — and
           when it is off, or she never picked, it says what is actually true. */}
       {/* New In strip */}
-      <NewInStrip items={items} onSave={onSave} setModal={setModal}
+      {/* With "For me" on, the strip shows only what fits her too: a size-38
+          heel she can't wear, or a piece below the condition she set, read
+          as the app ignoring the switch she had just turned on. */}
+      <NewInStrip items={filters.forMe ? items.filter(i=>fitsMe(i, filters.forMe)) : items} onSave={onSave} setModal={setModal}
         onSeeAll={()=>{setQ("");setFilters({...EMPTY_FILTERS,sort:DEFAULT_SORT});}}/>
       {/* Shops come after the first pieces, not before them: a row of shop
           circles above the feed pushed the first garment half a screen down. */}
@@ -638,7 +642,9 @@ function HomePage({items,shops,onSave,setModal,filters,setFilters,stories,setAct
           <div style={{fontSize:11,color:C.inkLt,overflow:"hidden",textOverflow:"ellipsis",whiteSpace:"nowrap"}}>
             {tasteLine
               ? `${tasteLine} first — everything else is still below`
-              : `${items.length} ${items.length===1?"piece":"pieces"}, newest first`}
+              : narrowed
+                ? `${shown.length} of ${items.length} ${items.length===1?"piece":"pieces"} match`
+                : `${items.length} ${items.length===1?"piece":"pieces"}, newest first`}
           </div>
         </div>
         {tasteLine && (
@@ -857,18 +863,19 @@ export default function Marketplace() {
   // now, and this is what listens.
   const [, setDirTick] = useState(getDir());
   useEffect(() => onDirChange(setDirTick), []);
-  const saveTaste = (picked, sizes) => {
-    const cats = Array.isArray(picked) ? picked : [];
-    // Sizes are kept when only the categories are being saved (the splash
-    // asks for categories alone) — an answer is not erased by a question that
-    // didn't ask for it.
-    const sz = Array.isArray(sizes) ? sizes : ((taste && taste.sizes) || []);
-    const value = (cats.length || sz.length)
-      ? { categories: cats, sizes: sz, at: new Date().toISOString() } : null;
-    setTaste(value);
-    store.setJSON(TASTE_KEY, value);
-    // a switched-on "My sizes" follows her new answer
-    setFilters(f => (Array.isArray(f.sizes) && f.sizes.length ? { ...f, sizes: sz } : f));
+  // v2.12: one writer for everything in My preferences. `value` is the whole
+  // preferences object (or null to clear). A switched-on "For me" follows the
+  // new answer so the feed never filters by what she just changed.
+  const savePrefs = (value) => {
+    const next = value && !prefsEmpty(value) ? { ...normalisePrefs(value), at: new Date().toISOString() } : null;
+    setTaste(next);
+    store.setJSON(TASTE_KEY, next);
+    setFilters(f => (f.forMe ? { ...f, forMe: next } : f));
+  };
+  // The feed's style sheet and the splash only ever answer the styles question;
+  // every other preference is kept as it was.
+  const saveTaste = (picked) => {
+    savePrefs({ ...normalisePrefs(taste), categories: Array.isArray(picked) ? picked : [] });
   };
   const [activeStory,setActiveStory] = useState(null);
   const [cart, setCart] = useState([]);
@@ -939,6 +946,8 @@ export default function Marketplace() {
       ((shops.find(x=>x.id===shopId)||{}).followers||0) + delta)});
   };
   const [legalOpen, setLegalOpen] = useState(false);
+  const [prefsOpen, setPrefsOpen] = useState(false);
+  const [legalInitial, setLegalInitial] = useState("menu");
   const [langOpen, setLangOpen] = useState(false);
   const [themeOpen, setThemeOpen] = useState(false);
   const [settingsOpen, setSettingsOpen] = useState(false);
@@ -1022,6 +1031,7 @@ export default function Marketplace() {
     if (authOpen)           { setAuthOpen(false);    return true; }
     if (settingsOpen)       { setSettingsOpen(false);return true; }
     if (themeOpen)          { setThemeOpen(false);   return true; }
+    if (prefsOpen)          { setPrefsOpen(false);   return true; }
     if (langOpen)           { setLangOpen(false);    return true; }
     if (legalOpen)          { setLegalOpen(false);   return true; }
     if (notifOpen)          { setNotifOpen(false);    return true; }
@@ -1033,7 +1043,7 @@ export default function Marketplace() {
     if (tab === "cart")     { setTab("home");        return true; }
     if (tab !== "home")     { setTab("home");        return true; }
     return false;
-  }, [authOpen, settingsOpen, helpOpen, themeOpen, langOpen, legalOpen, reporting, activeStory, offerModal, modal, tab]);
+  }, [authOpen, settingsOpen, helpOpen, themeOpen, langOpen, legalOpen, prefsOpen, reporting, activeStory, offerModal, modal, tab]);
 
   // Quantity was removed with the checkout in v2.9.4 — `i.qty` no longer
   // exists, so this was summing undefined and painting NaN on the tab badge.
@@ -1121,7 +1131,7 @@ export default function Marketplace() {
   // and left the overlay covering it — the app looked frozen. Navigation should
   // always win: choosing a destination closes whatever was on top of it.
   const goTab = (t) => {
-    setHelpOpen(false); setThemeOpen(false); setLangOpen(false);
+    setHelpOpen(false); setThemeOpen(false); setLangOpen(false); setPrefsOpen(false);
     setLegalOpen(false); setReporting(null); setActiveStory(null);
     setModal(null); setOfferModal(null);
     // The funnel is one line, here, because every screen change passes through
@@ -1187,11 +1197,7 @@ export default function Marketplace() {
                      :tab==="offers"?"messages":tab==="cart"?"home":tab;
 
   if(showSplash) return <SplashScreen onDone={(picked)=>{
-    if (Array.isArray(picked) && picked.length) {
-      const value = { categories: picked, at: new Date().toISOString() };
-      setTaste(value);
-      store.setJSON(TASTE_KEY, value);
-    }
+    if (Array.isArray(picked) && picked.length) saveTaste(picked);
     funnel.track(funnel.EVENTS.APP_OPEN, { taste: Array.isArray(picked)?picked.length:0 });
     setShowSplash(false);
   }}/>;
@@ -1235,7 +1241,7 @@ export default function Marketplace() {
         {tab==="home"       && <HomePage hydrated={hydrated} items={visibleItems} shops={visibleShops} onSave={onSave} setModal={setModal} filters={filters} setFilters={setFilters} stories={STORIES} setActiveStory={setActiveStory} cartCount={cartCount} savedCount={savedCount} setTab={setTab}
                               onLoadMore={canLoadMore ? loadMore : null} onOpenNotifications={()=>setNotifOpen(true)} unreadCount={unread}
                               taste={taste} personalise={!!(consent && consent.personalisation)}
-                              onEditTaste={()=>setTasteOpen(true)}/>}
+                              onEditTaste={()=>setTasteOpen(true)} onOpenPrefs={()=>setPrefsOpen(true)}/>}
         {tab==="search"     && <SearchPage items={visibleItems} shops={visibleShops} onSave={onSave} setModal={setModal} filters={filters} setFilters={setFilters} savedIds={savedIds}/>}
         {tab==="categories" && <CategoriesPage setFilters={setFilters} setTab={setTab} items={visibleItems} onSave={onSave} setModal={setModal}/>}
         {tab==="sellers"    && <SellersPage shops={visibleShops} items={visibleItems} setTab={setTab} setViewShop={setViewShop}
@@ -1256,7 +1262,7 @@ export default function Marketplace() {
         {tab==="myshop"     && myShop && <MyShopPage shop={myShop} items={items} setTab={setTab}
                               justListed={justListed} onDismissListed={()=>setJustListed(null)}
                               onMarkSold={onMarkSold} onTakeDown={onTakeDown}/>}
-        {tab==="profile"    && <ProfilePage myShop={myShop} items={visibleItems} setTab={setTab} onOpenLegal={()=>setLegalOpen(true)} onOpenLanguage={()=>setLangOpen(true)} onOpenTheme={()=>setThemeOpen(true)}
+        {tab==="profile"    && <ProfilePage myShop={myShop} items={visibleItems} setTab={setTab} onOpenLegal={()=>setLegalOpen(true)} onOpenPreferences={()=>setPrefsOpen(true)} onOpenLanguage={()=>setLangOpen(true)} onOpenTheme={()=>setThemeOpen(true)}
                         onOpenHelp={()=>setHelpOpen(true)}
                         onOpenSettings={()=>setSettingsOpen(true)}
                         onOpenAuth={()=>askToSignIn(null)} session={session}
@@ -1299,7 +1305,8 @@ export default function Marketplace() {
           setTab("offers");
         }}/>}
         {activeStory && <StoryViewer story={activeStory.story} shop={activeStory.shop} onClose={()=>setActiveStory(null)}/>}
-        {tasteOpen && <TasteSheet taste={taste} onSave={saveTaste} onClose={()=>setTasteOpen(false)}/>}
+        {tasteOpen && <TasteSheet taste={taste} onSave={saveTaste} onClose={()=>setTasteOpen(false)}
+          onMore={()=>{ setTasteOpen(false); setPrefsOpen(true); }}/>}
         {notifOpen && <NotificationsSheet onClose={()=>{setNotifOpen(false);
           remote.unreadCount().then(n=>setUnread(n||0)).catch(()=>{});}}
           onOpenLink={(n)=>{
@@ -1317,7 +1324,11 @@ export default function Marketplace() {
             else if (n.link_kind === "item") setTab(n.kind === "price_drop" ? "saved" : "myshop");
           }}/>}
         {reporting && <ReportDialog subject={reporting} onClose={()=>setReporting(null)}/>}
-        {legalOpen && <LegalCenter onClose={()=>setLegalOpen(false)}/>}
+        {prefsOpen && <Suspense fallback={null}><ProfilePreferences taste={taste} brands={BRANDS}
+          personalise={!!(consent && consent.personalisation)} onChange={savePrefs}
+          onBack={()=>setPrefsOpen(false)}
+          onOpenDataChoices={()=>{ setLegalInitial("consent"); setLegalOpen(true); }}/></Suspense>}
+        {legalOpen && <LegalCenter initial={legalInitial} onClose={()=>{setLegalOpen(false); setLegalInitial("menu");}}/>}
         {langOpen && <LanguagePicker onBack={()=>setLangOpen(false)}/>}
         {themeOpen && <ThemePicker onBack={()=>setThemeOpen(false)}/>}
         {authOpen && <AuthScreen onBack={()=>setAuthOpen(false)}

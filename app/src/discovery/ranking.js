@@ -128,7 +128,9 @@ export const TASTE_KEY = "lili.taste.v1";
 export function affinityOrder(items, taste, { enabled = true, sort } = {}) {
   const list = Array.isArray(items) ? items.slice() : [];
   const cats = (taste && taste.categories) || [];
-  if (!enabled || !cats.length) return list;
+  // v2.12: favourite brands from My preferences count the same as a style.
+  const brands = new Set(((taste && taste.brands) || []).map((b) => String(b).toLowerCase()));
+  if (!enabled || (!cats.length && !brands.size)) return list;
   // An explicit choice beats an implicit one. She picked "Price: Low to High"
   // just now, on purpose; she picked "Bags" ten seconds into her first launch.
   // Reordering on top of her sort would put a AED 12,900 bag above a AED 260
@@ -141,14 +143,15 @@ export function affinityOrder(items, taste, { enabled = true, sort } = {}) {
   // the failure this whole function exists to fix, one level down.
   const set = new Set(cats.map((c) => String(c).toLowerCase()));
   const hit = (i) => set.has(String(i.category || "").toLowerCase())
-                  || set.has(String(i.era || "").toLowerCase());
+                  || set.has(String(i.era || "").toLowerCase())
+                  || brands.has(String(i.brand || "").toLowerCase());
   const rank = (i) => (hit(i) ? 0 : 1);
   return list.sort((a, b) => rank(a) - rank(b));
 }
 
 /** What the header may honestly say, given what we actually did. */
 export function tasteLabel(taste, { enabled = true } = {}) {
-  const cats = (taste && taste.categories) || [];
+  const cats = [...((taste && taste.categories) || []), ...((taste && taste.brands) || [])];
   if (!enabled || !cats.length) return null;
   const shown = cats.slice(0, 3).join(", ");
   return cats.length > 3 ? `${shown} and ${cats.length - 3} more` : shown;

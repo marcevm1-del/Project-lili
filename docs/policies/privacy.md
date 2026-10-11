@@ -22,6 +22,8 @@ What lili holds about you, why, who else handles it, how long it's kept, and you
 - Usage analytics: which screens and features are used. Only if you turned on “Help us fix what's broken”.
 - Push notification token: only if you allow notifications on your phone.
 
+My preferences (the sizes you wear, styles, favourite brands, the condition you'll accept and your budget) are stored only on your phone. lili never receives them and sellers never see them. Clear them in Profile → My preferences; deleting your account clears them too.
+
 We don't collect your location. Photos are redrawn on your phone before upload, which removes the hidden data cameras add, including GPS position. We don't sell personal data and we don't show third-party advertising.
 
 ## Your choices

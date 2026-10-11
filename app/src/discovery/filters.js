@@ -16,6 +16,7 @@
 //  next screen does not deliver.
 // ─────────────────────────────────────────────────────────────────────────────
 
+import { fitsMe } from "../profile/preferences.js";
 export const EMPTY_FILTERS = {
   category: "All", brand: "", condition: "", minPrice: 0, maxPrice: 999999,
   size: "", sort: "Newest First",
@@ -23,6 +24,10 @@ export const EMPTY_FILTERS = {
   // (bags, scarves) always pass — they fit everyone, and hiding them would
   // empty half the luxury catalogue for no reason.
   sizes: [],
+  // v2.12 "For me": her saved preferences (profile/preferences.js) applied as
+  // one switch — each listing against the size for ITS kind of piece, plus the
+  // condition and budget she set. Null when off.
+  forMe: null,
   // How it runs against its label ("small" / "true" / "large"), and pieces
   // whose seller said there is nothing to point out. Both come from the
   // listing form; a listing that did not answer does not match.
@@ -51,6 +56,7 @@ export function matchesFilters(item, f = {}) {
   if (f.size && String(item.size || "") !== String(f.size)) return false;
   if (Array.isArray(f.sizes) && f.sizes.length && String(item.size || "") !== "OS"
       && !f.sizes.map(String).includes(String(item.size || ""))) return false;
+  if (f.forMe && !fitsMe(item, f.forMe)) return false;
   if (f.fit && item.fit !== f.fit) return false;
   if (f.noFlaws && !(Array.isArray(item.flaws) && item.flaws.length === 0)) return false;
   const price = typeof item.price === "number" ? item.price : 0;
@@ -67,6 +73,7 @@ export function activeCount(f = {}) {
   if (f.condition) n++;
   if (f.size) n++;
   if (Array.isArray(f.sizes) && f.sizes.length) n++;
+  if (f.forMe) n++;
   if (f.fit) n++;
   if (f.noFlaws) n++;
   if (f.minPrice) n++;

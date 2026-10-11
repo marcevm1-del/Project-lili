@@ -197,7 +197,7 @@ export const categoryLabel = (c) => (getLang() === "ar" ? (CATS_AR[c] || c) : c)
 
 export const CATS_AR = {All:"الكل",Luxury:"فاخر",Bags:"حقائب",Dresses:"فساتين",Shoes:"أحذية",Abayas:"عبايات",Tops:"توبات",Jackets:"جاكيتات",Skirts:"تنانير"};
 export const CONDITIONS = ["Like New","Excellent","Good","Fair"];
-export const SIZES = ["XS","S","M","L","XL","OS","36","37","38","39","40"];
+export const SIZES = ["XS","S","M","L","XL","OS","35","36","37","38","39","40","41","42"];
 export const ITEM_CATS = ["Luxury","Bags","Dresses","Shoes","Tops","Bottoms","Abayas","Accessories"];
 // The placeholder a piece gets when it has no photograph yet. Every listing
 // used to be published with icon:"dress" regardless of what it was.

@@ -8,7 +8,7 @@ import { C, Lili, TopBar } from "../market/shared.jsx";
 
 
 // ── profile ────────────────────────────────────────────────────────────────
-export function ProfilePage({myShop,items,setTab,onOpenLegal,onOpenLanguage,onOpenTheme,onOpenHelp,onOpenSettings,onOpenAuth,session,onSignOut}) {
+export function ProfilePage({myShop,items,setTab,onOpenLegal,onOpenPreferences,onOpenLanguage,onOpenTheme,onOpenHelp,onOpenSettings,onOpenAuth,session,onSignOut}) {
   const saved=items.filter(i=>i.saved).length;
   const myItems=myShop?items.filter(i=>i.shopId===myShop.id).length:0;
   // v2.11 — the same thirteen rows, in three groups.
@@ -38,6 +38,8 @@ export function ProfilePage({myShop,items,setTab,onOpenLegal,onOpenLanguage,onOp
        trailing: session ? "Sign out" : null},
       {label:t("payment_methods"),icon:"card",action:null,soon:true},
       {label:t("addresses"),icon:"truck",action:null,soon:true},
+      {label:t("my_preferences"),icon:"lock",action:onOpenPreferences,
+       trailing:"Private"},
       {label:t("privacy_safety"),icon:"shield",action:onOpenLegal},
     ]},
     { title: t("app_group"), rows: [

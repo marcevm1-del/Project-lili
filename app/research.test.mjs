@@ -1698,6 +1698,43 @@ check("no interface text is set below the 11px floor", tinyType.length === 0 && 
   let fresh = true; try { execFileSync("node", ["policies-build.mjs", "--check"], { stdio: "pipe" }); } catch { fresh = false; }
   check("the hosted policy pages match the app's text", fresh, "run: node policies-build.mjs");
 }
+{
+  // ── My preferences (src/profile) ──────────────────────────────────────────
+  const P = await import("./src/profile/preferences.js");
+  const SIZES_FOR_SELLERS = JSON.parse(read("./src/market/shared.jsx").match(/export const SIZES = (\[[^\]]*\])/)[1]);
+  const { matchesFilters: mf, activeCount: ac, EMPTY_FILTERS: EF } = await import("./src/discovery/filters.js");
+  const { affinityOrder: ao } = await import("./src/discovery/ranking.js");
+  const prefs = P.normalise({ sizeBy: { dresses: ["S"], shoes: ["38"] }, minCondition: "Excellent", maxPrice: 2000 });
+  const dressS = { category: "Dresses", size: "S", condition: "Like New", price: 900 };
+  const dress38 = { category: "Dresses", size: "38", condition: "Like New", price: 900 };
+  const shoe38 = { category: "Shoes", size: "38", condition: "Excellent", price: 1500 };
+  const topM = { category: "Tops", size: "M", condition: "Good", price: 300 };
+  const bag = { category: "Bags", size: "OS", condition: "Excellent", price: 1800 };
+  check("a shoe size matches shoes, not a dress with the same number",
+    P.fitsMySizes(shoe38, prefs.sizeBy) && !P.fitsMySizes(dress38, prefs.sizeBy));
+  check("a kind of piece with no size saved is never hidden, and one-size pieces always fit",
+    P.fitsMySizes(topM, prefs.sizeBy) && P.fitsMySizes(bag, prefs.sizeBy));
+  check("“For me” also applies the condition and budget she set",
+    P.fitsMe(dressS, prefs) && !P.fitsMe(topM, prefs) && !P.fitsMe({ ...dressS, price: 2500 }, prefs));
+  check("the feed filter applies preferences as one switch and counts as one",
+    mf(dressS, { ...EF, forMe: prefs }) && !mf(dress38, { ...EF, forMe: prefs })
+    && ac({ ...EF, forMe: prefs }) === 1 && mf(dress38, EF));
+  const old = P.normalise({ categories: ["Bags"], sizes: ["S", "38"] });
+  check("the old single size list carries over: letters to clothing, numbers to shoes",
+    old.sizeBy.dresses.includes("S") && old.sizeBy.tops.includes("S") && old.sizeBy.shoes.includes("38")
+    && !(old.sizeBy.dresses || []).includes("38") && old.categories[0] === "Bags");
+  check("favourite brands lift their pieces in the default order",
+    ao([{ brand: "Celine" }, { brand: "Toteme" }], { brands: ["Toteme"] })[0].brand === "Toteme");
+  const remoteSrc2 = read("./src/backend/remote.js") + read("./src/data/repo.js");
+  check("preferences never leave the phone: nothing that talks to the server reads them",
+    !/TASTE_KEY|lili\.taste|sizeBy|minCondition|profile\/preferences/.test(remoteSrc2));
+  check("deleting the account clears them", /"lili\.taste\.v1"/.test(read("./src/compliance/LegalCenter.jsx")));
+  check("Profile has a My preferences row and the screen says they are private",
+    /t\("my_preferences"\)/.test(read("./src/pages/ProfilePage.jsx"))
+    && /Stored on this phone only/.test(read("./src/profile/ProfilePreferences.jsx")));
+  check("every size a buyer can save is one a seller can list",
+    P.SIZE_GROUPS.every((g) => g.options.every((o) => SIZES_FOR_SELLERS.includes(o))));
+}
 check("a bare <button> is in the type system rather than at the browser default",
   /button\s*\{[^}]*font-size:\s*14px/.test(read("./src/index.css")));
 check("in Arabic, an English sentence ends with its full stop on the right side",

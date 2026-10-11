@@ -20,9 +20,11 @@ import * as remote from "../backend/remote.js";
 import * as repo from "../data/repo.js";
 import { shiftEnd, alignStart, chevron, when } from "../i18n/direction.js";
 
-export default function LegalCenter({ onClose }) {
-  const [view, setView] = useState("menu");
-  const back = () => setView("menu");
+export default function LegalCenter({ onClose, initial = "menu" }) {
+  const [view, setView] = useState(initial);
+  // Opened straight onto one screen (My preferences → Data choices), back
+  // returns to where she came from rather than to a menu she never saw.
+  const back = () => (initial !== "menu" ? onClose() : setView("menu"));
 
   if (view === "consent")  return <ConsentView onBack={back} />;
   if (view === "data")     return <DataView onBack={back} />;

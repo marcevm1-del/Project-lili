@@ -172,6 +172,7 @@ export const STRINGS = {
   this_phone_is_not_connected: { en: "This phone isn't connected to lili, so everything stays on it.", ar: "هذا الهاتف غير متصل بـ lili، لذا يبقى كل شيء عليه." },
   your_shop_group: { en: "Your shop", ar: "دكانك" },
   your_account_group: { en: "Your account", ar: "حسابك" },
+  my_preferences: { en: "My preferences", ar: "تفضيلاتي" },
   app_group: { en: "The app", ar: "التطبيق" },
   its_live: { en: "It's live", ar: "أصبحت معروضة" },
   held_for_review: { en: "Held for review", ar: "قيد المراجعة" },

@@ -32,6 +32,8 @@ multi-step actions (each runs in one transaction).
 | `src/Marketplace.jsx` | Root state, tab bar, home feed and splash (~1,300 lines) |
 | `src/market/` | Shared tokens and atoms (`shared.jsx`), item sheet, offer sheet, filters |
 | `src/pages/` | Search, sell, shops, messages, profile, shortlist |
+| `src/profile/` | My preferences: sizes per kind of piece, styles, brands, condition, budget. Stored on the phone only |
+| `src/legal/` | The twelve policies and the facts they quote |
 | `src/data/repo.js` | One door to data: server when connected, the device otherwise |
 | `src/backend/remote.js` | Every Supabase call; row mapping (`fromRow` / `toRow` allowlist) |
 | `src/backend/config.js` | Project URL and publishable key (public by design) |
