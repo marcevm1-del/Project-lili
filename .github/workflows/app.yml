@@ -145,12 +145,31 @@ jobs:
       # last one ("App not installed"): the phone silently kept the old build.
       # One debug key, kept in the Actions cache and reused by every run, makes
       # each build install as an update. The key never enters the repository.
-      - name: Reuse one debug signing key
+      #
+      # v2: the key lives at a path we choose and build.gradle is told where
+      # (LILI_DEBUG_KEYSTORE). Caching Gradle's default ~/.android location
+      # saved nothing, because that is not where the runner's Gradle wrote it.
+      - name: Restore the debug signing key
         if: env.HAS_KEY != 'true'
         uses: actions/cache@v4
         with:
-          path: ~/.android/debug.keystore
-          key: lili-debug-keystore-v1
+          path: ~/lili-debug-key/debug.keystore
+          key: lili-debug-keystore-v2
+      - name: Make the debug signing key if none was restored
+        if: env.HAS_KEY != 'true'
+        run: |
+          mkdir -p "$HOME/lili-debug-key"
+          K="$HOME/lili-debug-key/debug.keystore"
+          if [ ! -f "$K" ]; then
+            keytool -genkeypair -keystore "$K" -storepass android -alias androiddebugkey \
+              -keypass android -keyalg RSA -keysize 2048 -validity 10000 \
+              -dname "CN=Android Debug,O=Android,C=US"
+            echo "made a new debug key"
+          else
+            echo "reusing the cached debug key"
+          fi
+          keytool -list -keystore "$K" -storepass android | grep -i fingerprint || true
+          echo "LILI_DEBUG_KEYSTORE=$K" >> "$GITHUB_ENV"
 
       - name: Build
         working-directory: app/android
