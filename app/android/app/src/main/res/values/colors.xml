@@ -5,7 +5,7 @@
         theme pointed at colorPrimary / colorPrimaryDark, which lili never
         defined, so Android fell back to the template library's blue (#303F9F)
         and the phone's status and navigation bars were blue above and below a
-        cream app. They now match the page ground (theme/palette.css --c-bg).
+        cream app. They now match the page ground, the c-bg colour in theme/palette.css.
     -->
     <color name="colorPrimary">#FFF8F2</color>
     <color name="colorPrimaryDark">#FFF8F2</color>

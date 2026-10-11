@@ -1776,6 +1776,14 @@ check("no interface text is set below the 11px floor", tinyType.length === 0 && 
   check("status and navigation bars take the page ground, never colorPrimaryDark's library default",
     /statusBarColor">@color\/lili_system_bar/.test(styles) && /navigationBarColor">@color\/lili_system_bar/.test(styles)
     && /lili_system_bar">#FFF8F2/.test(light) && /lili_system_bar">#16110E/.test(night));
+  // A "--" inside an XML comment is illegal; the resource compiler rejects the
+  // file and the APK doesn't build (build 39 failed on exactly that).
+  const xmlFiles = [];
+  const walkXml = (d) => { for (const n of readdirSync(d)) { const p = `${d}/${n}`;
+    if (statSync(p).isDirectory()) { if (n !== "build") walkXml(p); } else if (n.endsWith(".xml")) xmlFiles.push(p); } };
+  walkXml("./android/app/src/main");
+  const badXml = xmlFiles.filter((f) => [...readFileSync(f, "utf8").matchAll(/<!--([\s\S]*?)-->/g)].some((m) => m[1].includes("--")));
+  check("no Android resource file has a double hyphen inside a comment", badXml.length === 0, badXml.join(", "));
   check("the launch screen and WebView ground are cream, not the old peach",
     !/FDEBD8/i.test(read("./capacitor.config.json")));
 }
