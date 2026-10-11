@@ -1,4 +1,6 @@
 import { C } from "../compliance/ui.js";
+import { sizeLabel } from "../sizes/sizeSystem.js";
+import { useSizeSystem } from "../sizes/SizeSystemPicker.jsx";
 
 // ── fit, measurements, flaws ───────────────────────────────────────────────
 // A size label says what the tag says. Whether it fits is the question buyers
@@ -94,6 +96,7 @@ export function FitAndFlaws({form, setForm}) {
 // disclosed — together, because "will it fit" and "what's it like" are read
 // as one question.
 export function FitPanel({item}) {
+  useSizeSystem();
   const m = item.measurements && typeof item.measurements === "object" ? item.measurements : {};
   const mk = Object.keys(m).filter(k => MEASURE_LABEL[k]);
   const fit = FITS.find(([k]) => k === item.fit);
@@ -104,7 +107,7 @@ export function FitPanel({item}) {
       {(fit || mk.length>0) && (
         <div style={{marginBottom:flaws!==null?10:0}}>
           <div style={{fontSize:12,fontWeight:700,color:C.ink,marginBottom:mk.length?6:0}}>
-            Size {item.size}{fit ? ` · ${fit[1]}` : ""}
+            Size {sizeLabel(item.size, undefined, { both: true })}{fit ? ` · ${fit[1]}` : ""}
             {fit && fit[0]!=="true" && <span style={{fontWeight:400,color:C.inkLt}}>
               {fit[0]==="small" ? " — consider a size up" : " — consider a size down"}</span>}
           </div>

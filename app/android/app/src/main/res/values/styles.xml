@@ -13,6 +13,10 @@
         <item name="windowActionBar">false</item>
         <item name="windowNoTitle">true</item>
         <item name="android:background">@null</item>
+        <!-- The system bars take the page ground, not the template blue. -->
+        <item name="android:statusBarColor">@color/lili_system_bar</item>
+        <item name="android:navigationBarColor">@color/lili_system_bar</item>
+        <item name="android:windowLightStatusBar">@bool/lili_light_bars</item>
     </style>
 
 

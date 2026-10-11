@@ -301,7 +301,7 @@ function DeleteView({ onBack }) {
           // listing and her saves. `repo.reset()` existed and was never called.
           await repo.reset();
           for (const key of ["lili.consent.v1", "lili.age.v1", "lili.blocked.v1",
-                             "lili.beta.v1", "lili.taste.v1", "lili.events.q.v1",
+                             "lili.beta.v1", "lili.taste.v1", "lili.sizesystem.v1", "lili.events.q.v1",
                              "lili.events.sid.v1", "lili.audit.v1"]) {
             await removeKey(key);
           }

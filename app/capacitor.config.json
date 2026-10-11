@@ -4,12 +4,12 @@
   "webDir": "dist",
   "android": {
     "allowMixedContent": false,
-    "backgroundColor": "#FDEBD8"
+    "backgroundColor": "#FFF8F2"
   },
   "plugins": {
     "SplashScreen": {
       "launchAutoHide": false,
-      "backgroundColor": "#FDEBD8",
+      "backgroundColor": "#FFF8F2",
       "androidSplashResourceName": "splash",
       "androidScaleType": "CENTER_CROP",
       "showSpinner": false,
@@ -20,7 +20,7 @@
     }
   },
   "ios": {
-    "backgroundColor": "#FDEBD8",
+    "backgroundColor": "#FFF8F2",
     "contentInset": "always",
     "scrollEnabled": true
   }

@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- Dark mode: the bars take the dark ground, with light icons. -->
+    <color name="colorPrimary">#16110E</color>
+    <color name="colorPrimaryDark">#16110E</color>
+    <color name="colorAccent">#E3A387</color>
+    <color name="lili_system_bar">#16110E</color>
+    <bool name="lili_light_bars">false</bool>
+</resources>

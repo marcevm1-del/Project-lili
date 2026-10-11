@@ -19,6 +19,8 @@ import { space } from "../theme/scale.js";
 import { alignStart } from "../i18n/direction.js";
 import { C, Lili, CONDITIONS, SIZES, ITEM_CATS, ICON_FOR_CAT, APPROVED_BRANDS, BRANDS, ERAS, TopBar } from "../market/shared.jsx";
 import { PayoutBox } from "../market/OfferModal.jsx";
+import { sizeLabel } from "../sizes/sizeSystem.js";
+import { useSizeSystem, SizeSystemPicker } from "../sizes/SizeSystemPicker.jsx";
 const Settings = lazy(() => import("../settings/Settings.jsx"));
 const BulkList = lazy(() => import("../sell/BulkList.jsx"));
 const PhotoCoach = lazy(() => import("../sell/PhotoCoach.jsx"));
@@ -104,6 +106,7 @@ export function InviteBox() {
 
 export function SellPage({myShop,onCreateShop,onAddItem,setTab,onListed}) {
   const { m: market, canSell } = useCompliance();
+  useSizeSystem();
   const [screen,setScreen] = useState({verdict:"ok",findings:[]});
   const [mode,setMode] = useState("choose");
   const [photos,setPhotos] = useState([]);
@@ -585,6 +588,9 @@ export function SellPage({myShop,onCreateShop,onAddItem,setTab,onListed}) {
               </div>
             ))}
             <datalist id="lili-brands">{APPROVED_BRANDS.map(b=><option key={b} value={b}/>)}</datalist>
+            {/* She picks the size in the system she knows; the listing stores
+                the one canonical size, so every buyer sees it in theirs. */}
+            <SizeSystemPicker label="Size system you know" compact/>
             <div style={{display:"grid",gridTemplateColumns:"1fr 1fr",gap:10}}>
               {[["Category","category",ITEM_CATS],["Size","size",SIZES],
                 ["Condition","condition",CONDITIONS],["Era","era",ERAS]].map(([lbl,key,opts])=>(
@@ -593,7 +599,7 @@ export function SellPage({myShop,onCreateShop,onAddItem,setTab,onListed}) {
                   <select value={form[key]} onChange={e=>setForm({...form,[key]:e.target.value})}
                     style={{width:"100%",padding:"10px 10px",borderRadius:10,border:`1px solid ${C.border}`,
                       fontSize:13,outline:"none",background:C.white,color:C.ink}}>
-                    {opts.map(o=><option key={o}>{o}</option>)}
+                    {opts.map(o=><option key={o} value={o}>{key==="size" ? sizeLabel(o) : o}</option>)}
                   </select>
                 </div>
               ))}
@@ -618,7 +624,7 @@ export function SellPage({myShop,onCreateShop,onAddItem,setTab,onListed}) {
                 <img src={photos[0]} style={{width:60,height:60,borderRadius:8,objectFit:"cover"}}/>
                 <div>
                   <div style={{fontWeight:600,fontSize:13,color:C.ink}}>{form.title||"Your Item"}</div>
-                  <div style={{fontSize:11,color:C.inkLt}}>{form.condition} · Size {form.size}</div>
+                  <div style={{fontSize:11,color:C.inkLt}}>{form.condition} · Size {sizeLabel(form.size)}</div>
                 </div>
               </div>
             )}

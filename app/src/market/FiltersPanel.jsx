@@ -11,11 +11,14 @@ import * as funnel from "../analytics/funnel.js";
 import { t } from "../i18n/t.js";
 import { space } from "../theme/scale.js";
 import { C, CATS, categoryLabel, CONDITIONS, SIZES, BRANDS } from "./shared.jsx";
+import { sizeLabel } from "../sizes/sizeSystem.js";
+import { useSizeSystem, SizeSystemPicker } from "../sizes/SizeSystemPicker.jsx";
 
 
 // ── filters panel ──────────────────────────────────────────────────────────
 export function FiltersPanel({filters,setFilters,onClose,items}) {
   const trap = useFocusTrap(onClose);
+  useSizeSystem();
   const [local,setLocal] = useState({...filters});
   // Same predicate the grid uses — see discovery/filters.js for why there used
   // to be two, and why the number on the button could disagree with the screen
@@ -108,12 +111,13 @@ export function FiltersPanel({filters,setFilters,onClose,items}) {
           {sizesInStock.length>0 && (
             <div>
               <div style={{fontSize:11,fontWeight:700,color:C.inkLt,letterSpacing:0.8,textTransform:"uppercase",marginBottom:8}}>{t("size")}</div>
+              <SizeSystemPicker label="Sizes shown in" compact/>
               <div style={{display:"flex",gap:8,flexWrap:"wrap"}}>
                 {sizesInStock.map(s=>(
                   <button key={s} onClick={()=>setLocal({...local,size:local.size===s?"":s})} style={{
                     background:local.size===s?C.terra:C.white,color:local.size===s?C.white:C.ink,
                     border:`1px solid ${local.size===s?C.terra:C.border}`,
-                    borderRadius:8,padding:"5px 10px",fontSize:12,cursor:"pointer"}}>{s}</button>
+                    borderRadius:8,padding:"5px 10px",fontSize:12,cursor:"pointer",minHeight:32}}>{sizeLabel(s)}</button>
                 ))}
               </div>
             </div>

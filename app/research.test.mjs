@@ -1735,6 +1735,50 @@ check("no interface text is set below the 11px floor", tinyType.length === 0 && 
   check("every size a buyer can save is one a seller can list",
     P.SIZE_GROUPS.every((g) => g.options.every((o) => SIZES_FOR_SELLERS.includes(o))));
 }
+{
+  // ── Size systems: EU · UK · US · IT · FR · AU · JP (src/sizes) ────────────
+  const Z = await import("./src/sizes/sizeSystem.js");
+  check("clothing converts by the standard women's tables",
+    Z.sizeLabel("S", "UK") === "UK 8" && Z.sizeLabel("S", "US") === "US 4" && Z.sizeLabel("M", "EU") === "EU 38"
+    && Z.sizeLabel("L", "IT") === "IT 44" && Z.sizeLabel("XS", "JP") === "JP 5" && Z.sizeLabel("XL", "AU") === "AU 14");
+  check("shoes convert from EU, and EU-based systems keep the EU number",
+    Z.sizeLabel("38", "UK") === "UK 5" && Z.sizeLabel("38", "US") === "US 7.5" && Z.sizeLabel("38", "JP") === "JP 24"
+    && Z.sizeLabel("38", "IT") === "EU 38" && Z.sizeLabel("38", "INTL") === "EU 38");
+  check("one size stays one size and an unknown label is shown as listed",
+    Z.sizeLabel("OS", "US") === "One size" && Z.sizeLabel("Free size", "UK") === "Free size");
+  check("the item page can show both, so the stored size is never hidden",
+    Z.sizeLabel("S", "UK", { both: true }) === "UK 8 (S)" && Z.sizeLabel("S", "INTL", { both: true }) === "S");
+  check("every size a seller can list converts in every system",
+    JSON.parse(read("./src/market/shared.jsx").match(/export const SIZES = (\[[^\]]*\])/)[1])
+      .every((sz) => Z.SYSTEMS.every((sys) => Z.sizeLabel(sz, sys.key) && !/undefined/.test(Z.sizeLabel(sz, sys.key)))));
+  const screens = ["./src/Marketplace.jsx", "./src/market/shared.jsx", "./src/market/ItemModal.jsx",
+    "./src/market/FiltersPanel.jsx", "./src/pages/SellPage.jsx", "./src/listing/FitAndFlaws.jsx", "./src/sell/BulkList.jsx"]
+    .map((f) => [f, stripComments(read(f))]);
+  const raw = screens.filter(([, src]) => /Size \$\{(item|form)\.size\}|Size \{(item|form)\.size\}/.test(src)).map(([f]) => f);
+  check("no screen prints a size without going through the chosen system", raw.length === 0, raw.join(", "));
+  check("the size-system bar is in My preferences, Filters and the sell form",
+    ["./src/profile/ProfilePreferences.jsx", "./src/market/FiltersPanel.jsx", "./src/pages/SellPage.jsx"]
+      .every((f) => /<SizeSystemPicker/.test(read(f))));
+  check("the chosen system is kept on the phone, like her preferences",
+    /SIZE_SYSTEM_KEY = "lili\.sizesystem\.v1"/.test(read("./src/sizes/sizeSystem.js"))
+    && !/sizesystem|sizeSystem/.test(read("./src/backend/remote.js"))
+    && /"lili\.sizesystem\.v1"/.test(read("./src/compliance/LegalCenter.jsx")));
+}
+{
+  // ── The phone's own bars are lili's colour, not the template blue ─────────
+  const res = "./android/app/src/main/res";
+  const styles = ["values/styles.xml", "values-v35/styles.xml"].map((f) => read(`${res}/${f}`)).join("\n");
+  const light = read(`${res}/values/colors.xml`), night = read(`${res}/values-night/colors.xml`);
+  const used = [...new Set([...styles.matchAll(/@color\/(\w+)/g)].map((m) => m[1]))];
+  const undefinedColours = used.filter((c) => !new RegExp(`name="${c}"`).test(light) || !new RegExp(`name="${c}"`).test(night));
+  check("every colour the Android theme uses is lili's own, in light and dark", undefinedColours.length === 0,
+    undefinedColours.join(", "));
+  check("status and navigation bars take the page ground, never colorPrimaryDark's library default",
+    /statusBarColor">@color\/lili_system_bar/.test(styles) && /navigationBarColor">@color\/lili_system_bar/.test(styles)
+    && /lili_system_bar">#FFF8F2/.test(light) && /lili_system_bar">#16110E/.test(night));
+  check("the launch screen and WebView ground are cream, not the old peach",
+    !/FDEBD8/i.test(read("./capacitor.config.json")));
+}
 check("a bare <button> is in the type system rather than at the browser default",
   /button\s*\{[^}]*font-size:\s*14px/.test(read("./src/index.css")));
 check("in Arabic, an English sentence ends with its full stop on the right side",

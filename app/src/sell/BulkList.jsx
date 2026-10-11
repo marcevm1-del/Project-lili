@@ -9,6 +9,8 @@ import { priceGuidance } from "../data/resaleValue.js";
 import { screenListing } from "../compliance/listingRules.js";
 import * as funnel from "../analytics/funnel.js";
 import { t } from "../i18n/t.js";
+import { sizeLabel } from "../sizes/sizeSystem.js";
+import { useSizeSystem } from "../sizes/SizeSystemPicker.jsx";
 
 // ─────────────────────────────────────────────────────────────────────────────
 //  LISTING A WARDROBE, NOT A PIECE
@@ -66,6 +68,7 @@ const STATE = {
 
 export default function BulkList({ categories, conditions, brands, sizes,
                                    onPublish, onDone, onBack }) {
+  useSizeSystem();
   const [rows, setRows] = useState([]);
   const [busy, setBusy] = useState(false);
   const [readError, setReadError] = useState(null);
@@ -324,7 +327,7 @@ export default function BulkList({ categories, conditions, brands, sizes,
                           <label style={label}>{lbl}</label>
                           <select value={row[key]} aria-label={lbl}
                             onChange={(e) => patch(row.id, { [key]: e.target.value })} style={field}>
-                            {(opts || []).map((o) => <option key={o}>{o}</option>)}
+                            {(opts || []).map((o) => <option key={o} value={o}>{key === "size" ? sizeLabel(o) : o}</option>)}
                           </select>
                         </div>
                       ))}

@@ -2,6 +2,8 @@ import { useState } from "react";
 import { C, Shell } from "../compliance/ui.js";
 import Icon from "../icons/Icon.jsx";
 import { parsePrice } from "../ux/input.js";
+import { sizeLabel } from "../sizes/sizeSystem.js";
+import { SizeSystemPicker, useSizeSystem } from "../sizes/SizeSystemPicker.jsx";
 import {
   SIZE_GROUPS, ONE_SIZE_NOTE, STYLE_OPTIONS, CONDITION_LADDER, normalise, isEmpty,
 } from "./preferences.js";
@@ -20,6 +22,7 @@ import {
 
 export default function ProfilePreferences({ taste, brands = [], personalise, onChange, onBack, onOpenDataChoices }) {
   const [p, setP] = useState(() => normalise(taste));
+  useSizeSystem();
   const [budget, setBudget] = useState(p.maxPrice ? String(p.maxPrice) : "");
   const [brandQuery, setBrandQuery] = useState("");
   const [confirmClear, setConfirmClear] = useState(false);
@@ -49,6 +52,7 @@ export default function ProfilePreferences({ taste, brands = [], personalise, on
       <h3 style={h3}>Sizes</h3>
       <p style={hint}>Pick the sizes you wear for each kind of piece. Leave a row empty and
         nothing of that kind is hidden.</p>
+      <SizeSystemPicker label="Show sizes in" />
       {SIZE_GROUPS.map((g) => {
         const mine = p.sizeBy[g.key] || [];
         return (
@@ -56,7 +60,8 @@ export default function ProfilePreferences({ taste, brands = [], personalise, on
             <legend style={legend}>{g.label} <span style={ar}>{g.labelAr}</span></legend>
             <div style={chipRow}>
               {g.options.map((o) => (
-                <Chip key={o} on={mine.includes(o)} label={o}
+                <Chip key={o} on={mine.includes(o)} label={sizeLabel(o, undefined, { prefix: false })}
+                  ariaLabel={`${g.label} ${sizeLabel(o)}${sizeLabel(o, undefined, { prefix: false }) !== o ? `, listed as ${o}` : ""}`}
                   onClick={() => commit({ ...p, sizeBy: { ...p.sizeBy, [g.key]: toggleIn(mine, o) } })} />
               ))}
             </div>

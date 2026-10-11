@@ -11,6 +11,8 @@ import { isNewArrival } from "../discovery/ranking.js";
 import { t, getLang } from "../i18n/t.js";
 import { type as typeScale, space } from "../theme/scale.js";
 import { backArrow } from "../i18n/direction.js";
+import { sizeLabel } from "../sizes/sizeSystem.js";
+import { useSizeSystem } from "../sizes/SizeSystemPicker.jsx";
 
 
 // ── tokens ─────────────────────────────────────────────────────────────────
@@ -459,6 +461,7 @@ export function Monogram({shop, size=44}) {
 
 
 export function ItemTile({item,onSave,onClick,loading}) {
+  useSizeSystem();          // re-render when she switches EU / UK / US …
   // A tile waiting on its own data renders the skeleton at the same size,
   // so its neighbours never move when it resolves.
   if (loading || (item && item.pending)) return <ItemSkeleton/>;
@@ -506,7 +509,7 @@ export function ItemTile({item,onSave,onClick,loading}) {
         {/* Size and condition read together, as one line, under the price —
             the two things she filters on in her head before she taps. */}
         <div style={{fontSize:11,color:C.inkLt,marginTop:2,whiteSpace:"nowrap",overflow:"hidden",textOverflow:"ellipsis"}}>
-          {[item.size && item.size!=="OS" ? `Size ${item.size}` : null, item.condition].filter(Boolean).join(" · ")}
+          {[item.size && item.size!=="OS" ? `Size ${sizeLabel(item.size)}` : null, item.condition].filter(Boolean).join(" · ")}
         </div>
       </div>
     </div>

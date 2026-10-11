@@ -18,6 +18,8 @@
 //  Pure: no React, no storage. The screen is ProfilePreferences.jsx.
 // ─────────────────────────────────────────────────────────────────────────────
 
+import { sizeLabel } from "../sizes/sizeSystem.js";
+
 const LETTERS = ["XS", "S", "M", "L", "XL"];
 
 export const SIZE_GROUPS = [
@@ -27,7 +29,7 @@ export const SIZE_GROUPS = [
     categories: ["Dresses", "Abayas"], options: LETTERS },
   { key: "bottoms", label: "Trousers & skirts",  labelAr: "البناطيل والتنانير",
     categories: ["Bottoms", "Skirts"], options: LETTERS },
-  { key: "shoes",   label: "Shoes (EU)",         labelAr: "الأحذية",
+  { key: "shoes",   label: "Shoes",              labelAr: "الأحذية",
     categories: ["Shoes"], options: ["35", "36", "37", "38", "39", "40", "41", "42"] },
 ];
 
@@ -131,9 +133,17 @@ export function fitsMe(item, prefs) {
 export function summary(prefs) {
   const p = normalise(prefs);
   const parts = [];
+  // Shown in the size system she chose (UK 8, US 4 …), stored as listed.
   const letters = [...new Set(["tops", "dresses", "bottoms"].flatMap((k) => p.sizeBy[k] || []))];
-  if (letters.length) parts.push(letters.join("/"));
-  if (p.sizeBy.shoes && p.sizeBy.shoes.length) parts.push(`shoes ${p.sizeBy.shoes.join("/")}`);
+  if (letters.length) {
+    const shown = letters.map((s) => sizeLabel(s, undefined, { prefix: false }));
+    const sys = sizeLabel(letters[0]).split(" ").length > 1 ? sizeLabel(letters[0]).split(" ")[0] + " " : "";
+    parts.push(sys + shown.join("/"));
+  }
+  if (p.sizeBy.shoes && p.sizeBy.shoes.length) {
+    const shoeSys = sizeLabel(p.sizeBy.shoes[0]).split(" ")[0];
+    parts.push(`shoes ${shoeSys} ${p.sizeBy.shoes.map((s) => sizeLabel(s, undefined, { prefix: false })).join("/")}`);
+  }
   if (p.minCondition) parts.push(`${p.minCondition} or better`);
   if (p.maxPrice) parts.push(`under AED ${p.maxPrice.toLocaleString("en-US")}`);
   return parts.join(" · ");

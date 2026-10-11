@@ -11,6 +11,8 @@ import { t } from "../i18n/t.js";
 import { space } from "../theme/scale.js";
 import { alignEnd, backArrow, money } from "../i18n/direction.js";
 import { C, T, Avatar, Stars, earnedFollowers, ItemPhoto } from "./shared.jsx";
+import { sizeLabel, kindOf, APPROXIMATE_NOTE } from "../sizes/sizeSystem.js";
+import { useSizeSystem } from "../sizes/SizeSystemPicker.jsx";
 
 
 // ── what a piece like this usually goes for ────────────────────────────────
@@ -77,6 +79,7 @@ export function PriceContext({ item }) {
 // ── item detail modal ──────────────────────────────────────────────────────
 export function ItemModal({item,shop,items=[],onOpenItem,onSave,onClose,onOffer,setTab,onAddToCart,onReport,onFollow,following,onMessageSeller}) {
   const trap = useFocusTrap(onClose, {active: !!item});
+  const sizeSys = useSizeSystem();
   if(!item) return null;
   return (
     <div ref={trap} {...dialogProps(item.title || "Item details")}
@@ -112,13 +115,18 @@ export function ItemModal({item,shop,items=[],onOpenItem,onSave,onClose,onOffer,
 
           {/* tags */}
           <div style={{display:"flex",gap:7,marginBottom:14,flexWrap:"wrap"}}>
-            {[["Brand",item.brand],["Condition",item.condition],["Size",item.size],["Era",item.era]].map(([l,v])=>(
+            {[["Brand",item.brand],["Condition",item.condition],["Size",item.size ? sizeLabel(item.size, sizeSys, { both: true }) : ""],["Era",item.era]].map(([l,v])=>(
               <div key={l} style={{background:C.sand,borderRadius:8,padding:"5px 10px"}}>
                 <div style={{fontSize:11,color:C.inkLt,fontWeight:700,letterSpacing:0.5}}>{l.toUpperCase()}</div>
                 <div style={{fontSize:11,color:C.ink,fontWeight:600}}>{v}</div>
               </div>
             ))}
           </div>
+          {sizeSys !== "INTL" && kindOf(item.size) && (
+            <div style={{fontSize:11,color:C.inkLt,margin:"-8px 0 14px"}}>
+              Listed as {item.size}. {APPROXIMATE_NOTE}
+            </div>
+          )}
 
           <FitPanel item={item}/>
 

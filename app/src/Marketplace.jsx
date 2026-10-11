@@ -99,6 +99,8 @@ import { t, getLang } from "./i18n/t.js";
 // used — 13.6px from a 34px avatar. Snapped to the scale; the drift is under
 // half a pixel and the monogram looks identical.
 import { type as typeScale, space } from "./theme/scale.js";
+import { sizeLabel, loadSizeSystem } from "./sizes/sizeSystem.js";
+import { useSizeSystem } from "./sizes/SizeSystemPicker.jsx";
 import { marginStart, marginEnd, insetStart, insetEnd, alignStart, alignEnd,
          backArrow, chevron, money, isRTL, onDirChange, getDir } from "./i18n/direction.js";
 
@@ -246,6 +248,7 @@ function StoryViewer({story,shop,onClose}) {
 
 // ── new in strip ───────────────────────────────────────────────────────────
 function NewInStrip({items,onSave,setModal,onSeeAll}) {
+  useSizeSystem();
   // v2.9. Two bugs met here and produced an empty row with a heading over it.
   //
   //   `isNew` was a client-set boolean, true on every publish, never cleared,
@@ -311,7 +314,7 @@ function NewInStrip({items,onSave,setModal,onSeeAll}) {
                 whiteSpace:"nowrap",overflow:"hidden",textOverflow:"ellipsis"}}>{getLang()==="ar" && item.titleAr ? item.titleAr : item.title}</div>
               <div style={{marginTop:3}}><PriceTag item={item} size={13}/></div>
               <div style={{fontSize:11,color:C.inkLt,marginTop:1,whiteSpace:"nowrap",overflow:"hidden",textOverflow:"ellipsis"}}>
-                {[item.size && item.size!=="OS" ? `Size ${item.size}` : null, item.condition].filter(Boolean).join(" · ")}
+                {[item.size && item.size!=="OS" ? `Size ${sizeLabel(item.size)}` : null, item.condition].filter(Boolean).join(" · ")}
               </div>
             </div>
           </div>
@@ -497,6 +500,7 @@ function SplashScreen({onDone}) {
 
 // ── home page ──────────────────────────────────────────────────────────────
 function HomePage({items,shops,onSave,setModal,filters,setFilters,stories,setActiveStory,cartCount,savedCount=0,onLoadMore,setTab,hydrated,onOpenNotifications,unreadCount=0,taste,personalise,onEditTaste,onOpenPrefs}) {
+  useSizeSystem();
   const [q,setQ] = useState("");
   const [showFilters,setShowFilters] = useState(false);
   const [loadingMore,setLoadingMore] = useState(false);
@@ -919,6 +923,7 @@ export default function Marketplace() {
       // in the direction she pressed.
       setSavedIds(await repo.getSaved().catch(() => []));
       setTaste(await store.getJSON(TASTE_KEY, null).catch(() => null));
+      loadSizeSystem();       // EU / UK / US … as she chose it last time
       setHydrated(true);
     })();
   }, []);
