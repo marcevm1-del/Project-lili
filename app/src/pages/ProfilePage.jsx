@@ -3,6 +3,7 @@
 import Icon from "../icons/Icon.jsx";
 import * as offers from "../data/offers.js";
 import { t } from "../i18n/t.js";
+import { VERSION_LABEL } from "../version.js";
 import { space } from "../theme/scale.js";
 import { C, Lili, TopBar } from "../market/shared.jsx";
 
@@ -185,6 +186,10 @@ export function ProfilePage({myShop,items,setTab,onOpenLegal,onOpenPreferences,o
             ))}
           </div>
         </div>
+        {/* Which build is on this phone. Without it there was no way to tell
+            whether an update had installed (debug-signed builds used to be
+            refused silently and the old one kept running). */}
+        <div style={{textAlign:"center",fontSize:11,color:C.inkLt,margin:"18px 0 8px"}}>{VERSION_LABEL}</div>
       </div>
     </div>
   );

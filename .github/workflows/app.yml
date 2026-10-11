@@ -139,6 +139,19 @@ jobs:
           printf 'storeFile=../lili-release.jks\nstorePassword=%s\nkeyAlias=%s\nkeyPassword=%s\n' \
             "$STORE_PW" "$KEY_ALIAS" "$KEY_PW" > android/keystore.properties
 
+      # Until the four signing secrets exist, builds are debug-signed. Gradle
+      # used to make a new throwaway debug key on every runner, so each build
+      # had a different signature and Android refused to install it over the
+      # last one ("App not installed"): the phone silently kept the old build.
+      # One debug key, kept in the Actions cache and reused by every run, makes
+      # each build install as an update. The key never enters the repository.
+      - name: Reuse one debug signing key
+        if: env.HAS_KEY != 'true'
+        uses: actions/cache@v4
+        with:
+          path: ~/.android/debug.keystore
+          key: lili-debug-keystore-v1
+
       - name: Build
         working-directory: app/android
         run: |
@@ -172,13 +185,25 @@ jobs:
           BRANCH: ${{ github.ref_name }}
         run: |
           TAG="build-${{ github.run_number }}"
-          KIND=$([ "$HAS_KEY" = "true" ] && echo "release-signed" || echo "debug-signed — uninstall the previous build first")
+          KIND=$([ "$HAS_KEY" = "true" ] && echo "release-signed" || echo "debug-signed")
+          # Does this install over the newest earlier build? Only if both carry
+          # the same signer; say which, so nobody keeps an old build by accident.
+          PREV_SIGNER=$(gh api "repos/$GITHUB_REPOSITORY/releases?per_page=50" \
+            --jq '[.[] | select(.tag_name | startswith("build-"))] | sort_by(.tag_name | ltrimstr("build-") | tonumber) | last | .body' \
+            | grep -o 'Signer SHA-256: `[^`]*`' | head -1 | sed 's/.*`\(.*\)`/\1/' || true)
+          if [ -n "$PREV_SIGNER" ] && [ "$PREV_SIGNER" = "$SIGNER" ]; then
+            UPDATE="**Installs as an update** over the previous build. No need to uninstall."
+          else
+            UPDATE="**Uninstall lili first, then install this one.** It is signed with a different key from the previous build, so Android would refuse it (\"App not installed\") and keep the old version."
+          fi
           PRE=$([ "$BRANCH" = "main" ] && echo "" || echo "--prerelease")
           cat > "$RUNNER_TEMP/notes.md" <<EOF
+          $UPDATE
+
           **Install on Android:** open this page on the phone, tap **lili.apk**, then Open.
           If asked, allow your browser to install unknown apps (Settings → Apps → your browser → Install unknown apps).
 
-          - Version: $LILI_VERSION_NAME (code $LILI_VERSION_CODE), from \`$BRANCH\` @ ${GITHUB_SHA::7}
+          - Version: $LILI_VERSION_NAME (code $LILI_VERSION_CODE), from \`$BRANCH\` @ ${GITHUB_SHA::7}. The app shows this at the bottom of Profile.
           - Signing: $KIND
           - Signer SHA-256: \`$SIGNER\`
           - File SHA-256: \`$SHA\`

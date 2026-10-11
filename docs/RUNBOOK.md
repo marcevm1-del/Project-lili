@@ -46,7 +46,12 @@ people. Reports are scrubbed of emails, query strings and long numbers.
 
 Push to the branch; CI builds and publishes a GitHub Release with `lili.apk`.
 With the four keystore secrets set, builds are release-signed and install as
-updates. Without them, uninstall the previous build first.
+updates. Without them, CI reuses one debug key kept in the Actions cache, so
+builds still install as updates; each release says at the top whether it
+does. If the cache is ever evicted (unused for 7 days) the key changes once,
+and that release will say to uninstall first. Profile shows the installed
+build at the bottom ("Version 2.11.7 · build N"): if it doesn't match the
+release you installed, the install was refused.
 
 ## Owner-only actions still pending
 

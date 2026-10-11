@@ -3,6 +3,9 @@ import react from "@vitejs/plugin-react";
 
 export default defineConfig({
   plugins: [react()],
+  // The CI build label (e.g. 2.11.7-b42), so Profile can say which build is
+  // installed. Empty in local builds.
+  define: { __BUILD__: JSON.stringify(process.env.LILI_VERSION_NAME || "") },
   build: {
     outDir: "dist",
     assetsDir: "assets",
