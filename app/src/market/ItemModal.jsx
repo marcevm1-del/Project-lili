@@ -10,7 +10,7 @@ import * as offers from "../data/offers.js";
 import { t, getLang } from "../i18n/t.js";
 import { space } from "../theme/scale.js";
 import { alignEnd, backArrow, money } from "../i18n/direction.js";
-import { C, T, Avatar, Stars, earnedFollowers, ItemPhoto, bandRange, say, conditionMeaning, HIGH_VALUE_AED } from "./shared.jsx";
+import { C, T, Avatar, Stars, earnedFollowers, ItemPhoto, bandRange, say, conditionMeaning, HIGH_VALUE_AED, cardTitle } from "./shared.jsx";
 import { sizeLabel, kindOf, APPROXIMATE_NOTE } from "../sizes/sizeSystem.js";
 import { useSizeSystem } from "../sizes/SizeSystemPicker.jsx";
 import * as remote from "../backend/remote.js";
@@ -177,8 +177,9 @@ export function ItemModal({item,shop,items=[],onOpenItem,onSave,onClose,onOffer,
           {/* price + title */}
           <div style={{display:"flex",justifyContent:"space-between",alignItems:"flex-start",marginBottom:6}}>
             <div style={{flex:1,paddingRight:10}}>
-              <h2 style={{margin:"0 0 2px",fontSize:18,fontFamily:"var(--font-display)",color:C.ink,lineHeight:1.2}}>{item.title}</h2>
-              <div style={{fontSize:12,color:C.inkLt}}>{item.titleAr}</div>
+              <h2 style={{margin:"0 0 2px",fontSize:18,fontFamily:"var(--font-display)",color:C.ink,lineHeight:1.2}}>{getLang()==="ar" && item.titleAr ? item.titleAr : item.title}</h2>
+              {/* One language: the Arabic title stacked under the English one
+                  in either interface. Search still matches both. */}
               {item.subtitle && <div style={{fontSize:12,color:C.inkLt,marginTop:2}}>{item.subtitle}</div>}
               {/* Real social proof: the database's own count of saves, which no
                   seller can write to. "3 people are looking" is refused because
@@ -388,6 +389,7 @@ export function MoreFromShop({item, shop, items, onOpen}) {
             <div className="lili-ratio-tile" style={{borderRadius:10}}><ItemPhoto item={i} size={30}/></div>
             <div style={{fontSize:11,fontWeight:700,letterSpacing:1,color:C.inkLt,textTransform:"uppercase",marginTop:6,
               whiteSpace:"nowrap",overflow:"hidden",textOverflow:"ellipsis"}}>{i.brand}</div>
+            <div style={{fontSize:12,color:C.ink,whiteSpace:"nowrap",overflow:"hidden",textOverflow:"ellipsis"}}>{cardTitle(i)}</div>
             <PriceTag item={i} size={13}/>
           </button>
         ))}

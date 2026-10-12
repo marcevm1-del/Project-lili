@@ -382,8 +382,11 @@ export function ItemPhoto({item, size=56, compact, full}) {
     return (
       <div className="lili-fill" style={{width:"100%",height:"100%",background:`linear-gradient(145deg,${item.color},${item.color}99)`,
         display:"flex",flexDirection:"column",alignItems:"center",justifyContent:"center",gap:Math.round(size*0.18/2)*2,padding:"0 12px",boxSizing:"border-box"}}>
-        {item.brand ? <BrandMark item={item} size={size}/> : <Placeholder item={item} size={size}/>}
-        {item.brand && <Placeholder item={item} size={Math.round(size*0.36)}/>}
+        {/* Under 40 the tile is a thumbnail (the item page's "More from"
+            row) and the brand is in its caption: a mark sized for a carousel
+            tile was clipped there — "ZIMMERMAN". */}
+        {item.brand && size >= 40 ? <BrandMark item={item} size={size}/> : <Placeholder item={item} size={size}/>}
+        {item.brand && size >= 40 && <Placeholder item={item} size={Math.round(size*0.36)}/>}
       </div>
     );
   }
