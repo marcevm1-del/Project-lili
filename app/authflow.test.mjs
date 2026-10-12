@@ -49,7 +49,7 @@ c("and says why, in lili's voice", /how you get paid|needs an account/i.test(aft
 
 sec("The sign-in screen offers all three routes");
 c("Google", /Continue with Google/.test(after));
-c("email and password", /Continue with email/.test(after));
+c("email and password", /Email and password/.test(after));
 c("a magic link", /Send me a link|link instead/i.test(after));
 
 sec("It can be deferred, not forced");

@@ -199,8 +199,11 @@ export default function AuthScreen({ onBack, onSignedIn, onSkip, reason }) {
       </button>
 
       <button onClick={() => setMode(MODES.email)} disabled={busy} style={secondaryBtn}>
-        <Icon name="chat" size={17} style={{ marginRight: 10, color: C.ink }} />
-        Continue with email
+        {/* Two email paths sat on one screen with labels that did not say how
+            they differ: "Continue with email" (a password) and "Email me a link
+            instead" (no password). Each now names what it is. */}
+        <Icon name="lock" size={17} style={{ marginRight: 10, color: C.ink }} />
+        Email and password
       </button>
 
       <div style={{ display: "flex", alignItems: "center", gap: 10, margin: "18px 0 14px" }}>
@@ -209,12 +212,12 @@ export default function AuthScreen({ onBack, onSignedIn, onSkip, reason }) {
         <div style={{ flex: 1, height: 1, background: C.border }} />
       </div>
 
-      <label style={label} htmlFor="lili-magic">Email me a link instead</label>
+      <label style={label} htmlFor="lili-magic">No password — email me a sign-in link instead</label>
       <input id="lili-magic" type="email" inputMode="email" autoComplete="email"
         value={email} onChange={(e) => { setEmail(e.target.value); setErr(""); }}
         placeholder="you@example.com" style={field} />
       <button onClick={magic} disabled={busy || !email.trim()} style={secondaryBtn}>
-        {busy ? "Sending…" : "Send me a link"}
+        {busy ? "Sending…" : "Send me a sign-in link"}
       </button>
 
       {err && <div style={errBox}>{err}</div>}
