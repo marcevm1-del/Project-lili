@@ -552,9 +552,13 @@ export function SellPage({myShop,onCreateShop,onAddItem,setTab,onListed}) {
               {photos.map((p,i)=>(
                 <div key={i} className="lili-ratio-1" style={{borderRadius:10,overflow:"hidden",position:"relative"}}>
                   <img src={p} alt={i===0?"Cover photo":`Photo ${i+1}`} style={{objectFit:"cover"}}/>
-                  <button onClick={()=>setPhotos(ph=>ph.filter((_,j)=>j!==i))} style={{
+                  {/* Unnamed and 22px: a screen reader said "button", and a
+                      thumb aimed at it hit the photo. Named, and tap-round
+                      widens the hit area without growing the circle. */}
+                  <button onClick={()=>setPhotos(ph=>ph.filter((_,j)=>j!==i))}
+                    aria-label={i===0 ? "Remove cover photo" : `Remove photo ${i+1}`} className="tap-round" style={{
                     position:"absolute",top:4,right:4,background:C.btn,border:"none",
-                    borderRadius:"50%",width:22,height:22,color:C.onBtn,cursor:"pointer",fontSize:12,
+                    borderRadius:"50%",width:26,height:26,color:C.onBtn,cursor:"pointer",fontSize:12,
                     display:"flex",alignItems:"center",justifyContent:"center"}}><Icon name="close" size={14} stroke={2}/></button>
                   {i===0 && <div style={{position:"absolute",bottom:4,left:4,background:"var(--c-backdrop)",
                     color:C.white,fontSize:11,padding:"2px 6px",borderRadius:8}}>Cover</div>}
@@ -568,7 +572,9 @@ export function SellPage({myShop,onCreateShop,onAddItem,setTab,onListed}) {
                     alignItems:"center",justifyContent:"center",gap:5}}>
                     <Icon name="plus" size={26}/>
                     <span style={{fontSize:11,color:C.terraTx,fontWeight:600}}>Add Photo</span>
-                    <span style={{fontSize:11,color:C.inkLt}}>Photos ({photos.length}/{LIMITS.maxPerListing})</span>
+                    {/* The limit is in the sentence above; the count only
+                        says something once there is something to count. */}
+                    {photos.length>0 && <span style={{fontSize:11,color:C.inkLt}}>{photos.length}/{LIMITS.maxPerListing}</span>}
                   </span>
                 </label>
               )}

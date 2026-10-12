@@ -2108,6 +2108,52 @@ section("68. Every screen is measured, and nothing falls under the type floor");
   const ux = read("./uxlaws.mjs");
   check("uxlaws fails when a screen it should measure was never reached",
     /never reached/.test(ux) && /"help", "privacy"\]/.test(ux));
+  // Every button has a name. axe only sees the screens a suite opens, and the
+  // photo step's remove button (an icon, no label) was never open with a
+  // photo in it. This reads every <button> in the source instead.
+  let parse = null;
+  try { ({ parse } = await import("@babel/parser")); } catch {}
+  const unnamed = [];
+  if (parse) {
+    const named = (el) => el.openingElement.attributes.some((a) => a.type === "JSXAttribute" &&
+      /^(aria-label|aria-labelledby|title)$/.test(a.name.name));
+    const hasText = (n) => {
+      if (!n) return false;
+      if (n.type === "JSXText") return n.value.trim().length > 0;
+      if (n.type === "JSXExpressionContainer") {
+        const e = n.expression;
+        if (e.type === "JSXEmptyExpression") return false;
+        if (e.type === "JSXElement" || e.type === "JSXFragment") return hasText(e);
+        if (e.type === "LogicalExpression") return hasText({ type: n.type, expression: e.right });
+        if (e.type === "ConditionalExpression")
+          return hasText({ type: n.type, expression: e.consequent }) || hasText({ type: n.type, expression: e.alternate });
+        return true;
+      }
+      if (n.type === "JSXElement") {
+        const nm = n.openingElement.name.name;
+        if (nm === "Icon" || nm === "svg") return false;
+        return named(n) || n.children.some(hasText);
+      }
+      if (n.type === "JSXFragment") return n.children.some(hasText);
+      return false;
+    };
+    const visit = (n, f) => {
+      if (!n || typeof n.type !== "string") return;
+      if (n.type === "JSXElement" && n.openingElement.name.name === "button" &&
+          !named(n) && !n.openingElement.attributes.some((a) => a.type === "JSXSpreadAttribute") &&
+          !n.children.some(hasText)) unnamed.push(`${f}:${n.loc.start.line}`);
+      for (const k in n) {
+        if (k === "loc") continue;
+        const v = n[k];
+        if (Array.isArray(v)) v.forEach((c) => visit(c, f));
+        else if (v && typeof v.type === "string") visit(v, f);
+      }
+    };
+    for (const f of walk("./src").filter((p) => p.endsWith(".jsx")))
+      visit(parse(read(f), { sourceType: "module", plugins: ["jsx"] }).program, f);
+  }
+  check("every button in the source has a name a screen reader can say",
+    parse !== null && unnamed.length === 0, parse ? unnamed.join(", ") : "@babel/parser not found");
   check("help questions print in one language",
     /getLang\(\) === "ar" && f\.qAr \? f\.qAr : f\.q/.test(read("./src/HelpCentre.jsx")));
 }

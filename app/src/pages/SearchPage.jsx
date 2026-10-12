@@ -10,7 +10,7 @@ import { matchesFilters } from "../discovery/filters.js";
 import { applySort } from "../discovery/ranking.js";
 import * as funnel from "../analytics/funnel.js";
 import { t, getLang } from "../i18n/t.js";
-import { C, SearchBar, withHeart, ItemTile } from "../market/shared.jsx";
+import { C, SearchBar, withHeart, ItemTile, newSetsApart, categoryLabel } from "../market/shared.jsx";
 import { FiltersPanel } from "../market/FiltersPanel.jsx";
 
 
@@ -133,13 +133,14 @@ export function SearchPage({items,shops,onSave,setModal,filters,setFilters,saved
           <div style={{fontWeight:700,fontSize:14,color:C.ink,marginBottom:12}}>{t("in_stock_now")}</div>
           <div style={{display:"flex",flexWrap:"wrap",gap:8,marginBottom:24}}>
             {trending.map(t=>(
-              <button key={t} onClick={()=>setQ(t)} style={{background:C.white,border:`1px solid ${C.border}`,
+              <button key={t} onClick={()=>setQ(categoryLabel(t))} style={{background:C.white,border:`1px solid ${C.border}`,
                 borderRadius:20,padding:"7px 14px",fontSize:13,color:C.ink,cursor:"pointer",
                 display:"flex",alignItems:"center",gap:6}}>
                 {/* A tag, not a trending arrow: these are terms from pieces in
                     stock, and nothing measures what is trending. */}
                 <Icon name="tag" size={12} stroke={2} style={{color:C.terra}}/>
-                {t}
+                {/* Category terms in her language; brand names are names. */}
+                {categoryLabel(t)}
               </button>
             ))}
           </div>
@@ -156,8 +157,10 @@ export function SearchPage({items,shops,onSave,setModal,filters,setFilters,saved
                   cursor:"pointer",textAlign:"left",display:"flex",alignItems:"center",gap:10}}>
                 <Icon name={ic} size={24} stroke={1.4} style={{color:C.ink,opacity:0.75}}/>
                 <div>
-                  <div style={{fontWeight:600,fontSize:13,color:C.ink}}>{cat}</div>
-                  <div style={{fontSize:11,color:C.inkLt}}>{ar}</div>
+                  {/* Both, on purpose — but the interface's language leads. In
+                      Arabic the English name sat on top. */}
+                  <div style={{fontWeight:600,fontSize:13,color:C.ink}}>{getLang()==="ar" ? ar : cat}</div>
+                  <div style={{fontSize:11,color:C.inkLt}}>{getLang()==="ar" ? cat : ar}</div>
                 </div>
               </button>
             ))}
@@ -175,7 +178,7 @@ export function SearchPage({items,shops,onSave,setModal,filters,setFilters,saved
               <SaveSearchButton q={q} filters={filters}/>
               <div style={{display:"grid",gridTemplateColumns:"repeat(2,1fr)",gap:10}}>
                 {results.map(item=>(
-                  <ItemTile key={item.id} item={item} match={item.matchKind} onSave={onSave} onClick={()=>setModal(item)}/>
+                  <ItemTile key={item.id} item={item} match={item.matchKind} showNew={newSetsApart(results)} onSave={onSave} onClick={()=>setModal(item)}/>
                 ))}
               </div>
             </>

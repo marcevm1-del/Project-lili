@@ -265,8 +265,9 @@ export function OfferModal({item,shop,onClose,onSubmit}) {
               {sending ? t("sending") : (value===null||value<=0) ? t("enter_an_amount") : t("send_offer")}
             </button>
             <div style={{fontSize:11,color:C.inkLt,textAlign:"center",marginTop:10,lineHeight:1.55}}>
-              She has {offers.EXPIRY_HOURS} hours to answer. The amount can't be
-              changed once sent — by either of you.
+              {/* The 48 hours is under the title already; said twice on one
+                  sheet, the second reads as a different deadline. */}
+              The amount can't be changed once sent — by either of you.
             </div>
           </>
         ) : (

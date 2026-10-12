@@ -9,7 +9,7 @@ import { tokens, fuzzyIncludes } from "../discovery/text.js";
 import { t, getLang } from "../i18n/t.js";
 import { space } from "../theme/scale.js";
 import { backArrow, money } from "../i18n/direction.js";
-import { C, T, ICON_FOR_CAT, Avatar, Stars, earnedFollowers, TopBar, SearchBar, Placeholder, ItemTile, say } from "../market/shared.jsx";
+import { C, T, ICON_FOR_CAT, Avatar, Stars, earnedFollowers, TopBar, SearchBar, Placeholder, ItemTile, newSetsApart, say } from "../market/shared.jsx";
 
 
 // ── my shop ────────────────────────────────────────────────────────────────
@@ -325,7 +325,7 @@ export function ShopViewPage({shop,items,onSave,setModal,onBack,onReport,onFollo
         <ShopReviews shopId={shop.id}/>
         {mine.length>0 && <SearchBar value={q} onChange={setQ}/>}
         <div style={{display:"grid",gridTemplateColumns:"repeat(2,1fr)",gap:10,marginTop:8}}>
-          {shopItems.map(item=><ItemTile key={item.id} item={item} onSave={onSave} onClick={()=>setModal(item)}/>)}
+          {shopItems.map(item=><ItemTile key={item.id} item={item} showNew={newSetsApart(shopItems)} onSave={onSave} onClick={()=>setModal(item)}/>)}
         </div>
         {/* v2.9: `shopItems.map` had no length guard. A shop with nothing
             listed — which every shop is on its first day — rendered a bare

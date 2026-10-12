@@ -541,6 +541,11 @@ const MATCH_NOTE = {
   close:      { en: "Close to what you typed",       ar: "قريبة مما كتبتِ" },
 };
 
+// NEW only means something next to pieces that are not new. On a grid where
+// every tile carried it — the seed catalogue, a shop that listed this week —
+// it was a row of identical stickers saying nothing.
+export const newSetsApart = (list) => list.some((i) => !isNewArrival(i));
+
 export function ItemTile({item,onSave,onClick,loading,showNew=true,match}) {
   useSizeSystem();          // re-render when she switches EU / UK / US …
   // A tile waiting on its own data renders the skeleton at the same size,

@@ -54,7 +54,7 @@ const AgreementSheet = lazy(() => import("./compliance/AgreementSheet.jsx"));
 import { sellerClausesFor } from "./compliance/agreements.js";
 import * as repo from "./data/repo.js";
 import { normalise as normalisePrefs, fitsMe, hasSizes, isEmpty as prefsEmpty, summary as prefsSummary } from "./profile/preferences.js";
-import { C, PalmBg, Lili, LiliWordmark, T, SHOPS, ITEMS, CATS, categoryLabel, SIZES, ITEM_CATS, STORIES, Avatar, ItemPhoto, TopBar, SearchBar, withHeart, Placeholder, ItemTile, BRANDS, cardTitle } from "./market/shared.jsx";
+import { C, PalmBg, Lili, LiliWordmark, T, SHOPS, ITEMS, CATS, categoryLabel, SIZES, ITEM_CATS, STORIES, Avatar, ItemPhoto, TopBar, SearchBar, withHeart, Placeholder, ItemTile, newSetsApart, BRANDS, cardTitle } from "./market/shared.jsx";
 import { FiltersPanel } from "./market/FiltersPanel.jsx";
 import { ItemModal } from "./market/ItemModal.jsx";
 import { OfferModal } from "./market/OfferModal.jsx";
@@ -644,7 +644,7 @@ function HomePage({items,shops,onSave,setModal,filters,setFilters,stories,onOpen
         {showingSkeletons
           ? Array.from({length:6},(_,i)=><ItemSkeleton key={`sk-${i}`}/>)
           : shown.map(item=>(
-              <ItemTile key={item.id} item={item} onSave={onSave} onClick={()=>setModal(item)}/>
+              <ItemTile key={item.id} item={item} showNew={newSetsApart(shown)} onSave={onSave} onClick={()=>setModal(item)}/>
             ))}
       </div>
       {/* The feed comes 60 at a time. It used to stop at 60 with no way on,
