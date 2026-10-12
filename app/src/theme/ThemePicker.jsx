@@ -56,13 +56,15 @@ export default function ThemePicker({ onBack }) {
         );
       })}
 
-      <div style={{ background: C.sand, border: `1px solid ${C.border}`, borderRadius: 12,
+      {/* Only for "Match my phone", where the tick cannot say which theme is
+          on screen; with Light or Dark chosen the tick already says it. */}
+      {mode === "system" && <div style={{ background: C.sand, border: `1px solid ${C.border}`, borderRadius: 12,
                     padding: "12px 14px", marginTop: 6 }}>
         <div style={{ fontSize: 11, color: C.inkLt, lineHeight: 1.6 }}>
           Currently showing <b style={{ color: C.ink }}>{effective}</b>
           {mode === "system" && " — following your phone"}.
         </div>
-      </div>
+      </div>}
 
       <Note>
         Every colour pairing in both themes is checked for readability against

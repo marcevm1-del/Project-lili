@@ -29,7 +29,7 @@ export function ProfilePage({myShop,items,setTab,onOpenLegal,onOpenPreferences,o
     { title: t("your_shop_group"), rows: [
       {label:t("my_listings"),icon:"dress",action:()=>setTab(myShop?"myshop":"sell")},
       {label:t("saved"),icon:"heart",action:()=>setTab("saved")},
-      {label:t("offers"),icon:"handshake",action:()=>setTab("offers")},
+      {label:t("offers"),icon:"tag",action:()=>setTab("offers")},
       {label:t("messages"),icon:"chat",action:()=>setTab("messages")},
       {label:t("purchases"),icon:"cart",action:()=>onOpenOrders&&onOpenOrders("buyer")},
       {label:"Shop orders",icon:"truck",action:()=>onOpenOrders&&onOpenOrders("seller")},
@@ -87,7 +87,10 @@ export function ProfilePage({myShop,items,setTab,onOpenLegal,onOpenPreferences,o
           </div>
         </div>
 
-        <div style={{display:"flex",justifyContent:"space-around",padding:"16px 0",
+        {/* Only once there is a shop: "0 Listings · 0 Followers" in large type
+            on a new account greeted her with two zeros and nothing to do
+            about them. Without a shop, Open Your Shop below is the whole story. */}
+        {myShop && <div style={{display:"flex",justifyContent:"space-around",padding:"16px 0",
           background:C.white,borderRadius:14,border:`1px solid ${C.border}`,marginBottom:16}}>
           {/* Followers and following were hard-coded numbers. A count is shown
               once there is something counting it; until then the row carries
@@ -98,7 +101,7 @@ export function ProfilePage({myShop,items,setTab,onOpenLegal,onOpenPreferences,o
               <div style={{fontSize:11,color:C.inkLt,marginTop:2}}>{l}</div>
             </div>
           ))}
-        </div>
+        </div>}
 
         {myShop
           ? <div onClick={()=>setTab("myshop")} style={{background:myShop.banner||C.terra,borderRadius:14,

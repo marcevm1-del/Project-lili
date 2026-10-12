@@ -493,7 +493,8 @@ function BrandMark({item, size}) {
   // Sized so the longest WORD fits a carousel tile (~110px inside its margin):
   // a brand broken mid-word — "ZIMME / RMANN" — reads as a bug, not a label.
   const longest = Math.max(...String(item.brand).split(/\s+/).map(w => w.length), 1);
-  const fit = 110 / (longest * 0.86);
+  // 0.95em per capital incl. tracking, so typeScale's rounding never overshoots
+  const fit = 104 / (longest * 0.95);
   return (
     <div style={{fontFamily:"var(--font-display)",fontWeight:600,textTransform:"uppercase",
       letterSpacing:"0.12em",textAlign:"center",lineHeight:1.15,

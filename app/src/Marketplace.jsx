@@ -157,8 +157,10 @@ function TabBar({tab,setTab,myShop}) {
   );
 }
 
+const PRODUCT_TABS = ["home","search","saved","categories","shopview","myshop","cart","sellers"];
+
 // ── stories bar ────────────────────────────────────────────────────────────
-function StoriesBar({stories,shops,onStoryTap}) {
+function StoriesBar({stories,shops,items=[],onStoryTap}) {
   // v2.9: STORIES is a hardcoded five-element constant pointing at seed shop
   // ids. On a real catalogue those shops do not exist, `shops.find` returned
   // undefined and the label fell back to the word "Shop" — a row of stories
@@ -171,12 +173,19 @@ function StoriesBar({stories,shops,onStoryTap}) {
     <div style={{display:"flex",gap:10,padding:"10px 14px",overflowX:"auto",
       background:C.cream,borderBottom:`1px solid ${C.border}`}}>
       {live.map(({s,shop})=>{
+        // The coloured ring means "something new here" in every app she uses.
+        // It was drawn on every shop; now only where the shop has a piece
+        // that is actually a new arrival (same 14-day rule as the NEW badge).
+        const fresh = items.some(i => i.shopId === shop.id && isNewArrival(i));
         return (
-          <div key={s.id} onClick={()=>onStoryTap(s,shop)}
-            style={{display:"flex",flexDirection:"column",alignItems:"center",gap:5,cursor:"pointer",flexShrink:0}}>
+          // A button, not a clickable div: a keyboard (or switch) could not
+          // reach a single shop in this strip, nor scroll it.
+          <button key={s.id} onClick={()=>onStoryTap(s,shop)}
+            style={{display:"flex",flexDirection:"column",alignItems:"center",gap:5,cursor:"pointer",flexShrink:0,
+              background:"none",border:"none",padding:0,fontFamily:"inherit"}}>
             <div style={{width:58,height:58,borderRadius:"50%",
-              background:`linear-gradient(135deg,${C.terra},${C.gold})`,
-              padding:2.5,boxSizing:"border-box"}}>
+              background:fresh ? `linear-gradient(135deg,${C.terra},${C.gold})` : C.border,
+              padding:fresh ? 2.5 : 1,boxSizing:"border-box"}}>
               <div style={{width:"100%",height:"100%",borderRadius:"50%",
                 background:s.color,border:`2px solid ${C.white}`,
                 display:"flex",alignItems:"center",justifyContent:"center",fontSize:24}}>
@@ -197,8 +206,9 @@ function StoriesBar({stories,shops,onStoryTap}) {
               display:"-webkit-box",WebkitBoxOrient:"vertical",WebkitLineClamp:2,
               overflow:"hidden",overflowWrap:"anywhere"}}>
               {shop.name}
+              {fresh && <span className="sr-only">, new pieces</span>}
             </span>
-          </div>
+          </button>
         );
       })}
     </div>
@@ -471,7 +481,7 @@ function SplashScreen({onDone}) {
           label stranded at the top of an empty box. Rows size to their content
           now; the grid still occupies the column. */}
       <div style={{display:"grid",gridTemplateColumns:"repeat(3,1fr)",gap:12,
-        flex:1,alignContent:"center"}}>
+        flex:1,alignContent:"start"}}>
         {styles_list.map(s=>(
           <button data-bilingual="category" key={s.label} onClick={()=>toggle(s.label)} style={{
             background:picked.includes(s.label)?C.terra:C.white,
@@ -637,7 +647,7 @@ function HomePage({items,shops,onSave,setModal,filters,setFilters,stories,setAct
         onSeeAll={()=>{setQ("");setFilters({...EMPTY_FILTERS,sort:DEFAULT_SORT});}}/>
       {/* Shops come after the first pieces, not before them: a row of shop
           circles above the feed pushed the first garment half a screen down. */}
-      <StoriesBar stories={stories} shops={shops} onStoryTap={(s,sh)=>setActiveStory({story:s,shop:sh})}/>
+      <StoriesBar stories={stories} shops={shops} items={items} onStoryTap={(s,sh)=>setActiveStory({story:s,shop:sh})}/>
       <div style={{height:1,background:C.border,margin:"4px 14px 14px"}}/>
 
       {/* v2.11.1 — this heading sat ABOVE the New In strip while describing
@@ -1231,7 +1241,10 @@ export default function Marketplace() {
   return (
     <div className="full-height" style={{background:C.bg,position:"relative",
       maxWidth:430,margin:"0 auto",fontFamily:"var(--font-sans)"}}>
-      <PalmBg/>
+      {/* The palm pattern is lili's, but not behind a photograph: on product
+          screens it competed with the pieces (the same reason the ground moved
+          from peach to cream). It stays on the screens that are about lili. */}
+      {!PRODUCT_TABS.includes(tab) && <PalmBg/>}
       <div style={{position:"relative",zIndex:1}}>
         {/* v2.10.1 — said out loud, once, at the top.
             Until now this state was a console line: the app looked completely
