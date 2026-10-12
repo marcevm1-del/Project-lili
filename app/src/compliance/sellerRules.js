@@ -1,6 +1,7 @@
 import { getMarket } from "./markets.js";
 import { SELLER_TYPES } from "./intermediary.js";
 import { COLLECTION_LIVE } from "../data/fees.js";
+import { SHIP_WITHIN_DAYS, AUTO_RELEASE_DAYS } from "../delivery/carriers.js";
 
 // ─────────────────────────────────────────────────────────────────────────────
 //  SELLER VERIFICATION (KYC)
@@ -119,7 +120,7 @@ export const HOW_MONEY_WORKS = PAYMENTS_LIVE ? {
   short: "You pay the processor. It releases the money to her once the piece reaches you.",
   liliRole: "We list, introduce, and enforce the rules. We never hold your money and never own the item.",
   ifWrong: "Message her first — most of it is a misunderstanding about condition. If that stalls, raise it with us: we read the listing, the messages and the tracking, and decide with reasons. A refund is issued by the processor against your original payment.",
-  delivery: "The seller ships. lili supplies the label, the tracking and the clock.",
+  delivery: `The seller sends it with the courier you chose within ${SHIP_WITHIN_DAYS} days of payment and adds the courier's tracking number, or meets you to hand it over. The money stays held until you confirm you have it, or ${AUTO_RELEASE_DAYS} days after it was sent if you report no problem.`,
   refundFromLili: true,
 } : {
   live: false,
@@ -127,7 +128,7 @@ export const HOW_MONEY_WORKS = PAYMENTS_LIVE ? {
   short: "lili doesn't handle your money at all. You and she agree a price here, meet, and you pay her in person.",
   liliRole: "We list, introduce, and enforce the rules. Your money never passes through lili, and we never own the item.",
   ifWrong: "Check the piece before you hand anything over — that is the moment, and it is the only one. lili holds no money, so there is nothing for us to refund. What we can do is act on the seller: report her here and we read the listing and, if you attach it, your conversation, and we can remove the listing and close the shop.",
-  delivery: "There is no shipping yet. You arrange to meet her somewhere public and busy, and the piece changes hands there.",
+  delivery: "lili doesn't ship anything. Each listing shows how the seller will get it to you: meeting somewhere public and busy, or a courier she books herself (Aramex, Emirates Post, Quiqup, SMSA or DHL), with the fee for its parcel size. Agree the delivery and who pays for it with her before any money changes hands.",
   refundFromLili: false,
 };
 
@@ -198,23 +199,27 @@ export function taxPosition(marketCode) {
 // ─────────────────────────────────────────────────────────────────────────────
 
 export const SHIPPING = {
-  // Planned. Nothing here is wired: there is no carrier account, no label, no
-  // tracking number and no clock. `HOW_MONEY_WORKS.delivery` is what a buyer is
-  // shown until there is.
-  live: false,
+  // Migration 33 (2026-10-12). A seller switches on the ways she'll get a piece
+  // to a buyer (src/delivery/carriers.js) and books the courier herself; lili
+  // has no carrier account and prints no label. Orders, and the clock below,
+  // run in the database, but only once payments are live — until then the
+  // buyer and seller agree delivery between them and `live` stays false.
+  live: PAYMENTS_LIVE,
   responsibleParty: "seller",
-  liliProvides: "the label, the tracking, and the clock",
+  liliProvides: "the order record, the courier's tracking link, and the clock",
   rules: [
-    "Seller dispatches within 3 working days of the sale",
-    "Tracking is mandatory — an untracked parcel is an undefendable dispute",
+    `The seller sends it within ${SHIP_WITHIN_DAYS} days of payment, or the buyer is refunded in full`,
+    "A courier order needs the courier's tracking number — an untracked parcel is an undefendable dispute",
     "Risk passes to the buyer on delivery, not on dispatch",
-    "The payment stays with the processor until delivery or 14 days, whichever first",
+    `The payment stays with the processor until the buyer confirms, or ${AUTO_RELEASE_DAYS} days after sending with no problem reported`,
   ],
   crossBorder: {
-    allowed: false,
+    allowed: "GCC",
     reason:
-      "Cross-border resale drags in customs, duty, prohibited-import lists and " +
-      "CITES for exotic materials. Launch domestic; open corridors deliberately.",
+      "Delivery is offered inside the UAE and to Saudi Arabia, Kuwait, Qatar, Bahrain " +
+      "and Oman. Outside the UAE the buyer may owe customs duty or VAT on arrival, and " +
+      "some materials (exotic skins, ivory, some perfumes) can't cross borders, so a " +
+      "seller checks with the courier before she sends.",
   },
 };
 

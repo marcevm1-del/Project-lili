@@ -7,7 +7,7 @@ lili is a curated resale marketplace for the UAE (Capacitor app + Supabase backe
 - [docs/ARCHITECTURE.md](docs/ARCHITECTURE.md): how the app, database and CI fit together
 - [docs/SECURITY.md](docs/SECURITY.md): trust boundaries, what is public, abuse controls, secrets
 - [docs/RUNBOOK.md](docs/RUNBOOK.md): what to do when something is wrong
-- [docs/policies/](docs/policies/README.md): the twelve policies (Terms, Privacy, Seller, Prohibited Items, Authenticity, Community, Safety, Payments & Scams, Offers, Reviews, Appeals, Deletion). Edit `app/src/legal/policies.js`, then run `node app/policies-build.mjs`; the same text is in the app and in `app/web/policies/` for hosting.
+- [docs/policies/](docs/policies/README.md): the thirteen policies (Terms, Privacy, Seller, Prohibited Items, Authenticity, Community, Safety, Payments & Scams, Delivery & Returns, Offers, Reviews, Appeals, Deletion). Edit `app/src/legal/policies.js`, then run `node app/policies-build.mjs`; the same text is in the app and in `app/web/policies/` for hosting.
 - The `app/*.md` files are release notes and reviews kept as history.
 
 ## What is in this repository
@@ -15,7 +15,7 @@ lili is a curated resale marketplace for the UAE (Capacitor app + Supabase backe
 | Path | Contents |
 |---|---|
 | `docs/claude-notes/` | Release notes, launch runbook, legal/security reviews (v2.8 → v2.11.7) |
-| `supabase/migrations/` | Every lili database migration (72), exported from the live project's history |
+| `supabase/migrations/` | Every lili database migration (93), exported from the live project's history |
 | `supabase/pending/` | Fixes written but not yet applied — need the owner to run them |
 | `docs/review-2026-10-08.md` | Full review of the live database code and what was fixed |
 | `docs/functional-and-market-review-2026-10-08.md` | End-to-end test results and comparison with similar apps |
@@ -109,6 +109,15 @@ Fixed live in `20261008*_lili_review_1..15_*.sql`; see `docs/review-2026-10-08.m
 - **30 — index on `reserved_offer`**, the foreign key added in 22.
 - **31 — appeals.** The seller sees decisions about her and can appeal for 14 days; a different moderator rules; overturning removes the strike and restores the listing. Client roles lose TRUNCATE, REFERENCES and TRIGGER on every lili table.
 - **32 — appeals queue** for moderators: the decision under appeal and the seller's grounds.
+- **33 — delivery and held payment.** Sellers switch on the ways they'll get a piece to a
+  buyer (meet in the UAE; Aramex, Emirates Post, Quiqup, SMSA, DHL across the UAE and GCC), a
+  parcel size and bundling; `lili_delivery_rates` holds each courier's fee (estimates until
+  lili confirms them). Orders (`lili_create_order` … `lili_order_received`, `lili.orders_tick`)
+  hold the buyer's payment with Stripe until she confirms, refund unsent orders after 4 days and
+  release quiet ones 14 days after sending. **Switched off**: `lili_settings.payments.enabled`
+  is false and the app's `PAYMENTS_LIVE` is false, so no order can be created yet.
+  The Stripe side is `supabase/functions/lili-payments` (checkout, seller onboarding,
+  payouts and refunds, and the signature-checked webhook).
 
 `supabase/tests/run.sh` rebuilds the database from these migrations in CI and runs
 `functional_test.sql` and `audit_regressions.sql` (26 assertions).

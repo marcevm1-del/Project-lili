@@ -34,10 +34,17 @@ const rows = await pg.evaluate(()=>[...document.querySelectorAll("button")]
   .filter(b=>b.textContent.trim().length>0&&b.textContent.length<60&&
              (b.disabled||/Soon/.test(b.textContent)))
   .map(b=>({t:b.textContent.trim().slice(0,26),disabled:b.disabled,tab:b.tabIndex})));
+// v2.12: Purchases, Wallet and the rest are built now (migration 33), so the
+// list may hold no unbuilt rows at all. Whatever is still unbuilt must be
+// disabled, out of the tab order and say Soon; nothing may be silently dead.
 const dead = rows.filter(r=>r.disabled);
-c("unbuilt rows are disabled, not silently dead", dead.length>0, JSON.stringify(rows.slice(0,4)));
+c("unbuilt rows are disabled, not silently dead", rows.every(r=>r.disabled), JSON.stringify(rows.slice(0,4)));
 c("they are out of the keyboard tab order", dead.every(r=>r.tab===-1));
-c("they are labelled Soon", /Soon/.test(await txt()));
+c("they are labelled Soon", dead.length===0 || /Soon/.test(await txt()));
+c("purchases, shop orders and wallet are live rows", /Purchases/.test(await txt()) && /Shop orders/.test(await txt()) && /Wallet/.test(await txt()));
+await t("Wallet");
+c("the wallet opens", /My orders/.test(await txt()) && /Paid out|Sign in/.test(await txt()), (await txt()).slice(0,120));
+await t("←");
 
 sec("Settings opens");
 const opened = await t("Settings");

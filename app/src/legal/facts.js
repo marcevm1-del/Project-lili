@@ -20,7 +20,7 @@ export const OPERATOR = {
   governingLaw: "the laws of the United Arab Emirates as applied in the Emirate of Dubai",
 };
 
-export const POLICY_VERSION = "2026-10-09";
+export const POLICY_VERSION = "2026-10-12";
 
 /** Reviewed by UAE-qualified counsel? The app says so on every policy until it is. */
 export const LEGALLY_REVIEWED = false;

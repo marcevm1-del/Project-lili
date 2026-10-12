@@ -1,6 +1,6 @@
 // Moved out of Marketplace.jsx unchanged; see that file's history for the
 // reasoning in the comments below.
-import { useState, useEffect, lazy } from "react";
+import { useState, useEffect, lazy, Suspense } from "react";
 import { SoldBy } from "../compliance";
 import PriceTag from "../listing/PriceTag.jsx";
 import { FitPanel } from "../listing/FitAndFlaws.jsx";
@@ -13,6 +13,10 @@ import { alignEnd, backArrow, money } from "../i18n/direction.js";
 import { C, T, Avatar, Stars, earnedFollowers, ItemPhoto } from "./shared.jsx";
 import { sizeLabel, kindOf, APPROXIMATE_NOTE } from "../sizes/sizeSystem.js";
 import { useSizeSystem } from "../sizes/SizeSystemPicker.jsx";
+import * as remote from "../backend/remote.js";
+import { carrier } from "../delivery/carriers.js";
+import { PAYMENTS_LIVE } from "../compliance/sellerRules.js";
+const CheckoutSheet = lazy(() => import("../delivery/CheckoutSheet.jsx"));
 
 
 // ── what a piece like this usually goes for ────────────────────────────────
@@ -77,10 +81,62 @@ export function PriceContext({ item }) {
 }
 
 // ── item detail modal ──────────────────────────────────────────────────────
-export function ItemModal({item,shop,items=[],onOpenItem,onSave,onClose,onOffer,setTab,onAddToCart,onReport,onFollow,following,onMessageSeller}) {
+// Whether paying in the app is switched on. Two switches, both required: the
+// build's PAYMENTS_LIVE (so every policy and screen describing money was
+// shipped saying the same thing) and the server's lili_settings.payments (so
+// lili can switch it off again without a release). Asked once per launch.
+let paymentsAnswer = null;
+function usePaymentsOn() {
+  const [on, setOn] = useState(PAYMENTS_LIVE && paymentsAnswer === true);
+  useEffect(() => {
+    if (!PAYMENTS_LIVE || paymentsAnswer !== null || !remote.isConfigured()) return;
+    remote.paymentsEnabled().then(v => { paymentsAnswer = !!v; setOn(!!v); }).catch(() => {});
+  }, []);
+  return on;
+}
+
+// How this piece can reach a buyer, after Yaga's listing page: every option
+// the seller switched on, with the fee for its parcel size in the UAE.
+export function DeliveryInfo({item}) {
+  const [rates, setRates] = useState([]);
+  const ways = Array.isArray(item.delivery) && item.delivery.length ? item.delivery : ["meet"];
+  useEffect(() => {
+    if (!remote.isConfigured() || !ways.some(k => k !== "meet")) return;
+    remote.deliveryRates().then(setRates).catch(() => setRates([]));
+  }, [item.id]);
+  const size = item.parcelSize || "S";
+  const fee = (k, region) => rates.find(r => r.carrier === k && r.size === size && r.region === region);
+  return (
+    <section aria-label="Delivery" style={{margin:"0 0 16px"}}>
+      <div style={{fontSize:13,fontWeight:700,color:C.ink,marginBottom:6}}>Delivery</div>
+      <div style={{display:"grid",gap:4}}>
+        {ways.map(k => { const c = carrier(k); if (!c) return null;
+          const uae = fee(k, "UAE"), gcc = fee(k, "GCC");
+          return (
+            <div key={k} style={{display:"flex",alignItems:"center",gap:8,fontSize:12,color:C.ink,minHeight:28}}>
+              <Icon name={k === "meet" ? "handshake" : "truck"} size={16} style={{color:C.terraTx,flexShrink:0}}/>
+              <span style={{flex:1}}>{c.name}</span>
+              <span style={{color:C.inkLt,whiteSpace:"nowrap"}}>
+                {k === "meet" ? "Free · UAE" :
+                  uae || gcc ? <>{uae ? `UAE AED ${uae.fee}` : ""}{uae && gcc ? " · " : ""}{gcc ? `GCC AED ${gcc.fee}` : ""}
+                    {!(uae||gcc).confirmed ? " (est.)" : ""}</> : ""}
+              </span>
+            </div>
+          );
+        })}
+      </div>
+      {item.bundling && <div style={{fontSize:11,color:C.inkLt,marginTop:4}}>Bundle more of her pieces and pay one delivery fee.</div>}
+    </section>
+  );
+}
+
+export function ItemModal({item,shop,items=[],onOpenItem,onSave,onClose,onOffer,setTab,onAddToCart,onReport,onFollow,following,onMessageSeller,onBought,onSignIn}) {
   const trap = useFocusTrap(onClose, {active: !!item});
   const sizeSys = useSizeSystem();
+  const payOn = usePaymentsOn();
+  const [buying, setBuying] = useState(false);
   if(!item) return null;
+  const canBuy = payOn && !item.reserved && (!item.status || item.status === "live");
   return (
     <div ref={trap} {...dialogProps(item.title || "Item details")}
       style={{position:"fixed",top:0,right:0,bottom:0,left:0,zIndex:200,background:"#000a",
@@ -183,9 +239,13 @@ export function ItemModal({item,shop,items=[],onOpenItem,onSave,onClose,onOffer,
               where the facts do not support it is what persuasion.js refuses.
               What a buyer needs here is the one thing that is true and that
               nothing else on this screen tells her. */}
+          <DeliveryInfo item={item}/>
+
           <div style={{fontSize:11,color:C.inkLt,lineHeight:1.6,marginBottom:18,
             paddingTop:12,borderTop:`1px solid ${C.border}`}}>
-            lili doesn't take payment or deliver — you and the seller agree both.
+            {payOn
+              ? "Pay with Buy and the money is held by Stripe until you confirm the piece arrived. Agree to pay any other way and lili can't help if it goes wrong."
+              : "lili doesn't take payment yet — you and the seller agree payment and delivery."}
           </div>
 
           <MoreFromShop item={item} shop={shop} items={items} onOpen={onOpenItem}/>
@@ -225,13 +285,34 @@ export function ItemModal({item,shop,items=[],onOpenItem,onSave,onClose,onOffer,
                 ? <>Reserved<br/><span style={{fontSize:11,fontWeight:600}}>محجوزة</span></>
                 : <>{T.makeOffer[0]}<br/><span style={{fontSize:11,fontWeight:600}}>{T.makeOffer[1]}</span></>}
             </button>
-            <button onClick={()=>{ onMessageSeller && onMessageSeller(item); onClose(); }}
-              style={{flex:1.2,background:C.btn,color:C.onBtn,border:"none",borderRadius:24,
-                padding:"8px 0",fontWeight:700,cursor:"pointer",fontSize:13,lineHeight:1.25}}>
-              {T.messageSelller[0]}<br/><span style={{fontSize:11,fontWeight:600}}>{T.messageSelller[1]}</span>
-            </button>
+            {canBuy ? <>
+              <button onClick={()=>{ onMessageSeller && onMessageSeller(item); onClose(); }}
+                aria-label={T.messageSelller[0]} className="tap-round"
+                style={{flex:"0 0 48px",minHeight:48,borderRadius:24,background:C.white,border:`1.5px solid ${C.terra}`,
+                  color:C.terraTx,cursor:"pointer",display:"flex",alignItems:"center",justifyContent:"center"}}>
+                <Icon name="chat" size={20} stroke={1.6}/>
+              </button>
+              <button onClick={()=>setBuying(true)}
+                style={{flex:1.2,background:C.btn,color:C.onBtn,border:"none",borderRadius:24,
+                  padding:"8px 0",fontWeight:700,cursor:"pointer",fontSize:13,lineHeight:1.25}}>
+                Buy<br/><span style={{fontSize:11,fontWeight:600}}>اشترِ</span>
+              </button>
+            </> : (
+              <button onClick={()=>{ onMessageSeller && onMessageSeller(item); onClose(); }}
+                style={{flex:1.2,background:C.btn,color:C.onBtn,border:"none",borderRadius:24,
+                  padding:"8px 0",fontWeight:700,cursor:"pointer",fontSize:13,lineHeight:1.25}}>
+                {T.messageSelller[0]}<br/><span style={{fontSize:11,fontWeight:600}}>{T.messageSelller[1]}</span>
+              </button>
+            )}
           </div>
         </div>
+        {buying && (
+          <Suspense fallback={null}>
+            <CheckoutSheet items={[item]} shopName={shop && shop.name} onClose={()=>setBuying(false)}
+              onDone={()=>{ onClose(); onBought && onBought(); }} onSignIn={onSignIn}
+              onOffer={(it)=>onOffer(it)}/>
+          </Suspense>
+        )}
       </div>
     </div>
   );

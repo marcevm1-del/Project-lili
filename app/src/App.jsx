@@ -24,6 +24,10 @@ export default function App() {
         const h = await CapApp.addListener("appUrlOpen", ({ url }) => {
           if (url && url.includes("auth-callback")) {
             remote.completeOAuth(url).catch(() => {});
+          } else if (url && /:\/\/orders/.test(url)) {
+            // back from Stripe's payment or payout page
+            import("@capacitor/browser").then(({ Browser }) => Browser.close()).catch(() => {});
+            window.dispatchEvent(new CustomEvent("lili:open-orders", { detail: url.includes("wallet") ? "wallet" : "buyer" }));
           }
         });
         off = () => h.remove();

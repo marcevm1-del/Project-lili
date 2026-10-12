@@ -18,7 +18,7 @@ lili is a marketplace where people list pre-owned fashion and others can find it
 
 - lili does not own, hold, inspect, price or sell any item. Every piece belongs to the person selling it.
 - lili does not take payment, hold money or issue refunds. You pay the seller directly when you meet.
-- lili does not deliver anything. Buyer and seller hand the piece over in person.
+- lili does not deliver anything. The seller hands the piece over in person or sends it with a courier she books herself. The Delivery & Returns Policy explains how.
 - lili does not authenticate items. Nothing in the app is a guarantee that a piece is genuine.
 
 When you buy, your agreement is with the seller, not with us. What you are owed depends on whether she sells privately or as a business; see the Seller Policy.
@@ -79,4 +79,4 @@ These terms are governed by the laws of the United Arab Emirates as applied in t
 
 These terms are provided in Arabic and English. If the two differ, the Arabic text prevails.
 
-_Version 2026-10-09._
+_Version 2026-10-12._

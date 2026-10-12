@@ -36,15 +36,16 @@ alter table public.lili_meets drop constraint lili_meets_proposed_by_fkey;
 alter table public.lili_meets add constraint lili_meets_proposed_by_fkey
   foreign key (proposed_by) references auth.users(id) on delete set null;
 
--- ── 2. Saved-search alerts can be delivered ─────────────────────────────────
+-- ── 2. Saved-search alerts and order updates can be delivered ──────────────
 -- Saved searches (migration lili_review_18) already count new matches in the
 -- app. The notification itself needs its own kind, which this CHECK does not
--- list; until it does, the alert is skipped quietly.
+-- list; until it does, the alert is skipped quietly. The same goes for the
+-- "order" kind (migration 33): order updates are recorded but not notified.
 alter table public.lili_notifications drop constraint lili_notifications_kind_check;
 alter table public.lili_notifications add constraint lili_notifications_kind_check check (kind = any (array[
   'message', 'offer', 'price_drop', 'moderation_outcome', 'moderation_report_outcome',
   'listing_live', 'listing_blocked', 'shop_action', 'meet_proposed', 'meet_confirmed',
-  'meet_declined', 'meet_cancelled', 'saved_search']));
+  'meet_declined', 'meet_cancelled', 'saved_search', 'order']));
 
 -- ── 3. Retention ────────────────────────────────────────────────────────────
 -- What the Privacy Notice and the Account Deletion & Data Retention Policy

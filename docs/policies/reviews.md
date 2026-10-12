@@ -22,4 +22,4 @@ A shop's rating and counts are shown only once they are earned from real activit
 
 We remove reviews that break this policy. We don't remove a review only because it is negative.
 
-_Version 2026-10-09._
+_Version 2026-10-12._

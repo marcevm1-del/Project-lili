@@ -31,6 +31,7 @@ const MeetSafely = lazy(() => import("./messages/MeetSafely.jsx"));
 const MeetPlan = lazy(() => import("./meet/MeetPlan.jsx"));
 const LanguagePicker = lazy(() => import("./i18n/LanguagePicker.jsx"));
 const ProfilePreferences = lazy(() => import("./profile/ProfilePreferences.jsx"));
+const OrdersPage = lazy(() => import("./delivery/OrdersPage.jsx"));
 const ThemePicker = lazy(() => import("./theme/ThemePicker.jsx"));
 const PhotoCoach = lazy(() => import("./sell/PhotoCoach.jsx"));
 const ListingQuality = lazy(() => import("./sell/ListingQuality.jsx"));
@@ -952,6 +953,13 @@ export default function Marketplace() {
   };
   const [legalOpen, setLegalOpen] = useState(false);
   const [prefsOpen, setPrefsOpen] = useState(false);
+  const [ordersOpen, setOrdersOpen] = useState(null);   // null | "buyer" | "seller" | "wallet"
+  // Stripe's return page links back to lili://orders (App.jsx turns that into this event)
+  useEffect(() => {
+    const open = (e) => setOrdersOpen((e && e.detail) || "buyer");
+    window.addEventListener("lili:open-orders", open);
+    return () => window.removeEventListener("lili:open-orders", open);
+  }, []);
   const [legalInitial, setLegalInitial] = useState("menu");
   const [langOpen, setLangOpen] = useState(false);
   const [themeOpen, setThemeOpen] = useState(false);
@@ -1036,6 +1044,7 @@ export default function Marketplace() {
     if (authOpen)           { setAuthOpen(false);    return true; }
     if (settingsOpen)       { setSettingsOpen(false);return true; }
     if (themeOpen)          { setThemeOpen(false);   return true; }
+    if (ordersOpen)         { setOrdersOpen(null);   return true; }
     if (prefsOpen)          { setPrefsOpen(false);   return true; }
     if (langOpen)           { setLangOpen(false);    return true; }
     if (legalOpen)          { setLegalOpen(false);   return true; }
@@ -1048,7 +1057,7 @@ export default function Marketplace() {
     if (tab === "cart")     { setTab("home");        return true; }
     if (tab !== "home")     { setTab("home");        return true; }
     return false;
-  }, [authOpen, settingsOpen, helpOpen, themeOpen, langOpen, legalOpen, prefsOpen, reporting, activeStory, offerModal, modal, tab]);
+  }, [authOpen, settingsOpen, helpOpen, themeOpen, langOpen, legalOpen, prefsOpen, ordersOpen, reporting, activeStory, offerModal, modal, tab]);
 
   // Quantity was removed with the checkout in v2.9.4 — `i.qty` no longer
   // exists, so this was summing undefined and painting NaN on the tab badge.
@@ -1267,7 +1276,7 @@ export default function Marketplace() {
         {tab==="myshop"     && myShop && <MyShopPage shop={myShop} items={items} setTab={setTab}
                               justListed={justListed} onDismissListed={()=>setJustListed(null)}
                               onMarkSold={onMarkSold} onTakeDown={onTakeDown}/>}
-        {tab==="profile"    && <ProfilePage myShop={myShop} items={visibleItems} setTab={setTab} onOpenLegal={()=>setLegalOpen(true)} onOpenPreferences={()=>setPrefsOpen(true)} onOpenLanguage={()=>setLangOpen(true)} onOpenTheme={()=>setThemeOpen(true)}
+        {tab==="profile"    && <ProfilePage myShop={myShop} items={visibleItems} setTab={setTab} onOpenLegal={()=>setLegalOpen(true)} onOpenPreferences={()=>setPrefsOpen(true)} onOpenOrders={(k)=>setOrdersOpen(k||"buyer")} onOpenLanguage={()=>setLangOpen(true)} onOpenTheme={()=>setThemeOpen(true)}
                         onOpenHelp={()=>setHelpOpen(true)}
                         onOpenSettings={()=>setSettingsOpen(true)}
                         onOpenAuth={()=>askToSignIn(null)} session={session}
@@ -1277,7 +1286,7 @@ export default function Marketplace() {
                               error={messageError}/>}
         {tab==="offers"     && <OffersPage items={items} shops={shops} onBack={()=>setTab("profile")}/>}
         {tab==="cart"       && <CartPage cart={cart} shops={visibleShops} removeFromCart={removeFromCart} setTab={goTab}
-                              onMessageSeller={messageSellerAbout}/>}
+                              onMessageSeller={messageSellerAbout} onBought={()=>setOrdersOpen("buyer")} onSignIn={()=>askToSignIn(null)}/>}
         </Suspense>
 
         <TabBar tab={effectiveTab} setTab={goTab} myShop={myShop}/>
@@ -1329,6 +1338,8 @@ export default function Marketplace() {
             else if (n.link_kind === "item") setTab(n.kind === "price_drop" ? "saved" : "myshop");
           }}/>}
         {reporting && <ReportDialog subject={reporting} onClose={()=>setReporting(null)}/>}
+        {ordersOpen && <Suspense fallback={null}><OrdersPage initial={ordersOpen} signedIn={!!session}
+          onBack={()=>setOrdersOpen(null)} onSignIn={()=>askToSignIn(null)}/></Suspense>}
         {prefsOpen && <Suspense fallback={null}><ProfilePreferences taste={taste} brands={BRANDS}
           personalise={!!(consent && consent.personalisation)} onChange={savePrefs}
           onBack={()=>setPrefsOpen(false)}

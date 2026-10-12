@@ -20,4 +20,4 @@ When the seller accepts, the piece is reserved for you and other offers on it ar
 
 Don't make offers you don't intend to keep, and don't accept an offer while selling the piece elsewhere. Both count as breaches of the Community Guidelines.
 
-_Version 2026-10-09._
+_Version 2026-10-12._

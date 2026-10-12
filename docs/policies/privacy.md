@@ -76,4 +76,4 @@ Data is encrypted in transit. Access is restricted row by row in the database, s
 
 If we change how we use your data, we will tell you in the app before it happens, and ask again where your agreement is needed.
 
-_Version 2026-10-09._
+_Version 2026-10-12._

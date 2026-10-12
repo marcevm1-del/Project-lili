@@ -4,6 +4,7 @@ import { useState, useEffect, useRef, lazy } from "react";
 import { useCompliance, SELLER_TYPES } from "../compliance";
 import { sellerClausesFor } from "../compliance/agreements.js";
 import * as repo from "../data/repo.js";
+import DeliverySettings from "../delivery/DeliverySettings.jsx";
 import { FitAndFlaws } from "../listing/FitAndFlaws.jsx";
 import { processImage, validateFile, LIMITS } from "../data/images.js";
 import { parsePrice } from "../ux/input.js";
@@ -116,7 +117,7 @@ export function SellPage({myShop,onCreateShop,onAddItem,setTab,onListed}) {
   const [publishing,setPublishing] = useState(false);
   const [publishError,setPublishError] = useState(null);
   const [stepError,setStepError] = useState(null);
-  const [form,setForm] = useState({title:"",titleAr:"",category:"Dresses",size:"S",condition:"Like New",era:"Modern",brand:"",price:"",desc:"",fit:null,measurements:{},flaws:null});
+  const [form,setForm] = useState({title:"",titleAr:"",category:"Dresses",size:"S",condition:"Like New",era:"Modern",brand:"",price:"",desc:"",fit:null,measurements:{},flaws:null,delivery:["meet"],parcelSize:"S",bundling:false});
   const [restored,setRestored] = useState(false);
 
   // must be before any early return
@@ -291,6 +292,9 @@ export function SellPage({myShop,onCreateShop,onAddItem,setTab,onListed}) {
         fit:form.fit||null,
         measurements:Object.keys(form.measurements||{}).length ? form.measurements : null,
         flaws:Array.isArray(form.flaws) ? form.flaws : null,
+        // how it reaches a buyer, and the parcel it travels in (migration 33)
+        delivery:Array.isArray(form.delivery) && form.delivery.length ? form.delivery : ["meet"],
+        parcelSize:form.parcelSize||"S", bundling:!!form.bundling,
         // v2.9: three fields here were inventions.
         //
         //   color:"#E8C4B8" — every listing published by every seller was the
@@ -330,7 +334,7 @@ export function SellPage({myShop,onCreateShop,onAddItem,setTab,onListed}) {
     repo.clearDraft().catch(() => {});
     setPublishing(false);
     setMode("choose");setPhotos([]);setThumbs([]);setStep(1);setAuth(null);setStepError(null);
-    setForm({title:"",titleAr:"",category:"Dresses",size:"S",condition:"Like New",era:"Modern",brand:"",price:"",desc:"",fit:null,measurements:{},flaws:null});
+    setForm({title:"",titleAr:"",category:"Dresses",size:"S",condition:"Like New",era:"Modern",brand:"",price:"",desc:"",fit:null,measurements:{},flaws:null,delivery:["meet"],parcelSize:"S",bundling:false});
     setTab("myshop");
   };
 
@@ -605,6 +609,7 @@ export function SellPage({myShop,onCreateShop,onAddItem,setTab,onListed}) {
               ))}
             </div>
             <FitAndFlaws form={form} setForm={setForm}/>
+            <DeliverySettings form={form} setForm={setForm}/>
             <div>
               <label style={{fontSize:11,fontWeight:700,color:C.inkLt,letterSpacing:0.5,textTransform:"uppercase",display:"block",marginBottom:6}}>{t("description")}</label>
               <textarea value={form.desc} onChange={e=>setForm({...form,desc:e.target.value})}

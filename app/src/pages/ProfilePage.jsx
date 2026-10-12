@@ -9,7 +9,7 @@ import { C, Lili, TopBar } from "../market/shared.jsx";
 
 
 // ── profile ────────────────────────────────────────────────────────────────
-export function ProfilePage({myShop,items,setTab,onOpenLegal,onOpenPreferences,onOpenLanguage,onOpenTheme,onOpenHelp,onOpenSettings,onOpenAuth,session,onSignOut}) {
+export function ProfilePage({myShop,items,setTab,onOpenLegal,onOpenPreferences,onOpenOrders,onOpenLanguage,onOpenTheme,onOpenHelp,onOpenSettings,onOpenAuth,session,onSignOut}) {
   const saved=items.filter(i=>i.saved).length;
   const myItems=myShop?items.filter(i=>i.shopId===myShop.id).length:0;
   // v2.11 — the same thirteen rows, in three groups.
@@ -31,14 +31,14 @@ export function ProfilePage({myShop,items,setTab,onOpenLegal,onOpenPreferences,o
       {label:t("saved"),icon:"heart",action:()=>setTab("saved")},
       {label:t("offers"),icon:"handshake",action:()=>setTab("offers")},
       {label:t("messages"),icon:"chat",action:()=>setTab("messages")},
-      {label:t("purchases"),icon:"cart",action:null,soon:true},
+      {label:t("purchases"),icon:"cart",action:()=>onOpenOrders&&onOpenOrders("buyer")},
+      {label:"Shop orders",icon:"truck",action:()=>onOpenOrders&&onOpenOrders("seller")},
     ]},
     { title: t("your_account_group"), rows: [
       {label: session ? `Signed in as ${(session.user&&session.user.email)||"your account"}` : t("sign_in"),
        icon:"user", action: session ? onSignOut : onOpenAuth,
        trailing: session ? "Sign out" : null},
-      {label:t("payment_methods"),icon:"card",action:null,soon:true},
-      {label:t("addresses"),icon:"truck",action:null,soon:true},
+      {label:"Wallet",icon:"card",action:()=>onOpenOrders&&onOpenOrders("wallet")},
       {label:t("my_preferences"),icon:"lock",action:onOpenPreferences,
        trailing:"Private"},
       {label:t("privacy_safety"),icon:"shield",action:onOpenLegal},

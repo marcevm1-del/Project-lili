@@ -26,4 +26,4 @@ A seller who believes a takedown was wrong can send a counter-notice through the
 
 Use only photos you took or have permission to use. Copying another seller's photos or descriptions is not allowed.
 
-_Version 2026-10-09._
+_Version 2026-10-12._

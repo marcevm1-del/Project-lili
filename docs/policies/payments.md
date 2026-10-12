@@ -8,13 +8,13 @@ lili doesn't handle money. How payment works between members, and how to spot a 
 
 ## How payment works
 
-lili takes no payment and holds no money. You pay the seller directly, at the meeting, once you have checked the piece. Because lili never has the money, lili cannot refund it.
+lili takes no payment and holds no money. You pay the seller directly, at the meeting, once you have checked the piece. Because lili never has the money, lili cannot refund it. For a piece sent by courier, read “Paying for a delivered piece” in the Delivery & Returns Policy.
 
 ## Signs of a scam
 
 - A request for a deposit, a “holding fee” or a bank transfer before you have seen the piece.
 - Pressure to move the conversation to WhatsApp, email or another app.
-- An offer to post the piece, or to send a courier, so you never meet.
+- A courier the listing doesn't offer, a “delivery fee” to pay through a link, or pressure to pay in full for a parcel from a shop with no history.
 - A link to pay on a website, or a message claiming to be from lili asking for card details. lili never asks for payment details.
 - A price far below what the piece is worth, with a story about why.
 
@@ -24,4 +24,4 @@ If you see any of these, stop and report the member.
 
 Report it to the police (Dubai Police: 901, or the eCrime service) and to your bank, then report the member in lili with what happened. We will act on the account and keep the evidence for the police.
 
-_Version 2026-10-09._
+_Version 2026-10-12._

@@ -1699,6 +1699,47 @@ check("no interface text is set below the 11px floor", tinyType.length === 0 && 
   check("the hosted policy pages match the app's text", fresh, "run: node policies-build.mjs");
 }
 {
+  // ── Delivery in the UAE and the GCC (migration 33) ────────────────────────
+  section("Delivery: the app, the database and the policies say the same thing");
+  const D = await import("./src/delivery/carriers.js");
+  const m33 = read("../supabase/migrations/20261012055041_lili_review_33_delivery_and_held_payment.sql");
+  const { POLICIES: PP, policyText: pt } = await import("./src/legal/policies.js");
+  const { PAYMENTS_LIVE: PL, SHIPPING: SH } = await import("./src/compliance/sellerRules.js");
+  const sqlCarriers = (m33.match(/method in \(([^)]*)\)/) || [, ""])[1].replace(/'/g, "").split(",").map((x) => x.trim()).sort().join();
+  check("every carrier the app offers is one the database accepts, and none more",
+    D.CARRIERS.map((c) => c.key).sort().join() === sqlCarriers, sqlCarriers);
+  check("meeting in person is UAE only, in the app and in the quote",
+    D.carrier("meet").regions.join() === "UAE" && /p_region = 'UAE'/.test(m33));
+  check("the order clock the screens quote is the one the database runs",
+    new RegExp(`interval '${D.SHIP_WITHIN_DAYS} days'`).test(m33)
+    && new RegExp(`interval '${D.AUTO_RELEASE_DAYS} days'`).test(m33)
+    && new RegExp(`interval '${D.UNPAID_MINUTES} minutes'`).test(m33));
+  check("buyers can pick every GCC country, and only those",
+    D.COUNTRIES.map((c) => c.code).sort().join() === "AE,BH,KW,OM,QA,SA" && D.regionFor("SA") === "GCC" && D.regionFor("AE") === "UAE");
+  check("every parcel size the app shows has a price in the database",
+    D.PARCEL_SIZES.every((p) => new RegExp(`'aramex','${p.key}','UAE'`).test(m33)));
+  const deliv = PP.find((p) => p.id === "delivery");
+  check("there is a Delivery & Returns policy naming every courier the app offers",
+    !!deliv && D.COURIERS.every((c) => pt(deliv).includes(c.name)));
+  check("it says the seller books the courier and lili cannot refund a courier sale",
+    !!deliv && /books the courier herself/.test(pt(deliv)) && /cannot refund/.test(pt(deliv)));
+  check("orders and the clock stay closed until payments are live, in the build and on the server",
+    SH.live === PL && /'payments_off'/.test(m33)
+    && /PAYMENTS_LIVE && paymentsAnswer/.test(read("./src/market/ItemModal.jsx"))
+    && /if \(!PAYMENTS_LIVE\) setPayOn\(false\)/.test(read("./src/delivery/CheckoutSheet.jsx")));
+  check("switching payments on is refused until the policies describe it",
+    !PL || (/Stripe/.test(read("./src/legal/facts.js")) && /held/.test(pt(PP.find((p) => p.id === "payments")))));
+  check("a seller sees the buyer's address only once the order is paid",
+    /'ship_to', case when p_as = 'buyer' or o\.state in \('paid','shipped','disputed'\) then o\.ship_to end/.test(m33));
+  check("the payment function checks Stripe's signature before believing a webhook",
+    /timingSafeEqual|constantTimeEqual|safeEqual/.test(read("../supabase/functions/lili-payments/index.ts"))
+    && /stripe-signature/i.test(read("../supabase/functions/lili-payments/index.ts")));
+  check("Stripe's return page brings her back to the app, and Android routes it",
+    /:\/\/orders/.test(read("../supabase/functions/lili-payments/index.ts"))
+    && /android:host="orders"/.test(read("./android/app/src/main/AndroidManifest.xml"))
+    && /lili:open-orders/.test(read("./src/App.jsx")) && /lili:open-orders/.test(read("./src/Marketplace.jsx")));
+}
+{
   // ── My preferences (src/profile) ──────────────────────────────────────────
   const P = await import("./src/profile/preferences.js");
   const SIZES_FOR_SELLERS = JSON.parse(read("./src/market/shared.jsx").match(/export const SIZES = (\[[^\]]*\])/)[1]);

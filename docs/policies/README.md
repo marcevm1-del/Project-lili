@@ -14,6 +14,7 @@ The same text is in the app (Profile → Privacy & Safety → All policies) and 
 - [Community Guidelines](community.md): How to treat each other on lili.
 - [Meeting & Safety](safety.md): How to hand a piece over safely in person, and what to do if something goes wrong.
 - [Payments & Scams](payments.md): lili doesn't handle money. How payment works between members, and how to spot a scam.
+- [Delivery & Returns](delivery.md): The ways a seller can get a piece to you in the UAE and the GCC, who pays for delivery, and what to do if it doesn't arrive or isn't as described.
 - [Offers & Reservations](offers.md): How offers, counter-offers and reservations work.
 - [Reviews & Trust Signals](reviews.md): Who can review whom, and how the trust signals on shops are earned.
 - [Reports, Strikes & Appeals](moderation.md): How reports are handled, how strikes work, and how to appeal a decision.

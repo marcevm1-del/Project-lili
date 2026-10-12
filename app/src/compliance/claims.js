@@ -92,16 +92,35 @@ export const CLAIMS = [
   },
 
   {
-    id: "no-shipping",
+    id: "seller-delivers",
     to: "both",
-    says: "There is no shipping. You arrange to meet, and the piece changes hands there.",
+    says: "lili doesn't ship. The seller gets it to you the way her listing says: in person, or a courier she books.",
     state: "enforced",
-    enforcedBy: [{ file: "src/compliance/sellerRules.js", symbol: "SHIPPING" }],
-    how: "SHIPPING.live is false: no carrier account, no label, no tracking " +
-         "number, no clock, no returns window. Added in v2.10 after the register " +
-         "found the Legal Centre still telling a buyer the seller 'packs and " +
-         "ships it, and handles the return' — the eighth false claim, and the " +
-         "first one found on purpose rather than by accident.",
+    enforcedBy: [
+      { file: "src/compliance/sellerRules.js", symbol: "SHIPPING" },
+      { file: "src/delivery/carriers.js", symbol: "CARRIERS" },
+      { file: "src/delivery/DeliverySettings.jsx", symbol: "DeliverySettings" },
+    ],
+    how: "Was 'no-shipping' (v2.10), after the Legal Centre told a buyer the " +
+         "seller 'packs and ships it'. Migration 33 lets a seller list the " +
+         "couriers she'll use and their fees; she books them herself and lili " +
+         "has no carrier account and prints no label. Orders with a tracking " +
+         "number and a clock exist in the database but stay closed while " +
+         "SHIPPING.live (= PAYMENTS_LIVE) is false.",
+  },
+  {
+    id: "order-clock",
+    to: "both",
+    says: "Once paid, the seller has 4 days to send it or you're refunded; with no problem reported the money is released 14 days after sending.",
+    state: "intended",
+    enforcedBy: [
+      { file: "src/delivery/carriers.js", symbol: "SHIP_WITHIN_DAYS" },
+      { file: "../supabase/migrations/20261012055041_lili_review_33_delivery_and_held_payment.sql", symbol: "orders_tick" },
+    ],
+    how: "lili.orders_tick runs every 10 minutes and refunds unsent orders and " +
+         "releases quiet ones. It is 'intended' because no order can be paid " +
+         "until a processor is connected and PAYMENTS_LIVE flips; the screens " +
+         "that state it (checkout, My orders) only open when it has.",
   },
 
   // ── moderation ───────────────────────────────────────────────────────────
@@ -233,9 +252,9 @@ export const NEVER_CLAIM = [
   { id: "money-back", re: /\b(you (will )?get your money back|money[- ]back guarantee|full refund from (us|lili))/i,
     because: "lili holds nothing, so it can refund nothing." },
   { id: "we-ship", re: /\b(we|lili)\s+(ship|ships|will ship|deliver|delivers)\b/i,
-    because: "There is no shipping integration, no label and no carrier." },
-  { id: "tracking", re: /\b(tracking number|with tracking|track your (order|parcel|delivery))/i,
-    because: "Nothing generates a tracking number." },
+    because: "lili has no carrier account; the seller books the courier." },
+  { id: "tracking", re: /\b((we|lili) (provides?|generates?|supplies|prints?) (the |a )?(tracking|label)|free tracking|track your (order|parcel|delivery))/i,
+    because: "lili books no courier and prints no label; a seller adds the courier's own tracking number." },
   { id: "order-placed", re: /\border placed\b|\bseller has been notified\b/i,
     because: "The cart said this while writing nothing and telling nobody." },
   { id: "authenticated", re: /\b(every item is|all items are|items are)\s+(authenticated|verified as authentic)/i,

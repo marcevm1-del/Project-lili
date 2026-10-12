@@ -31,6 +31,13 @@
                 <category android:name="android.intent.category.BROWSABLE" />
                 <data android:scheme="com.loveitorleaveit.lili" android:host="auth-callback" />
             </intent-filter>
+            <!-- back from the payment page (supabase/functions/lili-payments) -->
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW" />
+                <category android:name="android.intent.category.DEFAULT" />
+                <category android:name="android.intent.category.BROWSABLE" />
+                <data android:scheme="com.loveitorleaveit.lili" android:host="orders" />
+            </intent-filter>
         </activity>
 
         <provider

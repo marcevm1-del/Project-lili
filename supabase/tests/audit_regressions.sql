@@ -10,7 +10,7 @@ do $$
 declare
   me uuid; b1 uuid; b2 uuid; s uuid; i uuid; i2 uuid; cv uuid; mt uuid;
   o1 uuid; o2 uuid; ss uuid; j jsonb; n int; t text; bad text; total int;
-  i3 uuid; cs uuid; k0 int; k1 int;
+  i3 uuid; cs uuid; k0 int; k1 int; d1 uuid; d2 uuid; ord uuid; ord2 uuid;
 begin
   create temp table _r (label text, ok boolean) on commit drop;
   grant all on _r to public;
@@ -197,6 +197,96 @@ begin
     not exists (select 1 from information_schema.role_table_grants
                  where table_schema = 'public' and table_name like 'lili\_%'
                    and grantee in ('anon', 'authenticated') and privilege_type in ('TRUNCATE', 'TRIGGER', 'REFERENCES')));
+
+  -- ── delivery and held payment (migration 33) ────────────────────────────
+  insert into lili_items(owner_uid, shop_id, title, brand, price, category, delivery, parcel_size, bundling)
+    values (me, s, 'Delivery test skirt', 'Ganni', 400, 'Skirts', array['meet','aramex','dhl'], 'S', true) returning id into d1;
+  insert into lili_items(owner_uid, shop_id, title, brand, price, category, delivery, parcel_size, bundling)
+    values (me, s, 'Delivery test coat', 'Toteme', 900, 'Jackets', array['aramex','dhl'], 'L', true) returning id into d2;
+  perform pg_temp.act(b1);
+  j := lili_delivery_quote(array[d1, d2], 'UAE');
+  perform pg_temp.ok('a bundle is quoted only the couriers both pieces allow, at the larger parcel',
+    jsonb_array_length(j) = 2 and not exists (select 1 from jsonb_array_elements(j) x where x->>'method' = 'meet')
+    and (select (x->>'fee')::numeric from jsonb_array_elements(j) x where x->>'method' = 'aramex') = 40);
+  j := lili_delivery_quote(array[d1], 'GCC');
+  perform pg_temp.ok('meeting in person is not offered across the GCC',
+    not exists (select 1 from jsonb_array_elements(j) x where x->>'method' = 'meet'));
+  j := lili_create_order(array[d1], 'aramex', 'UAE', '{"name":"Test Buyer","phone":"0500000000","line1":"Street 1","city":"Dubai","country":"AE"}');
+  perform pg_temp.ok('no order while payments are switched off', j->>'reason' = 'payments_off');
+  execute 'reset role';
+  update lili_settings set value = jsonb_set(value, '{enabled}', 'true') where key = 'payments';
+  perform pg_temp.act(b1);
+  begin j := lili_create_order(array[d1], 'aramex', 'UAE', '{"name":"Test Buyer"}');
+        perform pg_temp.ok('a courier order needs a full address', false);
+  exception when others then perform pg_temp.ok('a courier order needs a full address', true); end;
+  j := lili_create_order(array[d1, d2], 'aramex', 'UAE',
+         '{"name":"Test Buyer","phone":"0500000000","line1":"Street 1","city":"Dubai","country":"AE"}');
+  ord := (j->>'order_id')::uuid;
+  perform pg_temp.ok('a bundle order totals the pieces and one delivery fee', (j->>'total')::numeric = 1340);
+  perform pg_temp.act(b2);
+  begin j := lili_create_order(array[d1], 'aramex', 'UAE',
+         '{"name":"Other","phone":"0500000001","line1":"Street 2","city":"Dubai","country":"AE"}');
+        perform pg_temp.ok('two buyers cannot buy the same piece', false);
+  exception when others then perform pg_temp.ok('two buyers cannot buy the same piece', true); end;
+  begin perform lili_order_paid(ord, 'pi_test');
+        perform pg_temp.ok('only the payment provider can mark an order paid', false);
+  exception when others then perform pg_temp.ok('only the payment provider can mark an order paid', true); end;
+  perform pg_temp.act(me);
+  perform pg_temp.ok('the seller does not see the address before payment',
+    (select x->'ship_to' from jsonb_array_elements(lili_my_orders('seller')) x where (x->>'id')::uuid = ord) = 'null'::jsonb);
+  execute 'reset role';
+  perform lili_order_paid(ord, 'pi_test');
+  perform pg_temp.ok('paid: the money is held and the pieces are sold',
+    (select state || '/' || money_state from lili_orders where id = ord) = 'paid/held'
+    and (select count(*) from lili_items where id in (d1, d2) and status = 'sold') = 2);
+  perform pg_temp.act(me);
+  perform pg_temp.ok('the seller sees the address once it is paid',
+    (select x->'ship_to'->>'city' from jsonb_array_elements(lili_my_orders('seller')) x where (x->>'id')::uuid = ord) = 'Dubai');
+  perform pg_temp.ok('provider references never reach the app',
+    not (lili_my_orders('seller')::text like '%pi_test%'));
+  begin perform lili_order_shipped(ord, null); perform pg_temp.ok('a courier order needs a tracking number', false);
+  exception when others then perform pg_temp.ok('a courier order needs a tracking number', true); end;
+  perform pg_temp.act(b2);
+  begin perform lili_order_shipped(ord, 'TRK1'); perform pg_temp.ok('only the seller can mark it sent', false);
+  exception when others then perform pg_temp.ok('only the seller can mark it sent', true); end;
+  perform pg_temp.act(me);
+  j := lili_order_shipped(ord, 'AWB123456');
+  perform pg_temp.act(b1);
+  j := lili_order_received(ord);
+  execute 'reset role';
+  perform pg_temp.ok('item received releases the payment to the seller',
+    (select state || '/' || money_state from lili_orders where id = ord) = 'completed/payout_due');
+  perform pg_temp.act(me);
+  perform pg_temp.ok('the wallet shows it releasing', (lili_my_wallet()->>'releasing')::numeric = 1340);
+
+  -- not sent in time: refunded and back on sale
+  execute 'reset role';
+  update lili_items set status = 'live' where id = d1;
+  perform pg_temp.act(b1);
+  j := lili_create_order(array[d1], 'meet', 'UAE', null); ord2 := (j->>'order_id')::uuid;
+  execute 'reset role';
+  perform lili_order_paid(ord2, 'pi_test2');
+  update lili_orders set ship_by = now() - interval '1 minute' where id = ord2;
+  perform lili.orders_tick();
+  perform pg_temp.ok('an order not sent within 4 days is refunded and the piece goes back on sale',
+    (select state || '/' || money_state from lili_orders where id = ord2) = 'refunded/refund_due'
+    and (select status from lili_items where id = d1) = 'live');
+
+  -- a problem keeps the money held
+  perform pg_temp.act(b1);
+  j := lili_create_order(array[d1], 'meet', 'UAE', null); ord2 := (j->>'order_id')::uuid;
+  execute 'reset role';
+  perform lili_order_paid(ord2, 'pi_test3');
+  perform pg_temp.act(b1);
+  j := lili_order_issue(ord2, 'not_as_described', 'The colour is different from the photos.');
+  execute 'reset role';
+  update lili_orders set release_at = now() - interval '1 minute' where id = ord2;
+  perform lili.orders_tick();
+  perform pg_temp.ok('a reported problem keeps the money held past the release date',
+    (select state || '/' || money_state from lili_orders where id = ord2) = 'disputed/held');
+  perform pg_temp.ok('clients cannot read orders directly',
+    not has_table_privilege('authenticated', 'public.lili_orders', 'select')
+    and not has_table_privilege('anon', 'public.lili_orders', 'select'));
 
   select count(*), string_agg(label, '; ') filter (where not ok) into total, bad from _r;
   if bad is null then

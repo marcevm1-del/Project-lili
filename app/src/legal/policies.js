@@ -7,7 +7,14 @@
 //
 //  Written to describe the product as it is built today: lili lists pieces and
 //  introduces people. It takes no payment, holds no money, ships nothing and
-//  authenticates nothing. Buyer and seller meet in person and pay each other.
+//  authenticates nothing. Buyer and seller meet in person, or the seller sends
+//  the piece with a courier she books (migration 33), and they pay each other.
+//
+//  Paying in the app (Stripe holding the money until delivery) is built but
+//  off: PAYMENTS_LIVE in compliance/sellerRules.js. Flipping it is a policy
+//  change too — Terms, Payments, Delivery and Privacy (Stripe as a processor,
+//  delivery addresses) are rewritten in the same pull request, and the
+//  research suite refuses the build until they are.
 //  If the product changes (payments, delivery, authentication), these change
 //  in the same pull request, and the test that reads them will say so.
 //
@@ -18,6 +25,7 @@
 // ─────────────────────────────────────────────────────────────────────────────
 
 import { CRITERIA } from "../meet/places.js";
+import { COURIERS, COUNTRIES } from "../delivery/carriers.js";
 import {
   OPERATOR, POLICY_VERSION, LEGALLY_REVIEWED, MARKET, MIN_AGE, MIN_PRICE,
   OFFER_EXPIRY_HOURS, REVIEW_WINDOW_DAYS, APPEAL_WINDOW_DAYS, NOTICE_DAYS,
@@ -55,7 +63,7 @@ export const POLICIES = [
         { list: [
           "lili does not own, hold, inspect, price or sell any item. Every piece belongs to the person selling it.",
           "lili does not take payment, hold money or issue refunds. You pay the seller directly when you meet.",
-          "lili does not deliver anything. Buyer and seller hand the piece over in person.",
+          "lili does not deliver anything. The seller hands the piece over in person or sends it with a courier she books herself. The Delivery & Returns Policy explains how.",
           "lili does not authenticate items. Nothing in the app is a guarantee that a piece is genuine.",
         ]},
         "When you buy, your agreement is with the seller, not with us. What you are owed depends on whether she sells privately or as a business; see the Seller Policy.",
@@ -196,6 +204,9 @@ export const POLICIES = [
       { h: "Offers and reservations", body: [
         `Buyers may make offers. An offer expires after ${OFFER_EXPIRY_HOURS} hours if you don't answer. When you accept one, the piece is reserved for that buyer and other offers on it are declined. Release the reservation in the app if the sale falls through; don't sell a reserved piece to someone else.`,
       ]},
+      { h: "Delivery", body: [
+        "Switch on only the delivery options you will actually use, and pick the parcel size honestly: the buyer sees the fee for it. If you agree courier delivery, pack the piece so it arrives as described, send it promptly with the courier you offered, and give the buyer the tracking number in lili's messages. The Delivery & Returns Policy has the details.",
+      ]},
       { h: "Keep it on lili", body: [
         "Keep conversations about a sale in lili's messages until you meet. Messages there can't be edited after sending, and they are what we can look at if something goes wrong.",
       ]},
@@ -335,13 +346,13 @@ export const POLICIES = [
     summary: "lili doesn't handle money. How payment works between members, and how to spot a scam.",
     sections: [
       { h: "How payment works", body: [
-        "lili takes no payment and holds no money. You pay the seller directly, at the meeting, once you have checked the piece. Because lili never has the money, lili cannot refund it.",
+        "lili takes no payment and holds no money. You pay the seller directly, at the meeting, once you have checked the piece. Because lili never has the money, lili cannot refund it. For a piece sent by courier, read “Paying for a delivered piece” in the Delivery & Returns Policy.",
       ]},
       { h: "Signs of a scam", body: [
         { list: [
           "A request for a deposit, a “holding fee” or a bank transfer before you have seen the piece.",
           "Pressure to move the conversation to WhatsApp, email or another app.",
-          "An offer to post the piece, or to send a courier, so you never meet.",
+          "A courier the listing doesn't offer, a “delivery fee” to pay through a link, or pressure to pay in full for a parcel from a shop with no history.",
           "A link to pay on a website, or a message claiming to be from lili asking for card details. lili never asks for payment details.",
           "A price far below what the piece is worth, with a story about why.",
         ]},
@@ -349,6 +360,44 @@ export const POLICIES = [
       ]},
       { h: "If you lost money", body: [
         "Report it to the police (Dubai Police: 901, or the eCrime service) and to your bank, then report the member in lili with what happened. We will act on the account and keep the evidence for the police.",
+      ]},
+    ],
+  },
+
+  // ── 8b ─────────────────────────────────────────────────────────────────────
+  {
+    id: "delivery",
+    title: "Delivery & Returns",
+    titleAr: "التوصيل والإرجاع",
+    summary: "The ways a seller can get a piece to you in the UAE and the GCC, who pays for delivery, and what to do if it doesn't arrive or isn't as described.",
+    sections: [
+      { h: "How a piece gets to you", body: [
+        "Each listing shows the ways that seller is happy to get the piece to you, chosen by her when she listed it:",
+        { list: [
+          "Meeting in person, inside the UAE. No delivery fee. The Meeting & Safety Policy applies.",
+          ...COURIERS.map((c) => `${c.name}: ${c.regions.includes("GCC") ? "within the UAE and to the rest of the GCC" : "within the UAE"}.`),
+        ]},
+        "lili does not deliver anything and has no account with any courier. The seller books the courier herself and gives you the courier's tracking number.",
+      ]},
+      { h: "Where delivery is offered", body: [
+        `Inside the UAE, and to ${COUNTRIES.filter((c) => c.region === "GCC").map((c) => c.name).join(", ").replace(/, ([^,]*)$/, " and $1")}. Outside the UAE you may owe customs duty or VAT when the parcel arrives, and some materials (exotic skins, ivory, some perfumes) can't cross borders. The seller checks with her courier before she sends.`,
+      ]},
+      { h: "Delivery fees", body: [
+        "The seller picks a parcel size from extra small to extra large, and the listing shows each courier's fee for that size. Fees marked “estimated” are lili's estimate of the courier's public price, not a quote: the courier's own price on the day is the one that counts. Unless you and the seller agree otherwise, the buyer pays the delivery fee.",
+        "A seller who switches on bundling lets you buy several of her pieces together and pay one delivery fee for the largest parcel.",
+      ]},
+      { h: "Paying for a delivered piece", body: [
+        "lili takes no payment, so with courier delivery you and the seller agree how you pay. Paying before the parcel arrives means trusting someone you haven't met: lili cannot refund it. Prefer meeting in person, prefer cash on delivery where the courier offers it, and look at the shop's reviews first.",
+      ]},
+      { h: "If it doesn't arrive, or isn't as described", body: [
+        { list: [
+          "Message the seller in lili first, with photos. Most problems are a misunderstanding about condition or size.",
+          "If the parcel is lost or damaged in transit, the seller claims from the courier using the tracking number.",
+          "If the seller won't help, report the shop in lili. We read the listing and your messages, and can remove the listing and close the shop. We tell you what we decided and why.",
+        ]},
+      ]},
+      { h: "Returns", body: [
+        "A private seller doesn't have to take back a piece that is as described. If a piece isn't as described or isn't genuine, ask the seller to take it back and refund you, and report the shop if she won't. A business seller must also give you the return and refund rights UAE consumer protection law requires.",
       ]},
     ],
   },

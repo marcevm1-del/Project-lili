@@ -38,6 +38,10 @@ Every listing is screened automatically. Some are published straight away, some 
 
 Buyers may make offers. An offer expires after 48 hours if you don't answer. When you accept one, the piece is reserved for that buyer and other offers on it are declined. Release the reservation in the app if the sale falls through; don't sell a reserved piece to someone else.
 
+## Delivery
+
+Switch on only the delivery options you will actually use, and pick the parcel size honestly: the buyer sees the fee for it. If you agree courier delivery, pack the piece so it arrives as described, send it promptly with the courier you offered, and give the buyer the tracking number in lili's messages. The Delivery & Returns Policy has the details.
+
 ## Keep it on lili
 
 Keep conversations about a sale in lili's messages until you meet. Messages there can't be edited after sending, and they are what we can look at if something goes wrong.
@@ -50,4 +54,4 @@ lili charges sellers no fee during the beta. Before any fee starts, we will tell
 
 Breaches lead to strikes under the Reports, Strikes & Appeals Policy, and serious or repeated breaches close the shop.
 
-_Version 2026-10-09._
+_Version 2026-10-12._

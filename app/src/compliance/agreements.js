@@ -25,7 +25,9 @@
 
 // v2.12: the full policies (src/legal) replace the summaries; a material
 // change, so everyone is asked again, as the Terms of Use promise.
-export const AGREEMENT_VERSION = "2026-10-09";
+// 2026-10-12: courier delivery (migration 33) changes what a seller agrees to
+// do with a sold piece — asked again for the same reason.
+export const AGREEMENT_VERSION = "2026-10-12";
 
 // ── signup: the contract ───────────────────────────────────────────────────
 export const ACCEPT = [
@@ -151,10 +153,12 @@ export const SELLER_AGREEMENT = [
       // of a protection that does not exist. The sixth surface carrying the
       // escrow claim, in the document she signs.
       "The sale is between me and the buyer. I own the item, I set the price, " +
-      "and I hand it over myself when we meet. lili introduces us and enforces " +
-      "the rules — it does not hold the money, so the buyer pays me directly " +
-      "and there is nothing for lili to refund on my behalf.",
-    bodyAr: "البيع بيني وبين المشترية. أنا أسلّمها بنفسي عند اللقاء، والمشترية تدفع لي مباشرة. lili لا تحتفظ بالمبلغ ولا يمكنها إعادته نيابة عني.",
+      "and I get it to the buyer the way my listing says: by hand when we " +
+      "meet, or with a courier I book myself, adding the courier's tracking " +
+      "number. lili introduces us and enforces the rules — it does not hold " +
+      "the money, so the buyer pays me directly and there is nothing for lili " +
+      "to refund on my behalf.",
+    bodyAr: "البيع بيني وبين المشترية. أوصل القطعة كما يذكر إعلاني: بنفسي عند اللقاء، أو مع شركة توصيل أحجزها بنفسي وأضيف رقم التتبع. والمشترية تدفع لي مباشرة. lili لا تحتفظ بالمبلغ ولا يمكنها إعادته نيابة عني.",
     required: true,
   },
   {

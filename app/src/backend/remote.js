@@ -115,6 +115,7 @@ const fromRow = (r) => r && ({ ...r,
   previousPrice: r.previous_price,
   // an accepted offer holds the piece for one buyer (migration 22)
   reserved: !!r.reserved_offer,
+  parcelSize: r.parcel_size,
   sellerType: r.seller_type, desc: r.description,
   photo: Array.isArray(r.photos) && r.photos.length ? r.photos[0] : null,
   // what a tile should load: the small one when we have it
@@ -147,7 +148,9 @@ const ROW_COLUMNS = {
                "description", "photos", "thumbs", "authenticated", "market_code",
                // fit, flat measurements (cm) and disclosed flaws — migration
                // lili_review_20; the server checks keys, ranges and the flaw list
-               "fit", "measurements", "flaws"],
+               "fit", "measurements", "flaws",
+               // delivery options, parcel size and bundling — migration 33
+               "delivery", "parcel_size", "bundling"],
   lili_shops: ["name", "name_ar", "bio", "banner", "seller_type", "market_code"],
 };
 
@@ -158,6 +161,7 @@ const toRow = (o, table = "lili_items") => {
   if ("shopId" in r)     { r.shop_id = r.shopId; delete r.shopId; }
   if ("sellerType" in r) { r.seller_type = r.sellerType; delete r.sellerType; }
   if ("desc" in r)       { r.description = r.desc; delete r.desc; }
+  if ("parcelSize" in r) { r.parcel_size = r.parcelSize; delete r.parcelSize; }
   if ("photo" in r)      { if (r.photo) r.photos = [r.photo]; delete r.photo; }
 
   const allowed = ROW_COLUMNS[table];
@@ -192,6 +196,8 @@ const ITEM_COLUMNS = [
   "price", "currency", "previous_price", "price_changed_at", "condition", "size", "era",
   "fit", "measurements", "flaws", "color", "icon", "description", "photos", "thumbs",
   "authenticated", "status", "screening", "reserved_offer", "saves", "market_code",
+  // how it can reach a buyer (migration 33)
+  "delivery", "parcel_size", "bundling",
   "created_at", "updated_at",
 ].join(",");
 
@@ -518,6 +524,124 @@ export async function decideCase(caseId, decision, reason) {
   const { data, error } = await sb.rpc("lili_moderation_decide", {
     p_case: caseId, p_decision: decision, p_reason: reason });
   if (error) throw error;
+  return data;
+}
+
+// ── delivery and orders (migration 33) ─────────────────────────────────────
+// The buyer pays through Stripe; the money is held there until she confirms
+// the piece arrived. Every rule (who may do what, when, and what it costs) is
+// enforced by the database functions; these are thin calls to them.
+
+/** Is paying in the app switched on? False until lili's provider account exists. */
+export async function paymentsEnabled() {
+  const sb = await db();
+  const { data, error } = await sb.rpc("lili_payments_enabled");
+  if (error) return false;
+  return !!data;
+}
+
+/** Every carrier's fee by parcel size and region (public, maintained by lili). */
+export async function deliveryRates() {
+  const sb = await db();
+  const { data, error } = await sb.from("lili_delivery_rates").select("carrier,size,region,fee,confirmed");
+  if (error) throw error;
+  return data || [];
+}
+
+/** The delivery choices for these pieces, with fees, for a region ("UAE" | "GCC"). */
+export async function deliveryQuote(itemIds, region = "UAE") {
+  const sb = await db();
+  const { data, error } = await sb.rpc("lili_delivery_quote", { p_items: itemIds, p_region: region });
+  if (error) throw error;
+  return data || [];
+}
+
+export async function createOrder({ itemIds, method, region, shipTo }) {
+  const sb = await db();
+  const { data, error } = await sb.rpc("lili_create_order",
+    { p_items: itemIds, p_method: method, p_region: region, p_ship_to: shipTo || null });
+  if (error) throw error;
+  return data;
+}
+
+async function payments(action, body = {}) {
+  const sb = await db();
+  const { data, error } = await sb.functions.invoke("lili-payments", { body: { action, ...body } });
+  if (error) {
+    // supabase-js wraps the function's JSON error; surface its code
+    let code = "unavailable";
+    try { code = (await error.context.json()).error || code; } catch { /* keep generic */ }
+    throw new Error(code);
+  }
+  return data;
+}
+
+async function openExternal(url) {
+  if (!url) return;
+  try {
+    const { Browser } = await import("@capacitor/browser");
+    await Browser.open({ url, presentationStyle: "popover" });
+  } catch { window.open(url, "_blank", "noopener"); }
+}
+
+/** Opens Stripe's own payment page for this order. */
+export async function payForOrder(orderId) {
+  const { url } = await payments("checkout", { order_id: orderId });
+  await openExternal(url);
+}
+
+/** Opens Stripe's onboarding so a seller can be paid to her bank. */
+export async function connectPayouts() {
+  const { url } = await payments("onboard");
+  await openExternal(url);
+}
+
+/** Pays out released orders and refunds cancelled ones that involve me. */
+export async function settleMine() {
+  try { return await payments("settle"); } catch { return null; }
+}
+
+export async function myOrders(as = "buyer") {
+  const sb = await db();
+  const { data, error } = await sb.rpc("lili_my_orders", { p_as: as });
+  if (error) throw error;
+  return data || [];
+}
+
+export async function myWallet() {
+  const sb = await db();
+  const { data, error } = await sb.rpc("lili_my_wallet");
+  if (error) throw error;
+  return data;
+}
+
+export async function markShipped(orderId, tracking) {
+  const sb = await db();
+  const { data, error } = await sb.rpc("lili_order_shipped", { p_order: orderId, p_tracking: tracking || null });
+  if (error) throw error;
+  return data;
+}
+
+export async function confirmReceived(orderId) {
+  const sb = await db();
+  const { data, error } = await sb.rpc("lili_order_received", { p_order: orderId });
+  if (error) throw error;
+  settleMine();          // start the payout now rather than at the next visit
+  return data;
+}
+
+export async function reportOrderIssue(orderId, reason, detail) {
+  const sb = await db();
+  const { data, error } = await sb.rpc("lili_order_issue", { p_order: orderId, p_reason: reason, p_detail: detail });
+  if (error) throw error;
+  return data;
+}
+
+export async function cancelOrder(orderId, reason) {
+  const sb = await db();
+  const { data, error } = await sb.rpc("lili_cancel_order", { p_order: orderId, p_reason: reason || null });
+  if (error) throw error;
+  settleMine();
   return data;
 }
 
