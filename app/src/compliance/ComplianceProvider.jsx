@@ -375,7 +375,9 @@ function TermsGate({ m, onAccept, onConfirmAge, age }) {
           </label>
           <input value={year} onChange={(e) => setYear(e.target.value)}
             id="lili-year-of-birth" aria-label="Your year of birth"
-            placeholder="1996" inputMode="numeric" maxLength={4}
+            // "YYYY", not a sample year: on an age check, a real-looking
+            // year in the box reads as already answered.
+            placeholder="YYYY" inputMode="numeric" maxLength={4}
             style={{ width: "100%", padding: "14px 16px", borderRadius: 12,
                      fontSize: 16, background: C.white, border: `1px solid ${C.border}`,
                      color: C.ink, outline: "none", marginBottom: 6,
