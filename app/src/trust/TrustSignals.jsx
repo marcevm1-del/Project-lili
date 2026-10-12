@@ -60,7 +60,7 @@ export default function TrustSignals({ shop, compact }) {
   if (shop && shop.demo) {
     return (
       <span style={{
-        fontSize: compact ? 10 : 11, fontWeight: 700, color: C.inkLt,
+        fontSize: 11, fontWeight: 700, color: C.inkLt,
         background: C.sand, border: `1px solid ${C.border}`,
         borderRadius: 20, padding: compact ? "3px 8px" : "4px 10px",
         display: "inline-block",
@@ -94,7 +94,7 @@ export default function TrustSignals({ shop, compact }) {
     <div style={{ display: "flex", flexWrap: "wrap", gap: 6, alignItems: "center" }}>
       {isNew && (
         <span style={{
-          fontSize: compact ? 10 : 11, fontWeight: 700, color: C.terraTx,
+          fontSize: 11, fontWeight: 700, color: C.terraTx,
           background: C.white, border: `1px solid ${C.border}`,
           borderRadius: 20, padding: compact ? "3px 8px" : "4px 10px",
         }}>
@@ -104,7 +104,7 @@ export default function TrustSignals({ shop, compact }) {
       {chips.map((c) => (
         <span key={c.text} style={{
           display: "inline-flex", alignItems: "center", gap: 4,
-          fontSize: compact ? 10 : 11,
+          fontSize: 11,
           fontWeight: c.strong ? 700 : 500,
           color: c.strong ? C.ink : C.inkLt,
           background: C.white, border: `1px solid ${C.border}`,

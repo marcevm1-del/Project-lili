@@ -83,9 +83,12 @@ export function ItemError({ onRetry, compact }) {
         aria-label="Retry loading this photo"
         style={{
           background: C.white, border: `1px solid ${C.border}`, borderRadius: 20,
-          padding: compact ? "4px 10px" : "5px 13px", cursor: "pointer",
-          fontSize: compact ? 9.5 : 10.5, fontWeight: 700, color: C.terraTx,
-          fontFamily: "inherit", minHeight: 0,
+          // Was 9.5px on a zero-height button: the one action on a broken
+          // photo, too small to read or to hit. The scale's floor and a
+          // thumb-sized target, compact or not.
+          padding: compact ? "6px 12px" : "8px 16px", cursor: "pointer",
+          fontSize: 11, fontWeight: 700, color: C.terraTx,
+          fontFamily: "inherit", minHeight: compact ? 32 : 40,
         }}>
         Try again
       </button>

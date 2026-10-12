@@ -2088,6 +2088,30 @@ section("67. Screens the measured walk does not reach keep one language per labe
     /name="tag" size=\{34\}/.test(read("./src/offers/OffersPage.jsx")) && /offer: "tag"/.test(read("./src/notifications/NotificationsSheet.jsx")));
 }
 
+section("68. Every screen is measured, and nothing falls under the type floor");
+{
+  const { readdirSync, statSync } = await import("node:fs");
+  const walk = (d) => readdirSync(new URL(d, import.meta.url)).flatMap((n) => {
+    const p = `${d}/${n}`;
+    return statSync(new URL(p, import.meta.url)).isDirectory() ? walk(p) : [p];
+  });
+  // scale.js: 11 is the floor. A compact variant at 10 crept in on the
+  // trust chips and only showed on the item page.
+  const under = walk("./src").filter((p) => /\.(jsx|js)$/.test(p)).flatMap((p) =>
+    stripComments(read(p)).split("\n").map((l, i) => [p, i + 1, l])
+      .filter(([, , l]) => /fontSize:\s*(?:[^,}]*\?\s*)?(?:[0-9]|10)(?:\.\d+)?\s*[,}:]/.test(l)))
+    .map(([p, n]) => `${p}:${n}`);
+  check("no text is set below the 11px floor", under.length === 0, under.join(", "));
+  const ui = read("./src/compliance/ui.js");
+  check("the shared back arrow has a name a screen reader can say",
+    /"aria-label": t\("back"\)/.test(ui));
+  const ux = read("./uxlaws.mjs");
+  check("uxlaws fails when a screen it should measure was never reached",
+    /never reached/.test(ux) && /"help", "privacy"\]/.test(ux));
+  check("help questions print in one language",
+    /getLang\(\) === "ar" && f\.qAr \? f\.qAr : f\.q/.test(read("./src/HelpCentre.jsx")));
+}
+
 // ─────────────────────────────────────────────────────────────────────────────
 console.log(`\n${pass}/${pass + fail} passed`);
 if (fail) {
