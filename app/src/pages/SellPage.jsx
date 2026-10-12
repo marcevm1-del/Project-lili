@@ -515,6 +515,16 @@ export function SellPage({myShop,onCreateShop,onAddItem,setTab,onListed}) {
               Continue anyway
             </button>
           )}
+          {/* She was let past with the warning, so it now sits over a step
+              that is not the one it is about. Offer the way back to it. */}
+          {!stepError.skippable && stepError.at && stepError.at < step && (
+            <button onClick={()=>{const at=stepError.at;setStepError(null);setStep(at);}}
+              style={{background:"none",border:"none",cursor:"pointer",flexShrink:0,
+                color:C.terraTx,fontSize:12,fontWeight:700,fontFamily:"inherit",
+                textDecoration:"underline"}}>
+              Go back
+            </button>
+          )}
         </div>
       )}
       {/* progress — GOAL-GRADIENT EFFECT

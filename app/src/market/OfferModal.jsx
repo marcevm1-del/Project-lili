@@ -53,11 +53,17 @@ export function PayoutBox({price}) {
       </div>
       <div style={{display:"flex",justifyContent:"space-between",fontSize:12,
         color:C.inkLt,lineHeight:1.7}}>
+        {/* The column has to add up. While nothing is collected the fee row
+            read "AED 81" under a total that had not lost it — the eye does
+            the sum and the sheet looks wrong. Today's fee is 0; launch's
+            fee is said in words. */}
         <span>
-          lili's fee · {b.ratePercent}%{!fees.COLLECTION_LIVE && " from launch"}
+          {fees.COLLECTION_LIVE
+            ? <>lili's fee · {b.ratePercent}%</>
+            : <>lili's fee · {fees.money(b.commission)} ({b.ratePercent}%) from launch</>}
           {b.minimumApplied && <span style={{fontSize:11}}> (minimum {fees.money(fees.MINIMUM_FEE)})</span>}
         </span>
-        <span>{fees.COLLECTION_LIVE ? `− ${fees.money(b.commission)}` : fees.money(b.commission)}</span>
+        <span>{fees.COLLECTION_LIVE ? `− ${fees.money(b.commission)}` : fees.money(0)}</span>
       </div>
       <div style={{fontSize:11,color:C.inkLt,marginTop:8,lineHeight:1.6,
         borderTop:`1px solid ${C.border}`,paddingTop:8}}>

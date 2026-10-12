@@ -2154,6 +2154,11 @@ section("68. Every screen is measured, and nothing falls under the type floor");
   }
   check("every button in the source has a name a screen reader can say",
     parse !== null && unnamed.length === 0, parse ? unnamed.join(", ") : "@babel/parser not found");
+  check("while nothing is collected the fee row reads AED 0, so the payout column adds up",
+    /: fees\.money\(0\)\}/.test(read("./src/market/OfferModal.jsx")) &&
+    /from launch<\/>/.test(read("./src/market/OfferModal.jsx")));
+  check("a warning carried onto a later sell step offers the way back to it",
+    /stepError\.at < step/.test(read("./src/pages/SellPage.jsx")));
   check("help questions print in one language",
     /getLang\(\) === "ar" && f\.qAr \? f\.qAr : f\.q/.test(read("./src/HelpCentre.jsx")));
 }
