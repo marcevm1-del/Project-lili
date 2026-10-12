@@ -169,7 +169,7 @@ if (await anyInput.count()) {
     // via :focus-within, so the ring follows the visible edge rather than the
     // transparent <input> inside it. Measure whichever element draws it.
     const el = document.activeElement;
-    const box = el.closest(".lili-search") || el;
+    const box = el.closest(".lili-search, .lili-field") || el;
     const cs = getComputedStyle(box);
     return { outline: cs.outlineStyle + " " + cs.outlineWidth, shadow: cs.boxShadow };
   });

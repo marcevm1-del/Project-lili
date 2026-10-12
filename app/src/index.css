@@ -289,8 +289,8 @@ select:focus-visible {
    container, and :focus-visible on the input drew a second, bordered box inside
    the first — offset, because the container has padding. The ring now goes on
    the container, where the eye already sees the edge of the field. */
-.lili-search:focus-within {
+.lili-search:focus-within, .lili-field:focus-within {
   outline: 2.5px solid var(--c-accent-btn, #9E6050);
   outline-offset: 0;
 }
-.lili-search input:focus-visible { outline: none !important; box-shadow: none !important; border-radius: 0; }
+.lili-search input:focus-visible, .lili-field input:focus-visible { outline: none !important; box-shadow: none !important; border-radius: 0; }

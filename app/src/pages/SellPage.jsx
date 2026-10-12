@@ -682,11 +682,11 @@ export function SellPage({myShop,onCreateShop,onAddItem,setTab,onListed}) {
             )}
             <div>
               <label style={{fontSize:11,fontWeight:700,color:C.inkLt,letterSpacing:0.5,textTransform:"uppercase",display:"block",marginBottom:6}}>{t("price")}</label>
-              <div style={{display:"flex",alignItems:"center",gap:8,background:C.white,
+              <div className="lili-field" style={{display:"flex",alignItems:"center",gap:8,background:C.white,
                 border:`2px solid ${C.terra}`,borderRadius:12,padding:"12px 14px"}}>
                 <span style={{fontWeight:700,color:C.inkLt,fontSize:15}}>AED</span>
                 <input value={form.price} onChange={e=>setForm({...form,price:e.target.value})} inputMode="decimal" placeholder="0"
-                  style={{flex:1,background:"none",border:"none",outline:"none",
+                  style={{flex:1,minWidth:0,background:"none",border:"none",outline:"none",
                     fontSize:22,fontWeight:700,color:C.ink,fontFamily:"inherit"}}/>
               </div>
             </div>

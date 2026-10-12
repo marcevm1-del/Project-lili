@@ -175,13 +175,13 @@ export function OfferModal({item,shop,onClose,onSubmit}) {
             <div style={{marginBottom:12}}>
               <div style={{fontSize:11,fontWeight:700,color:C.inkLt,letterSpacing:0.5,
                 textTransform:"uppercase",marginBottom:6}}>{t("your_offer")}</div>
-              <div style={{display:"flex",alignItems:"center",gap:10,background:C.white,
+              <div className="lili-field" style={{display:"flex",alignItems:"center",gap:10,background:C.white,
                 border:`2px solid ${C.terra}`,borderRadius:12,padding:"12px 14px"}}>
                 <span style={{fontWeight:700,color:C.inkLt,fontSize:14}}>AED</span>
                 <input value={amount} onChange={e=>setAmount(e.target.value)} inputMode="decimal"
                   aria-label="Offer amount"
                   placeholder="Enter amount..."
-                  style={{flex:1,background:"none",border:"none",outline:"none",
+                  style={{flex:1,minWidth:0,background:"none",border:"none",outline:"none",
                     fontSize:18,fontWeight:700,color:C.ink,fontFamily:"inherit"}}/>
               </div>
             </div>
