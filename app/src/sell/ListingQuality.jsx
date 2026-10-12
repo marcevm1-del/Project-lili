@@ -66,15 +66,17 @@ export default function ListingQuality({ form, photos, compact }) {
           itself, and no score can judge that.
         </div>
       ) : (
-        <div style={{ marginTop: 10, display: "flex", flexDirection: "column", gap: 7 }}>
-          {result.top.map((c) => (
-            <div key={c.id}>
+        <div style={{ marginTop: 6, display: "flex", flexDirection: "column" }}>
+          {result.top.map((c, i) => (
+            <div key={c.id} style={i ? { borderTop: `1px solid ${C.border}` } : undefined}>
               <button
                 onClick={() => setOpen(open === c.id ? null : c.id)}
                 className="tap-target"
                 style={{
                   background: "none", border: "none", padding: 0, cursor: "pointer",
-                  display: "flex", alignItems: "flex-start", gap: 7, textAlign: "left",
+                  // Centred in its 44px: top-aligned, the row's thumb height
+                  // read as an empty band under every suggestion.
+                  display: "flex", alignItems: "center", gap: 7, textAlign: "start",
                   width: "100%", color: C.ink,
                 }}
                 aria-expanded={open === c.id}
@@ -82,18 +84,18 @@ export default function ListingQuality({ form, photos, compact }) {
                 <Icon
                   name={c.state === "missing" ? "plus" : "sparkle"}
                   size={11} stroke={2}
-                  style={{ marginTop: 2, color: c.state === "missing" ? C.terra : C.inkLt }}
+                  style={{ flexShrink: 0, color: c.state === "missing" ? C.terra : C.inkLt }}
                 />
                 <span style={{ fontSize: 12, fontWeight: 600, lineHeight: 1.45, flex: 1 }}>
                   {c.title}
                 </span>
-                <span style={{ fontSize: 11, color: C.inkLt, marginTop: 2 }}>
+                <span style={{ fontSize: 11, color: C.inkLt }}>
                   {open === c.id ? "−" : "why"}
                 </span>
               </button>
               {open === c.id && (
                 <div style={{ fontSize: 11, color: C.inkLt, lineHeight: 1.55,
-                              margin: "5px 0 2px 18px" }}>
+                              margin: "0 0 10px 18px" }}>
                   {c.why}
                   {c.evidence && (
                     <div style={{ fontSize: 11, opacity: 0.75, marginTop: 5, lineHeight: 1.5 }}>
