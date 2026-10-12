@@ -3,7 +3,7 @@
 Client only. No migration, no new dependency, no change to what the database
 enforces. Payments stay switched off.
 
-**572 research checks (+25) · every local suite green, including `audit`,
+**588 research checks (+41) · every local suite green, including `audit`,
 which was already over budget on 0d7abdc.** `security`, `legal`, `authflow`
 and `preflight` need the live project and were not run from this environment.
 
@@ -69,6 +69,33 @@ and `preflight` need the live project and were not run from this environment.
   photo step, preferences, offers and language.
 - `research` sections 64–67 hold all of the above in place, including the
   client's price-drop numbers against the SQL trigger.
+
+## Second pass, same release
+
+- **Every header in one language.** The shared screen header (Settings,
+  Help, Privacy, Sign in, Orders and 23 more) printed an English title over
+  an Arabic subtitle that repeated it. It now shows the interface's
+  language; in Arabic the Arabic line is the title. The language picker and
+  the four first-run gate screens keep both on purpose. Notifications,
+  Offers and the help questions follow the same rule.
+- **Search in Arabic** names categories in Arabic, and the category tiles
+  lead with the interface's language.
+- **Accessibility.** The shared back arrow and the photo-remove button had
+  no name; four thumbnails had no `alt`. `research` now parses every
+  `<button>` in the source and fails on an unnamed one, and every `<img>`
+  needs an `alt`.
+- **Numbers that add up.** While nothing is collected the fee row reads
+  AED 0, with the launch fee in words — it showed AED 81 under "You
+  receive AED 900".
+- **Smaller fixes.** NEW only when it sets a piece apart; the shop name no
+  longer sits under its own banner; empty-state icons centred over their
+  text; the selected Orders tab is the strong one; the photo coach says "4
+  of these" above six tips; text below the 11px floor removed; the listing
+  advice reads as a list; a warning carried to a later sell step offers
+  "Go back"; the age check's placeholder is "YYYY", not a sample year.
+- **The checks reach further.** `uxlaws` opens Help and Privacy and fails if
+  any screen it should measure was never reached — it had silently stopped
+  at Offers.
 
 ## Decisions left to you
 
