@@ -32,7 +32,7 @@ export function ItemSkeleton() {
   return (
     <div aria-hidden="true" style={{
       borderRadius: 14, overflow: "hidden", background: C.white,
-      border: `1px solid ${C.border}`, boxShadow: "0 1px 6px #0000000a",
+      border: `1px solid ${C.border}`, boxShadow: "0 1px 6px var(--c-elev)",
     }}>
       <div className="lili-ratio-tile"><Skeleton w="100%" h="100%" r={0} /></div>
       <div style={{ padding: "10px 10px 12px" }}>

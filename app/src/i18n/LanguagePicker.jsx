@@ -115,9 +115,13 @@ function Row({ lang, selected, requested, onClick }) {
       textAlign: alignStart(), cursor: "pointer", minHeight: 44,
     }}>
       <div style={{ flex: 1 }}>
+        {/* The row aligns with the INTERFACE; the name keeps its own
+            direction inside an isolate. It used to set the whole line to the
+            language's direction, so in an Arabic interface "English" sat on
+            the left while its subtitle sat on the right. */}
         <div style={{ fontSize: 14, color: C.ink, fontWeight: selected ? 700 : 600,
-                      direction: lang.dir, textAlign: "start" }}>
-          {lang.native}
+                      textAlign: alignStart() }}>
+          <span dir={lang.dir} style={{ unicodeBidi: "isolate" }}>{lang.native}</span>
         </div>
         <div style={{ fontSize: 11, color: C.inkLt, marginTop: 2 }}>
           {lang.name}
@@ -133,9 +137,9 @@ function Row({ lang, selected, requested, onClick }) {
           </div>
         )}
       </div>
-      {selected && <Icon name="check" size={15} stroke={2.2} style={{ color: C.terraTx }} />}
+      {selected && <Icon name="check" size={15} stroke={2.2} style={{ color: C.terraTx, alignSelf: "flex-start", marginTop: 3 }} />}
       {planned && (
-        <span style={{
+        <span style={{ alignSelf: "flex-start",
           fontSize: 11, fontWeight: 700, whiteSpace: "nowrap", borderRadius: 20,
           padding: "3px 10px",
           background: requested ? C.terra : C.sand,

@@ -6,10 +6,10 @@ import Icon from "../icons/Icon.jsx";
 import { useFocusTrap, dialogProps } from "../a11y/useFocusTrap.js";
 import * as offers from "../data/offers.js";
 import * as fees from "../data/fees.js";
-import { t } from "../i18n/t.js";
+import { t, getLang } from "../i18n/t.js";
 import { space } from "../theme/scale.js";
 import { money } from "../i18n/direction.js";
-import { C, Placeholder } from "./shared.jsx";
+import { C, T, Placeholder, bandRange, say } from "./shared.jsx";
 
 
 // ── payout ─────────────────────────────────────────────────────────────────
@@ -40,7 +40,7 @@ export function PayoutBox({price}) {
       <div style={{display:"flex",alignItems:"baseline",gap:8,marginBottom:8}}>
         <span style={{fontSize:11,fontWeight:700,color:C.inkLt,letterSpacing:0.5,
           textTransform:"uppercase"}}>You receive</span>
-        <span style={{marginLeft:"auto",fontFamily:"Georgia,serif",fontWeight:700,
+        <span style={{marginLeft:"auto",fontFamily:"var(--font-display)",fontWeight:700,
           fontSize:20,color:C.ink}}>{fees.money(b.payout)}</span>
       </div>
       <div style={{display:"flex",justifyContent:"space-between",fontSize:12,
@@ -137,15 +137,15 @@ export function OfferModal({item,shop,onClose,onSubmit}) {
 
   return (
     <div ref={trap} {...dialogProps("Make an offer")}
-      style={{position:"fixed",top:0,right:0,bottom:0,left:0,zIndex:300,background:"#000a",
+      style={{position:"fixed",top:0,right:0,bottom:0,left:0,zIndex:300,background:"var(--c-backdrop)",
       display:"flex",flexDirection:"column",justifyContent:"flex-end"}} onClick={onClose}>
       <div onClick={e=>e.stopPropagation()} style={{
         background:C.cream,borderRadius:"20px 20px 0 0",padding:"20px 16px 40px"}}>
         <div style={{display:"flex",justifyContent:"space-between",alignItems:"center",marginBottom:16}}>
           <div>
-            <div style={{fontFamily:"Georgia,serif",fontSize:18,color:C.ink,fontStyle:"italic"}}>Make an Offer</div>
+            <div style={{fontFamily:"var(--font-display)",fontSize:18,color:C.ink,fontStyle:"italic"}}>{say(T.makeOffer)}</div>
             <div style={{fontSize:11,color:C.inkLt}}>
-              قدم عرضاً · Expires in {offers.EXPIRY_HOURS} hours
+              {getLang()==="ar" ? `ينتهي خلال ${offers.EXPIRY_HOURS} ساعة` : `Expires in ${offers.EXPIRY_HOURS} hours`}
             </div>
           </div>
           <button onClick={onClose} aria-label="Close" className="tap-target" style={{background:"none",border:"none",cursor:"pointer",color:C.inkLt,fontSize:22,display:"flex",alignItems:"center",justifyContent:"center"}}><Icon name="close" size={14} stroke={2}/></button>
@@ -216,8 +216,9 @@ export function OfferModal({item,shop,onClose,onSubmit}) {
               <div style={{background:C.sand,borderRadius:10,padding:"10px 14px",marginBottom:12}}>
                 <div style={{fontSize:11,color:C.inkLt,lineHeight:1.55}}>
                   Comparable {band.tierBrand} pieces in {band.condition} condition
-                  resell from about <b style={{color:C.ink}}>{money(band.low)}</b>.
-                  A guide from published resale data, not a valuation of this piece.
+                  usually resell here for <b style={{color:C.ink}}>{bandRange(band)}</b> —
+                  the same range shown on the listing. A guide from published resale
+                  data, not a valuation of this piece.
                 </div>
               </div>
             )}
@@ -229,7 +230,7 @@ export function OfferModal({item,shop,onClose,onSubmit}) {
               </div>
             )}
             {error && (
-              <div role="alert" style={{background:"#FBF0EE",border:`1px solid ${C.red}`,
+              <div role="alert" style={{background:C.sand,border:`1px solid ${C.red}`,
                 borderRadius:10,padding:"10px 14px",marginBottom:12,fontSize:12,
                 color:C.ink,lineHeight:1.55}}>{error}</div>
             )}
@@ -238,7 +239,7 @@ export function OfferModal({item,shop,onClose,onSubmit}) {
               style={{width:"100%",background:(value!==null&&value>0&&!sending)?C.btn:C.sand,
               color:(value!==null&&value>0&&!sending)?C.onBtn:C.inkLt,border:"none",borderRadius:30,padding:"14px 0",
               fontWeight:700,fontSize:14,cursor:sending?"default":"pointer"}}>
-              {sending ? t("sending") : t("send_offer")}
+              {sending ? t("sending") : (value===null||value<=0) ? t("enter_an_amount") : t("send_offer")}
             </button>
             <div style={{fontSize:11,color:C.inkLt,textAlign:"center",marginTop:10,lineHeight:1.55}}>
               She has {offers.EXPIRY_HOURS} hours to answer. The amount can't be

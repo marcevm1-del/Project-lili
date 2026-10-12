@@ -1948,6 +1948,81 @@ check("the conventional glyphs were left conventional",
 check("the set can be looked at, which is how these were drawn",
   existsSync("iconsheet.mjs") && /"iconsheet":/.test(readFileSync("package.json", "utf8")));
 
+section("64. The v2.11.8 critique, held in place");
+{
+  const { readdirSync, statSync } = await import("node:fs");
+  const walk = (d) => readdirSync(new URL(d, import.meta.url)).flatMap((n) => {
+    const p = `${d}/${n}`;
+    return statSync(new URL(p, import.meta.url)).isDirectory() ? walk(p) : [p];
+  });
+  const srcFiles = walk("./src").filter((p) => /\.(jsx?|mjs)$/.test(p));
+  const codeLines = (p) => read(p).split("\n").map((l, i) => [i + 1, l])
+    .filter(([, l]) => !/^\s*(\/\/|\*|\/\*|\{\/\*)/.test(l));
+
+  // The fee is stated as what it WILL be while nothing is collected.
+  const { payoutLine, COLLECTION_LIVE: LIVE64 } = await import("./src/data/fees.js");
+  const line = payoutLine(1000);
+  check("the sell screen does not state a deduction that is not happening",
+    LIVE64 || (!/^You receive/.test(line.en) && /beta/i.test(line.en)), line.en);
+  check("…and the Arabic line says the same, with lili spelled in Latin",
+    LIVE64 || (/التجريبية/.test(line.ar) && !/لili/.test(line.ar)), line.ar);
+
+  // One range on both screens; never the bottom of the band alone.
+  const offerSrc = stripComments(read("./src/market/OfferModal.jsx"));
+  const itemSrc = stripComments(read("./src/market/ItemModal.jsx"));
+  check("the offer sheet no longer quotes 'resell from about' the minimum",
+    !/resell from about/.test(offerSrc));
+  check("the item page and the offer sheet format the band with one function",
+    /bandRange\(band\)/.test(offerSrc) && /bandRange\(band\)/.test(itemSrc));
+
+  // One language per label: the stacked and dotted pairs are gone.
+  check("no label prints T.pair[0] and T.pair[1] together",
+    !srcFiles.some((p) => /T\.\w+\[0\][^\n]{0,80}T\.\w+\[1\]/.test(stripComments(read(p)))));
+  check("the bi()/biStr() helpers that printed both are gone",
+    !/export function bi\(|export function biStr\(/.test(read("./src/market/shared.jsx")));
+
+  // Developer instructions never reach her.
+  const npmHits = srcFiles.flatMap((p) => codeLines(p).filter(([, l]) => /npm run/.test(l)).map(([n]) => `${p}:${n}`));
+  check("no user-facing string tells her to run npm", npmHits.length === 0, npmHits.join(", "));
+
+  // Typefaces: one variable, and Arabic never synthesised into italic.
+  const fontsCss = read("./src/theme/fonts.css");
+  check("no component names Georgia directly", !srcFiles.some((p) => /fontFamily:\s?"Georgia/.test(read(p))));
+  check("every Arabic display face is declared for italic too (upright file, no fake slant)",
+    (fontsCss.match(/font-style: italic;[^}]*noto-naskh-arabic[^}]*normal\.woff2/g) || []).length === 2);
+  check("the fonts ship with their licences", ["OFL-Newsreader.txt", "OFL-NotoNaskhArabic.txt", "OFL-IBMPlexSansArabic.txt"]
+    .every((f) => existsSync(new URL(`./src/theme/fonts/${f}`, import.meta.url))));
+
+  // Glyphs mean what they say.
+  const header = stripComments(read("./src/Marketplace.jsx"));
+  check("the shortlist is drawn as a list, not a shopping bag",
+    /aria-label="Shortlist"[^]{0,260}name="list"/.test(header) &&
+    /name="list"[^\n]*add_to_cart/.test(stripComments(read("./src/market/ItemModal.jsx"))));
+  check("stock terms carry a tag, not a trending arrow",
+    !/polyline points="23 6 13\.5 15\.5/.test(read("./src/pages/SearchPage.jsx")));
+
+  // Colour literals stay in the theme (content colours in theme/swatches.js).
+  const hexHits = srcFiles.filter((p) => !p.includes("/theme/") && p.endsWith(".jsx")).flatMap((p) =>
+    codeLines(p).filter(([, l]) => {
+      if (/^\s*\{id:\d+/.test(l)) return false;                 // seed rows: content
+      if (/<path fill="#/.test(l)) return false;                 // a brand's own logo
+      return /#[0-9a-fA-F]{3,8}\b/.test(l.replace(/var\(--[a-z0-9-]+,\s*#[0-9a-fA-F]{3,8}\)/g, ""));
+    }).map(([n]) => `${p}:${n}`));
+  check("no hex colour written in a component", hexHits.length === 0, hexHits.slice(0, 6).join(", "));
+
+  // Photos first: the shop is asked for at publish, not at the door.
+  const sell = stripComments(read("./src/pages/SellPage.jsx"));
+  check("a single listing no longer opens with the shop form",
+    !/if\(!myShop\) return \(/.test(sell) && /needShop && !myShop/.test(sell));
+  check("…and the piece is published the moment the shop exists",
+    /onCreateShop\(f, \{ stay: true \}\)/.test(sell) && /publish\(s\.id\)/.test(sell));
+
+  // Reassurance rows, refused in DESIGN.md §5, are not rebuilt as icons.
+  check("no three-chip reassurance row on the splash or the profile",
+    !/\["shield","Every listing screened"\]/.test(header) &&
+    !/\["tag","Every listing screened"\]/.test(read("./src/pages/ProfilePage.jsx")));
+}
+
 // ─────────────────────────────────────────────────────────────────────────────
 console.log(`\n${pass}/${pass + fail} passed`);
 if (fail) {

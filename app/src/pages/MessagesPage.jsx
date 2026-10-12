@@ -32,7 +32,7 @@ const MeetPlan = lazy(() => import("../meet/MeetPlan.jsx"));
 //  as the rest of the app. With no backend configured a message is stored on
 //  the device and plainly marked as not sent — because the one thing this
 //  screen must never do again is answer on a seller's behalf.
-export function MessagesPage({shops,items,onReport,openThreadId,onOpened,error,onOpenOffers}) {
+export function MessagesPage({shops,items,onReport,openThreadId,onOpened,error,onOpenOffers,onBrowse}) {
   const [active,setActive] = useState(null);
   const [newMsg,setNewMsg] = useState("");
   const [threads,setThreads] = useState([]);
@@ -244,7 +244,7 @@ export function MessagesPage({shops,items,onReport,openThreadId,onOpened,error,o
           ))}
         </div>
         {sendError && (
-          <div role="alert" style={{padding:"8px 14px",background:"#FBF0EE",
+          <div role="alert" style={{padding:"8px 14px",background:"var(--c-danger-bg)",
             borderTop:`1px solid ${C.red}`,fontSize:12,color:C.ink,lineHeight:1.5}}>
             {sendError}
           </div>
@@ -272,7 +272,7 @@ export function MessagesPage({shops,items,onReport,openThreadId,onOpened,error,o
 
   return (
     <div style={{paddingBottom:72}}>
-      <TopBar center={<span style={{fontFamily:"Georgia,serif",fontStyle:"italic",fontSize:18,color:C.terraTx}}>{t("messages")}</span>}
+      <TopBar center={<span style={{fontFamily:"var(--font-display)",fontStyle:"italic",fontSize:18,color:C.terraTx}}>{t("messages")}</span>}
         right={onOpenOffers && <button onClick={onOpenOffers} style={{background:"none",border:`1.5px solid ${C.terra}`,
           color:C.terraTx,borderRadius:20,padding:"6px 12px",fontSize:12,fontWeight:700,cursor:"pointer",fontFamily:"inherit",
           display:"inline-flex",alignItems:"center",gap:5}}><Icon name="handshake" size={14}/>{t("offers")}</button>}/>
@@ -287,8 +287,16 @@ export function MessagesPage({shops,items,onReport,openThreadId,onOpened,error,o
       {threads.length===0
         ? <div style={{textAlign:"center",padding:"80px 20px",color:C.inkLt}}>
             <Icon name="chat" size={38} stroke={1.6} style={{color:C.terra,marginBottom:14}}/>
-            <div style={{fontFamily:"Georgia,serif",fontStyle:"italic",fontSize:16,color:C.terraTx}}>No messages yet</div>
+            <div style={{fontFamily:"var(--font-display)",fontStyle:"italic",fontSize:16,color:C.terraTx}}>
+              {getLang()==="ar" ? "لا رسائل بعد" : "No messages yet"}</div>
             <div style={{fontSize:12,marginTop:6}}>{getLang()==="ar" ? "راسلي أي بائعة من صفحة القطعة" : "Message a seller from any listing"}</div>
+            {/* An empty inbox that says "from any listing" should offer one. */}
+            {onBrowse && (
+              <button onClick={onBrowse} style={{marginTop:18,background:C.btn,color:C.onBtn,border:"none",
+                borderRadius:24,padding:"12px 22px",fontWeight:700,fontSize:14,cursor:"pointer",minHeight:44}}>
+                {getLang()==="ar" ? "تصفّحي الجديد" : "Browse new arrivals"}
+              </button>
+            )}
           </div>
         : <div>
             {threads.map((raw,i)=>{

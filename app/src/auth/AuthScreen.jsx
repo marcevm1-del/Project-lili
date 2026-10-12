@@ -254,6 +254,6 @@ const secondaryBtn = { ...baseBtn, background: "transparent", color: C.ink,
 const linkBtn = { width: "100%", background: "none", border: "none", marginTop: 12,
                   color: C.terraTx, fontSize: 13, fontWeight: 700, cursor: "pointer",
                   fontFamily: "inherit", minHeight: 44 };
-const errBox = { background: "#FFF5F0", border: `1px solid ${C.rose}`, borderRadius: 10,
+const errBox = { background: "var(--c-danger-bg)", border: `1px solid ${C.rose}`, borderRadius: 10,
                  padding: "10px 12px", fontSize: 12, color: C.ink, lineHeight: 1.5,
                  marginBottom: 12 };

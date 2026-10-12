@@ -8,7 +8,7 @@ import { useFocusTrap, dialogProps } from "../a11y/useFocusTrap.js";
 import { matchesFilters, activeCount, EMPTY_FILTERS } from "../discovery/filters.js";
 import { availableSorts } from "../discovery/ranking.js";
 import * as funnel from "../analytics/funnel.js";
-import { t } from "../i18n/t.js";
+import { t, getLang } from "../i18n/t.js";
 import { space } from "../theme/scale.js";
 import { C, CATS, categoryLabel, CONDITIONS, SIZES, BRANDS } from "./shared.jsx";
 import { sizeLabel } from "../sizes/sizeSystem.js";
@@ -33,13 +33,13 @@ export function FiltersPanel({filters,setFilters,onClose,items}) {
 
   return (
     <div ref={trap} {...dialogProps("Filters")}
-      style={{position:"fixed",top:0,right:0,bottom:0,left:0,zIndex:300,background:"#0008",display:"flex",justifyContent:"flex-end"}} onClick={onClose}>
+      style={{position:"fixed",top:0,right:0,bottom:0,left:0,zIndex:300,background:"var(--c-backdrop)",display:"flex",justifyContent:"flex-end"}} onClick={onClose}>
       <div onClick={e=>e.stopPropagation()} style={{background:C.cream,width:"88%",maxWidth:360,
         height:"100%",overflowY:"auto",display:"flex",flexDirection:"column"}}>
         <div style={{display:"flex",justifyContent:"space-between",alignItems:"center",
           padding:"16px",borderBottom:`1px solid ${C.border}`,position:"sticky",top:0,background:C.cream,zIndex:1}}>
           <div>
-            <div style={{fontFamily:"Georgia,serif",fontSize:18,color:C.ink,fontStyle:"italic"}}>{t("filters")}</div>
+            <div style={{fontFamily:"var(--font-display)",fontSize:18,color:C.ink,fontStyle:"italic"}}>{t("filters")}</div>
           </div>
           <button onClick={()=>setLocal({...EMPTY_FILTERS})}
             style={{background:"none",border:"none",cursor:"pointer",color:C.terraTx,fontSize:12,fontWeight:700}}>{t("reset")}</button>
@@ -153,7 +153,7 @@ export function FiltersPanel({filters,setFilters,onClose,items}) {
             }} style={{width:"100%",background:C.btn,
             color:C.onBtn,border:"none",borderRadius:30,padding:"14px 0",
             fontWeight:700,fontSize:14,cursor:"pointer"}}>
-            Show {count} Results · عرض {count} نتيجة
+            {getLang() === "ar" ? `عرض ${count} نتيجة` : `Show ${count} Results`}
           </button>
         </div>
       </div>

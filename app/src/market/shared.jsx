@@ -10,6 +10,7 @@ import * as offers from "../data/offers.js";
 import { isNewArrival } from "../discovery/ranking.js";
 import { t, getLang } from "../i18n/t.js";
 import { type as typeScale, space } from "../theme/scale.js";
+import { SWATCH_FALLBACK } from "../theme/swatches.js";
 import { backArrow } from "../i18n/direction.js";
 import { sizeLabel } from "../sizes/sizeSystem.js";
 import { useSizeSystem } from "../sizes/SizeSystemPicker.jsx";
@@ -51,6 +52,7 @@ export const C = {
   // has no computed styles, and an undefined style property throws no error.
   terraTx:"var(--c-terra-tx)",
   btn:"var(--c-accent-btn)", onBtn:"var(--c-on-accent)",
+  onSwatchDark:"var(--c-on-swatch-dark)", onSwatchLight:"var(--c-on-swatch-light)",
   goldTx:"var(--c-gold-tx)", greenTx:"var(--c-green-tx)", redTx:"var(--c-red-tx)",
 };
 
@@ -82,7 +84,7 @@ export function PalmBg() {
 // ── lili wordmark ──────────────────────────────────────────────────────────
 export function Lili({ size=28, color=C.ink }) {
   return (
-    <span style={{fontFamily:"Georgia,serif",fontWeight:700,fontSize:size,color,
+    <span style={{fontFamily:"var(--font-display)",fontWeight:700,fontSize:size,color,
       letterSpacing:-1,display:"inline-flex",alignItems:"flex-end",lineHeight:1,userSelect:"none",
       paddingTop: space(size*0.5)}}>
       {["l","i","l","i"].map((ch,idx)=>(
@@ -119,7 +121,7 @@ export function LiliWordmark({ size=16 }) {
     </span>
   );
   return (
-    <span style={{fontFamily:"Georgia,serif",fontSize:size,color:C.ink,
+    <span style={{fontFamily:"var(--font-display)",fontSize:size,color:C.ink,
       fontStyle:"italic",letterSpacing:0.3,userSelect:"none",
       display:"inline-flex",alignItems:"flex-end",paddingTop:space(size*0.55),lineHeight:1}}>
       {/* Non-breaking spaces, deliberately.
@@ -138,13 +140,23 @@ export const T = {
   shop:["Shop","تسوق"], newIn:["New In","جديد"], sellers:["Sellers","البائعون"],
   saved:["Saved","المحفوظ"], sell:["Sell","بيع"], profile:["Profile","حسابي"],
   categories:["Categories","الفئات"], search:["Search for items, brands, sellers...","ابحثي عن قطع، ماركات، بائعين..."],
-  messageSelller:["Message Seller","تواصل مع البائع"], makeOffer:["Make an Offer","قدم عرضاً"],
-  follow:["Follow","تابع"], following:["Following","تتابعينها"], listItem:["List Item","أضف قطعة"], addPhotos:["Add Photos","أضف صوراً"],
+  messageSelller:["Message Seller","راسلي البائعة"], makeOffer:["Make an Offer","قدّمي عرضاً"],
+  follow:["Follow","تابعي"], following:["Following","تتابعينها"], listItem:["List Item","أضف قطعة"], addPhotos:["Add Photos","أضف صوراً"],
   newInTitle:["New In","وصل حديثاً"], stories:["Stories","ستوريز"],
-  forYou:["For You","لكِ"], save:["Save","احفظ"],
+  forYou:["For You","لكِ"], save:["Save","احفظي"],
+  buy:["Buy","اشتري"], reserved:["Reserved","محجوزة"],
 };
-export function bi([en, ar]) { return <span>{en} <span style={{fontSize:"0.8em",opacity:0.6,fontFamily:"inherit"}}>· {ar}</span></span>; }
-export function biStr([en, ar]) { return `${en} · ${ar}`; }
+// The resale band as one string, used by the item page AND the offer sheet so
+// the two can never quote different numbers again. The offer sheet used to say
+// "resell from about AED 280" on an AED 1,800 piece — the bottom of the band,
+// alone, at the moment she types her number. Same range, both screens.
+export const bandRange = (band) =>
+  `AED ${band.low.toLocaleString()}–${band.high.toLocaleString()}`;
+
+// One label, one language (DESIGN.md §1). These pairs used to be printed
+// together — "Follow · تابع" in one line, "Make an Offer" over "قدم عرضاً" on
+// every button — while the language setting already said which one she reads.
+export const say = ([en, ar]) => (getLang() === "ar" ? ar : en);
 
 // ── seed data ──────────────────────────────────────────────────────────────
 //
@@ -249,7 +261,7 @@ export function Avatar({shop,size=36}) {
     <div style={{width:size,height:size,borderRadius:"50%",background:shop.banner||C.sand,
       display:"flex",alignItems:"center",justifyContent:"center",
       flexShrink:0,border:`2px solid ${C.border}`,position:"relative",
-      fontFamily:"Georgia,serif",fontWeight:700,fontSize:typeScale(size*0.4),color:C.white,
+      fontFamily:"var(--font-display)",fontWeight:700,fontSize:typeScale(size*0.4),color:C.white,
       letterSpacing:0.5}}>
       {(shop.name||"?").trim().charAt(0).toUpperCase()}
       {/* v2.10 — the green "online" dot is gone. There is no presence system:
@@ -322,6 +334,17 @@ export function Pill({text,bg=C.sand,color=C.inkLt,fs=10}) {
 // Every item's media passes through here, so this is where each one gets its
 // own loading state. The hook lives per instance, which is what keeps the
 // states independent — a tile that has loaded is unaffected by one that hasn't.
+// The title on a CARD, without the brand it starts with. The brand already
+// sits above it in capitals, so "CHANEL / Chanel Classic Fla…" spent the one
+// truncated line repeating itself and cut off the model — the only new word.
+export function cardTitle(item) {
+  const title = (getLang()==="ar" && item.titleAr) ? item.titleAr : (item.title || "");
+  const brand = (item.brand || "").trim();
+  if (!brand || !title.toLowerCase().startsWith(brand.toLowerCase())) return title;
+  const rest = title.slice(brand.length).replace(/^[\s·:–-]+/, "");
+  return rest || title;
+}
+
 export function ItemPhoto({item, size=56, compact, full}) {
   // A 180px tile has no business downloading a 1600px photograph. `full` is
   // set only where the picture is actually the point — the item detail.
@@ -329,10 +352,16 @@ export function ItemPhoto({item, size=56, compact, full}) {
   const { state, retry, srcKey, onLoad, onError } = useItemLoad(source || null);
 
   // No photo: the placeholder art is the finished state, not a waiting state.
+  // Designed as a label, not a giant icon: the brand set in the display face,
+  // the kind of piece small beneath it — so a tile without a photograph still
+  // says what it is, the way a boutique tag does.
   if (!source) {
     return (
       <div className="lili-fill" style={{width:"100%",height:"100%",background:`linear-gradient(145deg,${item.color},${item.color}99)`,
-        display:"flex",alignItems:"center",justifyContent:"center"}}><Placeholder item={item} size={size}/></div>
+        display:"flex",flexDirection:"column",alignItems:"center",justifyContent:"center",gap:size*0.18,padding:"0 10%",boxSizing:"border-box"}}>
+        {item.brand ? <BrandMark item={item} size={size}/> : <Placeholder item={item} size={size}/>}
+        {item.brand && <Placeholder item={item} size={Math.round(size*0.36)}/>}
+      </div>
     );
   }
 
@@ -378,7 +407,9 @@ export function BackBtn({onBack}) {
 // how many are on, so a narrowed feed never looks like an empty marketplace.
 export function SearchBar({value,onChange,autoFocus=false,placeholder="Search...",onFilters,filterCount=0}) {
   return (
-    <div style={{display:"flex",alignItems:"center",gap:8,background:"#F2EAE4",
+    // className: the focus ring belongs to the field, not to the bare <input>
+    // inside it — that drew a bordered box inside the grey one (index.css).
+    <div className="lili-search" style={{display:"flex",alignItems:"center",gap:8,background:"var(--c-field)",
       borderRadius:12,padding:onFilters?"4px 4px 4px 14px":"10px 14px",margin:"0 14px 10px"}}>
       <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke={C.inkLt} strokeWidth="2.2" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="M21 21l-4.35-4.35"/></svg>
       <input value={value} onChange={e=>onChange(e.target.value)}
@@ -396,7 +427,7 @@ export function SearchBar({value,onChange,autoFocus=false,placeholder="Search...
           <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" aria-hidden="true">
             <line x1="4" y1="6" x2="20" y2="6"/><line x1="4" y1="12" x2="20" y2="12"/>
             <line x1="4" y1="18" x2="20" y2="18"/>
-            <circle cx="8" cy="6" r="2" fill={filterCount?C.btn:"#F2EAE4"}/><circle cx="16" cy="12" r="2" fill={filterCount?C.btn:"#F2EAE4"}/><circle cx="10" cy="18" r="2" fill={filterCount?C.btn:"#F2EAE4"}/>
+            <circle cx="8" cy="6" r="2" fill={filterCount?C.btn:"var(--c-field)"}/><circle cx="16" cy="12" r="2" fill={filterCount?C.btn:"var(--c-field)"}/><circle cx="10" cy="18" r="2" fill={filterCount?C.btn:"var(--c-field)"}/>
           </svg>
           {filterCount > 0 && <span style={{fontSize:12,fontWeight:700}}>{filterCount}</span>}
         </button>
@@ -428,16 +459,34 @@ export function withHeart(items, savedIds) {
 // Placeholder art for a piece with no photo yet: the category icon, drawn in
 // the piece's own colour. Replaces the emoji that rendered differently on every
 // handset and belonged to nobody's brand.
+function onDarkSwatch(item) {
+  const hex = (item && item.color) || SWATCH_FALLBACK;
+  const rgb = [1,3,5].map(i=>parseInt(hex.slice(i,i+2),16)||0);
+  return (0.2126*rgb[0] + 0.7152*rgb[1] + 0.0722*rgb[2]) / 255 < 0.5;
+}
+
+function BrandMark({item, size}) {
+  const onDark = onDarkSwatch(item);
+  // Sized so the longest WORD fits a carousel tile (~110px inside its margin):
+  // a brand broken mid-word — "ZIMME / RMANN" — reads as a bug, not a label.
+  const longest = Math.max(...String(item.brand).split(/\s+/).map(w => w.length), 1);
+  const fit = 110 / (longest * 0.86);
+  return (
+    <div style={{fontFamily:"var(--font-display)",fontWeight:600,textTransform:"uppercase",
+      letterSpacing:"0.12em",textAlign:"center",lineHeight:1.15,
+      fontSize:typeScale(Math.max(11, Math.min(26, size*0.38, fit))),
+      color:onDark ? C.onSwatchDark : C.onSwatchLight,opacity:onDark ? 0.92 : 0.72,
+      overflowWrap:"normal",wordBreak:"keep-all",maxWidth:"100%",overflow:"hidden"}}>{item.brand}</div>
+  );
+}
+
 export function Placeholder({item, size=48}) {
   // The icon sits on the piece's own colour, which ranges from cream to near
   // black. Drawing it in ink regardless made it invisible on the dark ones —
   // "Dubai Finds" rendered as an empty circle. Pick the tone by luminance.
-  const hex = (item && item.color) || "#E8D5C6";
-  const rgb = [1,3,5].map(i=>parseInt(hex.slice(i,i+2),16)||0);
-  const lum = (0.2126*rgb[0] + 0.7152*rgb[1] + 0.0722*rgb[2]) / 255;
-  const onDark = lum < 0.5;
+  const onDark = onDarkSwatch(item);
   return <Icon name={item.icon || "bag"} size={size} stroke={1.3}
-                style={{color: onDark ? "#FFFFFF" : C.ink, opacity: onDark ? 0.85 : 0.55}}/>;
+                style={{color: onDark ? C.onSwatchDark : C.onSwatchLight, opacity: onDark ? 0.85 : 0.55}}/>;
 }
 
 // Shop identity without emoji: her initial, set in the serif the brand already
@@ -448,7 +497,7 @@ export function Monogram({shop, size=44}) {
     <div style={{width:size,height:size,borderRadius:"50%",flexShrink:0,
       background:shop?.banner||C.sand, color:C.white,
       display:"flex",alignItems:"center",justifyContent:"center",
-      fontFamily:"Georgia,serif",fontWeight:700,fontSize:typeScale(size*0.42),
+      fontFamily:"var(--font-display)",fontWeight:700,fontSize:typeScale(size*0.42),
       letterSpacing:0.5}}>
       {letter}
     </div>
@@ -460,14 +509,22 @@ export function Monogram({shop, size=44}) {
 
 
 
-export function ItemTile({item,onSave,onClick,loading}) {
+// How a search result was found, said on the result itself. The search has
+// returned this per item since v2.8; the page summarised it as "some matched
+// through Arabic or a near spelling", which with one result told her nothing.
+const MATCH_NOTE = {
+  translated: { en: "Matched in the other language", ar: "مطابقة باللغة الأخرى" },
+  close:      { en: "Close to what you typed",       ar: "قريبة مما كتبتِ" },
+};
+
+export function ItemTile({item,onSave,onClick,loading,showNew=true,match}) {
   useSizeSystem();          // re-render when she switches EU / UK / US …
   // A tile waiting on its own data renders the skeleton at the same size,
   // so its neighbours never move when it resolves.
   if (loading || (item && item.pending)) return <ItemSkeleton/>;
   return (
     <div onClick={onClick} style={{cursor:"pointer",borderRadius:14,overflow:"hidden",
-      background:C.white,border:`1px solid ${C.border}`,boxShadow:"0 1px 6px #0000000a",
+      background:C.white,border:`1px solid ${C.border}`,boxShadow:"0 1px 6px var(--c-elev)",
       transition:"transform 0.15s"}}
       onMouseEnter={e=>e.currentTarget.style.transform="translateY(-2px)"}
       onMouseLeave={e=>e.currentTarget.style.transform=""}>
@@ -488,7 +545,7 @@ export function ItemTile({item,onSave,onClick,loading}) {
           <div style={{position:"absolute",top:8,left:8,
             background:C.ink,color:C.cream,fontSize:11,fontWeight:700,
             padding:"2px 7px",borderRadius:10}}>Reserved</div>
-        ) : isNewArrival(item) && (
+        ) : showNew && isNewArrival(item) && (
           <div style={{position:"absolute",top:8,left:8,
             background:C.btn,color:C.onBtn,fontSize:11,fontWeight:700,
             padding:"2px 7px",borderRadius:10}}>{t("new")}</div>
@@ -504,13 +561,17 @@ export function ItemTile({item,onSave,onClick,loading}) {
             still searched, and shown in full on the piece itself. */}
         <div dir="auto" style={{fontSize:13,fontWeight:600,color:C.ink,lineHeight:1.3,marginBottom:4,
           whiteSpace:"nowrap",overflow:"hidden",textOverflow:"ellipsis"}}>
-          {getLang()==="ar" && item.titleAr ? item.titleAr : item.title}</div>
+          {cardTitle(item)}</div>
         <PriceTag item={item} size={14}/>
         {/* Size and condition read together, as one line, under the price —
             the two things she filters on in her head before she taps. */}
         <div style={{fontSize:11,color:C.inkLt,marginTop:2,whiteSpace:"nowrap",overflow:"hidden",textOverflow:"ellipsis"}}>
           {[item.size && item.size!=="OS" ? `Size ${sizeLabel(item.size)}` : null, item.condition].filter(Boolean).join(" · ")}
         </div>
+        {match && MATCH_NOTE[match] && (
+          <div style={{fontSize:11,color:C.terraTx,marginTop:4,whiteSpace:"nowrap",overflow:"hidden",textOverflow:"ellipsis"}}>
+            {getLang()==="ar" ? MATCH_NOTE[match].ar : MATCH_NOTE[match].en}</div>
+        )}
       </div>
     </div>
   );

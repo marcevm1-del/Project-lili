@@ -58,7 +58,7 @@ export function CartPage({cart, shops, removeFromCart, setTab, onMessageSeller})
         <button onClick={()=>setTab("home")} aria-label="Back" style={{background:"none",border:"none",cursor:"pointer",fontSize:20,color:C.ink,
           minWidth:44,minHeight:44,display:"flex",alignItems:"center",justifyContent:"center"}}>{backArrow()}</button>
         <div style={{flex:1}}>
-          <div style={{fontFamily:"Georgia,serif", fontStyle:"italic", fontSize:18, color:C.terraTx}}>{t("your_list")}</div>
+          <div style={{fontFamily:"var(--font-display)", fontStyle:"italic", fontSize:18, color:C.terraTx}}>{t("your_list")}</div>
           <div style={{fontSize:11, color:C.inkLt}}>
             {cart.length} {cart.length === 1 ? t("piece") : t("pieces")}
             {sellerIds.length > 1 ? ` · ${t("from_n_sellers", { n: sellerIds.length })}` : ""}
@@ -68,7 +68,7 @@ export function CartPage({cart, shops, removeFromCart, setTab, onMessageSeller})
 
       {cart.length === 0 ? (
         <div style={{textAlign:"center", padding:"70px 24px", color:C.inkLt}}>
-          <Icon name="bag" size={30} stroke={1.4} style={{color:C.terra, marginBottom:12, opacity:0.85}}/>
+          <Icon name="list" size={30} stroke={1.4} style={{color:C.terra, marginBottom:12, opacity:0.85}}/>
           <div style={{fontSize:14, color:C.ink}}>{t("nothing_on_your_list_yet")}</div>
           <div style={{fontSize:12, marginTop:7, lineHeight:1.65, maxWidth:280, margin:"7px auto 0"}}>
             {t("add_pieces_you_mean_to_ask_about")}

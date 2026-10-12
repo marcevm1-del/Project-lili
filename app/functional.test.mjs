@@ -306,9 +306,12 @@ const payout = await page.evaluate(() => {
 let sawFitStep = false, fitStepHas = {};
 await label("Sell");
 await page.waitForTimeout(400);
-// a shop must exist before the listing form appears
+// v2.11.8: photos first — the listing flow opens straight away and the shop is
+// asked for when she publishes. A build that still asks for the shop first is
+// handled too, so the walk below runs either way.
 const shopName = page.locator('input[placeholder*="Desert Rose"]').first();
-if (await shopName.count()) {
+{
+ if (await shopName.count()) {
   await shopName.fill("Test Closet");
   await tap("Selling from my own wardrobe");
   await tap("Continue");
@@ -322,6 +325,7 @@ if (await shopName.count()) {
   // once a shop exists the tab shows My Shop — the listing form is one hop on
   await label("Sell");
   await page.waitForTimeout(400);
+ }
   if (await page.locator('input[placeholder="0"]:visible').count() === 0) {
     await tap("List Item") || await tap("List an item");
     await page.waitForTimeout(400);

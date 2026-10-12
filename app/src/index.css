@@ -1,4 +1,5 @@
 @import "./theme/palette.css";
+@import "./theme/fonts.css";
 
 /* ── global reset + native-app feel ─────────────────────────────────────── */
 *, *::before, *::after { box-sizing: border-box; }
@@ -16,6 +17,7 @@ body {
   -webkit-overflow-scrolling: touch;
   -webkit-font-smoothing: antialiased;
   text-rendering: optimizeLegibility;
+  font-family: var(--font-sans);
 }
 
 /* no blue tap flash, no accidental text selection — except in real inputs */
@@ -272,3 +274,13 @@ select:focus-visible {
   text-align: match-parent;
   text-align: -webkit-match-parent;   /* Chromium resolves only the prefixed form */
 }
+
+/* The search field is one box. Its <input> is transparent inside a filled
+   container, and :focus-visible on the input drew a second, bordered box inside
+   the first — offset, because the container has padding. The ring now goes on
+   the container, where the eye already sees the edge of the field. */
+.lili-search:focus-within {
+  outline: 2.5px solid var(--c-accent-btn, #9E6050);
+  outline-offset: 0;
+}
+.lili-search input:focus-visible { outline: none !important; box-shadow: none !important; border-radius: 0; }

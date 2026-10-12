@@ -113,6 +113,7 @@ export const STRINGS = {
   sellers: { en: "Sellers", ar: "البائعون" },
   selling: { en: "Selling", ar: "البيع" },
   send_offer: { en: "Send Offer", ar: "أرسل العرض" },
+  enter_an_amount: { en: "Enter an amount to send", ar: "أدخلي مبلغاً للإرسال" },
   send_report: { en: "Send report", ar: "إرسال" },
   sending: { en: "Sending…", ar: "جاري الإرسال" },
   set_your_price: { en: "Set Your Price", ar: "السعر" },

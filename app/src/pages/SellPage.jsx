@@ -1,5 +1,6 @@
 // Moved out of Marketplace.jsx unchanged; see that file's history for the
 // reasoning in the comments below.
+import { SHOP_BANNERS } from "../theme/swatches.js";
 import { useState, useEffect, useRef, lazy } from "react";
 import { useCompliance, SELLER_TYPES } from "../compliance";
 import { sellerClausesFor } from "../compliance/agreements.js";
@@ -266,13 +267,31 @@ export function SellPage({myShop,onCreateShop,onAddItem,setTab,onListed}) {
   // doubly invisible: the error had nowhere to surface, and the seller was
   // already looking at a screen that implied success. `publishing` also closes
   // a second hole — two taps on List previously created two listings.
-  const submit = async () => {
+  // v2.11.8 — photos first. Every resale app she knows starts with the
+  // photographs, because three photos in is a listing she finishes; lili
+  // started with a legal question and a shop name, and the beta roster showed
+  // "opened a shop → listed" as the worst gap. The shop is now asked for HERE,
+  // at the moment the piece is ready, and the piece goes live straight after.
+  const [needShop,setNeedShop] = useState(false);
+  const submit = () => {
+    if(!form.title||parsePrice(form.price)===null||publishing) return;
+    if(!myShop) { setNeedShop(true); return; }
+    return publish(myShop.id);
+  };
+  // A shop opened through sign-in arrives as a new `myShop` rather than as the
+  // return value — publish then.
+  useEffect(() => {
+    if (needShop && myShop) { setNeedShop(false); publish(myShop.id); }
+  }, [needShop, myShop && myShop.id]);
+
+  const publish = async (shopId) => {
     if(!form.title||parsePrice(form.price)===null||publishing) return;
     setPublishing(true); setPublishError(null);
     try {
       const created = await onAddItem({
-        // her shop's id; the form is only reachable once a shop exists
-        id:Date.now(),shopId:myShop && myShop.id,
+        // her shop's id — passed in, because a shop opened a moment ago at the
+        // end of this listing is not in `myShop` yet on this render
+        id:Date.now(),shopId:shopId,
         title:form.title,
         // v2.9.1: this was `form.titleAr || form.title`.
         //
@@ -347,9 +366,9 @@ export function SellPage({myShop,onCreateShop,onAddItem,setTab,onListed}) {
   // interface tells her here, at the door.
   if(!canSell) return (
     <div style={{paddingBottom:72}}>
-      <TopBar center={<span style={{fontFamily:"Georgia,serif",fontStyle:"italic",fontSize:18,color:C.terraTx}}>{t("selling")}</span>}/>
+      <TopBar center={<span style={{fontFamily:"var(--font-display)",fontStyle:"italic",fontSize:18,color:C.terraTx}}>{t("selling")}</span>}/>
       <div style={{padding:"28px 20px"}}>
-        <div style={{fontFamily:"Georgia,serif",fontStyle:"italic",fontSize:22,color:C.ink,marginBottom:6}}>
+        <div style={{fontFamily:"var(--font-display)",fontStyle:"italic",fontSize:22,color:C.ink,marginBottom:6}}>
           Invite only, for now
         </div>
         <div style={{fontSize:13,color:C.terraTx,marginBottom:18}}>بالدعوة فقط حالياً</div>
@@ -371,10 +390,33 @@ export function SellPage({myShop,onCreateShop,onAddItem,setTab,onListed}) {
     </div>
   );
 
-  if(!myShop) return (
+  // The last step of a first listing: her piece is ready, now the shop.
+  if(needShop && !myShop) return (
     <div style={{paddingBottom:72}}>
-      <TopBar center={<span style={{fontFamily:"Georgia,serif",fontStyle:"italic",fontSize:18,color:C.terraTx}}>{t("open_your_shop")}</span>}/>
-      <div style={{padding:20}}><CreateShopForm onCreateShop={onCreateShop}/></div>
+      <TopBar center={<span style={{fontFamily:"var(--font-display)",fontStyle:"italic",fontSize:18,color:C.terraTx}}>{t("open_your_shop")}</span>}/>
+      <div style={{padding:20}}>
+        <p style={{fontSize:13,color:C.ink,lineHeight:1.6,margin:"0 0 14px"}}>
+          {getLang()==="ar"
+            ? "قطعتك جاهزة. سمّي متجرك وستُنشر مباشرة."
+            : "Your piece is ready. Name your shop and it goes live."}
+        </p>
+        <CreateShopForm onCreateShop={async f => {
+          const s = await onCreateShop(f, { stay: true });
+          if (s && s.id) { setNeedShop(false); await publish(s.id); }
+        }}/>
+        <button onClick={()=>setNeedShop(false)} style={{marginTop:12,width:"100%",background:"none",
+          border:"none",color:C.inkLt,fontSize:13,cursor:"pointer",minHeight:44}}>
+          {getLang()==="ar" ? "رجوع إلى القطعة" : "Back to my piece"}
+        </button>
+      </div>
+    </div>
+  );
+
+  // Several-at-once publishes straight to a shop, so it still opens one first.
+  if(!myShop && mode==="bulk") return (
+    <div style={{paddingBottom:72}}>
+      <TopBar center={<span style={{fontFamily:"var(--font-display)",fontStyle:"italic",fontSize:18,color:C.terraTx}}>{t("open_your_shop")}</span>}/>
+      <div style={{padding:20}}><CreateShopForm onCreateShop={f => onCreateShop(f, { stay: true })}/></div>
     </div>
   );
 
@@ -387,7 +429,7 @@ export function SellPage({myShop,onCreateShop,onAddItem,setTab,onListed}) {
     <div style={{paddingBottom:72}}>
       <TopBar center={<Lili size={24}/>}/>
       <div style={{padding:"24px 16px"}}>
-        <div style={{fontFamily:"Georgia,serif",fontStyle:"italic",fontSize:22,color:C.ink,marginBottom:4}}>List an item</div>
+        <div style={{fontFamily:"var(--font-display)",fontStyle:"italic",fontSize:22,color:C.ink,marginBottom:4}}>List an item</div>
         <div style={{fontSize:13,color:C.inkLt,marginBottom:28}}>{getLang()==="ar" ? "كيف تريدين إضافة قطعتك؟" : "How would you like to list?"}</div>
         <div style={{display:"flex",flexDirection:"column",gap:14}}>
           <button onClick={()=>{setMode("quick");setStep(1);}} style={{background:C.btn,color:C.onBtn,
@@ -402,7 +444,7 @@ export function SellPage({myShop,onCreateShop,onAddItem,setTab,onListed}) {
               {/* "3 taps ... under 60 seconds" was never true — the flow is
                   three screens plus a mode choice plus the fields. It says what
                   it is. */}
-              <div style={{fontSize:12,opacity:0.85,marginTop:3}}>One piece. Photograph, a few details, price.</div>
+              <div style={{fontSize:12,marginTop:3}}>One piece. Photograph, a few details, price.</div>
             </div>
           </button>
           <button onClick={()=>{setMode("guided");setStep(1);}} style={{background:C.white,color:C.ink,
@@ -438,7 +480,7 @@ export function SellPage({myShop,onCreateShop,onAddItem,setTab,onListed}) {
       <div style={{background:C.cream,padding:"12px 14px",borderBottom:`1px solid ${C.border}`,
         display:"flex",alignItems:"center",justifyContent:"space-between"}}>
         <button onClick={()=>setMode("choose")} style={{background:"none",border:"none",cursor:"pointer",color:C.terraTx,fontSize:13,fontWeight:600}}>{t("cancel")}</button>
-        <span style={{fontFamily:"Georgia,serif",fontStyle:"italic",fontSize:15,color:C.ink}}>
+        <span style={{fontFamily:"var(--font-display)",fontStyle:"italic",fontSize:15,color:C.ink}}>
           {step===1?(isGuided?"Add Photos":t("add_photos")):
            step===2?t("list_your_item"):
            step===3?t("set_your_price"):
@@ -461,7 +503,7 @@ export function SellPage({myShop,onCreateShop,onAddItem,setTab,onListed}) {
           : <button onClick={submit} style={{background:"none",border:"none",cursor:"pointer",color:C.terraTx,fontSize:13,fontWeight:700}}>{t("list")}</button>}
       </div>
       {stepError && (
-        <div role="alert" style={{background:"#FBF0EE",borderBottom:`1px solid ${C.red}`,
+        <div role="alert" style={{background:"var(--c-danger-bg)",borderBottom:`1px solid ${C.red}`,
           padding:"10px 14px",fontSize:12,color:C.ink,lineHeight:1.5,
           display:"flex",alignItems:"center",justifyContent:"space-between",gap:10}}>
           <span>{stepError.message}</span>
@@ -504,7 +546,7 @@ export function SellPage({myShop,onCreateShop,onAddItem,setTab,onListed}) {
                 the counter below it said 8. The number now comes from the
                 limit, so the sentence cannot drift away from the rule again. */}
             <p style={{fontSize:12,color:C.inkLt,marginBottom:14}}>
-              Add up to {LIMITS.maxPerListing} photos · أضيفي حتى {LIMITS.maxPerListing} صور
+              {getLang() === "ar" ? `أضيفي حتى ${LIMITS.maxPerListing} صور` : `Add up to ${LIMITS.maxPerListing} photos`}
             </p>
             <div style={{display:"grid",gridTemplateColumns:"repeat(3,1fr)",gap:8}}>
               {photos.map((p,i)=>(
@@ -514,7 +556,7 @@ export function SellPage({myShop,onCreateShop,onAddItem,setTab,onListed}) {
                     position:"absolute",top:4,right:4,background:C.btn,border:"none",
                     borderRadius:"50%",width:22,height:22,color:C.onBtn,cursor:"pointer",fontSize:12,
                     display:"flex",alignItems:"center",justifyContent:"center"}}><Icon name="close" size={14} stroke={2}/></button>
-                  {i===0 && <div style={{position:"absolute",bottom:4,left:4,background:"#000a",
+                  {i===0 && <div style={{position:"absolute",bottom:4,left:4,background:"var(--c-backdrop)",
                     color:C.white,fontSize:11,padding:"2px 6px",borderRadius:8}}>Cover</div>}
                 </div>
               ))}
@@ -673,7 +715,7 @@ export function SellPage({myShop,onCreateShop,onAddItem,setTab,onListed}) {
             <ListingQuality form={form} photos={photos}/>
 
             {publishError && (
-              <div role="alert" style={{background:"#FBF0EE",border:`1.5px solid ${C.red}`,
+              <div role="alert" style={{background:"var(--c-danger-bg)",border:`1.5px solid ${C.red}`,
                 borderRadius:12,padding:"12px 14px",fontSize:12,lineHeight:1.55,color:C.ink}}>
                 <b style={{color:C.redTx}}>Not published.</b> {publishError}
               </div>
@@ -769,7 +811,7 @@ export function SellPage({myShop,onCreateShop,onAddItem,setTab,onListed}) {
             <ListingQuality form={form} photos={photos}/>
 
             {publishError && (
-              <div role="alert" style={{background:"#FBF0EE",border:`1.5px solid ${C.red}`,
+              <div role="alert" style={{background:"var(--c-danger-bg)",border:`1.5px solid ${C.red}`,
                 borderRadius:12,padding:"12px 14px",fontSize:12,lineHeight:1.55,color:C.ink}}>
                 <b style={{color:C.redTx}}>Not published.</b> {publishError}
               </div>
@@ -822,7 +864,9 @@ export function SellPage({myShop,onCreateShop,onAddItem,setTab,onListed}) {
 }
 
 export function CreateShopForm({onCreateShop}) {
-  const [form,setForm] = useState({name:"",nameAr:"",bio:"",bioAr:"",banner:C.terra,sellerType:""});
+  // A stored banner is content, not a theme variable — "var(--c-terra)" saved
+  // to a shop row would change colour when the theme did.
+  const [form,setForm] = useState({name:"",nameAr:"",bio:"",bioAr:"",banner:SHOP_BANNERS[0],sellerType:""});
   const [showAgreement,setShowAgreement] = useState(false);
 
   // The seller agreement is asked for HERE, not at signup — a buyer must
@@ -836,7 +880,7 @@ export function CreateShopForm({onCreateShop}) {
       onAgree={acc=>onCreateShop({...form,sellerAgreement:acc})}/>
   );
 
-  const BANNERS = [C.terra,"#7B6FA0","#4A7B6F",C.gold,"#B55A3A","#5C4A3A"];
+  const BANNERS = SHOP_BANNERS;
   return (
     <div style={{display:"flex",flexDirection:"column",gap:14}}>
       {/* v2.10 — the two things a woman wants to know before she opens a shop

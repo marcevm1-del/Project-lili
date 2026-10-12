@@ -44,7 +44,7 @@ export function ProfilePage({myShop,items,setTab,onOpenLegal,onOpenPreferences,o
       {label:t("privacy_safety"),icon:"shield",action:onOpenLegal},
     ]},
     { title: t("app_group"), rows: [
-      {label:t("settings"),icon:"filter",action:onOpenSettings},
+      {label:t("settings"),icon:"gear",action:onOpenSettings},
       {label:t("language"),icon:"globe",action:onOpenLanguage},
       {label:t("appearance"),icon:"theme",action:onOpenTheme},
       {label:t("help_support"),icon:"help",action:onOpenHelp},
@@ -56,7 +56,7 @@ export function ProfilePage({myShop,items,setTab,onOpenLegal,onOpenPreferences,o
         right={<button aria-label="Appearance" className="tap-target" onClick={onOpenTheme}
           style={{background:"none",border:"none",cursor:"pointer",color:C.inkLt,
             display:"flex",alignItems:"center",justifyContent:"center"}}>
-          <Icon name="filter" size={19}/></button>}/>
+          <Icon name="theme" size={19}/></button>}/>
       <div style={{padding:"20px 14px"}}>
         <div style={{display:"flex",alignItems:"center",gap:14,marginBottom:20}}>
           <div style={{width:72,height:72,borderRadius:"50%",background:C.sand,
@@ -171,20 +171,14 @@ export function ProfilePage({myShop,items,setTab,onOpenLegal,onOpenPreferences,o
             offer. */}
         <div style={{textAlign:"center",marginTop:24,padding:"16px",
           background:C.white,borderRadius:14,border:`1px solid ${C.border}`}}>
-          <div style={{fontFamily:"Georgia,serif",fontStyle:"italic",fontSize:15,
+          <div style={{fontFamily:"var(--font-display)",fontStyle:"italic",fontSize:15,
             color:C.ink,marginBottom:6}}>Early days, on purpose</div>
           <div style={{fontSize:12,color:C.inkLt,lineHeight:1.6}}>
             No inflated numbers here. Shops show what they have actually sold,
             and nothing before that. Ratings arrive when real buyers leave them.
           </div>
-          <div style={{display:"flex",justifyContent:"center",gap:18,marginTop:12,flexWrap:"wrap"}}>
-            {[["tag","Every listing screened"],["lock","Messages stay private"],["scales","Reasons on every decision"]].map(([icon,t])=>(
-              <span key={t} style={{fontSize:11,color:C.inkLt,display:"inline-flex",
-                alignItems:"center",gap:4}}>
-                <Icon name={icon} size={10} stroke={2}/>{t}
-              </span>
-            ))}
-          </div>
+          {/* The three-chip row that sat here was the reassurance shape
+              DESIGN.md §5 refuses; the paragraph says it without the badges. */}
         </div>
         {/* Which build is on this phone. Without it there was no way to tell
             whether an update had installed (debug-signed builds used to be

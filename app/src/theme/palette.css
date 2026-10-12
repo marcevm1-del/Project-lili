@@ -43,6 +43,12 @@
   --c-accent-btn: #9E6050;
   --c-on-accent:  #FFFFFF;
 
+  /* Ink on an item's own colour swatch. The swatch is the piece's colour and
+     does not change with the theme, so neither does what is drawn on it —
+     using --c-ink made the mark near-white on a cream swatch in dark mode. */
+  --c-on-swatch-dark:  #FFFFFF;
+  --c-on-swatch-light: #5C4A3A;
+
   --c-gold:     #C9A96E;
   --c-gold-tx:  #7D6944;
   --c-rose:     #EDBBAC;
@@ -59,6 +65,20 @@
   --c-scrim-ee: rgba(255, 255, 255, 0.93);
 
   --c-shadow:   rgba(196, 133, 106, 0.20);
+
+  /* v2.11.8 — the literals that were scattered through components */
+  --c-field:      #F2EAE4;                 /* the search field's fill */
+  --c-danger-bg:  #FBF0EE;                 /* behind an error message */
+  --c-success-bg: #F2F7F3;                 /* behind a passed check */
+  --c-backdrop:   rgba(0, 0, 0, 0.62);     /* behind a sheet or modal */
+  --c-elev:       rgba(0, 0, 0, 0.05);     /* resting card shadow */
+  --c-elev-strong:rgba(0, 0, 0, 0.13);
+  --c-knob:       #FFFFFF;                 /* a switch's thumb, both themes */
+  /* on photographs and the story viewer: the ground is the image, not the theme */
+  --c-media-bg:   #000000;
+  --c-media-chip: rgba(0, 0, 0, 0.2);
+  --c-on-media-faint: rgba(255, 255, 255, 0.27);
+  --c-on-media-soft:  rgba(255, 255, 255, 0.58);
 }
 
 [data-theme="dark"] {
@@ -97,6 +117,13 @@
   --c-scrim-ee: rgba(22, 17, 14, 0.94);
 
   --c-shadow:   rgba(0, 0, 0, 0.45);
+
+  --c-field:      #2E241D;
+  --c-danger-bg:  #3A2420;
+  --c-success-bg: #1E2A22;
+  --c-backdrop:   rgba(0, 0, 0, 0.72);
+  --c-elev:       rgba(0, 0, 0, 0.35);
+  --c-elev-strong:rgba(0, 0, 0, 0.5);
 }
 
 @media (prefers-color-scheme: dark) {
@@ -113,6 +140,8 @@
     --c-scrim-88: rgba(22,17,14,.55); --c-scrim-cc: rgba(22,17,14,.82);
     --c-scrim-dd: rgba(22,17,14,.88); --c-scrim-ee: rgba(22,17,14,.94);
     --c-shadow: rgba(0,0,0,.45);
+    --c-field: #2E241D; --c-danger-bg: #3A2420; --c-success-bg: #1E2A22;
+    --c-backdrop: rgba(0,0,0,.72); --c-elev: rgba(0,0,0,.35); --c-elev-strong: rgba(0,0,0,.5);
   }
 }
 

@@ -182,7 +182,7 @@ export default function BulkList({ categories, conditions, brands, sizes,
                     display: "flex", alignItems: "center", justifyContent: "space-between" }}>
         <button onClick={onBack} style={{ background: "none", border: "none", cursor: "pointer",
           color: C.terraTx, fontSize: 13, fontWeight: 600, fontFamily: "inherit" }}>{t("back")}</button>
-        <span style={{ fontFamily: "Georgia,serif", fontStyle: "italic", fontSize: 15, color: C.ink }}>
+        <span style={{ fontFamily: "var(--font-display)", fontStyle: "italic", fontSize: 15, color: C.ink }}>
           {t("several_at_once")}
         </span>
         <span style={{ fontSize: 12, color: C.inkLt, minWidth: 40, textAlign: "right" }}>
@@ -221,7 +221,7 @@ export default function BulkList({ categories, conditions, brands, sizes,
         </label>
 
         {readError && (
-          <div role="alert" style={{ background: "#FBF0EE", border: `1px solid ${C.red}`,
+          <div role="alert" style={{ background: "var(--c-danger-bg)", border: `1px solid ${C.red}`,
             borderRadius: 10, padding: "10px 12px", fontSize: 12, color: C.ink,
             lineHeight: 1.55, marginBottom: 14 }}>
             <b style={{ color: C.redTx }}>Some photographs weren't added.</b>

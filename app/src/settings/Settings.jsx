@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import { BANNER_CHOICES } from "../theme/swatches.js";
 import { C, Shell, Btn, Note } from "../compliance/ui.js";
 import * as repo from "../data/repo.js";
 import { normaliseText } from "../ux/input.js";
@@ -19,7 +20,7 @@ import { t } from "../i18n/t.js";
 //  app uses, so these edits persist and will move to the server untouched.
 // ─────────────────────────────────────────────────────────────────────────────
 
-const BANNERS = ["#C4856A", "#D4B898", "#E8C4B8", "#C9A96E", "#B08D6E", "#9E6050"];
+const BANNERS = BANNER_CHOICES;
 
 export default function Settings({ myShop, onShopUpdated, onBack }) {
   const [form, setForm] = useState({ name: "", nameAr: "", bio: "", banner: BANNERS[0] });
@@ -84,7 +85,7 @@ export default function Settings({ myShop, onShopUpdated, onBack }) {
                     border: `1px solid ${C.border}`, marginBottom: 18 }}>
         <div style={{ background: form.banner, height: 52 }} />
         <div style={{ padding: "10px 14px 14px" }}>
-          <div style={{ fontFamily: "Georgia,serif", fontWeight: 700, fontSize: 16, color: C.ink }}>
+          <div style={{ fontFamily: "var(--font-display)", fontWeight: 700, fontSize: 16, color: C.ink }}>
             {form.name || "Your shop"}
           </div>
           {form.nameAr && (

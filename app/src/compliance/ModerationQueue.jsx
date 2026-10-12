@@ -42,7 +42,7 @@ export default function ModerationQueue({ onBack }) {
             <div key={label} style={{ flex: 1, background: C.white, borderRadius: 12,
                                       border: `1px solid ${C.border}`, padding: "12px 8px",
                                       textAlign: "center" }}>
-              <div style={{ fontFamily: "Georgia,serif", fontWeight: 700, fontSize: 20, color: colour }}>{n}</div>
+              <div style={{ fontFamily: "var(--font-display)", fontWeight: 700, fontSize: 20, color: colour }}>{n}</div>
               <div style={{ fontSize: 11, color: C.inkLt, marginTop: 2 }}>{label}</div>
             </div>
           ))}

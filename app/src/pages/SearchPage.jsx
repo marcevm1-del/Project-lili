@@ -4,6 +4,7 @@ import { useState, useEffect, useCallback, useMemo } from "react";
 import * as repo from "../data/repo.js";
 import { SaveSearchButton, SavedSearches } from "../discovery/SavedSearches.jsx";
 import Icon from "../icons/Icon.jsx";
+import { CATEGORY_TINTS } from "../theme/swatches.js";
 import { searchLocal, diagnose, suggestions } from "../discovery/search.js";
 import { matchesFilters } from "../discovery/filters.js";
 import { applySort } from "../discovery/ranking.js";
@@ -121,7 +122,9 @@ export function SearchPage({items,shops,onSave,setModal,filters,setFilters,saved
               <button key={t} onClick={()=>setQ(t)} style={{background:C.white,border:`1px solid ${C.border}`,
                 borderRadius:20,padding:"7px 14px",fontSize:13,color:C.ink,cursor:"pointer",
                 display:"flex",alignItems:"center",gap:6}}>
-                <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke={C.terra} strokeWidth="2"><polyline points="23 6 13.5 15.5 8.5 10.5 1 18"/><polyline points="17 6 23 6 23 12"/></svg>
+                {/* A tag, not a trending arrow: these are terms from pieces in
+                    stock, and nothing measures what is trending. */}
+                <Icon name="tag" size={12} stroke={2} style={{color:C.terra}}/>
                 {t}
               </button>
             ))}
@@ -130,10 +133,10 @@ export function SearchPage({items,shops,onSave,setModal,filters,setFilters,saved
           {/* browse by category */}
           <div style={{fontWeight:700,fontSize:14,color:C.ink,marginBottom:12}}>{t("browse_by_category")}</div>
           <div style={{display:"grid",gridTemplateColumns:"repeat(2,1fr)",gap:10}}>
-            {[["gem","Luxury","فاخر","#C9A96E"],["bag","Bags","حقائب","#D4B898"],
-              ["dress","Dresses","فساتين","#E8C4B8"],["abaya","Abayas","عبايات","#EDE0D0"],
-              ["heel","Shoes","أحذية","#C4A882"],["sparkle","Vintage","فينتاج","#C4856A"]].map(([ic,cat,ar,bg])=>(
-              <button key={cat} onClick={()=>{setFilters(f=>({...f,category:cat}));setQ(cat);}}
+            {[["gem","Luxury","فاخر"],["bag","Bags","حقائب"],
+              ["dress","Dresses","فساتين"],["abaya","Abayas","عبايات"],
+              ["heel","Shoes","أحذية"],["sparkle","Vintage","فينتاج"]].map(([ic,cat,ar])=>[ic,cat,ar,CATEGORY_TINTS[cat]]).map(([ic,cat,ar,bg])=>(
+              <button data-bilingual="category" key={cat} onClick={()=>{setFilters(f=>({...f,category:cat}));setQ(cat);}}
                 style={{background:`linear-gradient(135deg,${bg}44,${bg}22)`,
                   border:`1px solid ${bg}66`,borderRadius:14,padding:"16px 14px",
                   cursor:"pointer",textAlign:"left",display:"flex",alignItems:"center",gap:10}}>
@@ -153,17 +156,12 @@ export function SearchPage({items,shops,onSave,setModal,filters,setFilters,saved
               <div style={{padding:"0 4px 10px",fontSize:12,color:C.inkLt}}>
                 {results.length} {results.length===1?"piece":"pieces"} for "{q}"
                 {/* Every result says how it was found — her word, the other
-                    language, or a spelling near enough. The server has returned
-                    this on every row since v2.8 and nothing displayed it. A
-                    woman should know why a result is in front of her. */}
-                {results.some(r=>r.matchKind && r.matchKind!=="exact") && (
-                  <span> · some matched through Arabic or a near spelling</span>
-                )}
+                    language, or a spelling near enough — on the tile itself. */}
               </div>
               <SaveSearchButton q={q} filters={filters}/>
               <div style={{display:"grid",gridTemplateColumns:"repeat(2,1fr)",gap:10}}>
                 {results.map(item=>(
-                  <ItemTile key={item.id} item={item} onSave={onSave} onClick={()=>setModal(item)}/>
+                  <ItemTile key={item.id} item={item} match={item.matchKind} onSave={onSave} onClick={()=>setModal(item)}/>
                 ))}
               </div>
             </>

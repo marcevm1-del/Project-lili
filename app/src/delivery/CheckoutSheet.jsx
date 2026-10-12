@@ -78,7 +78,7 @@ export default function CheckoutSheet({ items, shopName, onClose, onDone, onSign
     <div onClick={onClose} style={overlay}>
       <div ref={trap} {...dialogProps("Buy")} onClick={(e) => e.stopPropagation()} className="safe-sheet" style={sheet}>
         <div style={{ display: "flex", alignItems: "baseline", justifyContent: "space-between", gap: 10 }}>
-          <div style={{ fontFamily: "Georgia,serif", fontStyle: "italic", fontSize: 20, color: C.ink }}>
+          <div style={{ fontFamily: "var(--font-display)", fontStyle: "italic", fontSize: 20, color: C.ink }}>
             {items.length > 1 ? `Buy ${items.length} pieces` : "Buy"}
           </div>
           <button onClick={onClose} aria-label="Close" className="tap-round" style={closeBtn}>
@@ -189,10 +189,10 @@ function Line({ l, v }) {
     <span>{l}</span><span style={{ fontVariantNumeric: "tabular-nums" }}>{v}</span></div>;
 }
 
-const overlay = { position: "fixed", top: 0, right: 0, bottom: 0, left: 0, zIndex: 430, background: "#000a",
+const overlay = { position: "fixed", top: 0, right: 0, bottom: 0, left: 0, zIndex: 430, background: "var(--c-backdrop)",
   display: "flex", flexDirection: "column", justifyContent: "flex-end" };
 const sheet = { background: C.cream, borderRadius: "20px 20px 0 0", padding: "18px 16px 30px", maxHeight: "92vh",
-  overflowY: "auto", fontFamily: "-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif" };
+  overflowY: "auto", fontFamily: "var(--font-sans)" };
 const closeBtn = { background: "none", border: "none", color: C.ink, cursor: "pointer", minWidth: 44, minHeight: 44,
   display: "flex", alignItems: "center", justifyContent: "center" };
 const label = { fontSize: 11, fontWeight: 700, color: C.inkLt, letterSpacing: 0.5, textTransform: "uppercase", margin: "4px 0 6px" };

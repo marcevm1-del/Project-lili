@@ -578,8 +578,8 @@ const toggleRow = { width: "100%", display: "flex", alignItems: "center", gap: 1
                     textAlign: "left" };
 const pill = { width: 40, height: 22, borderRadius: 12, padding: 2, flexShrink: 0,
                transition: "background .18s" };
-const knob = { width: 18, height: 18, borderRadius: "50%", background: "#fff",
-               transition: "transform .18s", boxShadow: "0 1px 3px #0002" };
+const knob = { width: 18, height: 18, borderRadius: "50%", background: "var(--c-knob)",
+               transition: "transform .18s", boxShadow: "0 1px 3px var(--c-elev-strong)" };
 const checkbox = { width: 20, height: 20, borderRadius: 6, flexShrink: 0,
                    border: `1.5px solid ${C.terra}`, display: "flex",
                    alignItems: "center", justifyContent: "center" };

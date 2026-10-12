@@ -65,8 +65,8 @@ export default function ThemePicker({ onBack }) {
       </div>
 
       <Note>
-        Every colour pairing in both themes is measured against WCAG AA rather
-        than eyeballed. Run <b>npm run contrast</b> to see the numbers.
+        Every colour pairing in both themes is checked for readability against
+        the WCAG AA standard.
       </Note>
     </Shell>
   );

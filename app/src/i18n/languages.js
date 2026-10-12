@@ -47,7 +47,7 @@ export const LANGUAGES = [
     note: "Official language. Consumer terms must be available in Arabic, and " +
           "the Arabic text prevails over the English. The interface mirrors " +
           "right-to-left, search, prices and dates are Arabic, and about an " +
-          "eighth of the wording is — measured by npm run i18n, not estimated. " +
+          "eighth of the wording is so far. " +
           "The rest, including the terms, is being translated by a person " +
           "rather than a machine.",
   },

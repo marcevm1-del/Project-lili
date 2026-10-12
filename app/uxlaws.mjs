@@ -243,6 +243,15 @@ const measure = () => page.evaluate(({ MIN_TAP, MIN_GAP }) => {
     // Only the deepest element that holds the whole label, so a container is
     // not blamed for two children that each speak one language.
     if ([...el.children].some((c) => (c.innerText || "").includes("·"))) continue;
+    // The second shape: a button that stacks its English label over its
+    // Arabic one ("Make an Offer" / "قدم عرضاً"). Category names are the one
+    // deliberate exception — shoppers search both ways — and say so with
+    // data-bilingual, so the exception is written down rather than guessed.
+    if (el.tagName === "BUTTON" && !el.closest("[data-bilingual]") && /\n/.test(txt) &&
+        /[A-Za-z]{3}/.test(txt) && /[\u0600-\u06FF]{2}/.test(txt)) {
+      bilingual.push(txt.replace(/\s+/g, " ").slice(0, 44));
+      continue;
+    }
     if (!/·/.test(txt)) continue;
     if (/[A-Za-z]{3}/.test(txt) && /[\u0600-\u06FF]{2}/.test(txt)) bilingual.push(txt.slice(0, 44));
   }
@@ -399,6 +408,23 @@ for (const [screenName, navLabel] of SCREENS) {
          m.primary.slice(0, 3).join(", "), m.primary.length > 1);
 }
 
+// The item page — the screen where she decides — was never on the list, which
+// is how "Follow · تابع" shipped past a check written to stop exactly that.
+// Measured for language and size only: it is a sheet, not a tab.
+await label("Home");
+await page.waitForTimeout(350);
+await page.locator('div:has-text("AED")').last().click({ timeout: 3000 }).catch(() => {});
+await page.waitForTimeout(600);
+{
+  const m = await measure();
+  for (const c of m.bilingual) allBilingual.add(`item: ${c}`);
+  for (const c of m.clipped) allClipped.add(`item: ${c}`);
+  for (const s of m.sizes) allSizes.add(s);
+  for (const o of m.oddType) allOdd.add(`item: ${o}`);
+}
+await page.keyboard.press("Escape").catch(() => {});
+await page.waitForTimeout(300);
+
 for (const [k, v] of gateFindings.small) allSmall.set(k, v);
 for (const c of gateFindings.clipped) allClipped.add(c);
 for (const c of gateFindings.stranded) allStranded.add(c);
@@ -419,7 +445,7 @@ record("fitts", `${allClipped.size} element(s) whose text does not fit its box`,
        [...allClipped].slice(0, 5).join(" · "), allClipped.size > 0);
 
 record("jakob", `${allBilingual.size} label(s) printing two languages at once`,
-       [...allBilingual].slice(0, 5).join(" · "), allBilingual.size > 0);
+       [...allBilingual].slice(0, 20).join(" · "), allBilingual.size > 0);
 
 record("jakob", `${allStranded.size} Arabic sentence(s) whose punctuation lands on the wrong side`,
        [...allStranded].slice(0, 4).join(" · "), allStranded.size > 0);
@@ -561,4 +587,11 @@ console.log("are worth measuring rather than quoting.\x1b[0m\n");
 
 await browser.close();
 server.close();
+// Everything above is advice — except one-language-per-label, which DESIGN.md
+// §1 states as a rule and §6 says this command enforces. Until v2.11.7 it only
+// printed a warning, and "Follow · تابع" shipped under it.
+if (allBilingual.size > 0) {
+  console.log(`\x1b[31m✗ DESIGN.md §1: ${allBilingual.size} label(s) in two languages at once\x1b[0m`);
+  process.exit(1);
+}
 process.exit(0);

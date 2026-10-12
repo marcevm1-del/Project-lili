@@ -54,6 +54,9 @@ await t("←");
 
 sec("The promise the setup flow made");
 await lbl("Sell");
+// v2.11.8: a single listing asks for the shop at the end (photos first);
+// "Several at once" publishes straight into a shop, so it still opens one first.
+if (!(await pg.locator('input[placeholder*="Desert Rose"]').count())) await t("Several at once");
 await pg.locator('input[placeholder*="Desert Rose"]').fill("Sahara Closet");
 c("setup still promises Settings", /bio and colour are all in Settings/.test(await txt()));
 await t("Selling from my own wardrobe"); await t("Continue");

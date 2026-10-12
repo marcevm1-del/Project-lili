@@ -128,7 +128,7 @@ function ConsentView({ onBack }) {
           <span style={{ flex: 1, fontSize: 14, color: C.ink }}>{label}</span>
           <div style={{ width: 40, height: 22, borderRadius: 12, padding: 2,
                         background: c[k] ? C.terra : C.sand }}>
-            <div style={{ width: 18, height: 18, borderRadius: "50%", background: "#fff",
+            <div style={{ width: 18, height: 18, borderRadius: "50%", background: "var(--c-knob)",
                           transform: c[k] ? shiftEnd(18) : "translateX(0)",
                           transition: "transform .18s" }} />
           </div>
@@ -490,7 +490,7 @@ function HowItWorksView({ onBack }) {
       {rows.map(([who, what]) => (
         <div key={who} style={{ background: C.white, border: `1px solid ${C.border}`,
                                 borderRadius: 14, padding: "14px 16px", marginBottom: 10 }}>
-          <div style={{ fontFamily: "Georgia,serif", fontWeight: 700, fontSize: 15,
+          <div style={{ fontFamily: "var(--font-display)", fontWeight: 700, fontSize: 15,
                         color: C.terraTx, marginBottom: 5 }}>{who}</div>
           <div style={{ fontSize: 13, color: C.inkLt, lineHeight: 1.6 }}>{what}</div>
         </div>
@@ -532,7 +532,7 @@ function SellingView({ onBack }) {
       {Object.values(KYC_TIERS).filter(t => t.tier > 0).map((t) => (
         <div key={t.tier} style={cardBox}>
           <div style={{ display: "flex", justifyContent: "space-between", alignItems: "baseline" }}>
-            <div style={{ fontFamily: "Georgia,serif", fontWeight: 700, fontSize: 15, color: C.terraTx }}>
+            <div style={{ fontFamily: "var(--font-display)", fontWeight: 700, fontSize: 15, color: C.terraTx }}>
               {t.name}
             </div>
             <div style={{ fontSize: 11, color: C.inkLt }}>Tier {t.tier}</div>
@@ -624,7 +624,7 @@ function DisputesView({ onBack }) {
       {route.stages.map((st, i) => (
         <div key={st.key} style={cardBox}>
           <div style={{ display: "flex", gap: 10, alignItems: "baseline" }}>
-            <span style={{ fontFamily: "Georgia,serif", fontSize: 20, color: C.terraTx,
+            <span style={{ fontFamily: "var(--font-display)", fontSize: 20, color: C.terraTx,
                            fontWeight: 700 }}>{i + 1}</span>
             <div style={{ flex: 1 }}>
               <div style={{ fontSize: 14, fontWeight: 600, color: C.ink }}>{st.label}</div>

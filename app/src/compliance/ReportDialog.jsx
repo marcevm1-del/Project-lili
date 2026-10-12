@@ -133,7 +133,7 @@ export default function ReportDialog({ subject, onClose }) {
       <Sheet onClose={onClose}>
         <div style={{ textAlign: "center", padding: "10px 0 4px" }}>
           <div style={{ marginBottom: 10, display: "flex", justifyContent: "center", color: C.green }}><Icon name="check" size={32} stroke={2} /></div>
-          <div style={{ fontFamily: "Georgia,serif", fontWeight: 700, fontSize: 20, color: C.ink }}>
+          <div style={{ fontFamily: "var(--font-display)", fontWeight: 700, fontSize: 20, color: C.ink }}>
             Report received
           </div>
           <div style={{ fontSize: 13, color: C.inkLt, marginTop: 8, lineHeight: 1.6 }}>
@@ -148,7 +148,7 @@ export default function ReportDialog({ subject, onClose }) {
             : "A reviewer will look at this and you'll get the outcome and the reason for it."}
         </div>
         {sent.refusal && (
-          <div role="alert" style={{ background: "#FBF0EE", border: `1.5px solid ${C.red}`,
+          <div role="alert" style={{ background: "var(--c-danger-bg)", border: `1.5px solid ${C.red}`,
             borderRadius: 12, padding: "12px 14px", fontSize: 12, lineHeight: 1.55,
             color: C.ink, marginBottom: 12 }}>
             {sent.refusal}
@@ -190,12 +190,12 @@ export default function ReportDialog({ subject, onClose }) {
 
   return (
     <Sheet onClose={onClose}>
-      <div style={{ fontFamily: "Georgia,serif", fontWeight: 700, fontSize: 22,
+      <div style={{ fontFamily: "var(--font-display)", fontWeight: 700, fontSize: 22,
                     color: C.ink, marginBottom: 4 }}>
         Report this {subject.kind}
       </div>
       <div style={{ fontSize: 12, color: C.inkLt, marginBottom: 18 }}>
-        {subject.title} · بلاغ
+        {isAr() ? `بلاغ · ${subject.title}` : subject.title}
       </div>
 
       {REASONS.map((r) => (
@@ -308,11 +308,11 @@ function Sheet({ children, onClose }) {
   const trap = useFocusTrap(onClose);
   return (
     <div onClick={onClose} style={{ position: "fixed", top: 0, right: 0, bottom: 0, left: 0, zIndex: 400,
-      background: "#000a", display: "flex", flexDirection: "column", justifyContent: "flex-end" }}>
+      background: "var(--c-backdrop)", display: "flex", flexDirection: "column", justifyContent: "flex-end" }}>
       <div ref={trap} {...dialogProps("Report")} className="safe-sheet" onClick={(e) => e.stopPropagation()} style={{
         background: C.cream, borderRadius: "20px 20px 0 0", maxHeight: "92dvh",
         overflowY: "auto",
-        fontFamily: "-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif",
+        fontFamily: "var(--font-sans)",
       }}>{children}</div>
     </div>
   );

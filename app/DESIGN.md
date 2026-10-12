@@ -59,6 +59,12 @@ terracotta is 3.04:1 and 15px bold is not "large text".
 
 ### Type
 
+**Typefaces** (v2.11.8, `src/theme/fonts.css`, self-hosted, OFL): Newsreader for
+Latin display, Noto Naskh Arabic for Arabic display, IBM Plex Sans Arabic for
+Arabic body text. Components name `var(--font-display)` or `var(--font-sans)`,
+never a family. The Arabic faces are declared for italic as well, pointing at
+the upright file, so an italic heading never fakes a slant on Arabic.
+
 Eleven sizes, declared in `src/theme/scale.js`:
 
 `9 · 10 · 11 · 12 · 13 · 14 · 15 · 16 · 18 · 20 · 22 · 24`

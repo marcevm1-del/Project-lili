@@ -7,10 +7,10 @@ import { FitPanel } from "../listing/FitAndFlaws.jsx";
 import Icon from "../icons/Icon.jsx";
 import { useFocusTrap, dialogProps } from "../a11y/useFocusTrap.js";
 import * as offers from "../data/offers.js";
-import { t } from "../i18n/t.js";
+import { t, getLang } from "../i18n/t.js";
 import { space } from "../theme/scale.js";
 import { alignEnd, backArrow, money } from "../i18n/direction.js";
-import { C, T, Avatar, Stars, earnedFollowers, ItemPhoto } from "./shared.jsx";
+import { C, T, Avatar, Stars, earnedFollowers, ItemPhoto, bandRange, say } from "./shared.jsx";
 import { sizeLabel, kindOf, APPROXIMATE_NOTE } from "../sizes/sizeSystem.js";
 import { useSizeSystem } from "../sizes/SizeSystemPicker.jsx";
 import * as remote from "../backend/remote.js";
@@ -53,7 +53,7 @@ export function PriceContext({ item }) {
 
   if (!band) return null;
   const price = Number(item.price) || 0;
-  const range = `AED ${band.low.toLocaleString()}–${band.high.toLocaleString()}`;
+  const range = bandRange(band);
   const where = price <= 0 ? null
     : price < band.low ? "This one is under that range."
     : price > band.high ? "This one is above that range."
@@ -139,7 +139,7 @@ export function ItemModal({item,shop,items=[],onOpenItem,onSave,onClose,onOffer,
   const canBuy = payOn && !item.reserved && (!item.status || item.status === "live");
   return (
     <div ref={trap} {...dialogProps(item.title || "Item details")}
-      style={{position:"fixed",top:0,right:0,bottom:0,left:0,zIndex:200,background:"#000a",
+      style={{position:"fixed",top:0,right:0,bottom:0,left:0,zIndex:200,background:"var(--c-backdrop)",
       display:"flex",flexDirection:"column",justifyContent:"flex-end"}} onClick={onClose}>
       <div onClick={e=>e.stopPropagation()} style={{
         background:C.cream,borderRadius:"20px 20px 0 0",maxHeight:"92vh",overflowY:"auto"}}>
@@ -149,7 +149,7 @@ export function ItemModal({item,shop,items=[],onOpenItem,onSave,onClose,onOffer,
           {/* price + title */}
           <div style={{display:"flex",justifyContent:"space-between",alignItems:"flex-start",marginBottom:6}}>
             <div style={{flex:1,paddingRight:10}}>
-              <h2 style={{margin:"0 0 2px",fontSize:18,fontFamily:"Georgia,serif",color:C.ink,lineHeight:1.2}}>{item.title}</h2>
+              <h2 style={{margin:"0 0 2px",fontSize:18,fontFamily:"var(--font-display)",color:C.ink,lineHeight:1.2}}>{item.title}</h2>
               <div style={{fontSize:12,color:C.inkLt}}>{item.titleAr}</div>
               {item.subtitle && <div style={{fontSize:12,color:C.inkLt,marginTop:2}}>{item.subtitle}</div>}
             </div>
@@ -207,7 +207,9 @@ export function ItemModal({item,shop,items=[],onOpenItem,onSave,onClose,onOffer,
               <Avatar shop={shop} size={42}/>
               <div style={{flex:1}}>
                 <div style={{fontWeight:700,fontSize:13,color:C.ink}}>{shop.name}</div>
-                <div style={{fontSize:11,color:C.inkLt}}>{shop.nameAr} · {shop.handle}</div>
+                {/* The Arabic shop name in Arabic, the handle in either: printing both
+                    side by side was two languages in one line. */}
+                <div style={{fontSize:11,color:C.inkLt}}>{getLang() === "ar" && shop.nameAr ? `${shop.nameAr} · ` : ""}{shop.handle}</div>
                 <div style={{display:"flex",alignItems:"center",gap:6,marginTop:3}}>
                   <Stars rating={shop.rating} reviews={shop.reviews} shop={shop}/>
                   {earnedFollowers(shop) !== null && <span style={{fontSize:11,color:C.inkLt}}>· {earnedFollowers(shop)} followers</span>}
@@ -217,7 +219,7 @@ export function ItemModal({item,shop,items=[],onOpenItem,onSave,onClose,onOffer,
                 color:C.terraTx,borderRadius:20,padding:"5px 14px",
                 fontSize:12,fontWeight:600,cursor:"pointer"}}
                 onClick={e=>{e.stopPropagation(); onFollow && onFollow(shop.id);}}>
-                {following ? t("following") : `${T.follow[0]} · ${T.follow[1]}`}</button>
+                {following ? t("following") : say(T.follow)}</button>
             </div>
           )}
 
@@ -265,7 +267,7 @@ export function ItemModal({item,shop,items=[],onOpenItem,onSave,onClose,onOffer,
             "Sold by … not by lili" rides in the same bar: it has to be read
             before the buttons, and now it can never be scrolled past them. */}
         <div style={{position:"sticky",bottom:0,zIndex:2,background:C.cream,
-          borderTop:`1px solid ${C.border}`,boxShadow:"0 -6px 18px #0000000f",
+          borderTop:`1px solid ${C.border}`,boxShadow:"0 -6px 18px var(--c-elev)",
           padding:"10px 16px calc(12px + env(safe-area-inset-bottom))",
           display:"flex",flexDirection:"column",gap:9}}>
           <SoldBy shopName={shop&&shop.name} sellerType={(shop&&shop.sellerType)||"private"} compact/>
@@ -274,7 +276,7 @@ export function ItemModal({item,shop,items=[],onOpenItem,onSave,onClose,onOffer,
               className="tap-round" style={{flex:"0 0 48px",minHeight:48,borderRadius:24,
                 background:C.white,border:`1.5px solid ${C.terra}`,color:C.terraTx,cursor:"pointer",
                 display:"flex",alignItems:"center",justifyContent:"center"}}>
-              <Icon name="bag" size={22} stroke={1.6}/><span className="sr-only">{t("add_to_cart")}</span>
+              <Icon name="list" size={22} stroke={1.6}/><span className="sr-only">{t("add_to_cart")}</span>
             </button>
             <button onClick={()=>!item.reserved && onOffer(item)} disabled={!!item.reserved}
               aria-label={item.reserved ? "Reserved for another buyer — offers are closed" : undefined}
@@ -282,12 +284,12 @@ export function ItemModal({item,shop,items=[],onOpenItem,onSave,onClose,onOffer,
               border:`1.5px solid ${C.terra}`,borderRadius:24,padding:"8px 0",
               fontWeight:700,cursor:"pointer",fontSize:13,lineHeight:1.25}}>
               {item.reserved
-                ? <>Reserved<br/><span style={{fontSize:11,fontWeight:600}}>محجوزة</span></>
-                : <>{T.makeOffer[0]}<br/><span style={{fontSize:11,fontWeight:600}}>{T.makeOffer[1]}</span></>}
+                ? say(T.reserved)
+                : say(T.makeOffer)}
             </button>
             {canBuy ? <>
               <button onClick={()=>{ onMessageSeller && onMessageSeller(item); onClose(); }}
-                aria-label={T.messageSelller[0]} className="tap-round"
+                aria-label={say(T.messageSelller)} className="tap-round"
                 style={{flex:"0 0 48px",minHeight:48,borderRadius:24,background:C.white,border:`1.5px solid ${C.terra}`,
                   color:C.terraTx,cursor:"pointer",display:"flex",alignItems:"center",justifyContent:"center"}}>
                 <Icon name="chat" size={20} stroke={1.6}/>
@@ -295,13 +297,13 @@ export function ItemModal({item,shop,items=[],onOpenItem,onSave,onClose,onOffer,
               <button onClick={()=>setBuying(true)}
                 style={{flex:1.2,background:C.btn,color:C.onBtn,border:"none",borderRadius:24,
                   padding:"8px 0",fontWeight:700,cursor:"pointer",fontSize:13,lineHeight:1.25}}>
-                Buy<br/><span style={{fontSize:11,fontWeight:600}}>اشترِ</span>
+                {say(T.buy)}
               </button>
             </> : (
               <button onClick={()=>{ onMessageSeller && onMessageSeller(item); onClose(); }}
                 style={{flex:1.2,background:C.btn,color:C.onBtn,border:"none",borderRadius:24,
                   padding:"8px 0",fontWeight:700,cursor:"pointer",fontSize:13,lineHeight:1.25}}>
-                {T.messageSelller[0]}<br/><span style={{fontSize:11,fontWeight:600}}>{T.messageSelller[1]}</span>
+                {say(T.messageSelller)}
               </button>
             )}
           </div>
@@ -381,9 +383,9 @@ export function ItemGallery({item, onClose, onSave}) {
       </button>
       {photos.length > 1 && (
         <div aria-hidden="true" style={{position:"absolute",bottom:12,left:"50%",transform:"translateX(-50%)",
-          display:"flex",gap:5,padding:"4px 8px",borderRadius:10,background:"#0003"}}>
+          display:"flex",gap:5,padding:"4px 8px",borderRadius:10,background:"var(--c-media-chip)"}}>
           {photos.map((_, i) => <div key={i} style={{width:6,height:6,borderRadius:"50%",
-            background:i===index?C.white:"#fff8"}}/>)}
+            background:i===index?C.white:"var(--c-on-media-soft)"}}/>)}
         </div>
       )}
     </div>

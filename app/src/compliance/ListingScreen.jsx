@@ -91,10 +91,10 @@ export default function ListingScreen({ title, description, brand, price,
 
 function Box({ tone, children }) {
   const palette = {
-    ok:     { bg: "#F2F7F3", border: C.green, fg: C.ink },
+    ok:     { bg: "var(--c-success-bg)", border: C.green, fg: C.ink },
     warn:   { bg: C.sand,    border: C.gold,  fg: C.ink },
     review: { bg: C.sand,    border: C.terra, fg: C.ink },
-    block:  { bg: "#FBF0EE", border: C.red,   fg: C.ink },
+    block:  { bg: "var(--c-danger-bg)", border: C.red,   fg: C.ink },
   }[tone];
   return (
     <div style={{

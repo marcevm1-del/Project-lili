@@ -97,7 +97,7 @@ export default function InviteRoster({ onBack }) {
           cursor: "pointer", color: C.terraTx, fontSize: 13, fontWeight: 600, fontFamily: "inherit" }}>
           Back
         </button>
-        <span style={{ fontFamily: "Georgia,serif", fontStyle: "italic", fontSize: 16,
+        <span style={{ fontFamily: "var(--font-display)", fontStyle: "italic", fontSize: 16,
                        color: C.ink, flex: 1, textAlign: "center" }}>Beta roster</span>
         <span style={{ minWidth: 40 }} />
       </div>

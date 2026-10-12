@@ -243,13 +243,13 @@ export default function OffersPage({ items = [], shops = [], onBack }) {
             <Icon name="back" size={18} stroke={2} />
           </button>
         )}
-        <div style={{ fontFamily: "Georgia,serif", fontStyle: "italic", fontSize: 22,
+        <div style={{ fontFamily: "var(--font-display)", fontStyle: "italic", fontSize: 22,
                       color: C.ink }}>Offers</div>
         <div style={{ fontSize: 13, color: C.terraTx, marginBottom: 4 }}>العروض</div>
       </div>
 
       {error && (
-        <div role="alert" style={{ margin: "0 16px 10px", background: "#FBF0EE",
+        <div role="alert" style={{ margin: "0 16px 10px", background: "var(--c-danger-bg)",
           border: `1px solid ${C.red}`, borderRadius: 12, padding: "10px 12px",
           fontSize: 12, color: C.ink }}>{error}</div>
       )}
@@ -280,7 +280,7 @@ export default function OffersPage({ items = [], shops = [], onBack }) {
         {state !== "loading" && list.length === 0 && (
           <div style={{ textAlign: "center", padding: "60px 16px", color: C.inkLt }}>
             <Icon name="handshake" size={34} stroke={1.6} style={{ color: C.terra, marginBottom: 12 }} />
-            <div style={{ fontFamily: "Georgia,serif", fontStyle: "italic", fontSize: 16,
+            <div style={{ fontFamily: "var(--font-display)", fontStyle: "italic", fontSize: 16,
                           color: C.terraTx }}>No offers yet</div>
             <div style={{ fontSize: 12, marginTop: 6, lineHeight: 1.6 }}>
               {getLang() === "ar"

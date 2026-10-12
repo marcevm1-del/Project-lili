@@ -80,14 +80,14 @@ export default class ErrorBoundary extends Component {
       <div className="full-height" style={{
          background: C.peach, display: "flex",
         alignItems: "center", justifyContent: "center", padding: 28,
-        fontFamily: "-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif",
+        fontFamily: "var(--font-sans)",
       }}>
         <div style={{ maxWidth: 320, textAlign: "center" }}>
-          <div style={{ fontFamily: "Georgia,serif", fontWeight: 700, fontSize: 26,
+          <div style={{ fontFamily: "var(--font-display)", fontWeight: 700, fontSize: 26,
                         color: C.ink, letterSpacing: -0.5 }}>
             Something went wrong
           </div>
-          <div style={{ fontFamily: "Georgia,serif", fontStyle: "italic", fontSize: 14,
+          <div style={{ fontFamily: "var(--font-display)", fontStyle: "italic", fontSize: 14,
                         color: C.terraTx, marginTop: 5 }}>
             حدث خطأ ما
           </div>

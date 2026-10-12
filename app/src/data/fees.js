@@ -170,8 +170,17 @@ export function payoutLine(price) {
     fee: money(b.commission),
     percent: `${b.ratePercent}%`,
     minimumApplied: b.minimumApplied,
-    en: `You receive ${money(b.payout)} — after lili's ${b.ratePercent}% fee of ${money(b.commission)}.`,
-    ar: `تستلمين ${money(b.payout)} بعد عمولة لili ${b.ratePercent}%.`,
+    // While nothing is collected, the fee is stated as what it WILL be, and
+    // the sentence says she keeps the full price today. Stating the deduction
+    // as fact sat directly above "lili doesn't handle your money at all".
+    en: COLLECTION_LIVE
+      ? `You receive ${money(b.payout)} — after lili's ${b.ratePercent}% fee of ${money(b.commission)}.`
+      : `Free during the beta: on a ${money(b.price)} sale you keep all ${money(b.price)}. ` +
+        `Once payments launch, lili's fee will be ${b.ratePercent}% (${money(b.commission)}).`,
+    ar: COLLECTION_LIVE
+      ? `تستلمين ${money(b.payout)} بعد عمولة lili البالغة ${b.ratePercent}%.`
+      : `مجاناً خلال الفترة التجريبية: عند بيع قطعة بـ ${money(b.price)} تحتفظين بالمبلغ كاملاً. ` +
+        `عند إطلاق الدفع ستكون عمولة lili ${b.ratePercent}% (${money(b.commission)}).`,
   };
 }
 

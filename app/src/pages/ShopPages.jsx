@@ -5,10 +5,10 @@ import ShopReviews from "../trust/ShopReviews.jsx";
 import Icon from "../icons/Icon.jsx";
 import { searchLocal } from "../discovery/search.js";
 import { tokens, fuzzyIncludes } from "../discovery/text.js";
-import { t } from "../i18n/t.js";
+import { t, getLang } from "../i18n/t.js";
 import { space } from "../theme/scale.js";
 import { backArrow, money } from "../i18n/direction.js";
-import { C, T, ICON_FOR_CAT, Avatar, Stars, earnedFollowers, TopBar, SearchBar, Placeholder, ItemTile } from "../market/shared.jsx";
+import { C, T, ICON_FOR_CAT, Avatar, Stars, earnedFollowers, TopBar, SearchBar, Placeholder, ItemTile, say } from "../market/shared.jsx";
 
 
 // ── my shop ────────────────────────────────────────────────────────────────
@@ -61,8 +61,8 @@ export function MyShopPage({shop,items,setTab,justListed,onDismissListed,onMarkS
         <div style={{marginTop:-26,marginBottom:14,display:"flex",justifyContent:"space-between",alignItems:"flex-end"}}>
           <div style={{width:52,height:52,borderRadius:"50%",background:C.white,
             border:`3px solid ${C.white}`,display:"flex",alignItems:"center",justifyContent:"center",fontSize:26,
-            boxShadow:"0 2px 8px #0001"}}>
-            <span style={{fontFamily:"Georgia,serif",fontWeight:700,fontSize:24,color:C.terraTx}}>{(shop.name||"?").trim().charAt(0).toUpperCase()}</span>
+            boxShadow:"0 2px 8px var(--c-elev)"}}>
+            <span style={{fontFamily:"var(--font-display)",fontWeight:700,fontSize:24,color:C.terraTx}}>{(shop.name||"?").trim().charAt(0).toUpperCase()}</span>
           </div>
           <button onClick={()=>setTab("sell")} style={{background:C.btn,color:C.onBtn,border:"none",
             borderRadius:20,padding:"8px 18px",fontSize:13,fontWeight:700,cursor:"pointer"}}>
@@ -123,7 +123,7 @@ export function MyShopPage({shop,items,setTab,justListed,onDismissListed,onMarkS
         {myItems.length===0 && (
           <div style={{textAlign:"center",padding:"60px 20px",color:C.inkLt}}>
             <div style={{fontSize:36,marginBottom:10}}></div>
-            <div style={{fontFamily:"Georgia,serif",fontStyle:"italic",fontSize:15,color:C.terraTx}}>{t("your_shop_is_empty")}</div>
+            <div style={{fontFamily:"var(--font-display)",fontStyle:"italic",fontSize:15,color:C.terraTx}}>{t("your_shop_is_empty")}</div>
             <div style={{fontSize:12,color:C.inkLt,marginTop:6,lineHeight:1.6,maxWidth:250,margin:"6px auto 0"}}>
               Photo, details, price — about a minute. Your first piece is the hardest;
               after that it's muscle memory.
@@ -149,7 +149,7 @@ export function SellersPage({shops,items,setTab,setViewShop,onFollow,isFollowing
     : shops;
   return (
     <div style={{paddingBottom:72}}>
-      <TopBar center={<span style={{fontFamily:"Georgia,serif",fontStyle:"italic",fontSize:18,color:C.terraTx}}>{t("sellers")}</span>}/>
+      <TopBar center={<span style={{fontFamily:"var(--font-display)",fontStyle:"italic",fontSize:18,color:C.terraTx}}>{t("sellers")}</span>}/>
       <div style={{padding:"10px 14px",background:C.cream,borderBottom:`1px solid ${C.border}`}}>
         <SearchBar value={q} onChange={setQ}/>
       </div>
@@ -159,11 +159,11 @@ export function SellersPage({shops,items,setTab,setViewShop,onFollow,isFollowing
           return (
             <div key={shop.id} onClick={()=>{setViewShop(shop);setTab("shopview");}}
               style={{background:C.white,borderRadius:14,padding:"12px 14px",border:`1px solid ${C.border}`,
-                cursor:"pointer",display:"flex",alignItems:"center",gap:12,boxShadow:"0 1px 4px #0000000a"}}>
+                cursor:"pointer",display:"flex",alignItems:"center",gap:12,boxShadow:"0 1px 4px var(--c-elev)"}}>
               <Avatar shop={shop} size={46}/>
               <div style={{flex:1,minWidth:0}}>
                 <div style={{fontWeight:700,fontSize:14,color:C.ink}}>{shop.name}</div>
-                <div style={{fontSize:11,color:C.inkLt}}>{shop.nameAr} · {shop.handle}</div>
+                <div style={{fontSize:11,color:C.inkLt}}>{getLang() === "ar" && shop.nameAr ? `${shop.nameAr} · ` : ""}{shop.handle}</div>
                 <div style={{display:"flex",alignItems:"center",gap:6,marginTop:4}}>
                   <Stars rating={shop.rating} reviews={shop.reviews} shop={shop}/>
                   <span style={{fontSize:11,color:C.inkLt}}>{earnedFollowers(shop) !== null ? `· ${earnedFollowers(shop)} · ${count} items` : `· ${count} items`}</span>
@@ -175,7 +175,7 @@ export function SellersPage({shops,items,setTab,setViewShop,onFollow,isFollowing
                   border:`1.5px solid ${C.terra}`,color:isFollowing&&isFollowing(shop.id)?C.white:C.terraTx,
                   borderRadius:20,padding:"5px 14px",fontSize:12,fontWeight:600,cursor:"pointer",
                   flexShrink:0,fontFamily:"inherit"}}>
-                {isFollowing&&isFollowing(shop.id)?T.following?.[0]||"Following":T.follow[0]}
+                {isFollowing&&isFollowing(shop.id)?say(T.following):say(T.follow)}
               </button>
             </div>
           );
@@ -227,7 +227,7 @@ export function ShopViewPage({shop,items,onSave,setModal,onBack,onReport,onFollo
           <Avatar shop={shop} size={52}/>
           <div style={{flex:1}}>
             <div style={{fontWeight:700,fontSize:18,color:C.ink}}>{shop.name}</div>
-            <div style={{fontSize:12,color:C.inkLt}}>{shop.nameAr} · {shop.handle}</div>
+            <div style={{fontSize:12,color:C.inkLt}}>{getLang() === "ar" && shop.nameAr ? `${shop.nameAr} · ` : ""}{shop.handle}</div>
           </div>
           {/* v2.9: a Follow button with no onClick. The third one in the app —
               the only wired one was inside the item modal. */}

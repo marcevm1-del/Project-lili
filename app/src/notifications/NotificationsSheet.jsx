@@ -104,16 +104,16 @@ export default function NotificationsSheet({ onClose, onOpenLink }) {
 
   return (
     <div onClick={onClose} style={{ position: "fixed", top: 0, right: 0, bottom: 0, left: 0,
-      zIndex: 420, background: "#000a", display: "flex", flexDirection: "column",
+      zIndex: 420, background: "var(--c-backdrop)", display: "flex", flexDirection: "column",
       justifyContent: "flex-end" }}>
       <div ref={trap} {...dialogProps("Notifications")} onClick={(e) => e.stopPropagation()}
         className="safe-sheet"
         style={{ background: C.cream, borderRadius: "20px 20px 0 0", maxHeight: "82dvh",
                  overflowY: "auto", padding: "18px 16px 34px",
-                 fontFamily: "-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif" }}>
+                 fontFamily: "var(--font-sans)" }}>
         <div style={{ display: "flex", alignItems: "center", marginBottom: 14 }}>
           <div style={{ flex: 1 }}>
-            <div style={{ fontFamily: "Georgia,serif", fontStyle: "italic", fontSize: 20, color: C.ink }}>
+            <div style={{ fontFamily: "var(--font-display)", fontStyle: "italic", fontSize: 20, color: C.ink }}>
               Notifications
             </div>
             <div style={{ fontSize: 11, color: C.terraTx }}>الإشعارات</div>

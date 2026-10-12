@@ -35,7 +35,7 @@ export function Shell({ title, subtitle, children, onBack }) {
       position: "fixed", top: 0, right: 0, bottom: 0, left: 0,
       zIndex: 600, overflowY: "auto", WebkitOverflowScrolling: "touch",
       background: C.peach, maxWidth: 430, margin: "0 auto",
-      fontFamily: "-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif",
+      fontFamily: "var(--font-sans)",
       display: "flex", flexDirection: "column",
     },
   },
@@ -49,9 +49,9 @@ export function Shell({ title, subtitle, children, onBack }) {
       // language picker — so in Arabic the screen where she CHOOSES Arabic had
       // an arrow pointing the wrong way the moment she chose it.
     }, backArrow()),
-    h("div", { style: { fontFamily: "Georgia,serif", fontWeight: 700, fontSize: 26,
+    h("div", { style: { fontFamily: "var(--font-display)", fontWeight: 700, fontSize: 26,
                         color: C.ink, letterSpacing: -0.5, lineHeight: 1.2 } }, title),
-    subtitle && h("div", { style: { fontFamily: "Georgia,serif", fontStyle: "italic",
+    subtitle && h("div", { style: { fontFamily: "var(--font-display)", fontStyle: "italic",
                                     fontSize: 14, color: C.terraTx, marginTop: 5,
                                     marginBottom: 22 } }, subtitle),
     h("div", { style: { flex: 1 } }, children)

@@ -54,7 +54,7 @@ const AgreementSheet = lazy(() => import("./compliance/AgreementSheet.jsx"));
 import { sellerClausesFor } from "./compliance/agreements.js";
 import * as repo from "./data/repo.js";
 import { normalise as normalisePrefs, fitsMe, hasSizes, isEmpty as prefsEmpty, summary as prefsSummary } from "./profile/preferences.js";
-import { C, PalmBg, Lili, LiliWordmark, T, SHOPS, ITEMS, CATS, categoryLabel, SIZES, ITEM_CATS, STORIES, Avatar, ItemPhoto, TopBar, SearchBar, withHeart, Placeholder, ItemTile, BRANDS } from "./market/shared.jsx";
+import { C, PalmBg, Lili, LiliWordmark, T, SHOPS, ITEMS, CATS, categoryLabel, SIZES, ITEM_CATS, STORIES, Avatar, ItemPhoto, TopBar, SearchBar, withHeart, Placeholder, ItemTile, BRANDS, cardTitle } from "./market/shared.jsx";
 import { FiltersPanel } from "./market/FiltersPanel.jsx";
 import { ItemModal } from "./market/ItemModal.jsx";
 import { OfferModal } from "./market/OfferModal.jsx";
@@ -217,10 +217,10 @@ function StoryViewer({story,shop,onClose}) {
   },[]);
   return (
     <div ref={trap} {...dialogProps("Story")}
-      style={{position:"fixed",top:0,right:0,bottom:0,left:0,zIndex:400,background:"#000",overflowY:"auto",display:"flex",flexDirection:"column"}}>
+      style={{position:"fixed",top:0,right:0,bottom:0,left:0,zIndex:400,background:"var(--c-media-bg)",overflowY:"auto",display:"flex",flexDirection:"column"}}>
       {/* progress */}
       <div style={{padding:"12px 14px 0",background:"transparent"}}>
-        <div style={{height:2.5,background:"#ffffff44",borderRadius:2}}>
+        <div style={{height:2.5,background:"var(--c-on-media-faint)",borderRadius:2}}>
           <div style={{height:"100%",background:C.white,borderRadius:2,width:`${progress}%`,transition:"width 0.1s linear"}}/>
         </div>
       </div>
@@ -229,7 +229,7 @@ function StoryViewer({story,shop,onClose}) {
         {shop && <Avatar shop={shop} size={36}/>}
         <div style={{flex:1}}>
           <div style={{color:C.white,fontWeight:700,fontSize:13}}>{shop?.name}</div>
-          <div style={{color:"#ffffff99",fontSize:11}}>{shop?.handle}</div>
+          <div style={{color:"var(--c-on-media-soft)",fontSize:11}}>{shop?.handle}</div>
         </div>
         <button onClick={onClose} aria-label="Close" className="tap-target" style={{background:"none",border:"none",cursor:"pointer",color:C.white,fontSize:22,display:"flex",alignItems:"center",justifyContent:"center"}}><Icon name="close" size={14} stroke={2}/></button>
       </div>
@@ -239,9 +239,9 @@ function StoryViewer({story,shop,onClose}) {
         <Placeholder item={story} size={64}/>
       </div>
       {/* caption */}
-      <div style={{padding:"16px 20px 40px",background:"linear-gradient(transparent,#000a)"}}>
+      <div style={{padding:"16px 20px 40px",background:"linear-gradient(transparent,var(--c-backdrop))"}}>
         <div style={{color:C.white,fontSize:15,fontWeight:500}}>{story.caption}</div>
-        <div style={{color:"#ffffff88",fontSize:12,marginTop:4}}>{shop?.name}</div>
+        <div style={{color:"var(--c-on-media-soft)",fontSize:12,marginTop:4}}>{shop?.name}</div>
       </div>
     </div>
   );
@@ -268,7 +268,7 @@ function NewInStrip({items,onSave,setModal,onSeeAll}) {
     <div style={{padding:"14px 0 6px"}}>
       <div style={{display:"flex",alignItems:"center",justifyContent:"space-between",padding:"0 14px",marginBottom:10}}>
         <div>
-          <div style={{fontFamily:"Georgia,serif",fontStyle:"italic",fontSize:18,color:C.ink}}>{T.newInTitle[0]}</div>
+          <div style={{fontFamily:"var(--font-display)",fontStyle:"italic",fontSize:18,color:C.ink}}>{T.newInTitle[0]}</div>
           {/* v2.11.1 — one language. This printed "وصل حديثاً · Just arrived"
               in a single line, and bidi reordering put the Arabic first, so an
               English reader met an Arabic phrase before her own subtitle. Same
@@ -312,7 +312,7 @@ function NewInStrip({items,onSave,setModal,onSeeAll}) {
               {item.brand && <div style={{fontSize:11,fontWeight:700,letterSpacing:1,color:C.inkLt,
                 textTransform:"uppercase",whiteSpace:"nowrap",overflow:"hidden",textOverflow:"ellipsis"}}>{item.brand}</div>}
               <div dir="auto" style={{fontSize:12,fontWeight:600,color:C.ink,lineHeight:1.3,
-                whiteSpace:"nowrap",overflow:"hidden",textOverflow:"ellipsis"}}>{getLang()==="ar" && item.titleAr ? item.titleAr : item.title}</div>
+                whiteSpace:"nowrap",overflow:"hidden",textOverflow:"ellipsis"}}>{cardTitle(item)}</div>
               <div style={{marginTop:3}}><PriceTag item={item} size={13}/></div>
               <div style={{fontSize:11,color:C.inkLt,marginTop:1,whiteSpace:"nowrap",overflow:"hidden",textOverflow:"ellipsis"}}>
                 {[item.size && item.size!=="OS" ? `Size ${sizeLabel(item.size)}` : null, item.condition].filter(Boolean).join(" · ")}
@@ -340,12 +340,12 @@ function TasteSheet({ taste, onSave, onClose, onMore }) {
   const toggle = (c) => setPicked(p => p.includes(c) ? p.filter(x=>x!==c) : [...p,c]);
   return (
     <div onClick={onClose} style={{position:"fixed",top:0,right:0,bottom:0,left:0,zIndex:420,
-      background:"#000a",display:"flex",flexDirection:"column",justifyContent:"flex-end"}}>
+      background:"var(--c-backdrop)",display:"flex",flexDirection:"column",justifyContent:"flex-end"}}>
       <div ref={trap} {...dialogProps("What you like")} onClick={e=>e.stopPropagation()}
         className="safe-sheet"
         style={{background:C.cream,borderRadius:"20px 20px 0 0",padding:"18px 16px 30px",
-          fontFamily:"-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif"}}>
-        <div style={{fontFamily:"Georgia,serif",fontStyle:"italic",fontSize:20,color:C.ink}}>What you like</div>
+          fontFamily:"var(--font-sans)"}}>
+        <div style={{fontFamily:"var(--font-display)",fontStyle:"italic",fontSize:20,color:C.ink}}>What you like</div>
         <div style={{fontSize:11,color:C.terraTx,marginBottom:4}}>ما يعجبكِ</div>
         <p style={{fontSize:12,color:C.inkLt,lineHeight:1.6,margin:"8px 0 16px"}}>
           These move to the top of your feed. Nothing is hidden from you — the
@@ -401,7 +401,7 @@ function SplashScreen({onDone}) {
       <PalmBg/>
       <div style={{position:"relative",zIndex:1}}>
         <Lili size={56}/>
-        <div style={{fontFamily:"Georgia,serif",fontStyle:"italic",fontSize:14,color:C.inkLt,marginTop:6,marginBottom:32}}>{t("love_it_or_leave_it")}</div>
+        <div style={{fontFamily:"var(--font-display)",fontStyle:"italic",fontSize:14,color:C.inkLt,marginTop:6,marginBottom:32}}>{t("love_it_or_leave_it")}</div>
         <p style={{fontSize:20,fontWeight:700,color:C.ink,lineHeight:1.3,marginBottom:8}}>Second hand.<br/><span style={{color:C.terraTx,fontStyle:"italic"}}>First class.</span></p>
         <p style={{fontSize:13,color:C.inkLt,lineHeight:1.6,marginBottom:36}}>Luxury pieces. Loved again.<br/>By Dubai. For Dubai.<br/>{/* dir="rtl" — this is an RTL sentence inside an LTR paragraph, and a full
             stop is a direction-neutral character: it inherits the PARAGRAPH's
@@ -412,7 +412,7 @@ function SplashScreen({onDone}) {
         <span dir="rtl" style={{fontSize:11,display:"block"}}>قطع فاخرة. محبوبة مجدداً. من دبي. لدبي.</span></p>
         <button onClick={()=>setStep(1)} style={{background:C.btn,color:C.onBtn,border:"none",
           borderRadius:30,padding:"14px 48px",fontWeight:700,fontSize:15,cursor:"pointer",
-          boxShadow:"0 4px 16px #C4856A44"}}>
+          boxShadow:"0 4px 16px var(--c-shadow)"}}>
           {t("shop_now")}
         </button>
         <div style={{marginTop:14}}>
@@ -432,14 +432,16 @@ function SplashScreen({onDone}) {
             the catalogue is Dubai-only (markets.js), and every listing states
             whether she is a private seller or a business, because that changes
             what she owes you (compliance/intermediary.js). */}
-        <div style={{display:"flex",gap:24,marginTop:32,justifyContent:"center"}}>
-          {[["shield","Every listing screened"],["palm","Dubai only, for now"],["scales","You're told who you're buying from"]].map(([ic,lb])=>(
-            <div key={lb} style={{textAlign:"center",maxWidth:92}}>
-              <div style={{marginBottom:4,display:"flex",justifyContent:"center"}}><Icon name={ic} size={22} stroke={1.4}/></div>
-              <div style={{fontSize:11,color:C.inkLt,lineHeight:1.35}}>{lb}</div>
-            </div>
-          ))}
-        </div>
+        {/* v2.11.8: the three facts above stay true, but three icons in a row
+            is the reassurance-row SHAPE that DESIGN.md §5 refuses, whatever the
+            words. One plain sentence instead — and "screened" says plainly that
+            it is not "authenticated", which next to a Chanel it would be read as. */}
+        <p style={{fontSize:12,color:C.inkLt,lineHeight:1.6,marginTop:32,maxWidth:300,
+          marginLeft:"auto",marginRight:"auto"}}>
+          {getLang()==="ar"
+            ? "دبي فقط حالياً. تُراجَع كل قطعة قبل نشرها، لكن لا يتم التحقق من أصالتها."
+            : "Dubai only, for now. Every listing is screened before it goes live — screened, not authenticated."}
+        </p>
       </div>
     </div>
   );
@@ -467,7 +469,7 @@ function SplashScreen({onDone}) {
       <div style={{display:"grid",gridTemplateColumns:"repeat(3,1fr)",gap:12,
         flex:1,alignContent:"center"}}>
         {styles_list.map(s=>(
-          <button key={s.label} onClick={()=>toggle(s.label)} style={{
+          <button data-bilingual="category" key={s.label} onClick={()=>toggle(s.label)} style={{
             background:picked.includes(s.label)?C.terra:C.white,
             color:picked.includes(s.label)?C.white:C.ink,
             border:`1.5px solid ${picked.includes(s.label)?C.terra:C.border}`,
@@ -560,7 +562,7 @@ function HomePage({items,shops,onSave,setModal,filters,setFilters,stories,setAct
               )}
             </button>
             <button className="tap-round" aria-label="Shortlist" onClick={()=>setTab("cart")} style={{background:"none",border:"none",cursor:"pointer",padding:2,position:"relative"}}>
-              <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke={C.ink} strokeWidth="1.8"><path d="M6 2L3 6v14a2 2 0 002 2h14a2 2 0 002-2V6l-3-4z"/><line x1="3" y1="6" x2="21" y2="6"/><path d="M16 10a4 4 0 01-8 0"/></svg>
+              <Icon name="list" size={22} stroke={1.8} style={{color:C.ink}}/>
               {cartCount > 0 && <div style={{position:"absolute",top:-2,right:-4,
                 background:C.btn,color:C.onBtn,fontSize:11,fontWeight:700,
                 borderRadius:10,padding:"1px 5px",minWidth:16,textAlign:"center",lineHeight:"14px"}}>{cartCount}</div>}
@@ -641,7 +643,7 @@ function HomePage({items,shops,onSave,setModal,filters,setFilters,stories,setAct
           about. Nothing else changed. */}
       <div style={{padding:"14px 14px 6px",display:"flex",alignItems:"center",justifyContent:"space-between",gap:10}}>
         <div style={{minWidth:0}}>
-          <div style={{fontFamily:"Georgia,serif",fontStyle:"italic",fontSize:18,color:C.ink}}>
+          <div style={{fontFamily:"var(--font-display)",fontStyle:"italic",fontSize:18,color:C.ink}}>
             {tasteLine ? t("for_you_2") : t("everything")}
           </div>
           <div style={{fontSize:11,color:C.inkLt,overflow:"hidden",textOverflow:"ellipsis",whiteSpace:"nowrap"}}>
@@ -762,15 +764,15 @@ function CategoriesPage({setFilters,setTab,items,onSave,setModal}) {
     <div style={{paddingBottom:72}}>
       <TopBar center={<Lili size={24}/>}/>
       <div style={{padding:"16px 14px"}}>
-        <div style={{fontFamily:"Georgia,serif",fontStyle:"italic",fontSize:20,color:C.ink,marginBottom:2}}>Categories</div>
+        <div style={{fontFamily:"var(--font-display)",fontStyle:"italic",fontSize:20,color:C.ink,marginBottom:2}}>Categories</div>
         <div style={{fontSize:12,color:C.inkLt,marginBottom:16}}>{getLang()==="ar" ? "تسوقي حسب الفئة" : "Shop by your favourite categories"}</div>
         <div style={{display:"grid",gridTemplateColumns:"repeat(3,1fr)",gap:12}}>
           {cats.map(cat=>(
-            <button key={cat.name} disabled={cat.count===0}
+            <button data-bilingual="category" key={cat.name} disabled={cat.count===0}
               onClick={()=>{setFilters(f=>({...f,category:cat.name}));setTab("home");}}
               style={{background:C.white,border:`1px solid ${C.border}`,borderRadius:16,
                 padding:"18px 8px",cursor:cat.count?"pointer":"default",display:"flex",
-                flexDirection:"column",alignItems:"center",gap:6,boxShadow:"0 1px 4px #0000000a",
+                flexDirection:"column",alignItems:"center",gap:6,boxShadow:"0 1px 4px var(--c-elev)",
                 opacity:cat.count?1:0.5,transition:"transform 0.15s"}}
               onMouseEnter={e=>{if(cat.count)e.currentTarget.style.transform="translateY(-2px)";}}
               onMouseLeave={e=>e.currentTarget.style.transform=""}>
@@ -803,7 +805,7 @@ function SavedPage({items,onSave,setModal}) {
     : saved.filter(i => (i.previous_price ?? i.previousPrice) > i.price);
   return (
     <div style={{paddingBottom:72}}>
-      <TopBar center={<span style={{fontFamily:"Georgia,serif",fontStyle:"italic",fontSize:18,color:C.terraTx}}>{t("saved")}</span>}
+      <TopBar center={<span style={{fontFamily:"var(--font-display)",fontStyle:"italic",fontSize:18,color:C.terraTx}}>{t("saved")}</span>}
         right={<span style={{fontSize:12,color:C.inkLt}}>{saved.length}</span>}/>
       <div style={{display:"flex",borderBottom:`1px solid ${C.border}`,background:C.cream}}>
         {[["all",t("all_items")],["drops",t("price_drops")]].map(([k,l])=>(
@@ -816,11 +818,12 @@ function SavedPage({items,onSave,setModal}) {
       {display.length===0
         ? <div style={{textAlign:"center",padding:"80px 20px",color:C.inkLt}}>
             <div style={{marginBottom:14,display:"flex",justifyContent:"center",opacity:0.45}}><Icon name="heart" size={44} stroke={1.3}/></div>
-            <div style={{fontFamily:"Georgia,serif",fontStyle:"italic",fontSize:16,color:C.terraTx}}>Nothing saved yet</div>
-            <div style={{fontSize:12,marginTop:6}}>لم تحفظي أي قطعة بعد</div>
+            <div style={{fontFamily:"var(--font-display)",fontStyle:"italic",fontSize:16,color:C.terraTx}}>
+              {getLang()==="ar" ? "لم تحفظي أي قطعة بعد" : "Nothing saved yet"}</div>
           </div>
         : <div style={{padding:"12px 10px",display:"grid",gridTemplateColumns:"repeat(2,1fr)",gap:10}}>
-            {display.map(item=><ItemTile key={item.id} item={item} onSave={onSave} onClick={()=>setModal(item)}/>)}
+            {/* No NEW badge here: on a list she made herself it marked every card. */}
+            {display.map(item=><ItemTile key={item.id} item={item} showNew={false} onSave={onSave} onClick={()=>setModal(item)}/>)}
           </div>}
     </div>
   );
@@ -1155,10 +1158,15 @@ export default function Marketplace() {
     setTab(t);
   };
 
-  const onCreateShop = async form=>{
+  // `stay`: the shop is being opened at the END of a listing (v2.11.8 —
+  // photos first), so the sell screen stays where it is and publishes the
+  // piece she has just finished instead of jumping to an empty shop.
+  const onCreateShop = async (form, opts = {})=>{
     const s = await repo.createShop(form);
     funnel.track(funnel.EVENTS.SIGNUP_DONE, { sellerType: form.sellerType || "unknown" });
-    setMyShop(s); setShops(sh=>[...sh,s]); setTab("myshop");
+    setMyShop(s); setShops(sh=>[...sh,s]);
+    if (!opts.stay) setTab("myshop");
+    return s;
   };
   // Poll on a slow cadence and subscribe when the backend supports it. A badge
   // that lies about waiting work is worse than no badge — see the bell.
@@ -1218,7 +1226,7 @@ export default function Marketplace() {
 
   return (
     <div className="full-height" style={{background:C.bg,position:"relative",
-      maxWidth:430,margin:"0 auto",fontFamily:"-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif"}}>
+      maxWidth:430,margin:"0 auto",fontFamily:"var(--font-sans)"}}>
       <PalmBg/>
       <div style={{position:"relative",zIndex:1}}>
         {/* v2.10.1 — said out loud, once, at the top.
@@ -1265,12 +1273,12 @@ export default function Marketplace() {
                         onReport={()=>setReporting({kind:"seller",id:viewShop&&viewShop.id,title:viewShop&&viewShop.name,shopId:viewShop&&viewShop.id,shopName:viewShop&&viewShop.name})}/>}
         {tab==="saved"      && <SavedPage items={visibleItems} onSave={onSave} setModal={setModal}/>}
         {tab==="sell"       && <SellPage myShop={myShop} onAddItem={onAddItem} setTab={setTab} onListed={setJustListed}
-                             onCreateShop={form=>{
+                             onCreateShop={(form, opts)=>{
                                // A shop is a commitment to buyers and a payout
                                // destination, so it needs an account. Browsing
                                // never does.
-                               if (repo.isRemote() || session) return onCreateShop(form);
-                               setPendingShop(form);
+                               if (repo.isRemote() || session) return onCreateShop(form, opts);
+                               setPendingShop({ form, opts });
                                askToSignIn("Opening a shop needs an account — it's how your buyers reach you and how you get paid.");
                              }}/>}
         {tab==="myshop"     && myShop && <MyShopPage shop={myShop} items={items} setTab={setTab}
@@ -1281,7 +1289,7 @@ export default function Marketplace() {
                         onOpenSettings={()=>setSettingsOpen(true)}
                         onOpenAuth={()=>askToSignIn(null)} session={session}
                         onSignOut={async()=>{ await remote.signOut().catch(()=>{}); setSession(null); }}/>}
-        {tab==="messages"   && <MessagesPage shops={shops} items={items} onReport={s=>setReporting(s)} onOpenOffers={()=>goTab("offers")}
+        {tab==="messages"   && <MessagesPage shops={shops} items={items} onReport={s=>setReporting(s)} onOpenOffers={()=>goTab("offers")} onBrowse={()=>goTab("home")}
                               openThreadId={openThreadId} onOpened={()=>setOpenThreadId(null)}
                               error={messageError}/>}
         {tab==="offers"     && <OffersPage items={items} shops={shops} onBack={()=>setTab("profile")}/>}
@@ -1351,11 +1359,11 @@ export default function Marketplace() {
           onSignedIn={async s=>{
             setSession(s); setAuthOpen(false);
             await activateBackend();
-            if (pendingShop) { const f = pendingShop; setPendingShop(null); onCreateShop(f); }
+            if (pendingShop) { const p = pendingShop; setPendingShop(null); onCreateShop(p.form, p.opts); }
           }}
           reason={authReason}
-          onSkip={pendingShop ? ()=>{ const f=pendingShop; setPendingShop(null);
-                                      setAuthOpen(false); onCreateShop(f); } : null}/>}
+          onSkip={pendingShop ? ()=>{ const p=pendingShop; setPendingShop(null);
+                                      setAuthOpen(false); onCreateShop(p.form, p.opts); } : null}/>}
         {settingsOpen && <Settings myShop={myShop} onBack={()=>setSettingsOpen(false)}
           onShopUpdated={u=>{setMyShop(u); setShops(sh=>sh.map(x=>x.id===u.id?u:x));}}/>}
         {helpOpen && <HelpCentre onBack={()=>setHelpOpen(false)}/>}
