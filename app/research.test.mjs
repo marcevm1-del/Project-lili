@@ -2058,6 +2058,22 @@ section("66. Saves are counted, and a price cut reaches the people who saved it"
     /repo\.updateItem\(id, \{ price \}\)/.test(read("./src/Marketplace.jsx")) && !/notifications/.test(stripComments(shopSrc)));
 }
 
+section("67. Screens the measured walk does not reach keep one language per label");
+{
+  const { readdirSync, statSync } = await import("node:fs");
+  const walk = (d) => readdirSync(new URL(d, import.meta.url)).flatMap((n) => {
+    const p = `${d}/${n}`;
+    return statSync(new URL(p, import.meta.url)).isDirectory() ? walk(p) : [p];
+  });
+  const pairs = walk("./src").filter((p) => p.endsWith(".jsx")).flatMap((p) =>
+    stripComments(read(p)).split("\n").map((l, i) => [p, i + 1, l])
+      .filter(([, , l]) => /\{\w+\.label\}\s*<span[^>]*>\{\w+\.labelAr\}/.test(l)))
+    .map(([p, n]) => `${p}:${n}`);
+  check("no heading prints label and labelAr side by side", pairs.length === 0, pairs.join(", "));
+  check("offers are drawn with the tag, meets with the two-person glyph",
+    /name="tag" size=\{34\}/.test(read("./src/offers/OffersPage.jsx")) && /offer: "tag"/.test(read("./src/notifications/NotificationsSheet.jsx")));
+}
+
 // ─────────────────────────────────────────────────────────────────────────────
 console.log(`\n${pass}/${pass + fail} passed`);
 if (fail) {

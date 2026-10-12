@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { C, Shell } from "../compliance/ui.js";
 import Icon from "../icons/Icon.jsx";
+import { getLang } from "../i18n/t.js";
 import { parsePrice } from "../ux/input.js";
 import { sizeLabel } from "../sizes/sizeSystem.js";
 import { SizeSystemPicker, useSizeSystem } from "../sizes/SizeSystemPicker.jsx";
@@ -57,7 +58,7 @@ export default function ProfilePreferences({ taste, brands = [], personalise, on
         const mine = p.sizeBy[g.key] || [];
         return (
           <fieldset key={g.key} style={fieldset}>
-            <legend style={legend}>{g.label} <span style={ar}>{g.labelAr}</span></legend>
+            <legend style={legend}>{getLang() === "ar" ? g.labelAr : g.label}</legend>
             <div style={chipRow}>
               {g.options.map((o) => (
                 <Chip key={o} on={mine.includes(o)} label={sizeLabel(o, undefined, { prefix: false })}
@@ -164,7 +165,6 @@ const hint = { display: "block", fontSize: 12, color: C.inkLt, lineHeight: 1.5, 
 const chipRow = { display: "flex", flexWrap: "wrap", gap: 8, marginBottom: 10 };
 const fieldset = { border: "none", padding: 0, margin: "0 0 8px" };
 const legend = { fontSize: 13, fontWeight: 600, color: C.ink, padding: 0, marginBottom: 8 };
-const ar = { fontSize: 11, color: C.terraTx, fontWeight: 400, marginInlineStart: 6 };
 const field = { width: "100%", background: C.white, border: `1px solid ${C.border}`, borderRadius: 12,
   padding: "12px 14px", fontSize: 16, color: C.ink, fontFamily: "inherit", marginBottom: 10, boxSizing: "border-box" };
 const linkBtn = { background: "none", border: "none", padding: 0, color: C.terraTx, fontSize: 13,

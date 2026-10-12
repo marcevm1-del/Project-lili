@@ -275,7 +275,7 @@ export function MessagesPage({shops,items,onReport,openThreadId,onOpened,error,o
       <TopBar center={<span style={{fontFamily:"var(--font-display)",fontStyle:"italic",fontSize:18,color:C.terraTx}}>{t("messages")}</span>}
         right={onOpenOffers && <button onClick={onOpenOffers} style={{background:"none",border:`1.5px solid ${C.terra}`,
           color:C.terraTx,borderRadius:20,padding:"6px 12px",fontSize:12,fontWeight:700,cursor:"pointer",fontFamily:"inherit",
-          display:"inline-flex",alignItems:"center",gap:5}}><Icon name="handshake" size={14}/>{t("offers")}</button>}/>
+          display:"inline-flex",alignItems:"center",gap:5}}><Icon name="tag" size={14}/>{t("offers")}</button>}/>
       {/* A conversation that could not be opened — a seller who has blocked
           you, a beta gate you are not part of — is said out loud. The old
           local-state path could not fail, so it never had to say anything;

@@ -34,7 +34,7 @@ function timeLeft(offer) {
   return `${Math.round(h / 24)}d left`;
 }
 
-export default function OffersPage({ items = [], shops = [], onBack }) {
+export default function OffersPage({ items = [], shops = [], onBack, onBrowse }) {
   const [list, setList] = useState([]);
   const [state, setState] = useState("loading");
   const [busy, setBusy] = useState(null);
@@ -279,7 +279,7 @@ export default function OffersPage({ items = [], shops = [], onBack }) {
 
         {state !== "loading" && list.length === 0 && (
           <div style={{ textAlign: "center", padding: "60px 16px", color: C.inkLt }}>
-            <Icon name="handshake" size={34} stroke={1.6} style={{ color: C.terra, marginBottom: 12 }} />
+            <Icon name="tag" size={34} stroke={1.6} style={{ color: C.terra, marginBottom: 12 }} />
             <div style={{ fontFamily: "var(--font-display)", fontStyle: "italic", fontSize: 16,
                           color: C.terraTx }}>No offers yet</div>
             <div style={{ fontSize: 12, marginTop: 6, lineHeight: 1.6 }}>
@@ -287,6 +287,12 @@ export default function OffersPage({ items = [], shops = [], onBack }) {
                 ? "العروض التي ترسلينها والعروض التي تصلك تظهر هنا."
                 : "Offers you make and offers you receive both appear here."}
             </div>
+            {onBrowse && (
+              <button onClick={onBrowse} style={{ marginTop: 18, background: C.btn, color: C.onBtn, border: "none",
+                borderRadius: 24, padding: "12px 22px", fontWeight: 700, fontSize: 14, cursor: "pointer", minHeight: 44 }}>
+                {getLang() === "ar" ? "تصفّحي الجديد" : "Browse new arrivals"}
+              </button>
+            )}
           </div>
         )}
 

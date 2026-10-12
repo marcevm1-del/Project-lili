@@ -40,7 +40,7 @@ import { withTimeout, BUDGET, isTimeout } from "../ux/timeout.js";
 // wrong screen.
 const ICON = {
   message: "chat",
-  offer: "handshake",
+  offer: "tag",
   price_drop: "tag",
   moderation_outcome: "scales",
   moderation_report_outcome: "scales",
