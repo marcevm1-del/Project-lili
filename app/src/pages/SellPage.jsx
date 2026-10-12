@@ -532,7 +532,7 @@ export function SellPage({myShop,onCreateShop,onAddItem,setTab,onListed}) {
           <span style={{fontSize:11,color:C.inkLt}}>Step {step} of {totalSteps}</span>
           <span style={{fontSize:11,color:step===totalSteps?C.terraTx:C.inkLt,
             fontWeight:step===totalSteps?700:400}}>
-            {step===totalSteps ? "Last step — then you're live"
+            {step===totalSteps ? (myShop ? "Last step — then you're live" : "Last step — then name your shop and you're live")
               : `${totalSteps-step} to go`}
           </span>
         </div>
