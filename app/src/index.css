@@ -232,11 +232,16 @@ select:focus-visible {
    the whole argument for these living in the stylesheet. */
 .lili-ratio-105 { width: 100%; padding-top: 95.24%; position: relative; }   /* 1 / 1.05 */
 .lili-ratio-1   { width: 100%; padding-top: 100%; position: relative; }
+/* 4:5, the fashion photograph's own shape, for the item page (v2.11.9). The
+   near-square 1:1.05 gave the photo about 45% of the screen; resale sells on
+   the photograph, and the peers give it 60-70%. */
+.lili-ratio-45  { width: 100%; padding-top: 125%; position: relative; }
 /* Only the media layer fills the box, as with .lili-ratio-tile. `> *` pinned
    every child to all four edges, so on the item screen the add-to-bag button
    (right: 14px, but also left: 0) landed on top of the back button and the
    photo dots (bottom: 12px, but also top: 0) floated above the photo. */
 .lili-ratio-105 > img, .lili-ratio-105 > .lili-shimmer, .lili-ratio-105 > .lili-fill,
+.lili-ratio-45 > img, .lili-ratio-45 > .lili-shimmer, .lili-ratio-45 > .lili-fill,
 .lili-ratio-1 > img, .lili-ratio-1 > .lili-shimmer, .lili-ratio-1 > .lili-fill {
   position: absolute; top: 0; right: 0; bottom: 0; left: 0; width: 100%; height: 100%;
 }

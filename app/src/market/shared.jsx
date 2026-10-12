@@ -211,6 +211,29 @@ export const categoryLabel = (c) => (getLang() === "ar" ? (CATS_AR[c] || c) : c)
 
 export const CATS_AR = {All:"الكل",Luxury:"فاخر",Bags:"حقائب",Dresses:"فساتين",Shoes:"أحذية",Abayas:"عبايات",Tops:"توبات",Jackets:"جاكيتات",Skirts:"تنانير"};
 export const CONDITIONS = ["Like New","Excellent","Good","Fair"];
+
+// What each grade MEANS, shown to the seller when she picks it and to the
+// buyer when she taps it — the same words on both sides, so "Excellent" is a
+// promise both of them read rather than a word each of them guesses at.
+// Every peer that grades condition defines its grades (Vinted, Vestiaire,
+// The RealReal); an undefined grade is the commonest dispute at a handover.
+export const CONDITION_MEANING = {
+  "Like New":  { en: "Worn once or twice at most. No marks, no wear, no alterations.",
+                 ar: "لُبست مرة أو مرتين على الأكثر. بلا علامات أو آثار استعمال أو تعديلات." },
+  "Excellent": { en: "Worn with care. No visible wear beyond anything listed under flaws.",
+                 ar: "لُبست بعناية. لا آثار استعمال ظاهرة غير ما ذُكر في العيوب." },
+  "Good":      { en: "Light, visible wear from normal use — described under flaws.",
+                 ar: "آثار استعمال خفيفة وظاهرة — موصوفة في العيوب." },
+  "Fair":      { en: "Clear wear or a repairable flaw, described under flaws and priced for it.",
+                 ar: "آثار استعمال واضحة أو عيب قابل للإصلاح، موصوف في العيوب والسعر يراعيه." },
+};
+export const conditionMeaning = (c) => {
+  const m = CONDITION_MEANING[c];
+  return m ? (getLang() === "ar" ? m.ar : m.en) : "";
+};
+
+// Above this, the item page adds a short note on checking the piece itself.
+export const HIGH_VALUE_AED = 5000;
 export const SIZES = ["XS","S","M","L","XL","OS","35","36","37","38","39","40","41","42"];
 export const ITEM_CATS = ["Luxury","Bags","Dresses","Shoes","Tops","Bottoms","Abayas","Accessories"];
 // The placeholder a piece gets when it has no photograph yet. Every listing

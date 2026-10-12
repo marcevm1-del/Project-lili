@@ -10,7 +10,7 @@ import * as offers from "../data/offers.js";
 import { t, getLang } from "../i18n/t.js";
 import { space } from "../theme/scale.js";
 import { alignEnd, backArrow, money } from "../i18n/direction.js";
-import { C, T, Avatar, Stars, earnedFollowers, ItemPhoto, bandRange, say } from "./shared.jsx";
+import { C, T, Avatar, Stars, earnedFollowers, ItemPhoto, bandRange, say, conditionMeaning, HIGH_VALUE_AED } from "./shared.jsx";
 import { sizeLabel, kindOf, APPROXIMATE_NOTE } from "../sizes/sizeSystem.js";
 import { useSizeSystem } from "../sizes/SizeSystemPicker.jsx";
 import * as remote from "../backend/remote.js";
@@ -80,6 +80,32 @@ export function PriceContext({ item }) {
   );
 }
 
+// ── a note for pieces worth checking ───────────────────────────────────────
+//
+// v2.11.9. On lili a buyer pays in person, and nobody authenticates the piece:
+// screening reads the listing, not the object (trust/authentication.js). Below
+// a few thousand dirhams that is how Gulf resale already works. At Chanel
+// prices it is a buyer being asked to authenticate a bag herself in a café —
+// so the screen says what to ask for before she goes, without naming or
+// endorsing any service, the same way meet/places.js names kinds of place.
+export function HighValueNote({ item }) {
+  const price = Number(item && item.price) || 0;
+  if (price < HIGH_VALUE_AED) return null;
+  const ar = getLang() === "ar";
+  return (
+    <div style={{border:`1px solid ${C.gold}`,background:C.white,borderRadius:12,
+      padding:"10px 12px",marginBottom:14,fontSize:12,color:C.ink,lineHeight:1.55}}>
+      <div style={{fontWeight:700,marginBottom:4}}>
+        {ar ? "قبل أن تلتقي من أجل هذه القطعة" : "Before you meet for this one"}</div>
+      <div style={{color:C.inkLt}}>
+        {ar
+          ? "lili تراجع الإعلانات لكنها لا تتحقق من أصالة القطع. اطلبي من البائعة صورة الإيصال والرقم التسلسلي أو رمز التاريخ قبل اللقاء، وفكّري في خدمة تحقق مستقلة — فحص بالصور عبر الإنترنت أو تقييم في متجر متخصص."
+          : "lili screens listings but does not authenticate pieces. Ask the seller for the receipt and the serial or date code before you meet, and consider an independent authentication service — an online photo check or an in-store appraisal."}
+      </div>
+    </div>
+  );
+}
+
 // ── item detail modal ──────────────────────────────────────────────────────
 // Whether paying in the app is switched on. Two switches, both required: the
 // build's PAYMENTS_LIVE (so every policy and screen describing money was
@@ -135,6 +161,8 @@ export function ItemModal({item,shop,items=[],onOpenItem,onSave,onClose,onOffer,
   const sizeSys = useSizeSystem();
   const payOn = usePaymentsOn();
   const [buying, setBuying] = useState(false);
+  const [showGrade, setShowGrade] = useState(false);
+  useEffect(() => { setShowGrade(false); }, [item && item.id]);
   if(!item) return null;
   const canBuy = payOn && !item.reserved && (!item.status || item.status === "live");
   return (
@@ -168,16 +196,30 @@ export function ItemModal({item,shop,items=[],onOpenItem,onSave,onClose,onOffer,
           </div>
 
           <PriceContext item={item}/>
+          <HighValueNote item={item}/>
 
-          {/* tags */}
-          <div style={{display:"flex",gap:7,marginBottom:14,flexWrap:"wrap"}}>
-            {[["Brand",item.brand],["Condition",item.condition],["Size",item.size ? sizeLabel(item.size, sizeSys, { both: true }) : ""],["Era",item.era]].map(([l,v])=>(
-              <div key={l} style={{background:C.sand,borderRadius:8,padding:"5px 10px"}}>
-                <div style={{fontSize:11,color:C.inkLt,fontWeight:700,letterSpacing:0.5}}>{l.toUpperCase()}</div>
-                <div style={{fontSize:11,color:C.ink,fontWeight:600}}>{v}</div>
-              </div>
-            ))}
+          {/* tags — Condition opens what the grade means */}
+          <div style={{display:"flex",gap:7,marginBottom:showGrade?6:14,flexWrap:"wrap"}}>
+            {[["Brand",item.brand],["Condition",item.condition],["Size",item.size ? sizeLabel(item.size, sizeSys, { both: true }) : ""],["Era",item.era]].map(([l,v])=>{
+              const tappable = l === "Condition" && !!conditionMeaning(v);
+              const Tag = tappable ? "button" : "div";
+              return (
+                <Tag key={l} {...(tappable ? { onClick: () => setShowGrade(g => !g), "aria-expanded": showGrade,
+                    "aria-label": `Condition: ${v}. What this means` } : {})}
+                  style={{background:C.sand,borderRadius:8,padding:"5px 10px",border:tappable?`1px solid ${C.border}`:"none",
+                    textAlign:"start",cursor:tappable?"pointer":"default",minHeight:tappable?44:undefined,fontFamily:"inherit"}}>
+                  <div style={{fontSize:11,color:C.inkLt,fontWeight:700,letterSpacing:0.5}}>{l.toUpperCase()}{tappable ? " ⓘ" : ""}</div>
+                  <div style={{fontSize:11,color:C.ink,fontWeight:600}}>{v}</div>
+                </Tag>
+              );
+            })}
           </div>
+          {showGrade && (
+            <div style={{fontSize:12,color:C.ink,lineHeight:1.55,background:C.white,border:`1px solid ${C.border}`,
+              borderRadius:10,padding:"8px 12px",marginBottom:14}}>
+              <b>{item.condition}</b> — {conditionMeaning(item.condition)}
+            </div>
+          )}
           {sizeSys !== "INTL" && kindOf(item.size) && (
             <div style={{fontSize:11,color:C.inkLt,margin:"-8px 0 14px"}}>
               Listed as {item.size}. {APPROXIMATE_NOTE}
@@ -360,7 +402,7 @@ export function ItemGallery({item, onClose, onSave}) {
     width:40,height:40,cursor:"pointer",backdropFilter:"blur(4px)",
     display:"flex",alignItems:"center",justifyContent:"center"};
   return (
-    <div className="lili-ratio-105" style={{overflow:"hidden",
+    <div className="lili-ratio-45" style={{overflow:"hidden",
       background:`linear-gradient(145deg,${item.color},${item.color}99)`}}>
       {photos.length > 1 ? (
         <div className="lili-fill" onScroll={onScroll} aria-label={`${photos.length} photos`}

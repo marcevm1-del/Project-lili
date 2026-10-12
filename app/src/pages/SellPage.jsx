@@ -19,7 +19,7 @@ import { HOW_MONEY_WORKS } from "../compliance/sellerRules.js";
 import { t, getLang } from "../i18n/t.js";
 import { space } from "../theme/scale.js";
 import { alignStart } from "../i18n/direction.js";
-import { C, Lili, CONDITIONS, SIZES, ITEM_CATS, ICON_FOR_CAT, APPROVED_BRANDS, BRANDS, ERAS, TopBar } from "../market/shared.jsx";
+import { C, Lili, CONDITIONS, SIZES, ITEM_CATS, ICON_FOR_CAT, APPROVED_BRANDS, BRANDS, ERAS, TopBar, conditionMeaning } from "../market/shared.jsx";
 import { PayoutBox } from "../market/OfferModal.jsx";
 import { sizeLabel } from "../sizes/sizeSystem.js";
 import { useSizeSystem, SizeSystemPicker } from "../sizes/SizeSystemPicker.jsx";
@@ -650,12 +650,17 @@ export function SellPage({myShop,onCreateShop,onAddItem,setTab,onListed}) {
                 </div>
               ))}
             </div>
+            {/* The grade's meaning, in the words the buyer will read when she
+                taps it on the listing — one definition, both sides. */}
+            <div style={{fontSize:11,color:C.inkLt,lineHeight:1.5,marginTop:-4}}>
+              <b style={{color:C.ink}}>{form.condition}</b> — {conditionMeaning(form.condition)}
+            </div>
             <FitAndFlaws form={form} setForm={setForm}/>
             <DeliverySettings form={form} setForm={setForm}/>
             <div>
               <label style={{fontSize:11,fontWeight:700,color:C.inkLt,letterSpacing:0.5,textTransform:"uppercase",display:"block",marginBottom:6}}>{t("description")}</label>
               <textarea value={form.desc} onChange={e=>setForm({...form,desc:e.target.value})}
-                placeholder="Describe your piece — condition details, why you loved it, any wear... وصف القطعة"
+                placeholder={getLang()==="ar" ? "صفي قطعتك — حالتها، لماذا أحببتِها، وأي آثار استعمال..." : "Describe your piece — condition details, why you loved it, any wear..."}
                 rows={3} style={{width:"100%",padding:"12px 12px",borderRadius:10,border:`1px solid ${C.border}`,
                   fontSize:13,outline:"none",resize:"vertical",boxSizing:"border-box",fontFamily:"inherit"}}/>
             </div>
