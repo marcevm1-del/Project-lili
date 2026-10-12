@@ -270,7 +270,6 @@ select:focus-visible {
 [dir="rtl"] li,
 [dir="rtl"] label,
 [dir="rtl"] span,
-[dir="rtl"] button,
 [dir="rtl"] h1, [dir="rtl"] h2, [dir="rtl"] h3,
 [dir="rtl"] div:not(:has(> div, > section, > button, > ul, > p)) {
   unicode-bidi: plaintext;
@@ -279,6 +278,12 @@ select:focus-visible {
   text-align: match-parent;
   text-align: -webkit-match-parent;   /* Chromium resolves only the prefixed form */
 }
+/* Buttons take the same per-paragraph direction but keep their OWN alignment.
+   Inheriting the screen's (right) alignment pushed every centred label in the
+   Arabic interface against the button's edge — "راسلي البائعة" flush right
+   inside a pill with no side padding. A button that wants its text at the
+   start (a list row) says so inline, as they already do. */
+[dir="rtl"] button { unicode-bidi: plaintext; }
 
 /* The search field is one box. Its <input> is transparent inside a filled
    container, and :focus-visible on the input drew a second, bordered box inside
