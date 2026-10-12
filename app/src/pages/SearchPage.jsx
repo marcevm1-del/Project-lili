@@ -9,7 +9,7 @@ import { searchLocal, diagnose, suggestions } from "../discovery/search.js";
 import { matchesFilters } from "../discovery/filters.js";
 import { applySort } from "../discovery/ranking.js";
 import * as funnel from "../analytics/funnel.js";
-import { t } from "../i18n/t.js";
+import { t, getLang } from "../i18n/t.js";
 import { C, SearchBar, withHeart, ItemTile } from "../market/shared.jsx";
 import { FiltersPanel } from "../market/FiltersPanel.jsx";
 
@@ -115,6 +115,20 @@ export function SearchPage({items,shops,onSave,setModal,filters,setFilters,saved
               maxPrice: ss.max_price != null ? Number(ss.max_price) : f.maxPrice}));
             setQ(ss.query);
           }}/>
+          {/* The search's real advantage, said where she can try it: Arabic and
+              English find the same pieces (curated garment vocabulary, then
+              near spellings). Two examples she can tap, one per language,
+              each its own control — not one two-language label. */}
+          <div style={{background:C.white,border:`1px solid ${C.border}`,borderRadius:12,
+            padding:"10px 12px",marginBottom:20,fontSize:12,color:C.inkLt,lineHeight:1.5}}>
+            <div style={{color:C.ink,fontWeight:600,marginBottom:6}}>
+              {getLang()==="ar" ? "ابحثي بالعربية أو الإنجليزية — النتائج نفسها" : "Search in Arabic or English — the same pieces come up"}
+            </div>
+            <div style={{display:"flex",gap:8}}>
+              <button onClick={()=>setQ("عباية")} dir="rtl" lang="ar" style={exampleChip}>عباية</button>
+              <button onClick={()=>setQ("abaya")} dir="ltr" lang="en" style={exampleChip}>abaya</button>
+            </div>
+          </div>
           {trending.length>0 && <>
           <div style={{fontWeight:700,fontSize:14,color:C.ink,marginBottom:12}}>{t("in_stock_now")}</div>
           <div style={{display:"flex",flexWrap:"wrap",gap:8,marginBottom:24}}>
@@ -215,3 +229,6 @@ export function SearchPage({items,shops,onSave,setModal,filters,setFilters,saved
     </div>
   );
 }
+
+const exampleChip = { background:"var(--c-sand)", border:"none", borderRadius:16, padding:"6px 14px",
+  fontSize:13, color:"var(--c-ink)", cursor:"pointer", minHeight:36, fontFamily:"inherit" };
