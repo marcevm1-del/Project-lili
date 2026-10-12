@@ -34,6 +34,10 @@ input, textarea, select, [contenteditable="true"] {
 
 /* iOS/Android zoom-on-focus happens below 16px — keep form text at 16 */
 input, textarea, select { font-size: 16px; font-family: inherit; }
+/* A field with no background of its own took the browser's: light grey on
+   cream, and a cold #3b3b3b on the warm dark theme. Fields that sit inside a
+   box set background: none inline, which still wins. */
+input, textarea, select { background-color: var(--c-white); color: var(--c-ink); }
 
 /* A <button> with no font-size of its own inherits nothing — it takes the
    browser's default, which in Chrome is 13.333px. `npm run uxlaws` measures

@@ -119,7 +119,14 @@ export function OfferModal({item,shop,onClose,onSubmit}) {
   if(!item) return null;
 
   const value = parsePrice(amount);
+  const asking = Number(item.price) || 0;
   const tooLow = band && value != null && value < band.low * 0.5;
+  // Against HER price, too: the band is missing for most brands, so an offer
+  // of AED 100 on an AED 1,250 dress went without a word. And an offer above
+  // the asking price is almost always a typo — said before it is sent,
+  // because once sent it cannot be changed.
+  const farUnder = !tooLow && value != null && value > 0 && asking > 0 && value < asking * 0.5;
+  const overAsking = value != null && asking > 0 && value > asking;
 
   const send = async () => {
     if(value === null || value <= 0 || sending) return;
@@ -231,6 +238,18 @@ export function OfferModal({item,shop,onClose,onSubmit}) {
                 padding:"10px 14px",marginBottom:12,fontSize:11,color:C.ink,lineHeight:1.55}}>
                 That is a long way under the range. Low offers are usually
                 declined without a reply — she may not even see it as serious.
+              </div>
+            )}
+            {(farUnder || overAsking) && (
+              <div style={{background:C.sand,border:`1px solid ${C.gold}`,borderRadius:10,
+                padding:"10px 14px",marginBottom:12,fontSize:11,color:C.ink,lineHeight:1.55}}>
+                {overAsking
+                  ? (getLang()==="ar"
+                      ? `هذا أعلى من سعرها (${money(asking)}). يمكنك الشراء بسعرها دون عرض.`
+                      : `That's above her asking price of ${money(asking)}. You can simply ask to buy at her price.`)
+                  : (getLang()==="ar"
+                      ? "هذا أقل من نصف سعرها. العروض المنخفضة جداً تُرفض عادةً دون رد."
+                      : "That's less than half her price. Offers this low are usually declined without a reply.")}
               </div>
             )}
             {error && (
