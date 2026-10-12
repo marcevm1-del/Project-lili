@@ -242,18 +242,33 @@ const measure = () => page.evaluate(({ MIN_TAP, MIN_GAP }) => {
     if (!txt || txt.length > 90) continue;
     // Only the deepest element that holds the whole label, so a container is
     // not blamed for two children that each speak one language.
-    if ([...el.children].some((c) => (c.innerText || "").includes("·"))) continue;
+    // Skip a container only when a CHILD holds the whole two-language label;
+    // a child holding just "· العربية" means this element is the label (the
+    // photo coach printed its tips that way and passed).
+    if ([...el.children].some((c) => { const ct = c.innerText || "";
+      return ct.includes("·") && /[A-Za-z]{3}/.test(ct) && /[\u0600-\u06FF]{2}/.test(ct); })) continue;
+    // Third shape: English text with its Arabic in a child span and no
+    // separator at all ("Tops & jackets التوبات والجاكيتات").
+    if (!el.closest("[data-bilingual]") && txt.length < 70 && !/\n/.test(txt)) {
+      const own = [...el.childNodes].filter((n) => n.nodeType === 3).map((n) => n.textContent).join("");
+      const arKid = [...el.children].some((c) => /^[\s\u0600-\u06FF،؟.·-]+$/.test(c.innerText || "") && /[\u0600-\u06FF]{2}/.test(c.innerText || ""));
+      if (/[A-Za-z]{3}/.test(own) && arKid) { bilingual.push(`${txt.slice(0, 44)} <${el.tagName.toLowerCase()}, no separator>`); continue; }
+    }
     // The second shape: a button that stacks its English label over its
     // Arabic one ("Make an Offer" / "قدم عرضاً"). Category names are the one
     // deliberate exception — shoppers search both ways — and say so with
     // data-bilingual, so the exception is written down rather than guessed.
     if (el.tagName === "BUTTON" && !el.closest("[data-bilingual]") && /\n/.test(txt) &&
         /[A-Za-z]{3}/.test(txt) && /[\u0600-\u06FF]{2}/.test(txt)) {
-      bilingual.push(txt.replace(/\s+/g, " ").slice(0, 44));
+      bilingual.push(`${txt.replace(/\s+/g, " ").slice(0, 44)} <button, stacked>`);
       continue;
     }
     if (!/·/.test(txt)) continue;
-    if (/[A-Za-z]{3}/.test(txt) && /[\u0600-\u06FF]{2}/.test(txt)) bilingual.push(txt.slice(0, 44));
+    // The separator has to sit BETWEEN the two scripts on one line — a title
+    // block with an Arabic name on one line and "Mini Bag · Caramel" on the
+    // next is two labels, not one.
+    if (/[A-Za-z]{3}[^\n]*·[^\n]*[\u0600-\u06FF]{2}|[\u0600-\u06FF]{2}[^\n]*·[^\n]*[A-Za-z]{3}/.test(txt))
+      bilingual.push(`${txt.replace(/\s+/g, " ").slice(0, 44)} <dot-joined>`);
   }
 
   // Von Restorff — how many things claim to be THE action
@@ -424,6 +439,32 @@ await page.waitForTimeout(600);
 }
 await page.keyboard.press("Escape").catch(() => {});
 await page.waitForTimeout(300);
+
+// Screens the tab walk never reached, where every two-language label found by
+// hand in v2.11.9 lived: the listing's first step (photo coach), preferences,
+// offers and the language screen. Language and clipping only.
+const extra = async (where) => {
+  const m = await measure();
+  for (const c of m.bilingual) allBilingual.add(`${where}: ${c}`);
+  for (const c of m.clipped) allClipped.add(`${where}: ${c}`);
+};
+await label("Sell"); await page.waitForTimeout(400);
+await tap("Quick"); await page.waitForTimeout(500);
+await extra("sell · photos");
+await tap("Cancel"); await page.waitForTimeout(300);
+for (const [row, where] of [["My preferences", "preferences"], ["Offers", "offers"], ["Language", "language"]]) {
+  await label("Profile"); await page.waitForTimeout(400);
+  const r = page.locator(`button:has-text("${row}")`).last();
+  if (await r.count()) {
+    await r.scrollIntoViewIfNeeded().catch(() => {});
+    await r.click({ force: true }).catch(() => {}); await page.waitForTimeout(600);
+    await extra(where);
+  }
+  await page.keyboard.press("Escape").catch(() => {});
+  const back = page.locator('button[aria-label="Back"]').first();
+  if (await back.count()) await back.click().catch(() => {});
+  await page.waitForTimeout(300);
+}
 
 for (const [k, v] of gateFindings.small) allSmall.set(k, v);
 for (const c of gateFindings.clipped) allClipped.add(c);
