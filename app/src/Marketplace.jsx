@@ -215,51 +215,9 @@ function StoriesBar({stories,shops,items=[],onStoryTap}) {
   );
 }
 
-// ── story viewer ───────────────────────────────────────────────────────────
-function StoryViewer({story,shop,onClose}) {
-  const trap = useFocusTrap(onClose);
-  const [progress,setProgress] = useState(0);
-  useEffect(()=>{
-    const start = Date.now();
-    const tick = ()=>{
-      const p = Math.min(100,(Date.now()-start)/story.duration*100);
-      setProgress(p);
-      if(p<100) requestAnimationFrame(tick);
-      else onClose();
-    };
-    requestAnimationFrame(tick);
-  },[]);
-  return (
-    <div ref={trap} {...dialogProps("Story")}
-      style={{position:"fixed",top:0,right:0,bottom:0,left:0,zIndex:400,background:"var(--c-media-bg)",overflowY:"auto",display:"flex",flexDirection:"column"}}>
-      {/* progress */}
-      <div style={{padding:"12px 14px 0",background:"transparent"}}>
-        <div style={{height:2.5,background:"var(--c-on-media-faint)",borderRadius:2}}>
-          <div style={{height:"100%",background:C.white,borderRadius:2,width:`${progress}%`,transition:"width 0.1s linear"}}/>
-        </div>
-      </div>
-      {/* header */}
-      <div style={{display:"flex",alignItems:"center",gap:10,padding:"10px 14px"}}>
-        {shop && <Avatar shop={shop} size={36}/>}
-        <div style={{flex:1}}>
-          <div style={{color:C.white,fontWeight:700,fontSize:13}}>{shop?.name}</div>
-          <div style={{color:"var(--c-on-media-soft)",fontSize:11}}>{shop?.handle}</div>
-        </div>
-        <button onClick={onClose} aria-label="Close" className="tap-target" style={{background:"none",border:"none",cursor:"pointer",color:C.white,fontSize:22,display:"flex",alignItems:"center",justifyContent:"center"}}><Icon name="close" size={14} stroke={2}/></button>
-      </div>
-      {/* content */}
-      <div style={{flex:1,display:"flex",alignItems:"center",justifyContent:"center",
-        background:`linear-gradient(135deg,${story.color||C.terra},${story.color||C.terra}88)`,fontSize:100}}>
-        <Placeholder item={story} size={64}/>
-      </div>
-      {/* caption */}
-      <div style={{padding:"16px 20px 40px",background:"linear-gradient(transparent,var(--c-backdrop))"}}>
-        <div style={{color:C.white,fontSize:15,fontWeight:500}}>{story.caption}</div>
-        <div style={{color:"var(--c-on-media-soft)",fontSize:12,marginTop:4}}>{shop?.name}</div>
-      </div>
-    </div>
-  );
-}
+// (The story viewer that lived here played invented captions — "Just listed",
+// "Summer edit" — over a placeholder, for a feature lili has decided not to
+// build. A shop circle now opens the shop: what is actually there.)
 
 // ── new in strip ───────────────────────────────────────────────────────────
 function NewInStrip({items,onSave,setModal,onSeeAll}) {
@@ -516,7 +474,7 @@ function SplashScreen({onDone}) {
 }
 
 // ── home page ──────────────────────────────────────────────────────────────
-function HomePage({items,shops,onSave,setModal,filters,setFilters,stories,setActiveStory,cartCount,savedCount=0,onLoadMore,setTab,hydrated,onOpenNotifications,unreadCount=0,taste,personalise,onEditTaste,onOpenPrefs}) {
+function HomePage({items,shops,onSave,setModal,filters,setFilters,stories,onOpenShop,cartCount,savedCount=0,onLoadMore,setTab,hydrated,onOpenNotifications,unreadCount=0,taste,personalise,onEditTaste,onOpenPrefs}) {
   useSizeSystem();
   const [q,setQ] = useState("");
   const [showFilters,setShowFilters] = useState(false);
@@ -647,7 +605,7 @@ function HomePage({items,shops,onSave,setModal,filters,setFilters,stories,setAct
         onSeeAll={()=>{setQ("");setFilters({...EMPTY_FILTERS,sort:DEFAULT_SORT});}}/>
       {/* Shops come after the first pieces, not before them: a row of shop
           circles above the feed pushed the first garment half a screen down. */}
-      <StoriesBar stories={stories} shops={shops} items={items} onStoryTap={(s,sh)=>setActiveStory({story:s,shop:sh})}/>
+      <StoriesBar stories={stories} shops={shops} items={items} onStoryTap={(s,sh)=>onOpenShop && onOpenShop(sh)}/>
       <div style={{height:1,background:C.border,margin:"4px 14px 14px"}}/>
 
       {/* v2.11.1 — this heading sat ABOVE the New In strip while describing
@@ -899,7 +857,7 @@ export default function Marketplace() {
   const saveTaste = (picked) => {
     savePrefs({ ...normalisePrefs(taste), categories: Array.isArray(picked) ? picked : [] });
   };
-  const [activeStory,setActiveStory] = useState(null);
+  const [shopBackTo,setShopBackTo] = useState("sellers");
   const [cart, setCart] = useState([]);
   // v2.8 — saves are a set of item ids belonging to THIS person, not a flag on
   // the listing. See the note in repo.js: written onto the item, a save either
@@ -1067,14 +1025,13 @@ export default function Marketplace() {
     if (legalOpen)          { setLegalOpen(false);   return true; }
     if (notifOpen)          { setNotifOpen(false);    return true; }
     if (reporting)          { setReporting(null);    return true; }
-    if (activeStory)        { setActiveStory(null);  return true; }
     if (offerModal)         { setOfferModal(null);   return true; }
     if (modal)              { setModal(null);        return true; }
-    if (tab === "shopview") { setTab("sellers");     return true; }
+    if (tab === "shopview") { setTab(shopBackTo); setShopBackTo("sellers"); return true; }
     if (tab === "cart")     { setTab("home");        return true; }
     if (tab !== "home")     { setTab("home");        return true; }
     return false;
-  }, [authOpen, settingsOpen, helpOpen, themeOpen, langOpen, legalOpen, prefsOpen, ordersOpen, reporting, activeStory, offerModal, modal, tab]);
+  }, [authOpen, settingsOpen, helpOpen, themeOpen, langOpen, legalOpen, prefsOpen, ordersOpen, reporting, offerModal, modal, tab, shopBackTo]);
 
   // Quantity was removed with the checkout in v2.9.4 — `i.qty` no longer
   // exists, so this was summing undefined and painting NaN on the tab badge.
@@ -1163,7 +1120,7 @@ export default function Marketplace() {
   // always win: choosing a destination closes whatever was on top of it.
   const goTab = (t) => {
     setHelpOpen(false); setThemeOpen(false); setLangOpen(false); setPrefsOpen(false);
-    setLegalOpen(false); setReporting(null); setActiveStory(null);
+    setLegalOpen(false); setReporting(null);
     setModal(null); setOfferModal(null);
     // The funnel is one line, here, because every screen change passes through
     // this function. Screens are enum-shaped strings and nothing else is sent.
@@ -1285,7 +1242,7 @@ export default function Marketplace() {
           </div>
         )}
         <Suspense fallback={null}>
-        {tab==="home"       && <HomePage hydrated={hydrated} items={visibleItems} shops={visibleShops} onSave={onSave} setModal={setModal} filters={filters} setFilters={setFilters} stories={STORIES} setActiveStory={setActiveStory} cartCount={cartCount} savedCount={savedCount} setTab={setTab}
+        {tab==="home"       && <HomePage hydrated={hydrated} items={visibleItems} shops={visibleShops} onSave={onSave} setModal={setModal} filters={filters} setFilters={setFilters} stories={STORIES} onOpenShop={sh=>{ setViewShop(sh); setShopBackTo("home"); setTab("shopview"); }} cartCount={cartCount} savedCount={savedCount} setTab={setTab}
                               onLoadMore={canLoadMore ? loadMore : null} onOpenNotifications={()=>setNotifOpen(true)} unreadCount={unread}
                               taste={taste} personalise={!!(consent && consent.personalisation)}
                               onEditTaste={()=>setTasteOpen(true)} onOpenPrefs={()=>setPrefsOpen(true)}/>}
@@ -1293,7 +1250,7 @@ export default function Marketplace() {
         {tab==="categories" && <CategoriesPage setFilters={setFilters} setTab={setTab} items={visibleItems} onSave={onSave} setModal={setModal}/>}
         {tab==="sellers"    && <SellersPage shops={visibleShops} items={visibleItems} setTab={setTab} setViewShop={setViewShop}
                               onFollow={toggleFollow} isFollowing={isFollowing}/>}
-        {tab==="shopview"   && <ShopViewPage shop={viewShop} items={visibleItems} onSave={onSave} setModal={setModal} onBack={()=>setTab("sellers")}
+        {tab==="shopview"   && <ShopViewPage shop={viewShop} items={visibleItems} onSave={onSave} setModal={setModal} onBack={()=>{ setTab(shopBackTo); setShopBackTo("sellers"); }}
                               onFollow={toggleFollow} following={viewShop?isFollowing(viewShop.id):false}
                         onReport={()=>setReporting({kind:"seller",id:viewShop&&viewShop.id,title:viewShop&&viewShop.name,shopId:viewShop&&viewShop.id,shopName:viewShop&&viewShop.name})}/>}
         {tab==="saved"      && <SavedPage items={visibleItems} onSave={onSave} setModal={setModal}/>}
@@ -1351,7 +1308,6 @@ export default function Marketplace() {
              offers/OffersPage.jsx, which is where this now sends her. */
           setTab("offers");
         }}/>}
-        {activeStory && <StoryViewer story={activeStory.story} shop={activeStory.shop} onClose={()=>setActiveStory(null)}/>}
         {tasteOpen && <TasteSheet taste={taste} onSave={saveTaste} onClose={()=>setTasteOpen(false)}
           onMore={()=>{ setTasteOpen(false); setPrefsOpen(true); }}/>}
         {notifOpen && <NotificationsSheet onClose={()=>{setNotifOpen(false);
