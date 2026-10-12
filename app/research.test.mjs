@@ -2077,6 +2077,11 @@ section("67. Screens the measured walk does not reach keep one language per labe
   check("no line prints a string's en and ar together", enAr.length === 0, enAr.join(", "));
   check("the photo coach's heading counts the same target as the quality check",
     /t\("six_photos_that_sell", \{ n: PHOTO_TARGET \}\)/.test(read("./src/sell/PhotoCoach.jsx")));
+  const delivery = stripComments(read("./src/delivery/DeliverySettings.jsx"));
+  check("delivery settings describe the paid flow only when payments are live",
+    /PAYMENTS_LIVE\s*\n?\s*\?/.test(delivery) && /Until payments are live nothing is paid in the app/.test(delivery));
+  check("no seller copy claims more options sell faster (nothing measures it)",
+    !/sell faster|sells faster/.test(delivery));
   check("the price step's big number is what she keeps while nothing is collected",
     /const keep = b \? \(fees\.COLLECTION_LIVE \? b\.payout : b\.price\)/.test(read("./src/market/OfferModal.jsx")));
   check("offers are drawn with the tag, meets with the two-person glyph",

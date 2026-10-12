@@ -3,6 +3,7 @@ import { C } from "../compliance/ui.js";
 import Icon from "../icons/Icon.jsx";
 import * as remote from "../backend/remote.js";
 import { CARRIERS, PARCEL_SIZES } from "./carriers.js";
+import { PAYMENTS_LIVE } from "../compliance/sellerRules.js";
 
 // ─────────────────────────────────────────────────────────────────────────────
 //  The sell form's Delivery section, after Yaga's.
@@ -34,9 +35,12 @@ export default function DeliverySettings({ form, setForm }) {
       <div>
         <h3 id="delivery-h" style={h3}>Delivery</h3>
         <p style={hint}>
-          Switch on as many as you like: shops with more options sell faster. The buyer pays the
-          delivery fee when she buys, and it's paid to you with the sale. You book the courier and
-          add the tracking number.
+          {/* v2.11.9: this stated the paid flow as fact while payments are off,
+              and claimed "shops with more options sell faster", which nothing
+              measures. It now says what is true in the state the app is in. */}
+          {PAYMENTS_LIVE
+            ? "Switch on the ones you'll use. The buyer pays the delivery fee when she buys, and it's paid to you with the sale. You book the courier and add the tracking number."
+            : "Switch on the ones you'd use. Until payments are live nothing is paid in the app: you and the buyer agree delivery and its cost between you, and you book the courier yourself."}
         </p>
       </div>
 
