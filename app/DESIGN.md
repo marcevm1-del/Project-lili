@@ -49,7 +49,11 @@ palettes (`C`) point at those variables. That indirection is what makes theming
 roughly 2,000 inline styles possible without editing any of them.
 
 **Never write a hex value in a component.** If a colour is needed, it becomes a
-token first.
+token first. *Content* colours — a shop banner she picked, a category tile's
+tint, an item's swatch — are not theme colours and do not change with the
+theme; they live in `src/theme/swatches.js`. Ink drawn on a swatch uses
+`--c-on-swatch-dark` / `--c-on-swatch-light`, which are the same in both themes.
+→ `npm run research` (section 64).
 
 Contrast is measured, not eyeballed — `npm run contrast`. Two values in the
 palette carry their reason in a comment because measurement moved them:
@@ -159,6 +163,14 @@ copy. Response to a tap is measured against the Doherty threshold of 400 ms.
 - Do not add a reassurance row where the reassurance is not available. Three
   chips in a row *are* the reassurance; weaker true chips in the same shape are
   the same move with better wording.
+- Do not use a glyph for what it does not mean. A shopping bag means checkout;
+  lili's shortlist is a list. A rising arrow means trending; nothing measures
+  that. The two-person glyph is meeting in person; offers are a price tag.
+- Do not draw a focus ring on an `<input>` that sits inside a filled or
+  bordered box. Give the box `.lili-field` (or `.lili-search`) and the ring goes
+  on the box, where the eye already sees the edge; give the input `minWidth: 0`.
+- Do not show a social-proof number nobody counts. A saves count is kept by the
+  database and may be shown; "N people are looking" is not counted and may not.
 
 ---
 

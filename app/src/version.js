@@ -7,7 +7,7 @@
 //
 // Bump here, and in package.json and android/app/build.gradle, in the same
 // commit.
-export const APP_VERSION = "2.11.8";
+export const APP_VERSION = "2.11.9";
 
 /** The CI build this APK came from ("2.11.7-b42"), or "" in a local build. */
 // eslint-disable-next-line no-undef

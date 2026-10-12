@@ -1,7 +1,7 @@
 {
   "name": "lili-app",
   "private": true,
-  "version": "2.11.8",
+  "version": "2.11.9",
   "description": "love it or leave it — Dubai's luxury resale community",
   "type": "module",
   "scripts": {
