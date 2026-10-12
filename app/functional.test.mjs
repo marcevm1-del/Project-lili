@@ -365,13 +365,16 @@ if (reachedPrice) {
   // test as well as into the copy. Commission is tiered now, so the expected
   // payout comes from the fee module itself. A test that repeats the number
   // cannot notice the schedule changing; one that asks the schedule can.
-  const { breakdown } = await import("./src/data/fees.js");
-  const expected = Math.round(breakdown(1000).payout);
+  const { breakdown, COLLECTION_LIVE: FEES_LIVE } = await import("./src/data/fees.js");
+  // While nothing is collected she keeps the whole price; the fee is shown as
+  // what it will be. Once collection is live, the payout after the fee.
+  const expected = FEES_LIVE ? Math.round(breakdown(1000).payout) : 1000;
   const m = txt.match(/You receive\s*:?\s*AED\s*([\d,]+)/i);
   check("the seller is told what they receive", !!m, txt.slice(0, 140));
   if (m) {
     const got = Number(m[1].replace(/,/g, ""));
-    check(`payout matches the fee schedule (${breakdown(1000).ratePercent}% band)`,
+    check(FEES_LIVE ? `payout matches the fee schedule (${breakdown(1000).ratePercent}% band)`
+                    : "she is shown she keeps the full price while nothing is collected",
           got === expected, `got ${got}, schedule says ${expected}`);
   }
   // and in Arabic numerals

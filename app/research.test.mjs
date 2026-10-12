@@ -2070,6 +2070,15 @@ section("67. Screens the measured walk does not reach keep one language per labe
       .filter(([, , l]) => /\{\w+\.label\}\s*<span[^>]*>\{\w+\.labelAr\}/.test(l)))
     .map(([p, n]) => `${p}:${n}`);
   check("no heading prints label and labelAr side by side", pairs.length === 0, pairs.join(", "));
+  const enAr = walk("./src").filter((p) => p.endsWith(".jsx")).flatMap((p) =>
+    stripComments(read(p)).split("\n").map((l, i) => [p, i + 1, l])
+      .filter(([, , l]) => /\{\w+\.en\}[^\n]{0,80}\{\w+\.ar\}/.test(l)))
+    .map(([p, n]) => `${p}:${n}`);
+  check("no line prints a string's en and ar together", enAr.length === 0, enAr.join(", "));
+  check("the photo coach's heading counts the same target as the quality check",
+    /t\("six_photos_that_sell", \{ n: PHOTO_TARGET \}\)/.test(read("./src/sell/PhotoCoach.jsx")));
+  check("the price step's big number is what she keeps while nothing is collected",
+    /const keep = b \? \(fees\.COLLECTION_LIVE \? b\.payout : b\.price\)/.test(read("./src/market/OfferModal.jsx")));
   check("offers are drawn with the tag, meets with the two-person glyph",
     /name="tag" size=\{34\}/.test(read("./src/offers/OffersPage.jsx")) && /offer: "tag"/.test(read("./src/notifications/NotificationsSheet.jsx")));
 }

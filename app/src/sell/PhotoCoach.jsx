@@ -2,7 +2,7 @@ import { useState } from "react";
 import { C } from "../compliance/ui.js";
 import Icon from "../icons/Icon.jsx";
 import { PHOTO_CHECKLIST, PHOTO_TARGET } from "./listingQuality.js";
-import { t } from "../i18n/t.js";
+import { t, getLang } from "../i18n/t.js";
 
 // ─────────────────────────────────────────────────────────────────────────────
 //  PHOTO COACH
@@ -79,7 +79,7 @@ export default function PhotoCoach({ count = 0, findings = [] }) {
         <Icon name="camera" size={14} stroke={2} style={{ color: C.terraTx || C.terra }} />
         <span style={{ fontSize: 12, fontWeight: 700, flex: 1 }}>
           {count === 0
-            ? t("six_photos_that_sell")
+            ? t("six_photos_that_sell", { n: PHOTO_TARGET })
             : remaining > 0
             ? `${remaining} more photo${remaining > 1 ? "s" : ""} and this listing is doing its job`
             : "You've got the shots that matter"}
@@ -93,8 +93,9 @@ export default function PhotoCoach({ count = 0, findings = [] }) {
                        display: "flex", flexDirection: "column", gap: 7 }}>
             {PHOTO_CHECKLIST.map((s) => (
               <li key={s.id} style={{ fontSize: 12, color: C.ink, lineHeight: 1.5 }}>
-                {s.en}
-                <span style={{ fontSize: 11, color: C.inkLt }}> · {s.ar}</span>
+                {/* One language per line: this was "Daylight, near a window ·
+                    ضوء النهار بجانب النافذة", six times over. */}
+                {getLang() === "ar" && s.ar ? s.ar : s.en}
                 {s.why && (
                   <div style={{ fontSize: 11, color: C.inkLt, lineHeight: 1.5, marginTop: 1 }}>
                     {s.why}

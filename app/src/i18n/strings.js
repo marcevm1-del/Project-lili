@@ -126,7 +126,7 @@ export const STRINGS = {
   show_me_everything: { en: "Show me everything", ar: "اعرض الكل" },
   show_my_feed: { en: "Show My Feed", ar: "اعرض لي" },
   sign_in: { en: "Sign in", ar: "تسجيل الدخول" },
-  six_photos_that_sell: { en: "Six photos that sell", ar: "ست صور تبيع" },
+  six_photos_that_sell: { en: "What to photograph — {n} shots sell it", ar: "ماذا تصوّرين — {n} لقطات تبيع القطعة" },
   size: { en: "Size", ar: "المقاس" },
   skip: { en: "Skip", ar: "تخطي" },
   skip_authentication_for_now: { en: "Skip authentication for now", ar: "تخطي التوثيق" },

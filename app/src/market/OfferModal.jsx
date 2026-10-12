@@ -26,6 +26,10 @@ import { C, T, Placeholder, bandRange, say } from "./shared.jsx";
 //  lili cannot process.
 export function PayoutBox({price}) {
   const b = fees.breakdown(price);
+  // v2.11.9: while nothing is collected she keeps the whole price, so that is
+  // the big number. It used to be the post-fee payout ("You receive AED 819")
+  // with "Nothing is deducted yet" in the small print underneath it.
+  const keep = b ? (fees.COLLECTION_LIVE ? b.payout : b.price) : 0;
   if (!b) {
     return (
       <div style={{background:C.sand,borderRadius:12,padding:"12px 14px"}}>
@@ -41,7 +45,7 @@ export function PayoutBox({price}) {
         <span style={{fontSize:11,fontWeight:700,color:C.inkLt,letterSpacing:0.5,
           textTransform:"uppercase"}}>You receive</span>
         <span style={{marginLeft:"auto",fontFamily:"var(--font-display)",fontWeight:700,
-          fontSize:20,color:C.ink}}>{fees.money(b.payout)}</span>
+          fontSize:20,color:C.ink}}>{fees.money(keep)}</span>
       </div>
       <div style={{display:"flex",justifyContent:"space-between",fontSize:12,
         color:C.inkLt,lineHeight:1.7}}>
@@ -50,10 +54,10 @@ export function PayoutBox({price}) {
       <div style={{display:"flex",justifyContent:"space-between",fontSize:12,
         color:C.inkLt,lineHeight:1.7}}>
         <span>
-          lili's fee · {b.ratePercent}%
+          lili's fee · {b.ratePercent}%{!fees.COLLECTION_LIVE && " from launch"}
           {b.minimumApplied && <span style={{fontSize:11}}> (minimum {fees.money(fees.MINIMUM_FEE)})</span>}
         </span>
-        <span>− {fees.money(b.commission)}</span>
+        <span>{fees.COLLECTION_LIVE ? `− ${fees.money(b.commission)}` : fees.money(b.commission)}</span>
       </div>
       <div style={{fontSize:11,color:C.inkLt,marginTop:8,lineHeight:1.6,
         borderTop:`1px solid ${C.border}`,paddingTop:8}}>
