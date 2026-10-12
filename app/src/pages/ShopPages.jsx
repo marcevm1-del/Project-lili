@@ -1,6 +1,7 @@
 // Moved out of Marketplace.jsx unchanged; see that file's history for the
 // reasoning in the comments below.
 import { useState } from "react";
+import { parsePrice } from "../ux/input.js";
 import ShopReviews from "../trust/ShopReviews.jsx";
 import Icon from "../icons/Icon.jsx";
 import { searchLocal } from "../discovery/search.js";
@@ -12,11 +13,61 @@ import { C, T, ICON_FOR_CAT, Avatar, Stars, earnedFollowers, TopBar, SearchBar, 
 
 
 // ── my shop ────────────────────────────────────────────────────────────────
-export function MyShopPage({shop,items,setTab,justListed,onDismissListed,onMarkSold,onTakeDown}) {
+// The price-drop rule the database applies (lili.notify_price_drop). Said to
+// the seller in the same numbers, so what she is told is what happens.
+const DROP_MIN_PCT = 0.05, DROP_MIN_AED = 20;
+const reachesSavers = (from, to) => from - to >= DROP_MIN_AED && (from - to) / from >= DROP_MIN_PCT;
+
+function LowerPrice({ item, onLowerPrice, onDone }) {
+  const [value, setValue] = useState("");
+  const [err, setErr] = useState(null);
+  const [busy, setBusy] = useState(false);
+  const ar = getLang() === "ar";
+  const next = parsePrice(value);
+  const ok = next != null && next > 0 && next < item.price;
+  const saves = typeof item.saves === "number" ? item.saves : 0;
+  const save = async () => {
+    if (!ok || busy) return;
+    setBusy(true); setErr(null);
+    try { await onLowerPrice(item.id, next); onDone(); }
+    catch (e) { setErr((e && e.message) || (ar ? "لم يتغير السعر. حاولي مجدداً." : "The price didn't change. Please try again.")); setBusy(false); }
+  };
+  return (
+    <div style={{marginTop:8}}>
+      <input value={value} onChange={e=>setValue(e.target.value)} inputMode="decimal" autoFocus
+        aria-label={ar ? "السعر الجديد بالدرهم" : "New price in AED"} placeholder={String(Math.floor(Math.min(item.price * (1 - DROP_MIN_PCT), item.price - DROP_MIN_AED)))}
+        style={{width:"100%",padding:"8px 10px",borderRadius:8,border:`1px solid ${C.border}`,fontSize:16,
+          boxSizing:"border-box",fontFamily:"inherit",color:C.ink,background:C.white}}/>
+      <div style={{fontSize:11,color:C.inkLt,lineHeight:1.45,marginTop:5}}>
+        {ok && saves > 0 && reachesSavers(item.price, next)
+          ? (ar ? `سيُبلَّغ ${saves} ممن حفظوها.` : `${saves} ${saves === 1 ? "person who saved it is" : "people who saved it are"} told.`)
+          : saves > 0
+            ? (ar ? `خفّضيه ٥٪ و${DROP_MIN_AED} درهماً على الأقل ليُبلَّغ من حفظوها.` : `Lower it by 5% and AED ${DROP_MIN_AED} or more and the ${saves} who saved it are told.`)
+            : (ar ? "لم يحفظها أحد بعد." : "Nobody has saved it yet.")}
+      </div>
+      {err && <div role="alert" style={{fontSize:11,color:C.redTx,marginTop:4}}>{err}</div>}
+      <div style={{display:"flex",gap:6,marginTop:6}}>
+        <button onClick={save} disabled={!ok || busy}
+          style={{flex:1,padding:"6px 4px",borderRadius:8,fontSize:11,fontWeight:700,minHeight:36,
+            cursor:ok?"pointer":"default",background:ok?C.btn:C.sand,color:ok?C.onBtn:C.inkLt,border:"none"}}>
+          {ar ? "حفظ السعر" : "Save price"}
+        </button>
+        <button onClick={onDone}
+          style={{flex:1,padding:"6px 4px",borderRadius:8,fontSize:11,fontWeight:600,minHeight:36,
+            cursor:"pointer",background:"none",color:C.inkLt,border:`1px solid ${C.border}`}}>
+          {ar ? "إلغاء" : "Cancel"}
+        </button>
+      </div>
+    </div>
+  );
+}
+
+export function MyShopPage({shop,items,setTab,justListed,onDismissListed,onMarkSold,onTakeDown,onLowerPrice}) {
   const myItems = items.filter(i=>i.shopId===shop.id && i.status!=="removed");
   const sold = myItems.filter(i=>i.status==="sold").length;
   const [busy,setBusy] = useState(null);
   const [err,setErr] = useState(null);
+  const [lowering,setLowering] = useState(null);
   const act = async (id, fn) => {
     setBusy(id); setErr(null);
     try { await fn(); } catch(e) { setErr((e && e.message) || "That didn't go through."); }
@@ -58,7 +109,7 @@ export function MyShopPage({shop,items,setTab,justListed,onDismissListed,onMarkS
       )}
       <div style={{background:shop.banner||C.terra,height:82,position:"relative"}}/>
       <div style={{padding:"0 14px 20px"}}>
-        <div style={{marginTop:-26,marginBottom:14,display:"flex",justifyContent:"space-between",alignItems:"flex-end"}}>
+        <div style={{marginTop:-26,marginBottom:14,display:"flex",justifyContent:"space-between",alignItems:"flex-end",position:"relative",zIndex:1}}>
           <div style={{width:52,height:52,borderRadius:"50%",background:C.white,
             border:`3px solid ${C.white}`,display:"flex",alignItems:"center",justifyContent:"center",fontSize:26,
             boxShadow:"0 2px 8px var(--c-elev)"}}>
@@ -89,6 +140,14 @@ export function MyShopPage({shop,items,setTab,justListed,onDismissListed,onMarkS
                 <div style={{fontSize:12,fontWeight:600,color:C.ink,lineHeight:1.3,
                   whiteSpace:"nowrap",overflow:"hidden",textOverflow:"ellipsis"}}>{item.title}</div>
                 <div style={{color:C.terraTx,fontWeight:700,fontSize:13,marginTop:3}}>{money(item.price)}</div>
+                {/* The database's own count (lili.bump_item_saves) — the one
+                    number about interest in her piece nobody can inflate. */}
+                {typeof item.saves === "number" && item.saves > 0 && (
+                  <div style={{fontSize:11,color:C.inkLt,marginTop:2,display:"flex",alignItems:"center",gap:4}}>
+                    <Icon name="heart" size={11} stroke={2}/>
+                    {getLang()==="ar" ? `حفظها ${item.saves}` : `${item.saves} saved`}
+                  </div>
+                )}
                 {badge(item.status) && (
                   <div style={{fontSize:11,fontWeight:700,color:C.inkLt,marginTop:3,
                     textTransform:"uppercase",letterSpacing:0.5}}>{badge(item.status)}</div>
@@ -114,6 +173,16 @@ export function MyShopPage({shop,items,setTab,justListed,onDismissListed,onMarkS
                       </button>
                     )}
                   </div>
+                )}
+                {onLowerPrice && item.status==="live" && !item.pending && lowering!==item.id && (
+                  <button onClick={()=>setLowering(item.id)}
+                    style={{width:"100%",marginTop:6,padding:"6px 4px",borderRadius:8,fontSize:11,fontWeight:600,
+                      cursor:"pointer",background:"none",color:C.terraTx,border:`1px solid ${C.border}`}}>
+                    {getLang()==="ar" ? "خفّضي السعر" : "Lower price"}
+                  </button>
+                )}
+                {lowering===item.id && (
+                  <LowerPrice item={item} onLowerPrice={onLowerPrice} onDone={()=>setLowering(null)}/>
                 )}
               </div>
             </div>

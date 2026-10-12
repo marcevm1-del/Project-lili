@@ -180,6 +180,15 @@ export function ItemModal({item,shop,items=[],onOpenItem,onSave,onClose,onOffer,
               <h2 style={{margin:"0 0 2px",fontSize:18,fontFamily:"var(--font-display)",color:C.ink,lineHeight:1.2}}>{item.title}</h2>
               <div style={{fontSize:12,color:C.inkLt}}>{item.titleAr}</div>
               {item.subtitle && <div style={{fontSize:12,color:C.inkLt,marginTop:2}}>{item.subtitle}</div>}
+              {/* Real social proof: the database's own count of saves, which no
+                  seller can write to. "3 people are looking" is refused because
+                  nobody counts it; this is counted, so it may be said. */}
+              {typeof item.saves === "number" && item.saves > 0 && (
+                <div style={{fontSize:11,color:C.inkLt,marginTop:3,display:"flex",alignItems:"center",gap:4}}>
+                  <Icon name="heart" size={11} stroke={2}/>
+                  {getLang()==="ar" ? `حفظها ${item.saves}` : `Saved by ${item.saves}`}
+                </div>
+              )}
             </div>
             <div style={{textAlign:alignEnd()}}>
               <PriceTag item={item} size={20}/>

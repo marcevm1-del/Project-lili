@@ -2043,6 +2043,21 @@ section("65. v2.11.9 — the item page and the handover");
   check("…through her own phone, not sent by lili", !/remote\.[a-zA-Z]*[Ss]hare/.test(meet));
 }
 
+section("66. Saves are counted, and a price cut reaches the people who saved it");
+{
+  const shopSrc = read("./src/pages/ShopPages.jsx");
+  const sql = read("../supabase/migrations/20260830192959_lili_price_drop_alerts.sql");
+  const pct = (sql.match(/MIN_PCT constant numeric := ([\d.]+)/) || [])[1];
+  const abs = (sql.match(/MIN_ABS constant numeric := (\d+)/) || [])[1];
+  check("the seller is told the same 5% rule the database applies",
+    pct && new RegExp(`DROP_MIN_PCT = ${pct.replace(".", "\\.")}`).test(shopSrc), `sql ${pct}`);
+  check("…and the same AED floor", abs && new RegExp(`DROP_MIN_AED = ${abs}\\b`).test(shopSrc), `sql ${abs}`);
+  check("the saves shown are the server-owned column, not a client tally",
+    /item\.saves/.test(shopSrc) && /"saves"\]/.test(read("./src/backend/remote.js")));
+  check("a price is lowered through the owner-only update, nothing sent by the client",
+    /repo\.updateItem\(id, \{ price \}\)/.test(read("./src/Marketplace.jsx")) && !/notifications/.test(stripComments(shopSrc)));
+}
+
 // ─────────────────────────────────────────────────────────────────────────────
 console.log(`\n${pass}/${pass + fail} passed`);
 if (fail) {
