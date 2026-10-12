@@ -2023,6 +2023,26 @@ section("64. The v2.11.8 critique, held in place");
     !/\["tag","Every listing screened"\]/.test(read("./src/pages/ProfilePage.jsx")));
 }
 
+section("65. v2.11.9 — the item page and the handover");
+{
+  const shared = read("./src/market/shared.jsx");
+  const item = stripComments(read("./src/market/ItemModal.jsx"));
+  const sell = stripComments(read("./src/pages/SellPage.jsx"));
+  const meet = stripComments(read("./src/meet/MeetPlan.jsx"));
+  for (const g of ["Like New", "Excellent", "Good", "Fair"]) {
+    check(`the "${g}" grade has a definition in both languages`,
+      new RegExp(`"${g}":\\s*\\{ en: "[^"]{20,}",\\s*ar: "[^"]{10,}"`).test(shared));
+  }
+  check("the buyer can open the grade's meaning on the item page", /conditionMeaning\(item\.condition\)/.test(item));
+  check("the seller reads the same sentence when she picks it", /conditionMeaning\(form\.condition\)/.test(sell));
+  check("pieces worth checking carry the before-you-meet note", /<HighValueNote item=\{item\}\/>/.test(item));
+  check("…which says lili does not authenticate, and names no service",
+    /does not authenticate pieces/.test(item) && !/(Entrupy|Real Authentication|Legit ?Check)/i.test(item));
+  check("the item photo is 4:5", /className="lili-ratio-45"/.test(item));
+  check("an agreed meet can be shared with someone she trusts", /<ShareMeet/.test(meet) && /navigator\.share/.test(meet));
+  check("…through her own phone, not sent by lili", !/remote\.[a-zA-Z]*[Ss]hare/.test(meet));
+}
+
 // ─────────────────────────────────────────────────────────────────────────────
 console.log(`\n${pass}/${pass + fail} passed`);
 if (fail) {

@@ -5,7 +5,7 @@ import * as remote from "../backend/remote.js";
 import { withTimeout, BUDGET, isTimeout } from "../ux/timeout.js";
 import { meetLabel, phoneOffUaeTime, uaeWallClockToInstant } from "./when.js";
 import { PLACES, placeByKey, AVOID, OUTSIDE_HELP } from "./places.js";
-import { t } from "../i18n/t.js";
+import { t, getLang } from "../i18n/t.js";
 import * as repo from "../data/repo.js";
 import ReviewPrompt from "../trust/ReviewPrompt.jsx";
 
@@ -49,6 +49,48 @@ function defaultWhen() {
   const d = new Date(Date.now() + 4 * 3600000 + 86400000);  // UAE wall clock, tomorrow
   const pad = (n) => String(n).padStart(2, "0");
   return `${d.getUTCFullYear()}-${pad(d.getUTCMonth() + 1)}-${pad(d.getUTCDate())}T16:00`;
+}
+
+// ── tell someone where you'll be ────────────────────────────────────────────
+//
+// v2.11.9. Uber shares a trip and Tinder shares a date for the same reason:
+// meeting a stranger is the riskiest moment either product has. On lili the
+// meet IS the transaction. One tap sends the place, the time and the fact that
+// it is a lili handover to someone she trusts — through the phone's own share
+// sheet, or WhatsApp where the WebView has none. Nothing is sent by lili, and
+// nothing about the other person beyond what she can already see.
+export function meetShareText({ placeLabel, placeNote, when }) {
+  const where = placeNote ? `${placeLabel} — ${placeNote}` : placeLabel;
+  return getLang() === "ar"
+    ? `سألتقي بشخص من lili لتسليم قطعة.
+المكان: ${where}
+الوقت: ${when}
+سأراسلك بعد اللقاء.`
+    : `I'm meeting someone from lili to hand over a piece.
+Where: ${where}
+When: ${when}
+I'll message you afterwards.`;
+}
+
+function ShareMeet({ text, style }) {
+  const [copied, setCopied] = useState(false);
+  const share = async () => {
+    try {
+      if (navigator.share) { await navigator.share({ text }); return; }
+    } catch (e) { if (e && e.name === "AbortError") return; }
+    // No share sheet in this WebView: WhatsApp is how this market messages.
+    const w = window.open(`https://wa.me/?text=${encodeURIComponent(text)}`, "_blank");
+    if (!w && navigator.clipboard) {
+      try { await navigator.clipboard.writeText(text); setCopied(true); } catch { /* nothing else to try */ }
+    }
+  };
+  return (
+    <button style={style} onClick={share}>
+      {copied
+        ? (getLang() === "ar" ? "نُسخت — الصقيها في رسالة" : "Copied — paste it into a message")
+        : (getLang() === "ar" ? "شاركي اللقاء مع شخص تثقين به" : "Share this meet with someone you trust")}
+    </button>
+  );
 }
 
 export default function MeetPlan({ conversationId, itemId, onReport }) {
@@ -180,10 +222,14 @@ export default function MeetPlan({ conversationId, itemId, onReport }) {
               {place.hint} Check the piece before any money changes hands — lili
               doesn't hold it, so this is the moment.
             </div>
-            <button style={{ ...btn(false), fontSize: 12 }} disabled={busy}
-              onClick={() => act(() => remote.answerMeet(live.id, "cancelled"))}>
-              Something's come up
-            </button>
+            <div style={{ display: "flex", gap: 8, flexWrap: "wrap" }}>
+              <ShareMeet style={{ ...btn(true), fontSize: 12 }}
+                text={meetShareText({ placeLabel: place.label, placeNote: live.place_note, when: fmt(live.meet_at) })}/>
+              <button style={{ ...btn(false), fontSize: 12 }} disabled={busy}
+                onClick={() => act(() => remote.answerMeet(live.id, "cancelled"))}>
+                Something's come up
+              </button>
+            </div>
           </>
         )}
 
