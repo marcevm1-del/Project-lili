@@ -72,7 +72,7 @@ export default function LanguagePicker({ onBack, onChange }) {
   const planned = LANGUAGES.filter((l) => l.status === "planned");
 
   return (
-    <Shell title="Language" subtitle="اللغة · भाषा · ഭാഷ" onBack={onBack}>
+    <Shell bilingual title="Language" subtitle="اللغة · भाषा · ഭാഷ" onBack={onBack}>
       <div style={head}>Available now</div>
       {ready.map((l) => (
         <Row key={l.code} lang={l} selected={current === l.code} onClick={() => choose(l)} />

@@ -2167,6 +2167,16 @@ section("68. Every screen is measured, and nothing falls under the type floor");
     noAlt.length === 0, noAlt.join(", "));
   check("on a shop page only the avatar overlaps the banner, not the name",
     /marginTop:-24,position:"relative",zIndex:1,flexShrink:0\}\}><Avatar shop=\{shop\} size=\{52\}/.test(read("./src/pages/ShopPages.jsx")));
+  {
+    const ui = read("./src/compliance/ui.js");
+    check("screen headers show one language — the Arabic echo becomes the title in Arabic, and is dropped in English",
+      /if \(getLang\(\) === "ar"\) \{ title = subtitle; \}/.test(ui) && /subtitle = null;/.test(ui));
+    check("only the language picker and the first-run gate keep both languages in a header",
+      /<Shell bilingual title="Language"/.test(read("./src/i18n/LanguagePicker.jsx")) &&
+      (read("./src/compliance/ComplianceProvider.jsx").match(/<Shell bilingual /g) || []).length === 4);
+    check("sign-in does not promise getting paid while payments are off",
+      !/getting paid/.test(read("./src/auth/AuthScreen.jsx")));
+  }
   check("help questions print in one language",
     /getLang\(\) === "ar" && f\.qAr \? f\.qAr : f\.q/.test(read("./src/HelpCentre.jsx")));
 }

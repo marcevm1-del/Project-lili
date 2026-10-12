@@ -249,7 +249,7 @@ function MarketClosed({ m, onChange, onBrowse, onRedeem, invited }) {
   }[result && result.reason] || null;
 
   return (
-    <Shell title="Not open here yet" subtitle="لم نفتح هنا بعد">
+    <Shell bilingual title="Not open here yet" subtitle="لم نفتح هنا بعد">
       <p style={p}>
         We're not in <b>{m.name}</b> yet — and we'd rather tell you that than let
         you set up a shop we can't look after properly. Here's exactly what we're
@@ -314,7 +314,7 @@ function AgeGate({ m, onConfirm, failed }) {
   const [year, setYear] = useState("");
   const valid = /^\d{4}$/.test(year);
   return (
-    <Shell title="Your year of birth" subtitle="سنة الميلاد">
+    <Shell bilingual title="Your year of birth" subtitle="سنة الميلاد">
       <p style={p}>
         lili is for adults. {m.name} sets that at <b>{m.minAge}</b>. We keep the
         year only — never the full date, never a document.
@@ -357,7 +357,7 @@ function TermsGate({ m, onAccept, onConfirmAge, age }) {
   };
 
   return (
-    <Shell title="Before you start" subtitle="قبل أن نبدأ">
+    <Shell bilingual title="Before you start" subtitle="قبل أن نبدأ">
       <p style={p}>
         Your year of birth, two things to agree to, and four we think you should
         know. That's everything — we'd rather you actually read six than scroll
@@ -494,7 +494,7 @@ function ConsentSheet({ m, existing, onSave }) {
   ];
 
   return (
-    <Shell title="Your data, your call" subtitle="بياناتك، قرارك">
+    <Shell bilingual title="Your data, your call" subtitle="بياناتك، قرارك">
       {/* v2.11.1 — this said, flatly, "Nothing here is switched on for you.
           Nothing is pre-ticked. Everything below stays off until you decide
           otherwise." It is a first-run sentence on a screen that is not always

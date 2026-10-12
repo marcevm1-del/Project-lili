@@ -1,6 +1,6 @@
 import { createElement as h } from "react";
 import { backArrow, alignStart } from "../i18n/direction.js";
-import { t } from "../i18n/t.js";
+import { t, getLang } from "../i18n/t.js";
 
 // Same tokens as the marketplace — these screens should feel like lili,
 // not like a legal wall someone bolted on.
@@ -24,7 +24,20 @@ export const C = {
   goldTx: "var(--c-gold-tx)", greenTx: "var(--c-green-tx)", redTx: "var(--c-red-tx)",
 };
 
-export function Shell({ title, subtitle, children, onBack }) {
+const ARABIC = /[\u0600-\u06FF]/;
+
+export function Shell({ title, subtitle, children, onBack, bilingual = false }) {
+  // DESIGN.md §1, one language per label. Twenty-eight screens set an
+  // English title over an Arabic subtitle that only repeated it ("Settings"
+  // over "الإعدادات"), so every header was a two-language label. The
+  // interface's language now wins: in English the echo is dropped, in Arabic
+  // it becomes the title. `bilingual` keeps both where both are the point —
+  // the language picker, and the first-run screens shown before a language
+  // is chosen.
+  if (!bilingual && subtitle && ARABIC.test(subtitle) && !ARABIC.test(title)) {
+    if (getLang() === "ar") { title = subtitle; }
+    subtitle = null;
+  }
   return h("div", {
     className: "full-height safe-shell",
     style: {
@@ -53,7 +66,9 @@ export function Shell({ title, subtitle, children, onBack }) {
       // an arrow pointing the wrong way the moment she chose it.
     }, backArrow()),
     h("div", { style: { fontFamily: "var(--font-display)", fontWeight: 700, fontSize: 26,
-                        color: C.ink, letterSpacing: -0.5, lineHeight: 1.2 } }, title),
+                        color: C.ink, letterSpacing: -0.5, lineHeight: 1.2,
+                        // The subtitle used to carry the gap below the header.
+                        marginBottom: subtitle ? 0 : 16 } }, title),
     subtitle && h("div", { style: { fontFamily: "var(--font-display)", fontStyle: "italic",
                                     fontSize: 14, color: C.terraTx, marginTop: 5,
                                     marginBottom: 22 } }, subtitle),

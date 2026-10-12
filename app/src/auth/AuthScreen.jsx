@@ -183,7 +183,7 @@ export default function AuthScreen({ onBack, onSignedIn, onSkip, reason }) {
   return (
     <Shell title="Sign in to lili" subtitle="تسجيل الدخول" onBack={onBack}>
       <p style={p}>
-        {reason || "You can browse without an account. Signing in is for selling, messaging and getting paid."}
+        {reason || "You can browse without an account. Signing in is for selling, messaging and making offers."}
       </p>
 
       <button onClick={google} disabled={busy} style={googleBtn}>
