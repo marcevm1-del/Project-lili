@@ -44,8 +44,11 @@ export default function OrdersPage({ initial = "buyer", onBack, onSignIn, signed
         {TABS.map(([k, l]) => (
           <button key={k} role="tab" aria-selected={tab === k} onClick={() => setTab(k)}
             style={{ flex: 1, minHeight: 40, borderRadius: 20, cursor: "pointer", fontWeight: 700, fontSize: 13,
-              fontFamily: "inherit", border: `1.5px solid ${tab === k ? C.terra : C.border}`,
-              background: tab === k ? C.sand : C.white, color: C.ink }}>{l}</button>
+              // Selected was sand on a peach page — fainter than the white
+              // unselected tabs, so the choice read backwards. Filled, as the
+              // feed's own filter chips are.
+              fontFamily: "inherit", border: `1.5px solid ${tab === k ? C.btn : C.border}`,
+              background: tab === k ? C.btn : C.white, color: tab === k ? C.onBtn : C.ink }}>{l}</button>
         ))}
       </div>
 

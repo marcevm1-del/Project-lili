@@ -317,8 +317,7 @@ function TasteSheet({ taste, onSave, onClose, onMore }) {
         className="safe-sheet"
         style={{background:C.cream,borderRadius:"20px 20px 0 0",padding:"18px 16px 30px",
           fontFamily:"var(--font-sans)"}}>
-        <div style={{fontFamily:"var(--font-display)",fontStyle:"italic",fontSize:20,color:C.ink}}>What you like</div>
-        <div style={{fontSize:11,color:C.terraTx,marginBottom:4}}>ما يعجبكِ</div>
+        <div style={{fontFamily:"var(--font-display)",fontStyle:"italic",fontSize:20,color:C.ink,marginBottom:4}}>{getLang()==="ar" ? "ما يعجبكِ" : "What you like"}</div>
         <p style={{fontSize:12,color:C.inkLt,lineHeight:1.6,margin:"8px 0 16px"}}>
           These move to the top of your feed. Nothing is hidden from you — the
           rest is still underneath, in the same order it would have been.

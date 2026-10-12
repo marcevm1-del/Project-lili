@@ -5,6 +5,7 @@ import * as offers from "../data/offers.js";
 import { withTimeout, BUDGET, isTimeout } from "../ux/timeout.js";
 import * as fees from "../data/fees.js";
 import { t, getLang } from "../i18n/t.js";
+import { backArrow } from "../i18n/direction.js";
 
 // ─────────────────────────────────────────────────────────────────────────────
 //  OFFERS — both sides of the haggle
@@ -239,13 +240,15 @@ export default function OffersPage({ items = [], shops = [], onBack, onBrowse })
         {onBack && (
           <button onClick={onBack} aria-label="Back" className="tap-target"
             style={{ background: "none", border: "none", color: C.ink, cursor: "pointer",
-                     padding: 0, marginBottom: 10, display: "flex" }}>
-            <Icon name="back" size={18} stroke={2} />
+                     padding: 0, marginBottom: 10, display: "flex", fontSize: 20,
+                     alignItems: "center", justifyContent: "center" }}>
+            {/* The same arrow as every other screen, and it flips in Arabic;
+                the chevron here did neither. */}
+            {backArrow()}
           </button>
         )}
         <div style={{ fontFamily: "var(--font-display)", fontStyle: "italic", fontSize: 22,
-                      color: C.ink }}>Offers</div>
-        <div style={{ fontSize: 13, color: C.terraTx, marginBottom: 4 }}>العروض</div>
+                      color: C.ink, marginBottom: 4 }}>{getLang() === "ar" ? "العروض" : "Offers"}</div>
       </div>
 
       {error && (
@@ -279,7 +282,7 @@ export default function OffersPage({ items = [], shops = [], onBack, onBrowse })
 
         {state !== "loading" && list.length === 0 && (
           <div style={{ textAlign: "center", padding: "60px 16px", color: C.inkLt }}>
-            <Icon name="tag" size={34} stroke={1.6} style={{ color: C.terra, marginBottom: 12 }} />
+            <Icon name="tag" size={34} stroke={1.6} style={{ marginInline:"auto", color: C.terra, marginBottom: 12 }} />
             <div style={{ fontFamily: "var(--font-display)", fontStyle: "italic", fontSize: 16,
                           color: C.terraTx }}>No offers yet</div>
             <div style={{ fontSize: 12, marginTop: 6, lineHeight: 1.6 }}>

@@ -193,7 +193,7 @@ export default function BulkList({ categories, conditions, brands, sizes,
       <div style={{ padding: "16px 14px" }}>
         {rows.length === 0 && (
           <div style={{ textAlign: "center", padding: "26px 10px 30px" }}>
-            <Icon name="camera" size={32} stroke={1.4} style={{ color: C.terra, marginBottom: 12 }} />
+            <Icon name="camera" size={32} stroke={1.4} style={{ marginInline:"auto", color: C.terra, marginBottom: 12 }} />
             <div style={{ fontSize: 15, color: C.ink, marginBottom: 6 }}>
               Pick every piece at once
             </div>

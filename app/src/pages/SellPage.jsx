@@ -368,10 +368,9 @@ export function SellPage({myShop,onCreateShop,onAddItem,setTab,onListed}) {
     <div style={{paddingBottom:72}}>
       <TopBar center={<span style={{fontFamily:"var(--font-display)",fontStyle:"italic",fontSize:18,color:C.terraTx}}>{t("selling")}</span>}/>
       <div style={{padding:"28px 20px"}}>
-        <div style={{fontFamily:"var(--font-display)",fontStyle:"italic",fontSize:22,color:C.ink,marginBottom:6}}>
-          Invite only, for now
+        <div style={{fontFamily:"var(--font-display)",fontStyle:"italic",fontSize:22,color:C.ink,marginBottom:18}}>
+          {getLang()==="ar" ? "بالدعوة فقط حالياً" : "Invite only, for now"}
         </div>
-        <div style={{fontSize:13,color:C.terraTx,marginBottom:18}}>بالدعوة فقط حالياً</div>
         <p style={{fontSize:13,color:C.inkLt,lineHeight:1.7,marginBottom:16}}>
           lili is opening in {market.name} with a small group of sellers first —
           few enough that we can look after every one of them properly, and

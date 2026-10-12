@@ -105,7 +105,7 @@ export default function InviteRoster({ onBack }) {
       <div style={{ padding: "16px 14px" }}>
         {state === "denied" && (
           <div style={{ textAlign: "center", padding: "50px 20px", color: C.inkLt }}>
-            <Icon name="lock" size={28} stroke={1.4} style={{ color: C.terra, marginBottom: 10 }} />
+            <Icon name="lock" size={28} stroke={1.4} style={{ marginInline:"auto", color: C.terra, marginBottom: 10 }} />
             <div style={{ fontSize: 14, color: C.ink }}>This account isn't a moderator</div>
             <div style={{ fontSize: 12, marginTop: 6, lineHeight: 1.6 }}>
               The database decides that, not the app. Nothing here is available to you.

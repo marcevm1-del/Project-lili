@@ -2177,6 +2177,27 @@ section("68. Every screen is measured, and nothing falls under the type floor");
     check("sign-in does not promise getting paid while payments are off",
       !/getting paid/.test(read("./src/auth/AuthScreen.jsx")));
   }
+  {
+    // Icon renders display:block, so text-align:center leaves it at the
+    // start edge — eight empty states had the icon left of centred text.
+    const offCentre = walk("./src").filter((p) => p.endsWith(".jsx")).flatMap((p) => {
+      const L = stripComments(read(p)).split("\n");
+      return L.flatMap((l, i) => /textAlign:\s*"center"/.test(l)
+        ? L.slice(i + 1, i + 3).map((m, j) => [m, i + j + 2]).filter(([m]) =>
+            /<Icon\b/.test(m) && /margin/.test(m) && !/marginInline:\s*"auto"|margin:\s*"[^"]*auto|justifyContent:\s*"center"/.test(m))
+          .map(([, n]) => `${p}:${n}`)
+        : []);
+    });
+    check("an icon over centred text is centred too", offCentre.length === 0, offCentre.join(", "));
+  }
+  {
+    const echoes = walk("./src").filter((p) => p.endsWith(".jsx")).flatMap((p) =>
+      stripComments(read(p)).split("\n").map((l, i) => [p, i + 1, l])
+        .filter(([, , l]) => />\s*[\u0600-\u06FF][\u0600-\u06FF\s·،]*\s*<\//.test(l) &&
+          !/getLang|lang="ar"|dir="rtl"/.test(l)))
+      .map(([p, n]) => `${p}:${n}`);
+    check("no header stacks an Arabic echo under its English title", echoes.length === 0, echoes.join(", "));
+  }
   check("help questions print in one language",
     /getLang\(\) === "ar" && f\.qAr \? f\.qAr : f\.q/.test(read("./src/HelpCentre.jsx")));
 }

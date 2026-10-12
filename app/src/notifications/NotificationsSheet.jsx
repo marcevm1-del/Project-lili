@@ -4,6 +4,7 @@ import Icon from "../icons/Icon.jsx";
 import * as remote from "../backend/remote.js";
 import { useFocusTrap, dialogProps } from "../a11y/useFocusTrap.js";
 import { withTimeout, BUDGET, isTimeout } from "../ux/timeout.js";
+import { getLang } from "../i18n/t.js";
 
 // ─────────────────────────────────────────────────────────────────────────────
 //  NOTIFICATIONS
@@ -114,9 +115,8 @@ export default function NotificationsSheet({ onClose, onOpenLink }) {
         <div style={{ display: "flex", alignItems: "center", marginBottom: 14 }}>
           <div style={{ flex: 1 }}>
             <div style={{ fontFamily: "var(--font-display)", fontStyle: "italic", fontSize: 20, color: C.ink }}>
-              Notifications
+              {getLang() === "ar" ? "الإشعارات" : "Notifications"}
             </div>
-            <div style={{ fontSize: 11, color: C.terraTx }}>الإشعارات</div>
           </div>
           {list.some((n) => !n.read_at) && (
             <button onClick={markAll} className="tap-target"
@@ -159,7 +159,7 @@ export default function NotificationsSheet({ onClose, onOpenLink }) {
 
         {state === "ready" && list.length === 0 && (
           <div style={{ textAlign: "center", padding: "40px 10px", color: C.inkLt }}>
-            <Icon name="bell" size={30} stroke={1.6} style={{ color: C.terra, marginBottom: 10 }} />
+            <Icon name="bell" size={30} stroke={1.6} style={{ marginInline:"auto", color: C.terra, marginBottom: 10 }} />
             <div style={{ fontSize: 13, color: C.ink }}>Nothing yet</div>
             <div style={{ fontSize: 12, marginTop: 5, lineHeight: 1.6 }}>
               Offers, replies and decisions about your listings appear here.

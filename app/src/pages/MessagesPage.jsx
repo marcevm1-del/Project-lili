@@ -286,7 +286,7 @@ export function MessagesPage({shops,items,onReport,openThreadId,onOpened,error,o
         lineHeight:1.55}}>{error}</div>}
       {threads.length===0
         ? <div style={{textAlign:"center",padding:"80px 20px",color:C.inkLt}}>
-            <Icon name="chat" size={38} stroke={1.6} style={{color:C.terra,marginBottom:14}}/>
+            <Icon name="chat" size={38} stroke={1.6} style={{ marginInline:"auto", color:C.terra,marginBottom:14}}/>
             <div style={{fontFamily:"var(--font-display)",fontStyle:"italic",fontSize:16,color:C.terraTx}}>
               {getLang()==="ar" ? "لا رسائل بعد" : "No messages yet"}</div>
             <div style={{fontSize:12,marginTop:6}}>{getLang()==="ar" ? "راسلي أي بائعة من صفحة القطعة" : "Message a seller from any listing"}</div>

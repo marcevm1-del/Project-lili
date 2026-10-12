@@ -254,7 +254,7 @@ export function SellersPage({shops,items,setTab,setViewShop,onFollow,isFollowing
             search bar with nothing to explain it. */}
         {filtered.length===0 && (
           <div style={{textAlign:"center",padding:"46px 20px",color:C.inkLt}}>
-            <Icon name="shops" size={28} stroke={1.4} style={{color:C.terra,marginBottom:10,opacity:0.8}}/>
+            <Icon name="shops" size={28} stroke={1.4} style={{ marginInline:"auto", color:C.terra,marginBottom:10,opacity:0.8}}/>
             <div style={{fontSize:14,color:C.ink}}>
               {q.trim() ? `No seller called "${q}"` : t("no_shops_open_yet")}
             </div>
@@ -338,7 +338,7 @@ export function ShopViewPage({shop,items,onSave,setModal,onBack,onReport,onFollo
             thing, so a buyer could not tell which had happened. */}
         {shopItems.length===0 && (
           <div style={{textAlign:"center",padding:"40px 18px",color:C.inkLt}}>
-            <Icon name="bag" size={26} stroke={1.4} style={{color:C.terra,marginBottom:10,opacity:0.8}}/>
+            <Icon name="bag" size={26} stroke={1.4} style={{ marginInline:"auto", color:C.terra,marginBottom:10,opacity:0.8}}/>
             <div style={{fontSize:13,color:C.ink}}>
               {mine.length===0 ? `${shop.name} hasn't listed anything yet` : `Nothing in this shop for "${q}"`}
             </div>
