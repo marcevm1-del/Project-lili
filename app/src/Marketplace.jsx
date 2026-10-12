@@ -59,11 +59,15 @@ import { FiltersPanel } from "./market/FiltersPanel.jsx";
 import { ItemModal } from "./market/ItemModal.jsx";
 import { OfferModal } from "./market/OfferModal.jsx";
 import { SearchPage } from "./pages/SearchPage.jsx";
-import { SellPage } from "./pages/SellPage.jsx";
-import { MyShopPage, SellersPage, ShopViewPage } from "./pages/ShopPages.jsx";
-import { MessagesPage } from "./pages/MessagesPage.jsx";
+// Tab screens a shopper may never open load on first tap, not at first paint
+// (audit's 420 kB budget). They render inside the tab Suspense boundary.
+const SellPage = lazy(() => import("./pages/SellPage.jsx").then(m => ({ default: m.SellPage })));
+const MyShopPage = lazy(() => import("./pages/ShopPages.jsx").then(m => ({ default: m.MyShopPage })));
+const SellersPage = lazy(() => import("./pages/ShopPages.jsx").then(m => ({ default: m.SellersPage })));
+const ShopViewPage = lazy(() => import("./pages/ShopPages.jsx").then(m => ({ default: m.ShopViewPage })));
+const MessagesPage = lazy(() => import("./pages/MessagesPage.jsx").then(m => ({ default: m.MessagesPage })));
 import { ProfilePage } from "./pages/ProfilePage.jsx";
-import { CartPage } from "./pages/CartPage.jsx";
+const CartPage = lazy(() => import("./pages/CartPage.jsx").then(m => ({ default: m.CartPage })));
 export { categoryLabel } from "./market/shared.jsx";
 import PriceTag from "./listing/PriceTag.jsx";
 import { FitAndFlaws, FitPanel, FITS } from "./listing/FitAndFlaws.jsx";

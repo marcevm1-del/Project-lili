@@ -165,7 +165,12 @@ const anyInput = page.locator("input").first();
 if (await anyInput.count()) {
   await anyInput.focus();
   const inputRing = await page.evaluate(() => {
-    const cs = getComputedStyle(document.activeElement);
+    // A field drawn as one box (the search bar) carries its ring on the box,
+    // via :focus-within, so the ring follows the visible edge rather than the
+    // transparent <input> inside it. Measure whichever element draws it.
+    const el = document.activeElement;
+    const box = el.closest(".lili-search") || el;
+    const cs = getComputedStyle(box);
     return { outline: cs.outlineStyle + " " + cs.outlineWidth, shadow: cs.boxShadow };
   });
   check("text fields show a focus ring",
