@@ -191,7 +191,7 @@ export function MessagesPage({shops,items,onReport,openThreadId,onOpened,error,o
             <div style={{width:44,height:44,borderRadius:8,overflow:"hidden",flexShrink:0,
               background:`linear-gradient(145deg,${item.color},${item.color}99)`,
               display:"flex",alignItems:"center",justifyContent:"center",fontSize:22}}>
-              {item.photo?<img src={item.photo} style={{width:"100%",height:"100%",objectFit:"cover"}}/>:<Placeholder item={item} size={40}/>}
+              {item.photo?<img src={item.photo} alt="" style={{width:"100%",height:"100%",objectFit:"cover"}}/>:<Placeholder item={item} size={40}/>}
             </div>
             <div>
               <div style={{fontSize:13,fontWeight:600,color:C.ink}}>{item.title}</div>

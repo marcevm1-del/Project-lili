@@ -689,7 +689,7 @@ export function SellPage({myShop,onCreateShop,onAddItem,setTab,onListed}) {
           <div style={{display:"flex",flexDirection:"column",gap:16}}>
             {photos[0] && (
               <div style={{display:"flex",gap:12,background:C.white,borderRadius:12,padding:12,border:`1px solid ${C.border}`}}>
-                <img src={photos[0]} style={{width:60,height:60,borderRadius:8,objectFit:"cover"}}/>
+                <img src={photos[0]} alt="" style={{width:60,height:60,borderRadius:8,objectFit:"cover"}}/>
                 <div>
                   <div style={{fontWeight:600,fontSize:13,color:C.ink}}>{form.title||"Your Item"}</div>
                   <div style={{fontSize:11,color:C.inkLt}}>{form.condition} · Size {sizeLabel(form.size)}</div>

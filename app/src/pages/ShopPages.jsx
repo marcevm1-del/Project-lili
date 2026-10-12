@@ -134,7 +134,7 @@ export function MyShopPage({shop,items,setTab,justListed,onDismissListed,onMarkS
             <div key={item.id} style={{background:C.white,borderRadius:12,overflow:"hidden",border:`1px solid ${C.border}`}}>
               <div className="lili-ratio-tile" style={{overflow:"hidden",display:"flex",alignItems:"center",justifyContent:"center",
                 background:`linear-gradient(145deg,${item.color},${item.color}99)`,fontSize:44}}>
-                {item.photo?<img src={item.photo} style={{width:"100%",height:"100%",objectFit:"cover"}}/>:<Placeholder item={item} size={40}/>}
+                {item.photo?<img src={item.photo} alt="" style={{width:"100%",height:"100%",objectFit:"cover"}}/>:<Placeholder item={item} size={40}/>}
               </div>
               <div style={{padding:"10px 10px"}}>
                 <div style={{fontSize:12,fontWeight:600,color:C.ink,lineHeight:1.3,
@@ -292,9 +292,12 @@ export function ShopViewPage({shop,items,onSave,setModal,onBack,onReport,onFollo
           backdropFilter:"blur(4px)",display:"flex",alignItems:"center",justifyContent:"center"}}>{backArrow()}</button>
       </div>
       <div style={{padding:"0 14px 16px"}}>
-        <div style={{display:"flex",alignItems:"flex-end",gap:12,marginTop:-24,marginBottom:12}}>
-          <Avatar shop={shop} size={52}/>
-          <div style={{flex:1}}>
+        {/* Only the avatar overlaps the banner. The whole row was pulled up,
+            and a two-line name block put its first line on the banner —
+            "Haya's Collection" cut in half by the shop's own colour. */}
+        <div style={{display:"flex",alignItems:"flex-end",gap:12,marginBottom:12}}>
+          <div style={{marginTop:-24,position:"relative",zIndex:1,flexShrink:0}}><Avatar shop={shop} size={52}/></div>
+          <div style={{flex:1,minWidth:0,paddingTop:8}}>
             <div style={{fontWeight:700,fontSize:18,color:C.ink}}>{shop.name}</div>
             <div style={{fontSize:12,color:C.inkLt}}>{getLang() === "ar" && shop.nameAr ? `${shop.nameAr} · ` : ""}{shop.handle}</div>
           </div>
@@ -317,13 +320,15 @@ export function ShopViewPage({shop,items,onSave,setModal,onBack,onReport,onFollo
               The count is of the shop, not of the query. */}
           {[...(earnedFollowers(shop) !== null ? [[earnedFollowers(shop),"followers"]] : []),[mine.length,"items"]].map(([n,l])=>(
             <div key={l}><span style={{fontWeight:700,color:C.terraTx,fontSize:14}}>{n}</span>
-              <span style={{fontSize:11,color:C.inkLt,marginLeft:3}}>{l}</span></div>
+              <span style={{fontSize:11,color:C.inkLt,marginInlineStart:3}}>{n===1 ? l.replace(/s$/,"") : l}</span></div>
           ))}
         </div>
         <Stars rating={shop.rating} reviews={shop.reviews} shop={shop}/>
         <div style={{fontSize:12,color:C.inkLt,marginTop:6,marginBottom:14}}>{shop.bio}</div>
         <ShopReviews shopId={shop.id}/>
-        {mine.length>0 && <SearchBar value={q} onChange={setQ}/>}
+        {/* SearchBar carries the page gutter itself; inside this padded column
+            it was inset twice, narrower than the grid under it. */}
+        {mine.length>0 && <div style={{margin:"0 -14px"}}><SearchBar value={q} onChange={setQ} placeholder={`Search ${shop.name}`}/></div>}
         <div style={{display:"grid",gridTemplateColumns:"repeat(2,1fr)",gap:10,marginTop:8}}>
           {shopItems.map(item=><ItemTile key={item.id} item={item} showNew={newSetsApart(shopItems)} onSave={onSave} onClick={()=>setModal(item)}/>)}
         </div>

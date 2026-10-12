@@ -2159,6 +2159,14 @@ section("68. Every screen is measured, and nothing falls under the type floor");
     /from launch<\/>/.test(read("./src/market/OfferModal.jsx")));
   check("a warning carried onto a later sell step offers the way back to it",
     /stepError\.at < step/.test(read("./src/pages/SellPage.jsx")));
+  const noAlt = walk("./src").filter((p) => p.endsWith(".jsx")).flatMap((p) =>
+    stripComments(read(p)).split("\n").map((l, i) => [p, i + 1, l])
+      .filter(([, , l]) => /<img\b(?![^>]*\balt=)/.test(l)))
+    .map(([p, n]) => `${p}:${n}`);
+  check("every <img> says what it is, or alt=\"\" when the words are beside it",
+    noAlt.length === 0, noAlt.join(", "));
+  check("on a shop page only the avatar overlaps the banner, not the name",
+    /marginTop:-24,position:"relative",zIndex:1,flexShrink:0\}\}><Avatar shop=\{shop\} size=\{52\}/.test(read("./src/pages/ShopPages.jsx")));
   check("help questions print in one language",
     /getLang\(\) === "ar" && f\.qAr \? f\.qAr : f\.q/.test(read("./src/HelpCentre.jsx")));
 }

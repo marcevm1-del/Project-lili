@@ -112,7 +112,8 @@ export function CartPage({cart, shops, removeFromCart, setTab, onMessageSeller})
                 {items.map((i) => (
                   <div key={i.id} style={{display:"flex", alignItems:"center", gap:10, padding:"7px 0"}}>
                     <div style={{width:40, height:50, borderRadius:7, overflow:"hidden",
-                      flexShrink:0, background:C.sand}}>
+                      flexShrink:0, background:C.sand,
+                      display:"flex", alignItems:"center", justifyContent:"center"}}>
                       {i.thumb || i.photo
                         ? <img src={i.thumb || i.photo} alt="" style={{width:"100%",height:"100%",objectFit:"cover"}}/>
                         : <Placeholder item={i} size={26}/>}

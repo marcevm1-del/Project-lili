@@ -497,7 +497,9 @@ function BrandMark({item, size}) {
   const fit = 104 / (longest * 0.95);
   return (
     <div style={{fontFamily:"var(--font-display)",fontWeight:600,textTransform:"uppercase",
-      letterSpacing:"0.12em",textAlign:"center",lineHeight:1.15,
+      // 1.3, not 1.15: with overflow hidden, the tighter box sliced the
+      // accent off CHLOÉ.
+      letterSpacing:"0.12em",textAlign:"center",lineHeight:1.3,
       fontSize:typeScale(Math.max(11, Math.min(26, size*0.38, fit))),
       color:onDark ? C.onSwatchDark : C.onSwatchLight,opacity:onDark ? 0.92 : 0.72,
       overflowWrap:"normal",wordBreak:"keep-all",maxWidth:"100%",overflow:"hidden"}}>{item.brand}</div>

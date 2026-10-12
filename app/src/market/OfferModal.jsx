@@ -174,7 +174,7 @@ export function OfferModal({item,shop,onClose,onSubmit}) {
           <div style={{width:52,height:52,borderRadius:8,overflow:"hidden",flexShrink:0,
             background:`linear-gradient(145deg,${item.color},${item.color}99)`,
             display:"flex",alignItems:"center",justifyContent:"center",fontSize:26}}>
-            {item.photo?<img src={item.photo} style={{width:"100%",height:"100%",objectFit:"cover"}}/>:<Placeholder item={item} size={40}/>}
+            {item.photo?<img src={item.photo} alt="" style={{width:"100%",height:"100%",objectFit:"cover"}}/>:<Placeholder item={item} size={40}/>}
           </div>
           <div>
             <div style={{fontWeight:600,fontSize:13,color:C.ink}}>{item.title}</div>
