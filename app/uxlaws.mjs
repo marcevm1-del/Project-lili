@@ -442,8 +442,10 @@ await page.waitForTimeout(300);
 
 // Screens the tab walk never reached, where every two-language label found by
 // hand in v2.11.9 lived: the listing's first step (photo coach), preferences,
-// offers and the language screen. Language and clipping only.
+// offers, language, help and privacy. Language and clipping only.
+const reached = [];
 const extra = async (where) => {
+  reached.push(where);
   const m = await measure();
   for (const c of m.bilingual) allBilingual.add(`${where}: ${c}`);
   for (const c of m.clipped) allClipped.add(`${where}: ${c}`);
@@ -452,19 +454,28 @@ await label("Sell"); await page.waitForTimeout(400);
 await tap("Quick"); await page.waitForTimeout(500);
 await extra("sell · photos");
 await tap("Cancel"); await page.waitForTimeout(300);
-for (const [row, where] of [["My preferences", "preferences"], ["Offers", "offers"], ["Language", "language"]]) {
+for (const [row, where] of [["My preferences", "preferences"], ["Offers", "offers"], ["Language", "language"], ["Help & Support", "help"], ["Privacy & Safety", "privacy"]]) {
   await label("Profile"); await page.waitForTimeout(400);
   const r = page.locator(`button:has-text("${row}")`).last();
   if (await r.count()) {
     await r.scrollIntoViewIfNeeded().catch(() => {});
-    await r.click({ force: true }).catch(() => {}); await page.waitForTimeout(600);
+    // A DOM click: scrolled into view, the row can sit under the fixed tab
+    // bar, and a coordinate click then opens a tab instead of the screen.
+    await r.evaluate((e) => e.click()).catch(() => {}); await page.waitForTimeout(600);
     await extra(where);
   }
   await page.keyboard.press("Escape").catch(() => {});
-  const back = page.locator('button[aria-label="Back"]').first();
-  if (await back.count()) await back.click().catch(() => {});
+  // The overlays (Language, Help, Privacy) are fixed above the tab bar, so
+  // the last Back on the page is the one on top.
+  const back = page.locator('button[aria-label="Back"]:visible').last();
+  if (await back.count()) await back.evaluate((e) => e.click()).catch(() => {});
   await page.waitForTimeout(300);
 }
+
+// A screen this run never opened is a screen it cannot vouch for — the help
+// screen went unmeasured for a release because the loop silently stalled.
+const EXTRA_SCREENS = ["sell · photos", "preferences", "offers", "language", "help", "privacy"];
+const missed = EXTRA_SCREENS.filter((w) => !reached.includes(w));
 
 for (const [k, v] of gateFindings.small) allSmall.set(k, v);
 for (const c of gateFindings.clipped) allClipped.add(c);
@@ -633,6 +644,10 @@ server.close();
 // printed a warning, and "Follow · تابع" shipped under it.
 if (allBilingual.size > 0) {
   console.log(`\x1b[31m✗ DESIGN.md §1: ${allBilingual.size} label(s) in two languages at once\x1b[0m`);
+  process.exit(1);
+}
+if (missed.length) {
+  console.log(`\x1b[31m✗ never reached: ${missed.join(", ")} — the check above did not cover them\x1b[0m`);
   process.exit(1);
 }
 process.exit(0);

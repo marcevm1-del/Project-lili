@@ -1,5 +1,6 @@
 import { createElement as h } from "react";
 import { backArrow, alignStart } from "../i18n/direction.js";
+import { t } from "../i18n/t.js";
 
 // Same tokens as the marketplace — these screens should feel like lili,
 // not like a legal wall someone bolted on.
@@ -41,6 +42,8 @@ export function Shell({ title, subtitle, children, onBack }) {
   },
     onBack && h("button", {
       onClick: onBack,
+      // An arrow alone: a screen reader announced "button" and nothing else.
+      "aria-label": t("back"),
       className: "tap-target",
       style: { background: "none", border: "none", color: C.ink, fontSize: 20,
                padding: 0, marginBottom: 14, alignSelf: "flex-start", cursor: "pointer",

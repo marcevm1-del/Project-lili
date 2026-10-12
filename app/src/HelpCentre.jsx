@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { C, Shell, Note } from "./compliance/ui.js";
 import Icon from "./icons/Icon.jsx";
+import { getLang } from "./i18n/t.js";
 
 // ─────────────────────────────────────────────────────────────────────────────
 //  HELP
@@ -83,9 +84,8 @@ export default function HelpCentre({ onBack }) {
             <div style={{ display: "flex", alignItems: "flex-start", gap: 10 }}>
               <div style={{ flex: 1 }}>
                 <div style={{ fontSize: 14, color: C.ink, fontWeight: 600, lineHeight: 1.35 }}>
-                  {f.q}
+                  {getLang() === "ar" && f.qAr ? f.qAr : f.q}
                 </div>
-                <div style={{ fontSize: 11, color: C.terraTx, marginTop: 2 }}>{f.qAr}</div>
               </div>
               <span style={{ color: C.inkLt, fontSize: 13 }}>{isOpen ? "−" : "+"}</span>
             </div>
