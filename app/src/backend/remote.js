@@ -1023,7 +1023,10 @@ export async function searchItems(query, limit = 40) {
   const q = String(query || "").trim();
   if (!q) return [];
   const sb = await db();
-  const { data, error } = await sb.rpc("lili_search", { p_query: q, p_limit: limit });
+  let { data, error } = await sb.rpc("lili_search", { p_query: q, p_limit: limit });
+  // 57014: the statement timed out. On the free tier the first query after the
+  // project has sat idle reads everything from cold disk; the retry is warm.
+  if (error && error.code === "57014") ({ data, error } = await sb.rpc("lili_search", { p_query: q, p_limit: limit }));
   if (error) throw error;
   return (data || []).map((r) => ({
     ...fromRow(r),

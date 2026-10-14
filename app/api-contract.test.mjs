@@ -44,6 +44,15 @@ const refused = (r) => r.status >= 400 && r.json && typeof r.json.code === "stri
     console.log(`\nCannot reach the Supabase API (${why}). No checks were run.`);
     process.exit(2);
   }
+  // Wake the database before checking what it allows. On the free tier the
+  // first search after a few idle days reads from cold disk and can pass the
+  // anon statement timeout (57014) once; that is the hosting tier, not the
+  // contract, and the app retries it (remote.searchItems). Reported, not failed.
+  const t0 = Date.now();
+  const warm = await fetch(`${URL}/rest/v1/rpc/lili_search`, { method: "POST",
+    headers: { apikey: KEY, Authorization: `Bearer ${KEY}`, "Content-Type": "application/json" },
+    body: JSON.stringify({ p_query: "abaya", p_limit: 1 }) }).catch(() => null);
+  console.log(`(warm-up search: ${warm ? warm.status : "no answer"} in ${Date.now() - t0} ms)`);
 }
 
 console.log("\nSigned out (anon key only)");
