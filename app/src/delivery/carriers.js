@@ -26,9 +26,9 @@ export const CARRIERS = [
   { key: "quiqup", name: "Quiqup same-day", regions: ["UAE"],
     about: "A rider collects from you and delivers the same day." },
   { key: "smsa", name: "SMSA Express", regions: ["UAE", "GCC"],
-    about: "Strong across Saudi Arabia and the Gulf. Drop off at an SMSA branch." },
+    about: "Covers Saudi Arabia and the Gulf. Drop off at an SMSA branch." },
   { key: "dhl", name: "DHL Express", regions: ["UAE", "GCC"],
-    about: "Fastest across borders. Drop off at a DHL point or book a pickup.",
+    about: "Express across the UAE and the GCC. Drop off at a DHL point or book a pickup.",
     track: (n) => `https://www.dhl.com/ae-en/home/tracking/tracking-express.html?submit=1&tracking-id=${encodeURIComponent(n)}` },
 ];
 export const COURIERS = CARRIERS.filter((c) => c.key !== "meet");
@@ -42,6 +42,25 @@ export const PARCEL_SIZES = [
   { key: "L",  label: "Large",       fits: "A coat, boots, a large bag",    dims: "up to 60 × 40 × 40 cm · 5 kg" },
   { key: "XL", label: "Extra large", fits: "A bundle, a suitcase-size bag", dims: "up to 60 × 50 × 60 cm · 10 kg" },
 ];
+
+// The starting estimates migration 33 seeds into lili_delivery_rates, kept here
+// so fees still show with no connection or for sample pieces. The database is
+// the source: lili corrects fees there, and a fee confirmed with the courier
+// only ever comes from it. The research suite checks the two match.
+const SEEDED = {
+  aramex_UAE: "XS:20 S:25 M:30 L:40 XL:55",
+  aramex_GCC: "XS:60 S:75 M:95 L:130 XL:180",
+  emirates_post_UAE: "XS:15 S:20 M:28 L:35 XL:50",
+  smsa_UAE: "XS:20 S:25 M:32 L:40 XL:55",
+  smsa_GCC: "XS:55 S:70 M:90 L:120 XL:170",
+  quiqup_UAE: "XS:25 S:25 M:30 L:35 XL:45",
+  dhl_UAE: "XS:30 S:35 M:45 L:60 XL:85",
+  dhl_GCC: "XS:120 S:150 M:200 L:260 XL:350",
+};
+export const ESTIMATED_RATES = Object.entries(SEEDED).flatMap(([k, v]) => {
+  const [carrierKey, region] = [k.slice(0, k.lastIndexOf("_")), k.slice(k.lastIndexOf("_") + 1)];
+  return v.split(" ").map((p) => { const [size, fee] = p.split(":"); return { carrier: carrierKey, size, region, fee: Number(fee), confirmed: false }; });
+});
 
 /** Where a buyer can have it sent. Everything outside the UAE is "GCC". */
 export const COUNTRIES = [

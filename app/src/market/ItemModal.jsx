@@ -15,6 +15,7 @@ import { sizeLabel, kindOf, APPROXIMATE_NOTE } from "../sizes/sizeSystem.js";
 import { useSizeSystem } from "../sizes/SizeSystemPicker.jsx";
 import * as remote from "../backend/remote.js";
 import { carrier } from "../delivery/carriers.js";
+import { loadRates } from "../delivery/rates.js";
 import { PAYMENTS_LIVE } from "../compliance/sellerRules.js";
 const CheckoutSheet = lazy(() => import("../delivery/CheckoutSheet.jsx"));
 
@@ -97,12 +98,12 @@ function usePaymentsOn() {
 
 // How this piece can reach a buyer, after Yaga's listing page: every option
 // the seller switched on, with the fee for its parcel size in the UAE.
-export function DeliveryInfo({item}) {
+export function DeliveryInfo({item, onSeeTotal}) {
   const [rates, setRates] = useState([]);
   const ways = Array.isArray(item.delivery) && item.delivery.length ? item.delivery : ["meet"];
   useEffect(() => {
-    if (!remote.isConfigured() || !ways.some(k => k !== "meet")) return;
-    remote.deliveryRates().then(setRates).catch(() => setRates([]));
+    if (!ways.some(k => k !== "meet")) return;
+    loadRates().then(setRates);
   }, [item.id]);
   const size = item.parcelSize || "S";
   const fee = (k, region) => rates.find(r => r.carrier === k && r.size === size && r.region === region);
@@ -126,6 +127,12 @@ export function DeliveryInfo({item}) {
         })}
       </div>
       {item.bundling && <div style={{fontSize:11,color:C.inkLt,marginTop:4}}>Bundle more of her pieces and pay one delivery fee.</div>}
+      {onSeeTotal && (
+        <button onClick={onSeeTotal} style={{marginTop:8,width:"100%",minHeight:44,borderRadius:22,cursor:"pointer",
+          background:C.white,border:`1.5px solid ${C.terra}`,color:C.terraTx,fontWeight:700,fontSize:13,fontFamily:"inherit"}}>
+          Delivery options &amp; total
+        </button>
+      )}
     </section>
   );
 }
@@ -239,7 +246,7 @@ export function ItemModal({item,shop,items=[],onOpenItem,onSave,onClose,onOffer,
               where the facts do not support it is what persuasion.js refuses.
               What a buyer needs here is the one thing that is true and that
               nothing else on this screen tells her. */}
-          <DeliveryInfo item={item}/>
+          <DeliveryInfo item={item} onSeeTotal={item.reserved ? null : ()=>setBuying(true)}/>
 
           <div style={{fontSize:11,color:C.inkLt,lineHeight:1.6,marginBottom:18,
             paddingTop:12,borderTop:`1px solid ${C.border}`}}>

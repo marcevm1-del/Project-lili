@@ -3,6 +3,7 @@ import { C } from "../compliance/ui.js";
 import Icon from "../icons/Icon.jsx";
 import * as remote from "../backend/remote.js";
 import * as store from "../compliance/store.js";
+import { loadRates } from "./rates.js";
 import { useFocusTrap, dialogProps } from "../a11y/useFocusTrap.js";
 import { PAYMENTS_LIVE } from "../compliance/sellerRules.js";
 import { carrier, COUNTRIES, regionFor, UNPAID_MINUTES, AUTO_RELEASE_DAYS, SHIP_WITHIN_DAYS } from "./carriers.js";
@@ -19,6 +20,24 @@ import { carrier, COUNTRIES, regionFor, UNPAID_MINUTES, AUTO_RELEASE_DAYS, SHIP_
 // ─────────────────────────────────────────────────────────────────────────────
 
 const SHIP_KEY = "lili.shipto.v1";   // the address, only if she ticks "remember"
+const UUID = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i;
+const SIZE_ORDER = ["XL", "L", "M", "S", "XS"];
+
+// What lili_delivery_quote does, for pieces the database doesn't hold: only
+// the ways every piece allows, priced for the largest parcel among them.
+async function localQuote(items, region) {
+  const ways = items.map((i) => (Array.isArray(i.delivery) && i.delivery.length ? i.delivery : ["meet"]));
+  const common = ways.reduce((a, w) => a.filter((k) => w.includes(k)));
+  const size = SIZE_ORDER.find((s) => items.some((i) => i.parcelSize === s)) || "S";
+  const rates = await loadRates();
+  const out = [];
+  for (const m of common) {
+    if (m === "meet") { if (region === "UAE") out.push({ method: "meet", fee: 0, confirmed: true, size }); continue; }
+    const r = rates.find((x) => x.carrier === m && x.size === size && x.region === region);
+    if (r) out.push({ method: m, fee: r.fee, confirmed: r.confirmed, size });
+  }
+  return out;
+}
 
 export default function CheckoutSheet({ items, shopName, onClose, onDone, onSignIn, onOffer }) {
   const trap = useFocusTrap(onClose);
@@ -42,8 +61,16 @@ export default function CheckoutSheet({ items, shopName, onClose, onDone, onSign
   }, []);
   useEffect(() => {
     setQuote(null); setMethod(null);
-    remote.deliveryQuote(ids, region).then((q) => { setQuote(q); setMethod(q[0] ? q[0].method : null); })
-      .catch(() => setQuote([]));
+    const show = (q) => { setQuote(q); setMethod(q[0] ? q[0].method : null); };
+    // a listing in the database is quoted by the database; a sample piece (or
+    // no connection) is quoted here from the public rate table, the same way
+    const listed = ids.every((id) => UUID.test(String(id)));
+    const local = () => localQuote(items, region).then(show).catch(() => show([]));
+    if (listed && remote.isConfigured()) {
+      Promise.race([remote.deliveryQuote(ids, region), new Promise((_, no) => setTimeout(() => no(new Error("timeout")), 6000))])
+        .then(show).catch(local);
+    }
+    else local();
   }, [region]);
 
   const subtotal = items.reduce((n, i) => n + (Number(i.price) || 0), 0);
@@ -79,7 +106,7 @@ export default function CheckoutSheet({ items, shopName, onClose, onDone, onSign
       <div ref={trap} {...dialogProps("Buy")} onClick={(e) => e.stopPropagation()} className="safe-sheet" style={sheet}>
         <div style={{ display: "flex", alignItems: "baseline", justifyContent: "space-between", gap: 10 }}>
           <div style={{ fontFamily: "Georgia,serif", fontStyle: "italic", fontSize: 20, color: C.ink }}>
-            {items.length > 1 ? `Buy ${items.length} pieces` : "Buy"}
+            {payOn === false ? "Delivery & price" : items.length > 1 ? `Buy ${items.length} pieces` : "Buy"}
           </div>
           <button onClick={onClose} aria-label="Close" className="tap-round" style={closeBtn}>
             <Icon name="close" size={16} stroke={2} />
@@ -130,7 +157,7 @@ export default function CheckoutSheet({ items, shopName, onClose, onDone, onSign
               })}
             </div>
 
-            {courier && (
+            {courier && payOn !== false && (
               <div style={{ display: "grid", gap: 8, marginBottom: 12 }}>
                 <div style={label}>Address</div>
                 {[["name", "Full name"], ["phone", "Mobile number"], ["line1", "Building, street, area"],
@@ -156,8 +183,9 @@ export default function CheckoutSheet({ items, shopName, onClose, onDone, onSign
 
             {payOn === false ? (
               <div role="note" style={{ ...para, background: C.sand, borderRadius: 12, padding: "10px 12px", marginBottom: 10 }}>
-                Paying in the app isn't switched on yet. For now, make an offer or message the seller and pay her
-                when you meet.
+                Paying in the app isn't switched on yet, so this is what it would cost. For now, agree the
+                delivery with the seller in Messages, or make an offer. lili can't refund money you send her
+                before the piece arrives.
               </div>
             ) : (
               <p style={{ ...para, fontSize: 11, marginBottom: 10 }}>

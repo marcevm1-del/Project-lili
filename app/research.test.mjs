@@ -1716,6 +1716,10 @@ check("no interface text is set below the 11px floor", tinyType.length === 0 && 
     && new RegExp(`interval '${D.UNPAID_MINUTES} minutes'`).test(m33));
   check("buyers can pick every GCC country, and only those",
     D.COUNTRIES.map((c) => c.code).sort().join() === "AE,BH,KW,OM,QA,SA" && D.regionFor("SA") === "GCC" && D.regionFor("AE") === "UAE");
+  const seeded = [...m33.matchAll(/\('(\w+)','(\w+)','(UAE|GCC)',(\d+)\)/g)].map((x) => `${x[1]} ${x[2]} ${x[3]} ${x[4]}`).sort().join("|");
+  check("the fees shown offline are the ones the database was seeded with",
+    D.ESTIMATED_RATES.map((r) => `${r.carrier} ${r.size} ${r.region} ${r.fee}`).sort().join("|") === seeded
+    && D.ESTIMATED_RATES.every((r) => r.confirmed === false));
   check("every parcel size the app shows has a price in the database",
     D.PARCEL_SIZES.every((p) => new RegExp(`'aramex','${p.key}','UAE'`).test(m33)));
   const deliv = PP.find((p) => p.id === "delivery");

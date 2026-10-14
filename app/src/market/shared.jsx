@@ -184,6 +184,25 @@ export const ITEMS = [
   {id:10,shopId:3,title:"Jacquemus Le Chiquito",titleAr:"جاكيموس لو شيكيتو",subtitle:"Mini Bag · Caramel",price:1800,brand:"Jacquemus",category:"Bags",condition:"Excellent",era:"Modern",size:"OS",color:"#C9A96E",icon:"bag",photo:null,saved:false,desc:"Jacquemus Le Chiquito in caramel leather. Absolutely perfect condition with dustbag.",offers:[]},
 ];
 
+// How each sample piece can reach a buyer (migration 33), so the delivery
+// options, fees and checkout can be seen before any real shop has set them.
+const SAMPLE_DELIVERY = {
+  1: [["meet","aramex","dhl"], "M", true],
+  2: [["meet","aramex","emirates_post","quiqup"], "S", true],
+  3: [["meet","aramex","smsa"], "M", false],
+  4: [["meet","dhl"], "XS", false],
+  5: [["meet","aramex","quiqup","smsa"], "M", false],
+  6: [["meet","emirates_post","quiqup"], "S", false],
+  7: [["meet","aramex","emirates_post"], "XS", false],
+  8: [["meet","aramex","quiqup","smsa","dhl"], "S", false],
+  9: [["meet","aramex","dhl"], "S", true],
+  10: [["meet","aramex","quiqup"], "S", false],
+};
+for (const it of ITEMS) {
+  const d = SAMPLE_DELIVERY[it.id];
+  if (d) Object.assign(it, { delivery: d[0], parcelSize: d[1], bundling: d[2] });
+}
+
 export const CATS = ["All","Luxury","Bags","Dresses","Shoes","Abayas","Tops","Jackets","Skirts"];
 /**
  * A category in Arabic.

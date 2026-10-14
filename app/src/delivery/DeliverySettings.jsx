@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { C } from "../compliance/ui.js";
 import Icon from "../icons/Icon.jsx";
-import * as remote from "../backend/remote.js";
+import { loadRates } from "./rates.js";
 import { CARRIERS, PARCEL_SIZES } from "./carriers.js";
 
 // ─────────────────────────────────────────────────────────────────────────────
@@ -16,10 +16,7 @@ import { CARRIERS, PARCEL_SIZES } from "./carriers.js";
 
 export default function DeliverySettings({ form, setForm }) {
   const [rates, setRates] = useState([]);
-  useEffect(() => {
-    if (!remote.isConfigured()) return;
-    remote.deliveryRates().then(setRates).catch(() => setRates([]));
-  }, []);
+  useEffect(() => { loadRates().then(setRates); }, []);
 
   const on = Array.isArray(form.delivery) && form.delivery.length ? form.delivery : ["meet"];
   const size = form.parcelSize || "S";
