@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState, lazy, Suspense } from "react";
 import { C, Shell } from "../compliance/ui.js";
 import Icon from "../icons/Icon.jsx";
 import * as remote from "../backend/remote.js";
@@ -17,6 +17,8 @@ import { carrier, ORDER_STATES, ISSUE_REASONS, SHIP_WITHIN_DAYS, AUTO_RELEASE_DA
 //  Every rule shown here is enforced by the database (migration 33); the screen
 //  only explains it.
 // ─────────────────────────────────────────────────────────────────────────────
+
+const ReviewPrompt = lazy(() => import("../trust/ReviewPrompt.jsx"));
 
 const TABS = [["buyer", "Purchases"], ["seller", "Shop orders"], ["wallet", "Wallet"]];
 const aed = (n) => `AED ${Number(n || 0).toLocaleString("en-US")}`;
@@ -200,6 +202,14 @@ function OrderCard({ o, as, onChanged }) {
         </div>
       )}
       {err && <div role="alert" style={{ fontSize: 12, color: C.redTx, marginTop: 6 }}>{err}</div>}
+      {/* Both sides may review a completed order for 14 days (migration 36). */}
+      {o.review_open && !o.reviewed && !mode && (
+        <div style={box}>
+          <Suspense fallback={null}>
+            <ReviewPrompt orderId={o.id} otherRole={as === "buyer" ? "seller" : "buyer"} />
+          </Suspense>
+        </div>
+      )}
     </article>
   );
 }

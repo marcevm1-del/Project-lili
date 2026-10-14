@@ -71,7 +71,8 @@ release you installed, the install was refused.
   4. Confirm each courier fee with the courier, then
      `update lili_delivery_rates set fee = …, confirmed = true where …`.
   5. Rewrite the Terms, Payments, Delivery and Privacy policies for held payment (Stripe as
-     a processor, delivery addresses kept with the order) and set `COLLECTION_LIVE = true`
+     a processor, delivery addresses kept with the order and cut back to the country 120 days
+     after it ends, migration 36; order reviews) and set `COLLECTION_LIVE = true`
      in `app/src/data/fees.js`; the research suite refuses the build until both agree.
      Ship that build.
   6. `update lili_settings set value = jsonb_set(value, '{enabled}', 'true') where key = 'payments';`

@@ -252,12 +252,62 @@ begin
   perform pg_temp.act(me);
   j := lili_order_shipped(ord, 'AWB123456');
   perform pg_temp.act(b1);
+  begin j := lili_leave_order_review(ord, 5, 'Too early');
+        perform pg_temp.ok('no review before the order completes', false);
+  exception when others then perform pg_temp.ok('no review before the order completes', true); end;
   j := lili_order_received(ord);
   execute 'reset role';
   perform pg_temp.ok('item received releases the payment to the seller',
     (select state || '/' || money_state from lili_orders where id = ord) = 'completed/payout_due');
   perform pg_temp.act(me);
   perform pg_temp.ok('the wallet shows it releasing', (lili_my_wallet()->>'releasing')::numeric = 1340);
+
+  -- ── order reviews and the order's personal data (migration 36) ──────────
+  perform pg_temp.act(b2);
+  begin j := lili_leave_order_review(ord, 5, 'Not my order');
+        perform pg_temp.ok('only the buyer and the seller can review an order', false);
+  exception when others then perform pg_temp.ok('only the buyer and the seller can review an order', true); end;
+  perform pg_temp.act(b1);
+  j := lili_leave_order_review(ord, 5, 'Arrived as described');
+  perform pg_temp.ok('the first review of an order stays hidden until the other side reviews', (j->>'visible')::boolean = false);
+  perform pg_temp.ok('a hidden order review is not on the shop',
+    not exists (select 1 from lili_shop_reviews(s, 50) x where x.body = 'Arrived as described'));
+  begin j := lili_leave_order_review(ord, 4, 'Again');
+        perform pg_temp.ok('an order is reviewed once per side', false);
+  exception when others then perform pg_temp.ok('an order is reviewed once per side', true); end;
+  perform pg_temp.ok('my orders says I have reviewed it',
+    (select (x->>'reviewed')::boolean and (x->>'review_open')::boolean
+       from jsonb_array_elements(lili_my_orders('buyer')) x where (x->>'id')::uuid = ord));
+  perform pg_temp.act(me);
+  j := lili_leave_order_review(ord, 4, 'Paid quickly');
+  perform pg_temp.ok('once both have reviewed, both reviews show', (j->>'visible')::boolean = true);
+  perform pg_temp.act(null);
+  perform pg_temp.ok('a visible order review counts on the shop and in its rating',
+    exists (select 1 from lili_shop_reviews(s, 50) x where x.body = 'Arrived as described')
+    and exists (select 1 from lili_reputations() r where r.shop_id = s and r.reviews >= 1));
+  begin perform lili_leave_order_review(ord, 5, 'anon');
+        perform pg_temp.ok('a signed-out visitor cannot review an order', false);
+  exception when others then perform pg_temp.ok('a signed-out visitor cannot review an order', true); end;
+  perform pg_temp.ok('order reviews are not readable directly',
+    not has_table_privilege('authenticated', 'public.lili_order_reviews', 'select')
+    and not has_table_privilege('anon', 'public.lili_order_reviews', 'select'));
+  perform pg_temp.act(b1);
+  perform pg_temp.ok('the buyer''s export has the order and her own delivery address',
+    (select x->'delivery_address'->>'city' from jsonb_array_elements(lili_export_me()->'orders') x where (x->>'id')::uuid = ord) = 'Dubai');
+  perform pg_temp.act(me);
+  perform pg_temp.ok('the seller''s export has the order but not the buyer''s address',
+    exists (select 1 from jsonb_array_elements(lili_export_me()->'orders') x where (x->>'id')::uuid = ord)
+    and (select x->'delivery_address' from jsonb_array_elements(lili_export_me()->'orders') x where (x->>'id')::uuid = ord) = 'null'::jsonb);
+  execute 'reset role';
+  update lili_orders set completed_at = now() - interval '121 days' where id = ord;
+  perform lili.orders_tick();
+  perform pg_temp.ok('an address is cut back to the country 120 days after the order ends',
+    (select ship_to from lili_orders where id = ord) = '{"country":"AE"}'::jsonb);
+  update lili_orders set ship_to = '{"name":"Test Buyer","phone":"0500000000","line1":"Street 1","city":"Dubai","country":"AE"}'
+   where id = ord;
+  update lili_orders set buyer_uid = null where id = ord;   -- what erasing her account does
+  perform pg_temp.ok('erasing the buyer removes her address from the order and keeps the record',
+    (select ship_to from lili_orders where id = ord) = '{"country":"AE"}'::jsonb);
 
   -- not sent in time: refunded and back on sale
   execute 'reset role';

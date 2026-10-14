@@ -31,7 +31,7 @@ begin
   select id into me from auth.users where email = 'marcevm1@gmail.com';
   select id into buyer from auth.users where id <> me order by created_at limit 1;
 
-  -- A · invites and the beta gate            expect: true false unknown welcome true sign_in_required
+  -- A · invites and the beta gate            expect: true false unknown welcome true refused
   perform pg_temp.act(me, true);
   select c into code from lili_mint_invites(1, 'functional test') c;
   r := r || 'A1 mint=' || (code ~ '^LILI-[A-Z0-9]{4}-[A-Z0-9]{4}$');
@@ -41,7 +41,10 @@ begin
   r := r || ' A4 redeem=' || (lili_redeem_invite(lower(code))->>'reason');
   r := r || ' A5 member_after=' || lili_is_beta_member();
   perform pg_temp.act(null);
-  r := r || ' A6 anon_redeem=' || (lili_redeem_invite(code)->>'reason');
+  -- migration 35: a signed-out visitor cannot call it at all, rather than
+  -- being answered 'sign_in_required' by its first line
+  begin r := r || ' A6 anon_redeem=' || (lili_redeem_invite(code)->>'reason');
+  exception when insufficient_privilege then r := r || ' A6 anon_redeem=refused'; end;
 
   -- B · listing, browse and search signed out   expect: live 2 1 1 1 1 2
   perform pg_temp.act(me, true);

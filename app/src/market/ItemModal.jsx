@@ -251,6 +251,7 @@ export function ItemModal({item,shop,items=[],onOpenItem,onSave,onClose,onOffer,
           </div>
 
           <MoreFromShop item={item} shop={shop} items={items} onOpen={onOpenItem}/>
+          <SimilarPieces item={item} items={items} onOpen={onOpenItem}/>
 
           {/* Play requires a reporting route on user-listed content. */}
           <button onClick={()=>onReport&&onReport({kind:"listing",id:item.id,
@@ -327,17 +328,42 @@ export function MoreFromShop({item, shop, items, onOpen}) {
   const more = (items||[]).filter(i=>i.shopId===item.shopId && i.id!==item.id
     && (!i.status || i.status==="live")).slice(0,8);
   if (!shop || more.length===0 || !onOpen) return null;
+  return <PieceStrip label={`More from ${shop.name}`} pieces={more} onOpen={onOpen}/>;
+}
+
+// Other sellers' pieces of the same kind (discovery/similar.js): somewhere to
+// go when this one is the wrong size, price or seller. Ranked only on what the
+// listings say; drawn only when something matches.
+export function SimilarPieces({item, items, onOpen}) {
+  const sizeSys = useSizeSystem();
+  const [similar, setSimilar] = useState([]);
+  useEffect(() => {
+    let alive = true;
+    import("../discovery/similar.js").then(({ similarPieces }) => {
+      if (alive) setSimilar(similarPieces(item, items, 8));
+    }).catch(() => {});
+    return () => { alive = false; };
+  }, [item && item.id, items && items.length]);
+  if (!onOpen || similar.length === 0) return null;
+  return <PieceStrip label="Similar pieces" pieces={similar} onOpen={onOpen} sizeSys={sizeSys}/>;
+}
+
+function PieceStrip({label, pieces, onOpen, sizeSys}) {
   return (
-    <section aria-label={`More from ${shop.name}`} style={{margin:"4px 0 16px"}}>
-      <div style={{fontSize:13,fontWeight:700,color:C.ink,marginBottom:8}}>More from {shop.name}</div>
+    <section aria-label={label} style={{margin:"4px 0 16px"}}>
+      <div style={{fontSize:13,fontWeight:700,color:C.ink,marginBottom:8}}>{label}</div>
       <div style={{display:"flex",gap:10,overflowX:"auto",paddingBottom:4}}>
-        {more.map(i=>(
+        {pieces.map(i=>(
           <button key={i.id} onClick={()=>onOpen(i)} aria-label={`${i.brand||""} ${i.title}, ${money(i.price)}`}
             style={{flex:"0 0 112px",background:"none",border:"none",padding:0,textAlign:"start",cursor:"pointer",fontFamily:"inherit"}}>
             <div className="lili-ratio-tile" style={{borderRadius:10}}><ItemPhoto item={i} size={30}/></div>
             <div style={{fontSize:11,fontWeight:700,letterSpacing:1,color:C.inkLt,textTransform:"uppercase",marginTop:6,
               whiteSpace:"nowrap",overflow:"hidden",textOverflow:"ellipsis"}}>{i.brand}</div>
             <PriceTag item={i} size={13}/>
+            {sizeSys && i.size && i.size !== "OS" && (
+              <div style={{fontSize:11,color:C.inkLt,whiteSpace:"nowrap",overflow:"hidden",textOverflow:"ellipsis"}}>
+                Size {sizeLabel(i.size, sizeSys)}</div>
+            )}
           </button>
         ))}
       </div>

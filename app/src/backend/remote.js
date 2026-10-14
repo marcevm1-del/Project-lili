@@ -638,6 +638,15 @@ export async function confirmReceived(orderId) {
   return data;
 }
 
+/** A review after a completed order (migration 36): once per side, double-blind, 14 days. */
+export async function leaveOrderReview(orderId, stars, body) {
+  const sb = await db();
+  const { data, error } = await sb.rpc("lili_leave_order_review",
+    { p_order: orderId, p_stars: Number(stars), p_body: (body || "").slice(0, 500) || null });
+  if (error) throw error;
+  return data;
+}
+
 export async function reportOrderIssue(orderId, reason, detail) {
   const sb = await db();
   const { data, error } = await sb.rpc("lili_order_issue", { p_order: orderId, p_reason: reason, p_detail: detail });

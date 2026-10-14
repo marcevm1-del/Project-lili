@@ -28,7 +28,7 @@ r="$(result_of "$HERE/functional_test.sql")"
 echo "$r"
 expect=(
   "A1 mint=true" "A2 member_before=false" "A3 bad_code=unknown" "A4 redeem=welcome"
-  "A5 member_after=true" "A6 anon_redeem=sign_in_required"
+  "A5 member_after=true" "A6 anon_redeem=refused"
   "B1 listing=live" "B2 anon_sees=2" "B3 search=1" "B4 typo=1" "B6 accent=1" "B7 stats_live=2"
   "C1 saves=1" "C2 followers=1" "C3 price_drop_notif=1" "C4 prev_price=true" "C5 anon_sees_followers=0"
   "D2 last=true" "D3 can_edit_body=false" "D4 mark_read=1" "D5 anon_reads=false"

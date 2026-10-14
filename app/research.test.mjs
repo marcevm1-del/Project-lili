@@ -1745,6 +1745,40 @@ check("no interface text is set below the 11px floor", tinyType.length === 0 && 
     && /lili:open-orders/.test(read("./src/App.jsx")) && /lili:open-orders/.test(read("./src/Marketplace.jsx")));
 }
 {
+  // ── Reviews after an order, and the order's personal data (migration 36) ──
+  const m36 = read("../supabase/migrations/20261014080342_lili_review_36_order_reviews_and_order_privacy.sql");
+  const ordersSrc = read("./src/delivery/OrdersPage.jsx");
+  check("a completed order can be reviewed by both sides, double-blind, and counts in the shop's rating",
+    /function public\.lili_leave_order_review/.test(m36) && /lili\.order_review_visible/.test(m36)
+    && /union all[\s\S]{0,200}lili_order_reviews/.test(m36)
+    && /o\.review_open && !o\.reviewed/.test(ordersSrc) && /orderId=\{o\.id\}/.test(ordersSrc));
+  check("the data export includes her orders, without another person's address",
+    /'orders', \(select/.test(m36) && /'delivery_address', case when o\.buyer_uid = uid then o\.ship_to end/.test(m36));
+  check("a delivery address is not kept for good: 120 days after the order, or when the buyer erases her account",
+    /interval '120 days'/.test(m36) && /before update of buyer_uid on public\.lili_orders/.test(m36));
+}
+{
+  // ── Similar pieces (discovery/similar.js) ─────────────────────────────────
+  const { similarPieces } = await import("./src/discovery/similar.js");
+  const base = { id: "a", shopId: 1, category: "Bags", brand: "Chanel", size: "OS", price: 10000 };
+  const pool = [
+    { id: "own",   shopId: 1, category: "Bags", brand: "Chanel", price: 9000 },            // same shop
+    { id: "near",  shopId: 2, category: "Bags", brand: "Dior",   size: "OS", price: 9500 },
+    { id: "far",   shopId: 3, category: "Bags", brand: "Coach",  size: "OS", price: 300 },
+    { id: "brand", shopId: 4, category: "Shoes", brand: "Chanel", price: 4000 },
+    { id: "other", shopId: 5, category: "Dresses", brand: "Zara", price: 9800 },          // nothing shared
+    { id: "sold",  shopId: 6, category: "Bags", brand: "Chanel", price: 10000, status: "sold" },
+    { id: "held",  shopId: 7, category: "Bags", brand: "Chanel", price: 10000, reserved: true },
+  ];
+  const got = similarPieces(base, pool).map((i) => i.id);
+  check("similar pieces never repeat this shop, a sold or reserved piece, or one with nothing in common",
+    !got.some((id) => ["own", "other", "sold", "held"].includes(id)), got.join(","));
+  check("a nearby price in the same category ranks above a far one",
+    got.indexOf("near") > -1 && got.indexOf("near") < got.indexOf("far"), got.join(","));
+  check("the same brand in another category still counts as similar", got.includes("brand"));
+  check("the section is not drawn when nothing matches", similarPieces(base, [pool[4]]).length === 0);
+}
+{
   // ── Yaga touches on tiles and the shortlist ───────────────────────────────
   const tileSrc = read("./src/market/shared.jsx");
   const cartSrc = read("./src/pages/CartPage.jsx");
