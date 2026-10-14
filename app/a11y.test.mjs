@@ -98,6 +98,15 @@ await page.locator('div:has-text("AED")').last().click({ timeout: 2500 }).catch(
 await page.waitForTimeout(350);
 await scan("item detail");
 
+// the delivery sheet, opened from the piece (fees fall back to the seeded
+// estimates after the 6-second lookup fails offline)
+await page.evaluate(() => { const d = document.querySelector('[data-section="delivery"]'); if (d) d.scrollIntoView(); });
+await page.locator('[data-section="delivery"] button').first().click({ timeout: 2500 }).catch(() => {});
+await page.waitForTimeout(7000);
+await scan("delivery sheet");
+await page.keyboard.press("Escape").catch(() => {});
+await page.waitForTimeout(300);
+
 // Closing it properly. `tap()` matches on visible TEXT, and the modal's
 // dismiss control is an icon with an aria-label and no text at all — so both
 // of the old taps silently did nothing and the dialog stayed open. That went
@@ -122,6 +131,9 @@ for (const [label, name] of [["Search", "search"], ["Home", null], ["Saved", "sa
   if (await b.count()) { await b.click(); await page.waitForTimeout(350); if (name) await scan(name); }
 }
 
+await tap("Wallet");       await scan("my orders (wallet)");
+await tap("Purchases");    await scan("my orders (purchases)");
+await tap("←");
 await tap("Appearance");   await scan("appearance");
 await tap("←"); await tap("Language"); await scan("language");
 await tap("←"); await tap("Privacy & Safety"); await scan("privacy & safety");

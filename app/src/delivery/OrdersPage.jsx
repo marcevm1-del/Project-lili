@@ -287,4 +287,5 @@ const field = { width: "100%", boxSizing: "border-box", padding: "10px 12px", bo
 const btn = { background: C.btn, color: C.onBtn, border: "none", borderRadius: 22, padding: "0 18px", minHeight: 44,
   fontWeight: 700, fontSize: 13, cursor: "pointer", fontFamily: "inherit" };
 const ghost = { ...btn, background: C.white, color: C.terraTx, border: `1.5px solid ${C.terra}` };
-const link = { background: "none", border: "none", color: C.terraTx, fontWeight: 700, textDecoration: "underline", cursor: "pointer", padding: 0, fontSize: "inherit" };
+// ink, not terracotta: these links sit on the sand note, where terracotta text is under 4.5:1
+const link = { background: "none", border: "none", color: C.ink, fontWeight: 700, textDecoration: "underline", cursor: "pointer", padding: 0, fontSize: "inherit" };

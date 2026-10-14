@@ -22,7 +22,7 @@ const SUITES = [
   ["oldwebview", "node oldwebview.test.mjs",         6],
   ["loading",    "node loading.test.mjs",           17],
   ["devices",    "node devices.test.mjs",           66],
-  ["a11y",       "node a11y.test.mjs",              19],
+  ["a11y",       "node a11y.test.mjs",              22],
   ["security",   "node security.test.mjs",         223],
   ["i18n",       "node i18n.test.mjs",              34],
 ];
