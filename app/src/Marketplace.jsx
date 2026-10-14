@@ -60,11 +60,17 @@ import { ItemModal } from "./market/ItemModal.jsx";
 import { awayShopIds } from "./shops/away.js";
 import { OfferModal } from "./market/OfferModal.jsx";
 import { SearchPage } from "./pages/SearchPage.jsx";
-import { SellPage } from "./pages/SellPage.jsx";
-import { MyShopPage, SellersPage, ShopViewPage } from "./pages/ShopPages.jsx";
-import { MessagesPage } from "./pages/MessagesPage.jsx";
 import { ProfilePage } from "./pages/ProfilePage.jsx";
-import { CartPage } from "./pages/CartPage.jsx";
+// Screens a visitor reaches by a tap rather than on opening the app load when
+// first opened: they were a third of the startup bundle. The tab area already
+// sits inside a Suspense boundary.
+const named = (load, name) => lazy(() => load().then((m) => ({ default: m[name] })));
+const SellPage     = named(() => import("./pages/SellPage.jsx"), "SellPage");
+const MyShopPage   = named(() => import("./pages/ShopPages.jsx"), "MyShopPage");
+const SellersPage  = named(() => import("./pages/ShopPages.jsx"), "SellersPage");
+const ShopViewPage = named(() => import("./pages/ShopPages.jsx"), "ShopViewPage");
+const MessagesPage = named(() => import("./pages/MessagesPage.jsx"), "MessagesPage");
+const CartPage     = named(() => import("./pages/CartPage.jsx"), "CartPage");
 export { categoryLabel } from "./market/shared.jsx";
 import PriceTag from "./listing/PriceTag.jsx";
 import { FitAndFlaws, FitPanel, FITS } from "./listing/FitAndFlaws.jsx";

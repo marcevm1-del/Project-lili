@@ -2,7 +2,9 @@
 //
 // The app opens on mid-range Android phones over mobile data; every 100 KB of
 // script is parse time before the first piece appears. Measured 8 Oct 2026:
-// largest chunk 274 KB, all JavaScript 800 KB in 31 files. The budget leaves room to grow
+// largest chunk 274 KB, all JavaScript 800 KB in 31 files. 14 Oct 2026: 328 KB
+// with delivery and orders, back to 268 KB once Sell, the shop pages, Messages
+// and the shortlist loaded on first tap. The budget leaves room to grow
 // on purpose and stops a surprise dependency from doubling it unnoticed.
 //
 //   node bundle-budget.mjs        (after npm run build)
