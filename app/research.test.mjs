@@ -1749,6 +1749,13 @@ check("no interface text is set below the 11px floor", tinyType.length === 0 && 
     && /lili:open-orders/.test(read("./src/App.jsx")) && /lili:open-orders/.test(read("./src/Marketplace.jsx")));
 }
 {
+  // ── App health for moderators (migration 38, audit A2-10) ─────────────────
+  const m38 = read("../supabase/migrations/20261014083302_lili_review_38_app_health.sql");
+  check("crashes, jobs, waiting work and orders have a screen, and only moderators can open it",
+    /if not public\.lili_is_moderator\(\)/.test(m38) && /revoke all on function public\.lili_app_health\(\) from public, anon/.test(m38)
+    && /<HealthPanel \/>/.test(read("./src/compliance/ModerationQueue.jsx")));
+}
+{
   // ── Holiday mode (migration 37) ────────────────────────────────────────────
   const A = await import("./src/shops/away.js");
   const m37 = read("../supabase/migrations/20261014081251_lili_review_37_holiday_mode.sql");

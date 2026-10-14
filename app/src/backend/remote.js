@@ -1479,6 +1479,14 @@ export async function reportConversation({ conversationId, reasons, detail,
   return data || { ok: false, reason: "unknown" };
 }
 
+/** Moderator only: crashes, scheduled jobs, waiting work and orders (migration 38). */
+export async function appHealth() {
+  const sb = await db();
+  const { data, error } = await sb.rpc("lili_app_health");
+  if (error) throw error;
+  return data;
+}
+
 /** Moderator only. Every call writes an audit row the client cannot erase. */
 export async function caseTranscript(caseId) {
   const sb = await db();

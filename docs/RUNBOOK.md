@@ -24,6 +24,11 @@ select * from lili.recent_errors;      -- last 7 days, grouped, newest first
 Each row has the message, app version, platform, how many times and how many
 people. Reports are scrubbed of emails, query strings and long numbers.
 
+In the app, a moderator sees the same at a glance: Profile → Privacy & Safety →
+the moderation queue opens with an **App health** panel (red or green) — crashes
+today and this week, whether each scheduled job ran on time, the work waiting
+on a person, and orders and money by state (`lili_app_health()`, migration 38).
+
 ## A database change went wrong
 
 - There are no automatic backups on the free plan. **Before any risky change,

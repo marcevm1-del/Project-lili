@@ -88,6 +88,8 @@ for (const [fn, args] of [
   ["lili_my_wallet", {}],
   ["lili_order_shipped", { p_order: "00000000-0000-0000-0000-000000000000", p_tracking: "X" }],
   ["lili_order_received", { p_order: "00000000-0000-0000-0000-000000000000" }],
+  // migration 38: moderators only
+  ["lili_app_health", {}],
 ]) {
   r = await rpc(fn, args);
   check(`${fn} exists but refuses a signed-out caller`, exists(r) && refused(r), `status ${r.status} ${r.json && r.json.code}`);

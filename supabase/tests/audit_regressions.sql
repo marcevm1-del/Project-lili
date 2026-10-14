@@ -373,6 +373,16 @@ begin
     exists (select 1 from lili_search('away test silk scarf', 20) x where x.id = ho));
   execute 'reset role';
 
+  -- ── app health, for moderators (migration 38) ───────────────────────────
+  perform pg_temp.act(b1);
+  begin j := lili_app_health(); perform pg_temp.ok('app health is for moderators only', false);
+  exception when others then perform pg_temp.ok('app health is for moderators only', true); end;
+  perform pg_temp.mod(b1);
+  j := lili_app_health();
+  perform pg_temp.ok('a moderator sees crashes, every lili job, the waiting work and the orders',
+    j ? 'crashes_24h' and jsonb_array_length(j->'jobs') >= 3 and j->'waiting' ? 'appeals' and j->'orders' ? 'payout_due');
+  execute 'reset role';
+
   select count(*), string_agg(label, '; ') filter (where not ok) into total, bad from _r;
   if bad is null then
     raise exception 'ALL_PASSED %', total;

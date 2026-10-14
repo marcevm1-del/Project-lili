@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { C, Shell, Btn, Field, Note } from "./ui.js";
 import * as mod from "./moderation.js";
 import Icon from "../icons/Icon.jsx";
+import HealthPanel from "./HealthPanel.jsx";
 
 // The moderator's view. Not a user-facing screen — reached from Privacy &
 // Safety while the queue has no back office of its own. Once the server exists
@@ -33,6 +34,7 @@ export default function ModerationQueue({ onBack }) {
 
   return (
     <Shell title="Moderation queue" subtitle="قائمة المراجعة" onBack={onBack}>
+      <HealthPanel />
       {stats && (
         <div style={{ display: "flex", gap: 8, marginBottom: 16 }}>
           {[["Open", stats.open, C.terra],
