@@ -1745,6 +1745,16 @@ check("no interface text is set below the 11px floor", tinyType.length === 0 && 
     && /lili:open-orders/.test(read("./src/App.jsx")) && /lili:open-orders/.test(read("./src/Marketplace.jsx")));
 }
 {
+  // ── Yaga touches on tiles and the shortlist ───────────────────────────────
+  const tileSrc = read("./src/market/shared.jsx");
+  const cartSrc = read("./src/pages/CartPage.jsx");
+  check("a tile shows how many people saved it only from the database's own count, and only from one",
+    /Number\(item\.saves\) > 0 &&/.test(tileSrc) && !/saves:\s*\d/.test(tileSrc.slice(tileSrc.indexOf("export const ITEMS"), tileSrc.indexOf("SAMPLE_DELIVERY"))));
+  check("several pieces from one seller are priced as one parcel only when she allows bundling on all of them",
+    /items\.length > 1 && items\.every\(\(i\) => i\.bundling\)/.test(cartSrc) && /CheckoutSheet items=\{quoting\.items\}/.test(cartSrc)
+    && /This seller doesn''t bundle all of these pieces/.test(read("../supabase/migrations/20261012055041_lili_review_33_delivery_and_held_payment.sql")));
+}
+{
   // ── My preferences (src/profile) ──────────────────────────────────────────
   const P = await import("./src/profile/preferences.js");
   const SIZES_FOR_SELLERS = JSON.parse(read("./src/market/shared.jsx").match(/export const SIZES = (\[[^\]]*\])/)[1]);

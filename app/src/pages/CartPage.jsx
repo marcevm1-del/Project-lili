@@ -1,10 +1,12 @@
 // Moved out of Marketplace.jsx unchanged; see that file's history for the
 // reasoning in the comments below.
+import { useState, lazy, Suspense } from "react";
 import Icon from "../icons/Icon.jsx";
 import { HOW_MONEY_WORKS } from "../compliance/sellerRules.js";
 import { t } from "../i18n/t.js";
 import { backArrow, money } from "../i18n/direction.js";
 import { C, Avatar, Placeholder } from "../market/shared.jsx";
+const CheckoutSheet = lazy(() => import("../delivery/CheckoutSheet.jsx"));
 
 
 // ── cart page ──────────────────────────────────────────────────────────────
@@ -44,7 +46,8 @@ import { C, Avatar, Placeholder } from "../market/shared.jsx";
  *
  * It becomes a checkout the day COLLECTION_LIVE flips, and not a day earlier.
  */
-export function CartPage({cart, shops, removeFromCart, setTab, onMessageSeller}) {
+export function CartPage({cart, shops, removeFromCart, setTab, onMessageSeller, onOffer}) {
+  const [quoting, setQuoting] = useState(null);   // { items, shopName } for the delivery sheet
   const bySeller = cart.reduce((acc, i) => {
     (acc[i.shopId] = acc[i.shopId] || []).push(i);
     return acc;
@@ -133,6 +136,25 @@ export function CartPage({cart, shops, removeFromCart, setTab, onMessageSeller})
                   </div>
                 ))}
 
+                {/* After Yaga's bundles: several pieces from one seller, one
+                    parcel, one delivery fee — only if she switched bundling
+                    on for every one of them, which the database enforces too. */}
+                {(() => {
+                  const bundle = items.length > 1 && items.every((i) => i.bundling);
+                  if (items.length > 1 && !bundle) return (
+                    <div style={{fontSize:11, color:C.inkLt, lineHeight:1.5, marginTop:8}}>
+                      This seller hasn't switched on bundling for all of these, so each piece is delivered on its own.
+                    </div>
+                  );
+                  return (
+                    <button onClick={()=>setQuoting({ items, shopName: shop && shop.name })}
+                      style={{width:"100%", marginTop:10, background:C.white, color:C.terraTx,
+                        border:`1.5px solid ${C.terra}`, borderRadius:24, padding:"10px 0", fontWeight:700,
+                        fontSize:13, cursor:"pointer", fontFamily:"inherit", minHeight:44}}>
+                      {bundle ? `Delivery & total for all ${items.length}, one parcel` : "Delivery options & total"}
+                    </button>
+                  );
+                })()}
                 <button onClick={()=>onMessageSeller && onMessageSeller(items[0])}
                   style={{width:"100%", marginTop:10, background:C.btn, color:C.onBtn,
                     border:"none", borderRadius:24, padding:"12px 0", fontWeight:700,
@@ -147,6 +169,13 @@ export function CartPage({cart, shops, removeFromCart, setTab, onMessageSeller})
             {t("each_seller_is_a_separate_arrangement")}
           </div>
         </div>
+      )}
+      {quoting && (
+        <Suspense fallback={null}>
+          <CheckoutSheet items={quoting.items} shopName={quoting.shopName} onClose={()=>setQuoting(null)}
+            onOffer={(it)=>{ setQuoting(null); onOffer ? onOffer(it) : onMessageSeller && onMessageSeller(it); }}
+            onMessage={(it)=>{ setQuoting(null); onMessageSeller && onMessageSeller(it); }}/>
+        </Suspense>
       )}
     </div>
   );

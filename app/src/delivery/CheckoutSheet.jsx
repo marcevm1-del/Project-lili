@@ -39,7 +39,7 @@ async function localQuote(items, region) {
   return out;
 }
 
-export default function CheckoutSheet({ items, shopName, onClose, onDone, onSignIn, onOffer }) {
+export default function CheckoutSheet({ items, shopName, onClose, onDone, onSignIn, onOffer, onMessage }) {
   const trap = useFocusTrap(onClose);
   const ids = items.map((i) => i.id);
   const [country, setCountry] = useState("AE");
@@ -198,7 +198,9 @@ export default function CheckoutSheet({ items, shopName, onClose, onDone, onSign
               {problem === "Sign in to buy." && onSignIn && <> <button onClick={onSignIn} style={link}>Sign in</button></>}</div>}
 
             {payOn === false ? (
-              <button onClick={() => { onClose(); onOffer && onOffer(items[0]); }} style={primary}>Make an offer instead</button>
+              items.length > 1 && onMessage
+                ? <button onClick={() => { onClose(); onMessage(items[0]); }} style={primary}>Ask the seller about these</button>
+                : <button onClick={() => { onClose(); onOffer && onOffer(items[0]); }} style={primary}>Make an offer instead</button>
             ) : (
               <button onClick={pay} disabled={busy || !method || !addressOk || payOn !== true}
                 style={{ ...primary, opacity: busy || !method || !addressOk || payOn !== true ? 0.55 : 1 }}>

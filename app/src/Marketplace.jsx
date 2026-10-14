@@ -1286,7 +1286,7 @@ export default function Marketplace() {
                               error={messageError}/>}
         {tab==="offers"     && <OffersPage items={items} shops={shops} onBack={()=>setTab("profile")}/>}
         {tab==="cart"       && <CartPage cart={cart} shops={visibleShops} removeFromCart={removeFromCart} setTab={goTab}
-                              onMessageSeller={messageSellerAbout} onBought={()=>setOrdersOpen("buyer")} onSignIn={()=>askToSignIn(null)}/>}
+                              onMessageSeller={messageSellerAbout} onOffer={item=>setOfferModal(item)}/>}
         </Suspense>
 
         <TabBar tab={effectiveTab} setTab={goTab} myShop={myShop}/>
@@ -1300,7 +1300,7 @@ export default function Marketplace() {
             and a spinner that flashes for forty milliseconds reads worse than a
             beat of quiet. */}
         <Suspense fallback={null}>
-        {modal && <ItemModal item={modal} shop={shops.find(s=>s.id===modal.shopId)} items={visibleItems} onOpenItem={setModal} onSave={onSave} onClose={()=>setModal(null)} onOffer={item=>{setOfferModal(item);setModal(null);}} setTab={setTab} onAddToCart={addToCart} onMessageSeller={messageSellerAbout}
+        {modal && <ItemModal item={modal} shop={shops.find(s=>s.id===modal.shopId)} items={visibleItems} onOpenItem={setModal} onSave={onSave} onClose={()=>setModal(null)} onOffer={item=>{setOfferModal(item);setModal(null);}} setTab={setTab} onAddToCart={addToCart} onMessageSeller={messageSellerAbout} onBought={()=>setOrdersOpen("buyer")} onSignIn={()=>askToSignIn(null)}
           onReport={s=>{setReporting(s); setModal(null);}}
           onFollow={toggleFollow} following={modal&&isFollowing(modal.shopId)}/>}
         {offerModal && <OfferModal item={offerModal} shop={shops.find(s=>s.id===offerModal.shopId)} onClose={()=>setOfferModal(null)} onSubmit={()=>{

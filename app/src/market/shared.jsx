@@ -512,9 +512,22 @@ export function ItemTile({item,onSave,onClick,loading}) {
           backdropFilter:"blur(4px)"}}>
           <Icon name="heart" size={17} filled={!!item.saved}/>
         </button>
+        {/* After Yaga: how many people have saved it. Only the database's own
+            count (lili.bump_item_saves), and only from one up, so a sample
+            piece or a new listing shows nothing rather than an invented zero
+            or a number nobody can check. */}
+        {Number(item.saves) > 0 && (
+          <div aria-label={`Saved by ${item.saves}`} style={{position:"absolute",top:42,right:8,minWidth:30,
+            textAlign:"center",fontSize:11,fontWeight:700,color:C.ink,background:C.scrimDD,
+            borderRadius:10,padding:"1px 6px"}}>{item.saves}</div>
+        )}
         {/* Same derivation as the New In strip — the badge and the strip
             disagreeing about what "new" means would be worse than either. */}
-        {item.reserved ? (
+        {item.status === "sold" ? (
+          <div style={{position:"absolute",top:8,left:8,
+            background:C.ink,color:C.cream,fontSize:11,fontWeight:700,letterSpacing:1,
+            padding:"2px 8px",borderRadius:10}}>{t("status_sold").toUpperCase()}</div>
+        ) : item.reserved ? (
           <div style={{position:"absolute",top:8,left:8,
             background:C.ink,color:C.cream,fontSize:11,fontWeight:700,
             padding:"2px 7px",borderRadius:10}}>Reserved</div>
