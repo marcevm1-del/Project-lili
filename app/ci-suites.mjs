@@ -13,11 +13,11 @@ import { spawnSync } from "node:child_process";
 const SUITES = [
   // name         file                       min passes
   ["smoke",      "vite-node smoke.test.mjs",       199],
-  ["research",   "vite-node research.test.mjs",    547],
+  ["research",   "vite-node research.test.mjs",    552],
   ["walk",       "vite-node walkthrough.test.mjs",  71],
   ["contract",   "node api-contract.test.mjs",      37],
   ["functional", "node functional.test.mjs",        26],
-  ["settings",   "node settings.test.mjs",          15],
+  ["settings",   "node settings.test.mjs",          21],
   ["keyboard",   "node keyboard.test.mjs",          15],
   ["oldwebview", "node oldwebview.test.mjs",         6],
   ["loading",    "node loading.test.mjs",           17],

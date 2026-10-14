@@ -608,6 +608,23 @@ export async function updateShop(id, patch) {
   return next.find((s) => s.id === id) || null;
 }
 
+/**
+ * Holiday mode. Unlike the other shop edits this one does not fall back to the
+ * device when the server refuses: "away" that only this phone believes would
+ * tell her buyers were paused while the server still took their offers.
+ */
+export async function setAway(id, until, note) {
+  let row = null;
+  if (remoteReady) row = await remote.setAway(id, until, note);
+  const patch = { awayUntil: row ? row.awayUntil : (until || null), awayNote: row ? row.awayNote : (until ? note || null : null) };
+  const shops = await getJSON(K.shops, []);
+  await setJSON(K.shops, shops.map((s) => (s.id === id ? { ...s, ...patch } : s)));
+  const mine = await getJSON(K.myShop, null);
+  const next = mine && mine.id === id ? { ...mine, ...patch } : mine;
+  if (next !== mine) await setJSON(K.myShop, next);
+  return row || next;
+}
+
 // ── cart ───────────────────────────────────────────────────────────────────
 // Persisted because an abandoned cart that survives a restart is worth real
 // money, and because losing it on a crash is the kind of thing people uninstall over.

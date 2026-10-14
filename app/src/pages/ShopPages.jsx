@@ -9,6 +9,7 @@ import { t } from "../i18n/t.js";
 import { space } from "../theme/scale.js";
 import { backArrow, money } from "../i18n/direction.js";
 import { C, T, ICON_FOR_CAT, Avatar, Stars, earnedFollowers, TopBar, SearchBar, Placeholder, ItemTile } from "../market/shared.jsx";
+import { isAway, backOn } from "../shops/away.js";
 
 
 // ── my shop ────────────────────────────────────────────────────────────────
@@ -27,6 +28,13 @@ export function MyShopPage({shop,items,setTab,justListed,onDismissListed,onMarkS
                      : st==="removed" ? t("status_removed") : null;
   return (
     <div style={{paddingBottom:72}}>
+      {isAway(shop) && (
+        <div role="status" style={{margin:"12px 14px 0",padding:"10px 14px",background:C.sand,borderRadius:12,
+          fontSize:12,color:C.ink,lineHeight:1.5}}>
+          <b>You're away until {backOn(shop)}.</b> Your pieces are out of the feed and search, and new
+          offers wait until then. Change it in Profile → Settings.
+        </div>
+      )}
       {/* Peak-end. The one flow this marketplace depends on used to finish by
           simply disappearing — no acknowledgement, no sight of the thing she
           made. Everything in this card is true: her piece, at her price, and
@@ -238,6 +246,13 @@ export function ShopViewPage({shop,items,onSave,setModal,onBack,onReport,onFollo
             {following?"Following":"Follow"}
           </button>
         </div>
+        {isAway(shop) && (
+          <div role="note" style={{background:C.sand,borderRadius:12,padding:"10px 12px",marginBottom:12,
+            fontSize:12,color:C.ink,lineHeight:1.5}}>
+            <b>Away until {backOn(shop)}.</b>{shop.awayNote ? ` “${shop.awayNote}”` : ""} Her pieces are here
+            to look at and save; offers and orders reopen when she's back.
+          </div>
+        )}
         <div style={{display:"flex",gap:20,marginBottom:12,paddingBottom:12,borderBottom:`1px solid ${C.border}`}}>
           {/* v2.8: "rating" left this row. With no reviews behind it the cell
               rendered an empty number under a label promising one, which reads

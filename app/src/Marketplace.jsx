@@ -57,6 +57,7 @@ import { normalise as normalisePrefs, fitsMe, hasSizes, isEmpty as prefsEmpty, s
 import { C, PalmBg, Lili, LiliWordmark, T, SHOPS, ITEMS, CATS, categoryLabel, SIZES, ITEM_CATS, STORIES, Avatar, ItemPhoto, TopBar, SearchBar, withHeart, Placeholder, ItemTile, tileTitle, BRANDS } from "./market/shared.jsx";
 import { FiltersPanel } from "./market/FiltersPanel.jsx";
 import { ItemModal } from "./market/ItemModal.jsx";
+import { awayShopIds } from "./shops/away.js";
 import { OfferModal } from "./market/OfferModal.jsx";
 import { SearchPage } from "./pages/SearchPage.jsx";
 import { SellPage } from "./pages/SellPage.jsx";
@@ -1036,6 +1037,12 @@ export default function Marketplace() {
                                    && (!i.status || i.status === "live")), savedIds),
     [items, blocked, savedIds]);
   const visibleShops = shops.filter(s => !blocked.includes(s.id));
+  // Holiday mode (migration 37): an away shop's pieces leave the feed, search
+  // and categories until she is back. Her shop page, her saved pieces and the
+  // pieces themselves stay reachable, and say when she returns.
+  const awayIds = useMemo(() => awayShopIds(shops), [shops]);
+  const feedItems = useMemo(() => awayIds.size ? visibleItems.filter(i => !awayIds.has(i.shopId)) : visibleItems,
+    [visibleItems, awayIds]);
 
   // ── Android hardware / gesture back button ────────────────────────────────
   // Return true if we consumed the press; false lets Android minimise the app.
@@ -1252,12 +1259,12 @@ export default function Marketplace() {
           </div>
         )}
         <Suspense fallback={null}>
-        {tab==="home"       && <HomePage hydrated={hydrated} items={visibleItems} shops={visibleShops} onSave={onSave} setModal={setModal} filters={filters} setFilters={setFilters} stories={STORIES} setActiveStory={setActiveStory} cartCount={cartCount} savedCount={savedCount} setTab={setTab}
+        {tab==="home"       && <HomePage hydrated={hydrated} items={feedItems} shops={visibleShops} onSave={onSave} setModal={setModal} filters={filters} setFilters={setFilters} stories={STORIES} setActiveStory={setActiveStory} cartCount={cartCount} savedCount={savedCount} setTab={setTab}
                               onLoadMore={canLoadMore ? loadMore : null} onOpenNotifications={()=>setNotifOpen(true)} unreadCount={unread}
                               taste={taste} personalise={!!(consent && consent.personalisation)}
                               onEditTaste={()=>setTasteOpen(true)} onOpenPrefs={()=>setPrefsOpen(true)}/>}
-        {tab==="search"     && <SearchPage items={visibleItems} shops={visibleShops} onSave={onSave} setModal={setModal} filters={filters} setFilters={setFilters} savedIds={savedIds}/>}
-        {tab==="categories" && <CategoriesPage setFilters={setFilters} setTab={setTab} items={visibleItems} onSave={onSave} setModal={setModal}/>}
+        {tab==="search"     && <SearchPage items={feedItems} shops={visibleShops} onSave={onSave} setModal={setModal} filters={filters} setFilters={setFilters} savedIds={savedIds}/>}
+        {tab==="categories" && <CategoriesPage setFilters={setFilters} setTab={setTab} items={feedItems} onSave={onSave} setModal={setModal}/>}
         {tab==="sellers"    && <SellersPage shops={visibleShops} items={visibleItems} setTab={setTab} setViewShop={setViewShop}
                               onFollow={toggleFollow} isFollowing={isFollowing}/>}
         {tab==="shopview"   && <ShopViewPage shop={viewShop} items={visibleItems} onSave={onSave} setModal={setModal} onBack={()=>setTab("sellers")}

@@ -3,6 +3,7 @@ import { C, Shell, Btn, Note } from "../compliance/ui.js";
 import * as repo from "../data/repo.js";
 import { normaliseText } from "../ux/input.js";
 import { t } from "../i18n/t.js";
+import { isAway, backOn, MAX_AWAY_DAYS, untilEndOf } from "../shops/away.js";
 
 // ─────────────────────────────────────────────────────────────────────────────
 //  SETTINGS
@@ -127,9 +128,75 @@ export default function Settings({ myShop, onShopUpdated, onBack }) {
         Saved to your shop straight away. Your appearance, language and privacy
         choices each have their own screen.
       </Note>
+
+      <HolidayMode myShop={myShop} onShopUpdated={onShopUpdated} />
     </Shell>
   );
 }
+
+// Holiday mode (migration 37): away until a date she picks, up to 90 days.
+function HolidayMode({ myShop, onShopUpdated }) {
+  const away = isAway(myShop);
+  const day = (d) => new Date(d).toLocaleDateString("en-CA", { timeZone: "Asia/Dubai" });   // yyyy-mm-dd
+  const tomorrow = day(Date.now() + 86400e3);
+  const latest = day(Date.now() + MAX_AWAY_DAYS * 86400e3);
+  const [date, setDate] = useState(away ? day(myShop.awayUntil) : "");
+  const [note, setNote] = useState((away && myShop.awayNote) || "");
+  const [busy, setBusy] = useState(false);
+  const [msg, setMsg] = useState(null);
+
+  const apply = async (until) => {
+    setBusy(true); setMsg(null);
+    try {
+      const saved = await repo.setAway(myShop.id, until, until ? normaliseText(note, 140) : null);
+      const shop = { ...myShop, awayUntil: saved ? saved.awayUntil : until,
+                     awayNote: saved ? saved.awayNote : (until ? normaliseText(note, 140) || null : null) };
+      onShopUpdated && onShopUpdated(shop);
+      setMsg(until ? `You're away until ${backOn(shop)}.` : "You're back. Offers and orders are open.");
+      if (!until) { setDate(""); setNote(""); }
+    } catch (e) {
+      setMsg((e && e.message) || "That didn't save. Try again.");
+    }
+    setBusy(false);
+  };
+
+  return (
+    <section aria-labelledby="holiday-h" style={{ marginTop: 26 }}>
+      <h3 id="holiday-h" style={{ fontSize: 15, fontWeight: 700, color: C.ink, margin: "0 0 4px" }}>Holiday mode</h3>
+      <p style={p}>
+        Going away? Until the date you pick, your pieces leave the feed and search, and new
+        offers and orders wait. Offers you already have stay open for you to answer. On the
+        date, everything opens again by itself.
+      </p>
+      {away && (
+        <div role="status" style={{ background: C.sand, borderRadius: 12, padding: "10px 12px", fontSize: 13,
+          color: C.ink, marginBottom: 12 }}>
+          Away until <b>{backOn(myShop)}</b>{myShop.awayNote ? ` · “${myShop.awayNote}”` : ""}
+        </div>
+      )}
+      <div style={label}>Back on</div>
+      <input type="date" value={date} min={tomorrow} max={latest} onChange={(e) => setDate(e.target.value)}
+        aria-label="Back on" style={{ ...fieldStyle, marginBottom: 12 }} />
+      <div style={label}>A note for buyers (optional)</div>
+      <input value={note} maxLength={140} onChange={(e) => setNote(e.target.value)}
+        placeholder="e.g. Away for Eid, back on the 24th" aria-label="A note for buyers"
+        style={{ ...fieldStyle, marginBottom: 12 }} />
+      <div style={{ display: "flex", gap: 8, flexWrap: "wrap" }}>
+        <Btn disabled={busy || !date} onClick={() => apply(untilEndOf(date))}>
+          {busy ? "Saving…" : away ? "Change the date" : "Go away until then"}
+        </Btn>
+        {away && <Btn tone="outline" disabled={busy} onClick={() => apply(null)}>I'm back now</Btn>}
+      </div>
+      {msg && <p role="status" style={{ ...p, marginTop: 10 }}>{msg}</p>}
+    </section>
+  );
+}
+
+const fieldStyle = {
+  width: "100%", padding: "12px 16px", borderRadius: 12, fontSize: 16,
+  background: C.white, border: `1px solid ${C.border}`, color: C.ink,
+  outline: "none", fontFamily: "inherit", boxSizing: "border-box",
+};
 
 function Field({ label: l, value, onChange, placeholder, multiline, rtl }) {
   const style = {

@@ -15,7 +15,7 @@ lili is a curated resale marketplace for the UAE (Capacitor app + Supabase backe
 | Path | Contents |
 |---|---|
 | `docs/claude-notes/` | Release notes, launch runbook, legal/security reviews (v2.8 → v2.11.7) |
-| `supabase/migrations/` | Every lili database migration (96), exported from the live project's history |
+| `supabase/migrations/` | Every lili database migration (97), exported from the live project's history |
 | `supabase/pending/` | Fixes written but not yet applied — need the owner to run them |
 | `docs/review-2026-10-08.md` | Full review of the live database code and what was fixed |
 | `docs/functional-and-market-review-2026-10-08.md` | End-to-end test results and comparison with similar apps |
@@ -128,6 +128,9 @@ Fixed live in `20261008*_lili_review_1..15_*.sql`; see `docs/review-2026-10-08.m
   rating. The data export now includes orders (her own address as a buyer, never the buyer's as a
   seller). An address is cut back to its country 120 days after the order ends, and at once if the
   buyer erases her account; the order itself stays as the record of the sale.
+- **37 — holiday mode.** A seller can be away until a date (up to 90 days): her pieces leave
+  search and the feed, new offers and orders are refused, and her shop and pieces say when she is
+  back. Offers made before she left can still be answered. The date passing reopens the shop.
 
 `supabase/tests/run.sh` rebuilds the database from these migrations in CI and runs
 `functional_test.sql` and `audit_regressions.sql` (26 assertions).

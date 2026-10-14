@@ -101,5 +101,27 @@ if (await arabic.count()) {
   c("edits survive a restart", after.some(v=>/خزانة الصحراء/.test(v)) && after.some(v=>/Pre-loved/.test(v)),
     JSON.stringify(after));
 }
+
+sec("Holiday mode");
+// still on Settings after the restart above
+const back = await pg.evaluate(() => {
+  const d = new Date(Date.now() + 5 * 86400e3);
+  return d.toLocaleDateString("en-CA", { timeZone: "Asia/Dubai" });
+});
+const date = pg.locator('input[type="date"][aria-label="Back on"]').first();
+c("Settings offers holiday mode", await date.count() > 0);
+if (await date.count()) {
+  await date.fill(back);
+  await pg.locator('input[aria-label="A note for buyers"]').first().fill("Away for Eid");
+  c("she can go away until a date", await t("Go away until then"));
+  await pg.waitForTimeout(500);
+  c("it says until when", /You're away until/.test(await txt()), (await txt()).slice(-200));
+  await t("←"); await pg.waitForTimeout(300);
+  await lbl("Profile"); await t("Settings"); await pg.waitForTimeout(400);
+  c("the away date survives leaving the screen", /Away until/.test(await txt()));
+  c("and she can come back early", await t("I'm back now"));
+  await pg.waitForTimeout(400);
+  c("then the shop is open again", /You're back/.test(await txt()));
+}
 console.log(`\n\x1b[1m${pass} passed, ${fail} failed\x1b[0m\n`);
 await b.close(); srv.close(); process.exit(fail?1:0);

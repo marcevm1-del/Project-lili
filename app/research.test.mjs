@@ -1745,6 +1745,26 @@ check("no interface text is set below the 11px floor", tinyType.length === 0 && 
     && /lili:open-orders/.test(read("./src/App.jsx")) && /lili:open-orders/.test(read("./src/Marketplace.jsx")));
 }
 {
+  // ── Holiday mode (migration 37) ────────────────────────────────────────────
+  const A = await import("./src/shops/away.js");
+  const m37 = read("../supabase/migrations/20261014081251_lili_review_37_holiday_mode.sql");
+  const now = Date.parse("2026-10-14T08:00:00Z");
+  check("a shop is away only until its date, and a past date means back",
+    A.isAway({ awayUntil: "2026-10-20T00:00:00Z" }, now) && !A.isAway({ awayUntil: "2026-10-13T00:00:00Z" }, now)
+    && !A.isAway({}, now) && !A.isAway(null, now));
+  check("the date she picks runs to the end of that day in Dubai",
+    A.untilEndOf("2026-10-24") === "2026-10-24T19:59:00.000Z" && A.untilEndOf("24/10/2026") === null);
+  check("the app's limit on time away is the database's",
+    new RegExp(`interval '${A.MAX_AWAY_DAYS} days'`).test(m37));
+  check("an away shop's pieces leave the feed, search and categories, but not her shop page or the piece itself",
+    /items=\{feedItems\}/.test(read("./src/Marketplace.jsx"))
+    && /<ShopViewPage shop=\{viewShop\} items=\{visibleItems\}/.test(read("./src/Marketplace.jsx"))
+    && /s\.away_until > now\(\)\)\s*\n\s*and \(i\.search_en/.test(m37));
+  check("while she is away the database refuses new offers and orders, and the piece says so",
+    /before insert on public\.lili_offers/.test(m37) && /before insert on public\.lili_orders/.test(m37)
+    && /disabled=\{!!item\.reserved \|\| away\}/.test(read("./src/market/ItemModal.jsx")));
+}
+{
   // ── Reviews after an order, and the order's personal data (migration 36) ──
   const m36 = read("../supabase/migrations/20261014080342_lili_review_36_order_reviews_and_order_privacy.sql");
   const ordersSrc = read("./src/delivery/OrdersPage.jsx");

@@ -10,7 +10,7 @@ do $$
 declare
   me uuid; b1 uuid; b2 uuid; s uuid; i uuid; i2 uuid; cv uuid; mt uuid;
   o1 uuid; o2 uuid; ss uuid; j jsonb; n int; t text; bad text; total int;
-  i3 uuid; cs uuid; k0 int; k1 int; d1 uuid; d2 uuid; ord uuid; ord2 uuid;
+  i3 uuid; cs uuid; k0 int; k1 int; d1 uuid; d2 uuid; ord uuid; ord2 uuid; ho uuid; ao uuid;
 begin
   create temp table _r (label text, ok boolean) on commit drop;
   grant all on _r to public;
@@ -337,6 +337,41 @@ begin
   perform pg_temp.ok('clients cannot read orders directly',
     not has_table_privilege('authenticated', 'public.lili_orders', 'select')
     and not has_table_privilege('anon', 'public.lili_orders', 'select'));
+
+  -- ── holiday mode (migration 37) ─────────────────────────────────────────
+  execute 'reset role';
+  insert into lili_items(owner_uid, shop_id, title, brand, price, category)
+    values (me, s, 'Away test silk scarf', 'Hermès', 600, 'Accessories') returning id into ho;
+  insert into lili_offers(item_id, buyer_uid, seller_uid, amount) values (ho, b1, me, 500) returning id into ao;
+  perform pg_temp.act(me);
+  begin update lili_shops set away_until = now() + interval '120 days' where id = s;
+        perform pg_temp.ok('away is capped at 90 days', false);
+  exception when others then perform pg_temp.ok('away is capped at 90 days', true); end;
+  update lili_shops set away_until = now() + interval '10 days', away_note = '  Back after Eid  ' where id = s;
+  perform pg_temp.act(null);
+  perform pg_temp.ok('anyone can see she is away, and her note',
+    (select away_until > now() and away_note = 'Back after Eid' from lili_shops where id = s));
+  perform pg_temp.ok('an away shop is left out of search',
+    not exists (select 1 from lili_search('away test silk scarf', 20) x where x.id = ho));
+  perform pg_temp.act(b1);
+  begin insert into lili_offers(item_id, buyer_uid, seller_uid, amount) values (ho, b1, me, 450);
+        perform pg_temp.ok('a buyer cannot make a new offer while she is away', false);
+  exception when others then perform pg_temp.ok('a buyer cannot make a new offer while she is away', true); end;
+  perform pg_temp.act(me);
+  j := lili_counter_offer(ao, 550, 'Back soon, this is my best');
+  perform pg_temp.ok('she can still counter an offer made before she left', (j->>'ok')::boolean is not false);
+  perform pg_temp.act(b1);
+  update lili_shops set away_until = null where id = s;
+  perform pg_temp.act(null);
+  perform pg_temp.ok('nobody else can change her away date', (select away_until > now() from lili_shops where id = s));
+  perform pg_temp.act(me);
+  update lili_shops set away_until = now() - interval '1 minute' where id = s;
+  perform pg_temp.ok('a date already past means she is back, and the note goes',
+    (select away_until is null and away_note is null from lili_shops where id = s));
+  perform pg_temp.act(null);
+  perform pg_temp.ok('back: her piece is in search again',
+    exists (select 1 from lili_search('away test silk scarf', 20) x where x.id = ho));
+  execute 'reset role';
 
   select count(*), string_agg(label, '; ') filter (where not ok) into total, bad from _r;
   if bad is null then

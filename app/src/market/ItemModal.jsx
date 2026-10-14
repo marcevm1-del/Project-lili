@@ -17,6 +17,7 @@ import * as remote from "../backend/remote.js";
 import { carrier } from "../delivery/carriers.js";
 import { loadRates } from "../delivery/rates.js";
 import { PAYMENTS_LIVE } from "../compliance/sellerRules.js";
+import { isAway, backOn } from "../shops/away.js";
 const CheckoutSheet = lazy(() => import("../delivery/CheckoutSheet.jsx"));
 
 
@@ -138,7 +139,8 @@ export function ItemModal({item,shop,items=[],onOpenItem,onSave,onClose,onOffer,
   const payOn = usePaymentsOn();
   const [buying, setBuying] = useState(false);
   if(!item) return null;
-  const canBuy = payOn && !item.reserved && (!item.status || item.status === "live");
+  const away = isAway(shop);
+  const canBuy = payOn && !away && !item.reserved && (!item.status || item.status === "live");
   return (
     <div ref={trap} {...dialogProps(item.title || "Item details")}
       style={{position:"fixed",top:0,right:0,bottom:0,left:0,zIndex:200,background:"#000a",
@@ -187,6 +189,15 @@ export function ItemModal({item,shop,items=[],onOpenItem,onSave,onClose,onOffer,
           )}
 
           <FitPanel item={item}/>
+
+          {/* Holiday mode: say it before the buttons below go quiet. */}
+          {away && (
+            <div role="note" style={{background:C.sand,border:`1px solid ${C.border}`,borderRadius:12,
+              padding:"10px 12px",marginBottom:14,fontSize:12,color:C.ink,lineHeight:1.5}}>
+              <b>{shop.name} is away until {backOn(shop)}.</b>{shop.awayNote ? ` “${shop.awayNote}”` : ""}{" "}
+              Offers and orders reopen then. You can still save it or message her.
+            </div>
+          )}
 
           {/* seller */}
           {/* v2.9.1: when the shop could not be resolved this block simply
@@ -241,7 +252,7 @@ export function ItemModal({item,shop,items=[],onOpenItem,onSave,onClose,onOffer,
               where the facts do not support it is what persuasion.js refuses.
               What a buyer needs here is the one thing that is true and that
               nothing else on this screen tells her. */}
-          <DeliveryInfo item={item} onSeeTotal={item.reserved ? null : ()=>setBuying(true)}/>
+          <DeliveryInfo item={item} onSeeTotal={item.reserved || away ? null : ()=>setBuying(true)}/>
 
           <div style={{fontSize:11,color:C.inkLt,lineHeight:1.6,marginBottom:18,
             paddingTop:12,borderTop:`1px solid ${C.border}`}}>
@@ -279,9 +290,10 @@ export function ItemModal({item,shop,items=[],onOpenItem,onSave,onClose,onOffer,
                 display:"flex",alignItems:"center",justifyContent:"center"}}>
               <Icon name="bag" size={22} stroke={1.6}/><span className="sr-only">{t("add_to_cart")}</span>
             </button>
-            <button onClick={()=>!item.reserved && onOffer(item)} disabled={!!item.reserved}
-              aria-label={item.reserved ? "Reserved for another buyer — offers are closed" : undefined}
-              style={{flex:1,background:C.white,color:C.terraTx,opacity:item.reserved?0.55:1,
+            <button onClick={()=>!item.reserved && !away && onOffer(item)} disabled={!!item.reserved || away}
+              aria-label={item.reserved ? "Reserved for another buyer — offers are closed"
+                        : away ? `The seller is away until ${backOn(shop)} — offers reopen then` : undefined}
+              style={{flex:1,background:C.white,color:C.terraTx,opacity:item.reserved||away?0.55:1,
               border:`1.5px solid ${C.terra}`,borderRadius:24,padding:"8px 0",
               fontWeight:700,cursor:"pointer",fontSize:13,lineHeight:1.25}}>
               {item.reserved

@@ -116,6 +116,7 @@ const fromRow = (r) => r && ({ ...r,
   // an accepted offer holds the piece for one buyer (migration 22)
   reserved: !!r.reserved_offer,
   parcelSize: r.parcel_size,
+  awayUntil: r.away_until, awayNote: r.away_note,
   sellerType: r.seller_type, desc: r.description,
   photo: Array.isArray(r.photos) && r.photos.length ? r.photos[0] : null,
   // what a tile should load: the small one when we have it
@@ -159,7 +160,9 @@ const ROW_COLUMNS = {
                "fit", "measurements", "flaws",
                // delivery options, parcel size and bundling — migration 33
                "delivery", "parcel_size", "bundling"],
-  lili_shops: ["name", "name_ar", "bio", "banner", "seller_type", "market_code"],
+  lili_shops: ["name", "name_ar", "bio", "banner", "seller_type", "market_code",
+               // holiday mode — migration 37; the server caps it at 90 days
+               "away_until", "away_note"],
 };
 
 const toRow = (o, table = "lili_items") => {
@@ -170,6 +173,8 @@ const toRow = (o, table = "lili_items") => {
   if ("sellerType" in r) { r.seller_type = r.sellerType; delete r.sellerType; }
   if ("desc" in r)       { r.description = r.desc; delete r.desc; }
   if ("parcelSize" in r) { r.parcel_size = r.parcelSize; delete r.parcelSize; }
+  if ("awayUntil" in r)  { r.away_until = r.awayUntil; delete r.awayUntil; }
+  if ("awayNote" in r)   { r.away_note = r.awayNote; delete r.awayNote; }
   if ("photo" in r)      { if (r.photo) r.photos = [r.photo]; delete r.photo; }
 
   const allowed = ROW_COLUMNS[table];
@@ -323,7 +328,7 @@ export async function reportError(entry) {
 
 // A shop as anyone may see it. `strikes` is not here: a moderation sanction
 // count is not a public fact about a woman (migration 29 revokes it).
-const SHOP_COLUMNS = "id,owner_uid,name,name_ar,bio,banner,seller_type,status,followers,market_code,created_at,updated_at";
+const SHOP_COLUMNS = "id,owner_uid,name,name_ar,bio,banner,seller_type,status,followers,market_code,away_until,away_note,created_at,updated_at";
 
 export async function getShops() {
   const sb = await db();
@@ -408,6 +413,16 @@ export async function createShop(form) {
 export async function updateShop(id, patch) {
   const sb = await db();
   const { data, error } = await sb.from("lili_shops").update(toRow(patch, "lili_shops")).eq("id",id).select(SHOP_COLUMNS).single();
+  if (error) throw error;
+  return fromRow(data);
+}
+
+/** Holiday mode: away until a date (or back, with null). Throws the server's reason. */
+export async function setAway(id, until, note) {
+  const sb = await db();
+  const { data, error } = await sb.from("lili_shops")
+    .update({ away_until: until || null, away_note: until ? (note || null) : null })
+    .eq("id", id).select(SHOP_COLUMNS).single();
   if (error) throw error;
   return fromRow(data);
 }
