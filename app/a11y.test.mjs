@@ -150,6 +150,37 @@ for (const [label, name] of [["Home", "home (dark, search typed)"], ["Search", "
 }
 await page.emulateMedia({ colorScheme: "light" });
 
+// Arabic, right to left. A global rule once gave every button start-aligned
+// text in RTL, so full-width buttons pushed their labels against the right edge.
+{
+  await page.reload({ waitUntil: "networkidle" });
+  for (const step of ["look around anyway", "Shop Now", "Skip"]) await tap(step);
+  const prof = page.locator('button[aria-label="Profile"]').first();
+  if (await prof.count()) { await prof.click({ timeout: 3000 }).catch(() => {}); await page.waitForTimeout(300); }
+  await tap("Language"); await tap("العربية"); await page.waitForTimeout(500);
+  await page.reload({ waitUntil: "networkidle" });
+  await tap("look around anyway");
+  await page.locator('button:has-text("الآن")').first().click({ timeout: 2000 }).catch(() => {});
+  await page.waitForTimeout(300);
+  const skip = page.locator("button").filter({ hasText: /تخط|Skip/ }).first();
+  if (await skip.count()) await skip.click().catch(() => {});
+  await page.waitForTimeout(400);
+  await page.locator("button[data-tile-title]").first().click({ timeout: 3000 }).catch(() => {});
+  await page.waitForTimeout(600);
+  await scan("item detail (Arabic, right to left)");
+  const bar = await page.evaluate(() => {
+    const dir = document.documentElement.dir;
+    const btns = [...document.querySelectorAll('[role="dialog"] button')]
+      .filter((b) => !b.getAttribute("style")?.includes("text-align") && b.getBoundingClientRect().width > 120);
+    return { dir, n: btns.length, aligns: [...new Set(btns.map((b) => getComputedStyle(b).textAlign))] };
+  });
+  const ok = bar.dir === "rtl" && bar.n > 0 && bar.aligns.every((a) => a === "center");
+  console.log(`  ${ok ? "\x1b[32m✓" : "\x1b[31m✗"}\x1b[0m Arabic: wide buttons centre their labels` +
+              (ok ? "" : `  \x1b[2m${JSON.stringify(bar)}\x1b[0m`));
+  if (!ok) violations++;
+  await page.keyboard.press("Escape").catch(() => {});
+}
+
 console.log(`\n\x1b[1m${screens} screens scanned, ${violations} issues\x1b[0m`);
 if (seen.size) {
   console.log("\nBy rule:");

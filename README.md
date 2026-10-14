@@ -15,7 +15,7 @@ lili is a curated resale marketplace for the UAE (Capacitor app + Supabase backe
 | Path | Contents |
 |---|---|
 | `docs/claude-notes/` | Release notes, launch runbook, legal/security reviews (v2.8 → v2.11.7) |
-| `supabase/migrations/` | Every lili database migration (94), exported from the live project's history |
+| `supabase/migrations/` | Every lili database migration (95), exported from the live project's history |
 | `supabase/pending/` | Fixes written but not yet applied — need the owner to run them |
 | `docs/review-2026-10-08.md` | Full review of the live database code and what was fixed |
 | `docs/functional-and-market-review-2026-10-08.md` | End-to-end test results and comparison with similar apps |
@@ -121,6 +121,8 @@ Fixed live in `20261008*_lili_review_1..15_*.sql`; see `docs/review-2026-10-08.m
 - **34 — search after idle.** The term bridge checks a substring before compiling its regex.
   The first search after the free-tier project has slept can still pass the anon timeout once;
   the app retries it, then falls back to searching on the phone.
+- **35 — signed-in only.** `lili_redeem_invite` and `lili_report_conversation` are no longer
+  executable by signed-out visitors (Supabase advisor 0028); the app only calls them with a session.
 
 `supabase/tests/run.sh` rebuilds the database from these migrations in CI and runs
 `functional_test.sql` and `audit_regressions.sql` (26 assertions).

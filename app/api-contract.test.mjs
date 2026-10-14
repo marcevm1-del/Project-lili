@@ -78,6 +78,16 @@ for (const [fn, args] of [
   ["lili_my_saved_searches", {}],
   ["lili_forget_search", { p_id: "00000000-0000-0000-0000-000000000000" }],
   ["lili_release_reservation", { p_item: "00000000-0000-0000-0000-000000000000" }],
+  // migration 35: signed-in only, not merely answering 'sign_in_required'
+  ["lili_redeem_invite", { p_code: "CONTRACT-TEST" }],
+  ["lili_report_conversation", { p_conversation_id: "00000000-0000-0000-0000-000000000000",
+                                 p_reasons: ["spam"], p_detail: "contract test", p_attach_transcript: false }],
+  // migration 33: every order call needs a signed-in buyer or seller
+  ["lili_create_order", { p_items: ["00000000-0000-0000-0000-000000000000"], p_method: "meet", p_region: "UAE", p_ship_to: null }],
+  ["lili_my_orders", { p_as: "buyer" }],
+  ["lili_my_wallet", {}],
+  ["lili_order_shipped", { p_order: "00000000-0000-0000-0000-000000000000", p_tracking: "X" }],
+  ["lili_order_received", { p_order: "00000000-0000-0000-0000-000000000000" }],
 ]) {
   r = await rpc(fn, args);
   check(`${fn} exists but refuses a signed-out caller`, exists(r) && refused(r), `status ${r.status} ${r.json && r.json.code}`);

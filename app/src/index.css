@@ -272,3 +272,12 @@ select:focus-visible {
   text-align: match-parent;
   text-align: -webkit-match-parent;   /* Chromium resolves only the prefixed form */
 }
+
+/* A button centres its label by default, in both directions. Listing `button`
+   above replaced that centre with the start edge, so in Arabic every full-width
+   button ("Make an offer instead", "Delivery options & total") pushed its label
+   against the right side. Buttons that set their own alignment inline (rows,
+   list items) are untouched: an inline style wins over this rule. */
+[dir="rtl"] button {
+  text-align: center;
+}

@@ -15,14 +15,14 @@ const SUITES = [
   ["smoke",      "vite-node smoke.test.mjs",       199],
   ["research",   "vite-node research.test.mjs",    540],
   ["walk",       "vite-node walkthrough.test.mjs",  71],
-  ["contract",   "node api-contract.test.mjs",      30],
+  ["contract",   "node api-contract.test.mjs",      37],
   ["functional", "node functional.test.mjs",        26],
   ["settings",   "node settings.test.mjs",          15],
   ["keyboard",   "node keyboard.test.mjs",          15],
   ["oldwebview", "node oldwebview.test.mjs",         6],
   ["loading",    "node loading.test.mjs",           17],
   ["devices",    "node devices.test.mjs",           66],
-  ["a11y",       "node a11y.test.mjs",              18],
+  ["a11y",       "node a11y.test.mjs",              19],
   ["security",   "node security.test.mjs",         223],
 ];
 
