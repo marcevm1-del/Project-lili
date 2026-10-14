@@ -123,5 +123,29 @@ if (await date.count()) {
   await pg.waitForTimeout(400);
   c("then the shop is open again", /You're back/.test(await txt()));
 }
+
+sec("My Shop: what buyers do with a piece, and lowering its price");
+// a published piece in her shop, saved by three people (the database's count)
+await pg.evaluate(() => {
+  const shop = JSON.parse(localStorage.getItem("lili.data.myshop.v1") || "null");
+  const items = JSON.parse(localStorage.getItem("lili.data.items.v1") || "[]");
+  if (shop) {
+    items.unshift({ id: "test-piece-1", shopId: shop.id, title: "Linen wrap dress", brand: "Ganni",
+      price: 1000, category: "Dresses", condition: "Excellent", size: "S", status: "live", saves: 3,
+      created_at: new Date().toISOString() });
+    localStorage.setItem("lili.data.items.v1", JSON.stringify(items));
+  }
+});
+await pg.reload({waitUntil:"networkidle"}); await pg.waitForTimeout(600); await boot();
+await lbl("Sell"); await pg.waitForTimeout(500);
+c("her piece shows how many saved it", /3 saved/.test(await txt()), (await txt()).slice(0, 200));
+c("lowering the price says who will be told", /tells 3/.test(await txt()) && await t("Lower price"));
+const np = pg.locator('input[aria-label="New price for Linen wrap dress"]').first();
+if (await np.count()) {
+  await np.fill("800");
+  await pg.locator('form button[type="submit"]').first().click();
+  await pg.waitForTimeout(500);
+}
+c("the new price is on the piece", /AED\s*800/.test(await txt()));
 console.log(`\n\x1b[1m${pass} passed, ${fail} failed\x1b[0m\n`);
 await b.close(); srv.close(); process.exit(fail?1:0);

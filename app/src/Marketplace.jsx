@@ -1200,6 +1200,13 @@ export default function Marketplace() {
     setItems(its => its.map(i => i.id === id ? { ...i, status } : i));
   };
 
+  // Lower a price from My Shop. The database tells everyone who saved the
+  // piece (lili.notify_price_drop) and keeps the AED 200 minimum.
+  const onLowerPrice = async (id, price) => {
+    const saved = await repo.updateItem(id, { price });
+    setItems(its => its.map(i => i.id === id ? { ...i, ...(saved || {}), price: (saved && saved.price) || price } : i));
+  };
+
   const onTakeDown = async (id) => {
     await repo.removeItem(id);
     setItems(its => its.filter(i => i.id !== id));
@@ -1282,7 +1289,7 @@ export default function Marketplace() {
                              }}/>}
         {tab==="myshop"     && myShop && <MyShopPage shop={myShop} items={items} setTab={setTab}
                               justListed={justListed} onDismissListed={()=>setJustListed(null)}
-                              onMarkSold={onMarkSold} onTakeDown={onTakeDown}/>}
+                              onMarkSold={onMarkSold} onTakeDown={onTakeDown} onLowerPrice={onLowerPrice}/>}
         {tab==="profile"    && <ProfilePage myShop={myShop} items={visibleItems} setTab={setTab} onOpenLegal={()=>setLegalOpen(true)} onOpenPreferences={()=>setPrefsOpen(true)} onOpenOrders={(k)=>setOrdersOpen(k||"buyer")} onOpenLanguage={()=>setLangOpen(true)} onOpenTheme={()=>setThemeOpen(true)}
                         onOpenHelp={()=>setHelpOpen(true)}
                         onOpenSettings={()=>setSettingsOpen(true)}

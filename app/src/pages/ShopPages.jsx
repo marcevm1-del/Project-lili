@@ -1,6 +1,6 @@
 // Moved out of Marketplace.jsx unchanged; see that file's history for the
 // reasoning in the comments below.
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import ShopReviews from "../trust/ShopReviews.jsx";
 import Icon from "../icons/Icon.jsx";
 import { searchLocal } from "../discovery/search.js";
@@ -10,11 +10,30 @@ import { space } from "../theme/scale.js";
 import { backArrow, money } from "../i18n/direction.js";
 import { C, T, ICON_FOR_CAT, Avatar, Stars, earnedFollowers, TopBar, SearchBar, Placeholder, ItemTile } from "../market/shared.jsx";
 import { isAway, backOn } from "../shops/away.js";
+import * as offersData from "../data/offers.js";
+import { MIN_PRICE } from "../legal/facts.js";
 
 
 // ── my shop ────────────────────────────────────────────────────────────────
-export function MyShopPage({shop,items,setTab,justListed,onDismissListed,onMarkSold,onTakeDown}) {
+export function MyShopPage({shop,items,setTab,justListed,onDismissListed,onMarkSold,onTakeDown,onLowerPrice}) {
   const myItems = items.filter(i=>i.shopId===shop.id && i.status!=="removed");
+  // Offers waiting on each piece: the one number a seller acts on.
+  const [waiting, setWaiting] = useState({});
+  useEffect(() => {
+    let alive = true;
+    offersData.getOffers().then((list) => {
+      if (!alive) return;
+      const by = {};
+      for (const o of list || []) {
+        const id = o.item_id || o.itemId;
+        if (o.role === "buyer" || offersData.displayState(o) !== "pending") continue;
+        by[id] = (by[id] || 0) + 1;
+      }
+      setWaiting(by);
+    }).catch(() => {});
+    return () => { alive = false; };
+  }, [shop.id, myItems.length]);
+  const [lowering, setLowering] = useState(null);   // { id, value }
   const sold = myItems.filter(i=>i.status==="sold").length;
   const [busy,setBusy] = useState(null);
   const [err,setErr] = useState(null);
@@ -100,6 +119,45 @@ export function MyShopPage({shop,items,setTab,justListed,onDismissListed,onMarkS
                 {badge(item.status) && (
                   <div style={{fontSize:11,fontWeight:700,color:C.inkLt,marginTop:3,
                     textTransform:"uppercase",letterSpacing:0.5}}>{badge(item.status)}</div>
+                )}
+                {/* What buyers are doing with it: the database's save count and
+                    the offers waiting for her answer. Nothing shown when both are 0. */}
+                {(Number(item.saves) > 0 || waiting[item.id] > 0) && (
+                  <div style={{fontSize:11,color:C.inkLt,marginTop:3,display:"flex",gap:8,flexWrap:"wrap"}}>
+                    {Number(item.saves) > 0 && <span style={{display:"inline-flex",alignItems:"center",gap:3}}>
+                      <Icon name="heart" size={11} filled/>{item.saves} saved</span>}
+                    {waiting[item.id] > 0 && (
+                      <button onClick={()=>setTab("offers")} style={{background:"none",border:"none",padding:0,
+                        color:C.terraTx,fontWeight:700,fontSize:11,cursor:"pointer",fontFamily:"inherit"}}>
+                        {waiting[item.id]} {waiting[item.id] === 1 ? "offer" : "offers"} waiting</button>
+                    )}
+                  </div>
+                )}
+                {onLowerPrice && item.status === "live" && !item.pending && Number(item.price) > MIN_PRICE && (
+                  lowering && lowering.id === item.id ? (
+                    <form onSubmit={e=>{ e.preventDefault();
+                        const v = Math.round(Number(String(lowering.value).replace(/[^0-9.]/g,"")));
+                        if (!(v >= MIN_PRICE) || v >= Number(item.price)) {
+                          setErr(`Pick a lower price, at least AED ${MIN_PRICE}.`); return; }
+                        act(item.id, async ()=>{ await onLowerPrice(item.id, v); setLowering(null); }); }}
+                      style={{display:"flex",gap:6,marginTop:8}}>
+                      <input value={lowering.value} inputMode="numeric" aria-label={`New price for ${item.title}`}
+                        onChange={e=>setLowering({ id:item.id, value:e.target.value })}
+                        style={{flex:1,minWidth:0,padding:"6px 8px",borderRadius:8,border:`1px solid ${C.border}`,
+                          fontSize:16,background:C.white,color:C.ink,fontFamily:"inherit"}}/>
+                      <button type="submit" disabled={busy===item.id}
+                        style={{padding:"6px 10px",borderRadius:8,fontSize:11,fontWeight:700,cursor:"pointer",
+                          background:C.btn,color:C.onBtn,border:"none"}}>Save</button>
+                    </form>
+                  ) : (
+                    <button onClick={()=>{ setErr(null); setLowering({ id:item.id,
+                        // a starting point she edits: about 10% less, never under the minimum
+                        value:String(Math.max(MIN_PRICE, Math.round(Number(item.price) * 0.9))) }); }}
+                      style={{marginTop:8,width:"100%",padding:"6px 4px",borderRadius:8,fontSize:11,fontWeight:600,
+                        cursor:"pointer",background:"none",color:C.inkLt,border:`1px dashed ${C.border}`}}>
+                      Lower price{Number(item.saves) > 0 ? ` · tells ${item.saves}` : ""}
+                    </button>
+                  )
                 )}
                 {/* A seller could list a piece and never touch it again: no
                     way to say it had sold, and no way to take it down. */}

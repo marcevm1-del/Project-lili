@@ -17,7 +17,7 @@ const SUITES = [
   ["walk",       "vite-node walkthrough.test.mjs",  71],
   ["contract",   "node api-contract.test.mjs",      37],
   ["functional", "node functional.test.mjs",        26],
-  ["settings",   "node settings.test.mjs",          21],
+  ["settings",   "node settings.test.mjs",          24],
   ["keyboard",   "node keyboard.test.mjs",          15],
   ["oldwebview", "node oldwebview.test.mjs",         6],
   ["loading",    "node loading.test.mjs",           17],

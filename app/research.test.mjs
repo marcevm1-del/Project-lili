@@ -533,8 +533,12 @@ section("24. One fee, stated once");
 
 check("the buyer-side '+ 8-10% LILI fee' is gone",
   !/8-10% LILI fee/.test(market));
+// Scoped to the sell flow, which is where the fee was typed: a seller's own
+// "lower the price by about 10%" suggestion on My Shop is not a fee.
+const sellFlow = ["./src/pages/SellPage.jsx", ...readdirSync("src/sell").map((f) => `./src/sell/${f}`)]
+  .map((f) => read(f)).join("\n");
 check("the flat 10% typed into the sell flow is gone",
-  !/lili takes <b[^>]*>10%/.test(market) && !/\* *0\.9\)/.test(market));
+  !/lili takes <b[^>]*>10%/.test(market) && !/\* *0\.9\)/.test(sellFlow));
 check("the payout box reads from the fee module", /fees\.breakdown\(price\)/.test(market));
 check("it leads with what she receives, not with the deduction",
   market.indexOf("You receive") < market.indexOf("lili's fee"));
