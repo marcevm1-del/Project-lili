@@ -461,7 +461,7 @@ export function SellPage({myShop,onCreateShop,onAddItem,setTab,onListed}) {
           : <button onClick={submit} style={{background:"none",border:"none",cursor:"pointer",color:C.terraTx,fontSize:13,fontWeight:700}}>{t("list")}</button>}
       </div>
       {stepError && (
-        <div role="alert" style={{background:"#FBF0EE",borderBottom:`1px solid ${C.red}`,
+        <div role="alert" style={{background:"var(--c-alert-bg)",borderBottom:`1px solid ${C.red}`,
           padding:"10px 14px",fontSize:12,color:C.ink,lineHeight:1.5,
           display:"flex",alignItems:"center",justifyContent:"space-between",gap:10}}>
           <span>{stepError.message}</span>
@@ -673,7 +673,7 @@ export function SellPage({myShop,onCreateShop,onAddItem,setTab,onListed}) {
             <ListingQuality form={form} photos={photos}/>
 
             {publishError && (
-              <div role="alert" style={{background:"#FBF0EE",border:`1.5px solid ${C.red}`,
+              <div role="alert" style={{background:"var(--c-alert-bg)",border:`1.5px solid ${C.red}`,
                 borderRadius:12,padding:"12px 14px",fontSize:12,lineHeight:1.55,color:C.ink}}>
                 <b style={{color:C.redTx}}>Not published.</b> {publishError}
               </div>
@@ -769,7 +769,7 @@ export function SellPage({myShop,onCreateShop,onAddItem,setTab,onListed}) {
             <ListingQuality form={form} photos={photos}/>
 
             {publishError && (
-              <div role="alert" style={{background:"#FBF0EE",border:`1.5px solid ${C.red}`,
+              <div role="alert" style={{background:"var(--c-alert-bg)",border:`1.5px solid ${C.red}`,
                 borderRadius:12,padding:"12px 14px",fontSize:12,lineHeight:1.55,color:C.ink}}>
                 <b style={{color:C.redTx}}>Not published.</b> {publishError}
               </div>

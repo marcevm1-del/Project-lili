@@ -244,7 +244,7 @@ export function MessagesPage({shops,items,onReport,openThreadId,onOpened,error,o
           ))}
         </div>
         {sendError && (
-          <div role="alert" style={{padding:"8px 14px",background:"#FBF0EE",
+          <div role="alert" style={{padding:"8px 14px",background:"var(--c-alert-bg)",
             borderTop:`1px solid ${C.red}`,fontSize:12,color:C.ink,lineHeight:1.5}}>
             {sendError}
           </div>

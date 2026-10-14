@@ -59,6 +59,11 @@
   --c-scrim-ee: rgba(255, 255, 255, 0.93);
 
   --c-shadow:   rgba(196, 133, 106, 0.20);
+
+  /* Fields and alerts used to hard-code these two (audit A2-2), so in dark
+     mode the search text, ink on #F2EAE4, was 1.04:1 — invisible. */
+  --c-field:    #F2EAE4;
+  --c-alert-bg: #FBF0EE;
 }
 
 [data-theme="dark"] {
@@ -97,6 +102,9 @@
   --c-scrim-ee: rgba(22, 17, 14, 0.94);
 
   --c-shadow:   rgba(0, 0, 0, 0.45);
+
+  --c-field:    #2E241D;
+  --c-alert-bg: #3A211D;
 }
 
 @media (prefers-color-scheme: dark) {
@@ -113,6 +121,7 @@
     --c-scrim-88: rgba(22,17,14,.55); --c-scrim-cc: rgba(22,17,14,.82);
     --c-scrim-dd: rgba(22,17,14,.88); --c-scrim-ee: rgba(22,17,14,.94);
     --c-shadow: rgba(0,0,0,.45);
+    --c-field: #2E241D; --c-alert-bg: #3A211D;
   }
 }
 

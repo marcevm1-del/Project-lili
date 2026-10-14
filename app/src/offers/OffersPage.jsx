@@ -249,7 +249,7 @@ export default function OffersPage({ items = [], shops = [], onBack }) {
       </div>
 
       {error && (
-        <div role="alert" style={{ margin: "0 16px 10px", background: "#FBF0EE",
+        <div role="alert" style={{ margin: "0 16px 10px", background: "var(--c-alert-bg)",
           border: `1px solid ${C.red}`, borderRadius: 12, padding: "10px 12px",
           fontSize: 12, color: C.ink }}>{error}</div>
       )}

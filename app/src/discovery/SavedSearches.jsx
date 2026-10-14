@@ -5,8 +5,10 @@ import * as repo from "../data/repo.js";
 import { money } from "../i18n/direction.js";
 
 // ── search page (Jacob's Law: dedicated search tab like Depop/TikTok) ─────
-// "Tell me when it's listed": the search she just ran, kept on the server so the
-// database can tell her the moment a matching piece goes live. Vinted, Depop
+// The search she just ran, kept on the server with a count of new matches.
+// Audit A2-5: the button said "Tell me when it's listed" while every alert was
+// dropped (the notification kind isn't allowed until the owner runs
+// supabase/pending). It promises the count, which works, until then. Vinted, Depop
 // and Vestiaire all have it; for a catalogue this young, where most searches
 // come back short, it is the difference between a dead end and a reason to
 // come back.
@@ -25,7 +27,7 @@ export function SaveSearchButton({q, filters, prominent}) {
   const what = `“${q.trim()}”${category?` in ${category}`:""}${maxPrice?` under ${money(maxPrice)}`:""}`;
   if (state === "saved") return (
     <div role="status" style={{fontSize:12,color:C.inkLt,lineHeight:1.5,padding:prominent?"10px 0 0":"0 4px 10px"}}>
-      <Icon name="check" size={13} style={{color:C.greenTx,verticalAlign:"-2px"}}/> Saved. We'll tell you when something new matches {what}.
+      <Icon name="check" size={13} style={{color:C.greenTx,verticalAlign:"-2px"}}/> Saved. Your saved searches show how many new pieces match {what} each time you open lili.
     </div>
   );
   return (
@@ -38,7 +40,7 @@ export function SaveSearchButton({q, filters, prominent}) {
              padding:"6px 14px",fontSize:12,fontWeight:700,cursor:"pointer",fontFamily:"inherit",
              display:"inline-flex",alignItems:"center",gap:6}}>
         {!prominent && <Icon name="bell" size={13}/>}
-        {state==="busy" ? "Saving…" : prominent ? "Tell me when it's listed" : "Save this search"}
+        {state==="busy" ? "Saving…" : "Save this search"}
       </button>
       {problem && <div role="alert" style={{fontSize:12,color:C.redTx,marginTop:6}}>{problem}</div>}
     </div>

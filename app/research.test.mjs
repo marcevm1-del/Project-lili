@@ -485,8 +485,8 @@ check("there is exactly one place the heart is decided",
   (market.match(/function withHeart/g) || []).length === 1 &&
   !/\.map\(i ?=> ?\(savedIds\.includes/.test(market) &&
   (market.match(/withHeart\(/g) || []).length === 3);
-check("the saved set is seeded at bootstrap, so the store and the screen agree",
-  /setJSON\(K\.saved, stamped\.filter/.test(repoSrc));
+check("a first visit starts with no saves: hearts she never tapped are not shown as hers (A2-4)",
+  /setJSON\(K\.saved, \[\]\)/.test(repoSrc) && /const \{ isNew, hasStory, saved, \.\.\.rest \}/.test(repoSrc));
 check("a refused save puts the heart back rather than lying",
   /setSavedIds\(before\)/.test(market));
 check("the feed subscribes to live changes", /repo\.watchItems/.test(market) &&
@@ -757,8 +757,9 @@ check("no seed listing carries a hand-written isNew or hasStory any more",
   !/isNew:(true|false)/.test(market) && !/hasStory:/.test(market));
 check("the NEW badge and the New In strip agree on what new means",
   /isNewArrival\(item\)/.test(market) && !/item\.isNew/.test(market));
-check("the demo catalogue is stamped when it lands, so 'New In' can expire",
-  /created_at: new Date\(now - n \* 3600e3\)/.test(repoSrc));
+check("the demo catalogue is stamped when it lands, and only the first few read as new (A2-4)",
+  /n < 3 \? n \* 3600e3 : \(16 \+ n \* 5\) \* 86400e3/.test(repoSrc)
+  && /created_at: new Date\(now - ageMs\)/.test(repoSrc));
 check("the client no longer publishes an invented colour on every listing",
   !/color:"#E8C4B8",icon:"dress",\n?\s*\/\/ every photo/.test(market) &&
   /icon:ICON_FOR_CAT\[form\.category\]/.test(market) &&
@@ -1881,7 +1882,10 @@ check("a buyer sees what pieces of this kind usually resell for",
 check("the anchor comes from the published band, not from a number this app made up",
   /PriceContext[\s\S]{0,900}referenceBand\(/.test(market));
 check("and it renders nothing when the model has no opinion about the brand",
-  /PriceContext[\s\S]{0,1200}if \(!band\) return null;/.test(market));
+  /PriceContext[\s\S]{0,1600}if \(!band \|\| !band\.model\) return null;/.test(market));
+check("it quotes a named model's floor only, never a range or where this price sits in one (A2-1)",
+  !/band\.high|above that|inside that|under that/.test(market.match(/function PriceContext[\s\S]*?\n}\n/)[0])
+  && /band && band\.model &&/.test(read("./src/market/OfferModal.jsx")));
 check("it says it is a guide rather than an appraisal",
   /not an appraisal of this piece/.test(market));
 

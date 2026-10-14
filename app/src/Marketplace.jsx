@@ -54,7 +54,7 @@ const AgreementSheet = lazy(() => import("./compliance/AgreementSheet.jsx"));
 import { sellerClausesFor } from "./compliance/agreements.js";
 import * as repo from "./data/repo.js";
 import { normalise as normalisePrefs, fitsMe, hasSizes, isEmpty as prefsEmpty, summary as prefsSummary } from "./profile/preferences.js";
-import { C, PalmBg, Lili, LiliWordmark, T, SHOPS, ITEMS, CATS, categoryLabel, SIZES, ITEM_CATS, STORIES, Avatar, ItemPhoto, TopBar, SearchBar, withHeart, Placeholder, ItemTile, BRANDS } from "./market/shared.jsx";
+import { C, PalmBg, Lili, LiliWordmark, T, SHOPS, ITEMS, CATS, categoryLabel, SIZES, ITEM_CATS, STORIES, Avatar, ItemPhoto, TopBar, SearchBar, withHeart, Placeholder, ItemTile, tileTitle, BRANDS } from "./market/shared.jsx";
 import { FiltersPanel } from "./market/FiltersPanel.jsx";
 import { ItemModal } from "./market/ItemModal.jsx";
 import { OfferModal } from "./market/OfferModal.jsx";
@@ -312,7 +312,7 @@ function NewInStrip({items,onSave,setModal,onSeeAll}) {
               {item.brand && <div style={{fontSize:11,fontWeight:700,letterSpacing:1,color:C.inkLt,
                 textTransform:"uppercase",whiteSpace:"nowrap",overflow:"hidden",textOverflow:"ellipsis"}}>{item.brand}</div>}
               <div dir="auto" style={{fontSize:12,fontWeight:600,color:C.ink,lineHeight:1.3,
-                whiteSpace:"nowrap",overflow:"hidden",textOverflow:"ellipsis"}}>{getLang()==="ar" && item.titleAr ? item.titleAr : item.title}</div>
+                whiteSpace:"nowrap",overflow:"hidden",textOverflow:"ellipsis"}}>{tileTitle(item)}</div>
               <div style={{marginTop:3}}><PriceTag item={item} size={13}/></div>
               <div style={{fontSize:11,color:C.inkLt,marginTop:1,whiteSpace:"nowrap",overflow:"hidden",textOverflow:"ellipsis"}}>
                 {[item.size && item.size!=="OS" ? `Size ${sizeLabel(item.size)}` : null, item.condition].filter(Boolean).join(" · ")}

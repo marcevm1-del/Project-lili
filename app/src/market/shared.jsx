@@ -10,7 +10,7 @@ import * as offers from "../data/offers.js";
 import { isNewArrival } from "../discovery/ranking.js";
 import { t, getLang } from "../i18n/t.js";
 import { type as typeScale, space } from "../theme/scale.js";
-import { backArrow } from "../i18n/direction.js";
+import { backArrow, money } from "../i18n/direction.js";
 import { sizeLabel } from "../sizes/sizeSystem.js";
 import { useSizeSystem } from "../sizes/SizeSystemPicker.jsx";
 
@@ -172,13 +172,13 @@ export const SHOPS = [
 ];
 
 export const ITEMS = [
-  {id:1,shopId:1,title:"Chanel Classic Flap Bag",titleAr:"شنطة شانيل كلاسيك فلاب",subtitle:"Medium · Beige Lambskin",price:12900,brand:"Chanel",category:"Luxury",condition:"Excellent",era:"Modern",size:"OS",color:"#D4B898",icon:"bag",photo:null,saved:true,desc:"Timeless Chanel Classic Flap in beige lambskin with gold hardware. Gently used, excellent condition. Comes with dust bag and authenticity card.",offers:[]},
+  {id:1,shopId:1,title:"Chanel Classic Flap Bag",titleAr:"شنطة شانيل كلاسيك فلاب",subtitle:"Medium · Beige Lambskin",price:12900,brand:"Chanel",category:"Luxury",condition:"Excellent",era:"Modern",size:"OS",color:"#D4B898",icon:"bag",photo:null,saved:false,desc:"Timeless Chanel Classic Flap in beige lambskin with gold hardware. Gently used, excellent condition. Comes with dust bag and authenticity card.",offers:[]},
   {id:2,shopId:1,title:"Zimmermann Floral Dress",titleAr:"فستان زيمرمان الزهري",subtitle:"Ruffle Mini",price:1250,brand:"Zimmermann",category:"Dresses",condition:"Like New",era:"Modern",size:"S",color:"#E8C4B8",icon:"dress",photo:null,saved:false,desc:"Beautiful Zimmermann ruffle mini dress with floral print. Worn once to a brunch. Perfect condition.",offers:[]},
   {id:3,shopId:2,title:"Gianvito Rossi Heels",titleAr:"كعب جيانفيتو روسي",subtitle:"Nude Pumps 38",price:1500,brand:"Gianvito Rossi",category:"Shoes",condition:"Good",era:"Modern",size:"38",color:"#C4A882",icon:"heel",photo:null,saved:false,desc:"Gianvito Rossi Gianvito 105 pumps in nude PVC. Minor sole wear. Stunning on.",offers:[]},
-  {id:4,shopId:2,title:"Van Cleef Vintage Alhambra",titleAr:"فان كليف فينتاج الحمبرا",subtitle:"Yellow Gold · Malachite",price:8200,brand:"Van Cleef & Arpels",category:"Luxury",condition:"Excellent",era:"Vintage",size:"OS",color:"#C9A96E",icon:"jewellery",photo:null,saved:true,desc:"Iconic Van Cleef & Arpels Vintage Alhambra necklace. Yellow gold with malachite. Comes with original pouch.",offers:[]},
+  {id:4,shopId:2,title:"Van Cleef Vintage Alhambra",titleAr:"فان كليف فينتاج الحمبرا",subtitle:"Yellow Gold · Malachite",price:8200,brand:"Van Cleef & Arpels",category:"Luxury",condition:"Excellent",era:"Vintage",size:"OS",color:"#C9A96E",icon:"jewellery",photo:null,saved:false,desc:"Iconic Van Cleef & Arpels Vintage Alhambra necklace. Yellow gold with malachite. Comes with original pouch.",offers:[]},
   {id:5,shopId:3,title:"Chloé Woody Tote",titleAr:"شنطة كلوي وودي",subtitle:"Tan & White Canvas",price:1650,brand:"Chloé",category:"Bags",condition:"Like New",era:"Modern",size:"OS",color:"#D4B898",icon:"bag",photo:null,saved:false,desc:"Chloé Woody tote in tan and white. Barely used. Perfect summer bag.",offers:[]},
   {id:6,shopId:4,title:"Linen Abaya",titleAr:"عباية كتان",subtitle:"Dubai Design · Cream",price:260,brand:"Local Designer",category:"Abayas",condition:"Like New",era:"Modern",size:"M",color:"#EDE0D0",icon:"abaya",photo:null,saved:false,desc:"Beautifully crafted linen abaya in warm white. Worn once to a family gathering.",offers:[]},
-  {id:7,shopId:5,title:"Celine Sunglasses",titleAr:"نظارة سيلين",subtitle:"Cat Eye · Tortoiseshell",price:800,brand:"Celine",category:"Luxury",condition:"Excellent",era:"Modern",size:"OS",color:"#5C4A3A",icon:"sunglass",photo:null,saved:true,desc:"Celine cat-eye sunglasses in tortoiseshell. Come with original case and cleaning cloth.",offers:[]},
+  {id:7,shopId:5,title:"Celine Sunglasses",titleAr:"نظارة سيلين",subtitle:"Cat Eye · Tortoiseshell",price:800,brand:"Celine",category:"Luxury",condition:"Excellent",era:"Modern",size:"OS",color:"#5C4A3A",icon:"sunglass",photo:null,saved:false,desc:"Celine cat-eye sunglasses in tortoiseshell. Come with original case and cleaning cloth.",offers:[]},
   {id:8,shopId:6,title:"Reformation Midi Dress",titleAr:"فستان ريفورميشن",subtitle:"Terracotta · Fitted",price:480,brand:"Reformation",category:"Dresses",condition:"Like New",era:"Y2K",size:"XS",color:"#C4856A",icon:"dress",photo:null,saved:false,desc:"Reformation fitted midi in warm terracotta. Worn once to a brunch. Stunning silhouette.",offers:[]},
   {id:9,shopId:1,title:"Bottega Veneta Pouch",titleAr:"حقيبة بوتيغا فينيتا",subtitle:"Intrecciato · Nude",price:3200,brand:"Bottega Veneta",category:"Bags",condition:"Like New",era:"Modern",size:"OS",color:"#C4A882",icon:"bag",photo:null,saved:false,desc:"The iconic Bottega Veneta pouch in nude intrecciato leather. Like new, barely carried.",offers:[]},
   {id:10,shopId:3,title:"Jacquemus Le Chiquito",titleAr:"جاكيموس لو شيكيتو",subtitle:"Mini Bag · Caramel",price:1800,brand:"Jacquemus",category:"Bags",condition:"Excellent",era:"Modern",size:"OS",color:"#C9A96E",icon:"bag",photo:null,saved:false,desc:"Jacquemus Le Chiquito in caramel leather. Absolutely perfect condition with dustbag.",offers:[]},
@@ -397,7 +397,7 @@ export function BackBtn({onBack}) {
 // how many are on, so a narrowed feed never looks like an empty marketplace.
 export function SearchBar({value,onChange,autoFocus=false,placeholder="Search...",onFilters,filterCount=0}) {
   return (
-    <div style={{display:"flex",alignItems:"center",gap:8,background:"#F2EAE4",
+    <div style={{display:"flex",alignItems:"center",gap:8,background:"var(--c-field)",
       borderRadius:12,padding:onFilters?"4px 4px 4px 14px":"10px 14px",margin:"0 14px 10px"}}>
       <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke={C.inkLt} strokeWidth="2.2" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="M21 21l-4.35-4.35"/></svg>
       <input value={value} onChange={e=>onChange(e.target.value)}
@@ -415,7 +415,7 @@ export function SearchBar({value,onChange,autoFocus=false,placeholder="Search...
           <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" aria-hidden="true">
             <line x1="4" y1="6" x2="20" y2="6"/><line x1="4" y1="12" x2="20" y2="12"/>
             <line x1="4" y1="18" x2="20" y2="18"/>
-            <circle cx="8" cy="6" r="2" fill={filterCount?C.btn:"#F2EAE4"}/><circle cx="16" cy="12" r="2" fill={filterCount?C.btn:"#F2EAE4"}/><circle cx="10" cy="18" r="2" fill={filterCount?C.btn:"#F2EAE4"}/>
+            <circle cx="8" cy="6" r="2" fill={filterCount?C.btn:"var(--c-field)"}/><circle cx="16" cy="12" r="2" fill={filterCount?C.btn:"var(--c-field)"}/><circle cx="10" cy="18" r="2" fill={filterCount?C.btn:"var(--c-field)"}/>
           </svg>
           {filterCount > 0 && <span style={{fontSize:12,fontWeight:700}}>{filterCount}</span>}
         </button>
@@ -479,6 +479,16 @@ export function Monogram({shop, size=44}) {
 
 
 
+// A2-12: the brand sits on its own line above, so a title that starts with it
+// ("Chanel Classic Flap Bag" under CHANEL) loses the useful words off the tile.
+export function tileTitle(item) {
+  const title = getLang()==="ar" && item.titleAr ? item.titleAr : (item.title || "");
+  const b = (item.brand || "").trim();
+  if (b && title.toLowerCase().startsWith(b.toLowerCase() + " ") && title.length > b.length + 3)
+    return title.slice(b.length + 1);
+  return title;
+}
+
 export function ItemTile({item,onSave,onClick,loading}) {
   useSizeSystem();          // re-render when she switches EU / UK / US …
   // A tile waiting on its own data renders the skeleton at the same size,
@@ -492,7 +502,8 @@ export function ItemTile({item,onSave,onClick,loading}) {
       onMouseLeave={e=>e.currentTarget.style.transform=""}>
       <div className="lili-ratio-tile">
         <ItemPhoto item={item}/>
-        <button className="tap-round" aria-label="Save" onClick={e=>{e.stopPropagation();onSave(item.id)}} style={{
+        <button className="tap-round" aria-label={`Save ${item.title}`} aria-pressed={!!item.saved}
+          onClick={e=>{e.stopPropagation();onSave(item.id)}} style={{
           position:"absolute",top:8,right:8,width:30,height:30,borderRadius:"50%",
           background:item.saved?C.btn:C.scrimDD,
           border:`1.5px solid ${item.saved?C.terra:C.border}`,
@@ -521,9 +532,15 @@ export function ItemTile({item,onSave,onClick,loading}) {
         {/* One title, in her language. Both on every card doubled the text in
             the grid and halved the room for the garment; the Arabic title is
             still searched, and shown in full on the piece itself. */}
-        <div dir="auto" style={{fontSize:13,fontWeight:600,color:C.ink,lineHeight:1.3,marginBottom:4,
+        {/* A2-3: the tile is a div for touch, so the title is the real button
+            a keyboard or switch user reaches and presses to open the piece. */}
+        <button type="button" dir="auto" data-tile-title onClick={e=>{e.stopPropagation();onClick&&onClick();}}
+          aria-label={`${item.brand ? item.brand+" " : ""}${tileTitle(item)}, ${money(item.price)}`}
+          style={{display:"block",width:"100%",textAlign:"start",background:"none",border:"none",padding:0,
+          fontFamily:"inherit",cursor:"pointer",
+          fontSize:13,fontWeight:600,color:C.ink,lineHeight:1.3,marginBottom:4,
           whiteSpace:"nowrap",overflow:"hidden",textOverflow:"ellipsis"}}>
-          {getLang()==="ar" && item.titleAr ? item.titleAr : item.title}</div>
+          {tileTitle(item)}</button>
         <PriceTag item={item} size={14}/>
         {/* Size and condition read together, as one line, under the price —
             the two things she filters on in her head before she taps. */}

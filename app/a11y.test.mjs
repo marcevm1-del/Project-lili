@@ -127,6 +127,29 @@ await tap("←"); await tap("Language"); await scan("language");
 await tap("←"); await tap("Privacy & Safety"); await scan("privacy & safety");
 await tap("How lili works"); await scan("how lili works");
 
+// Audit A2-2/A2-8: this suite only ever ran in light mode, and axe skips an
+// empty input, so search text at 1.04:1 in dark mode passed. Dark mode, with
+// text actually typed into the field.
+await page.emulateMedia({ colorScheme: "dark" });
+await page.reload({ waitUntil: "networkidle" });   // close every overlay at once
+await page.waitForTimeout(400);
+// the market gate and splash ask again after a reload; the rest is remembered
+for (const step of ["look around anyway", "Shop Now", "Skip"]) await tap(step);
+await page.waitForTimeout(500);
+if (await page.locator('input[placeholder*="earch"]').count() === 0) {
+  console.log("  \x1b[31m✗\x1b[0m dark-mode pass could not reach the search field");
+  violations++;
+}
+for (const [label, name] of [["Home", "home (dark, search typed)"], ["Search", "search (dark, typed)"]]) {
+  const b = page.locator(`button[aria-label="${label}"]`).first();
+  if (await b.count()) { await b.click({ timeout: 3000 }).catch(() => {}); await page.waitForTimeout(350); }
+  const field = page.locator('input[type="search"], input[placeholder*="earch"]').first();
+  if (await field.count()) await field.fill("abaya").catch(() => {});
+  await page.waitForTimeout(250);
+  await scan(name);
+}
+await page.emulateMedia({ colorScheme: "light" });
+
 console.log(`\n\x1b[1m${screens} screens scanned, ${violations} issues\x1b[0m`);
 if (seen.size) {
   console.log("\nBy rule:");

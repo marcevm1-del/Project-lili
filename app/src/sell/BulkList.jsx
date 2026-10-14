@@ -221,7 +221,7 @@ export default function BulkList({ categories, conditions, brands, sizes,
         </label>
 
         {readError && (
-          <div role="alert" style={{ background: "#FBF0EE", border: `1px solid ${C.red}`,
+          <div role="alert" style={{ background: "var(--c-alert-bg)", border: `1px solid ${C.red}`,
             borderRadius: 10, padding: "10px 12px", fontSize: 12, color: C.ink,
             lineHeight: 1.55, marginBottom: 14 }}>
             <b style={{ color: C.redTx }}>Some photographs weren't added.</b>

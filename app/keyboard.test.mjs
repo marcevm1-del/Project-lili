@@ -47,6 +47,7 @@ const focused = () => page.evaluate(() => {
   const el = document.activeElement;
   if (!el || el === document.body) return { tag: "body", label: "", inDialog: false };
   return {
+    tile: el.hasAttribute("data-tile-title"),
     tag: el.tagName.toLowerCase(),
     label: (el.getAttribute("aria-label") || el.textContent || "").trim().slice(0, 40),
     inDialog: !!el.closest('[role="dialog"]'),
@@ -140,6 +141,20 @@ check("Escape closes the dialog", closed);
 
 const f2 = await focused();
 check("focus returns to the page, not nowhere", f2.tag !== "body" || true);
+
+section("A listing in the grid opens from the keyboard");
+// Audit A2-3: grid tiles were a <div onClick>, so Tab never reached them. Tab
+// until focus is on a tile's title button (labelled with its price), press Enter.
+let onTile = false;
+for (let i = 0; i < 80; i++) {
+  await page.keyboard.press("Tab");
+  const f = await focused();
+  if (f.tile) { onTile = true; break; }
+}
+check("Tab reaches a listing in the grid", onTile);
+if (onTile) { await page.keyboard.press("Enter"); await page.waitForTimeout(400); }
+check("Enter on it opens the piece", await page.evaluate(() => !!document.querySelector('[role="dialog"]')));
+await page.keyboard.press("Escape"); await page.waitForTimeout(300);
 
 section("Filters panel");
 const filterBtn = page.locator('button[aria-label="Filters"]').first();

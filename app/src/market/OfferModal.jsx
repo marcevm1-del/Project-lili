@@ -212,10 +212,10 @@ export function OfferModal({item,shop,onClose,onSubmit}) {
                 marginBottom:12,boxSizing:"border-box",fontFamily:"inherit"}}/>
 
             {/* Only shown when there IS a basis. No band, no opinion. */}
-            {band && (
+            {band && band.model && (
               <div style={{background:C.sand,borderRadius:10,padding:"10px 14px",marginBottom:12}}>
                 <div style={{fontSize:11,color:C.inkLt,lineHeight:1.55}}>
-                  Comparable {band.tierBrand} pieces in {band.condition} condition
+                  Genuine {band.tierBrand} pieces like this in {band.condition} condition
                   resell from about <b style={{color:C.ink}}>{money(band.low)}</b>.
                   A guide from published resale data, not a valuation of this piece.
                 </div>
@@ -229,7 +229,7 @@ export function OfferModal({item,shop,onClose,onSubmit}) {
               </div>
             )}
             {error && (
-              <div role="alert" style={{background:"#FBF0EE",border:`1px solid ${C.red}`,
+              <div role="alert" style={{background:"var(--c-alert-bg)",border:`1px solid ${C.red}`,
                 borderRadius:10,padding:"10px 14px",marginBottom:12,fontSize:12,
                 color:C.ink,lineHeight:1.55}}>{error}</div>
             )}

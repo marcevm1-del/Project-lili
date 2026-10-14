@@ -148,7 +148,7 @@ export default function ReportDialog({ subject, onClose }) {
             : "A reviewer will look at this and you'll get the outcome and the reason for it."}
         </div>
         {sent.refusal && (
-          <div role="alert" style={{ background: "#FBF0EE", border: `1.5px solid ${C.red}`,
+          <div role="alert" style={{ background: "var(--c-alert-bg)", border: `1.5px solid ${C.red}`,
             borderRadius: 12, padding: "12px 14px", fontSize: 12, lineHeight: 1.55,
             color: C.ink, marginBottom: 12 }}>
             {sent.refusal}

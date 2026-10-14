@@ -99,6 +99,9 @@ export default function LanguagePicker({ onBack, onChange }) {
         English — we would rather tell you that than machine-translate a
         refund policy and hope.
       </Note>
+      {LANGUAGES.filter((l) => l.note).map((l) => (
+        <Note key={l.code}><b>{l.name}.</b> {l.note}</Note>
+      ))}
       </details>
     </Shell>
   );
@@ -127,11 +130,8 @@ function Row({ lang, selected, requested, onClick }) {
               same fabricated claim as a review count nobody wrote. */}
           {partial && <span style={{ color: C.goldTx }}> · partly translated</span>}
         </div>
-        {lang.note && (
-          <div style={{ fontSize: 11, color: C.inkLt, marginTop: 5, lineHeight: 1.5 }}>
-            {lang.note}
-          </div>
-        )}
+        {/* A2-13: the per-language notes made the Arabic row seven lines long;
+            they live under "How this works" now, one line per row here. */}
       </div>
       {selected && <Icon name="check" size={15} stroke={2.2} style={{ color: C.terraTx }} />}
       {planned && (

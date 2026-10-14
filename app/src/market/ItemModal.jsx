@@ -52,29 +52,24 @@ export function PriceContext({ item }) {
     return () => { alive = false; };
   }, [item && item.id]);
 
-  if (!band) return null;
-  const price = Number(item.price) || 0;
-  const range = `AED ${band.low.toLocaleString()}–${band.high.toLocaleString()}`;
-  const where = price <= 0 ? null
-    : price < band.low ? "This one is under that range."
-    : price > band.high ? "This one is above that range."
-    : "This one sits inside that range.";
-
-  // M-11: one line on the screen where she decides; the provenance is a tap away.
-  const short = price <= 0 ? null
-    : price < band.low ? "under that" : price > band.high ? "above that" : "inside that";
+  // Audit A2-1: the band's `low` is the floor of genuine (it exists to flag
+  // fakes) and `high` was that floor times a fixed spread, so "AED 12,000–
+  // 144,000" was noise, and "above that range" told a fairly priced seller she
+  // was over the market on no data. Now: only a named model, which has a real
+  // floor, and only that floor, worded the same as on the offer sheet.
+  if (!band || !band.model) return null;
   return (
     <div style={{background:C.sand,border:`1px solid ${C.border}`,borderRadius:12,
       padding:"8px 12px",marginBottom:14}}>
       <div style={{fontSize:12,color:C.ink,lineHeight:1.5}}>
-        Usually resells here for <b>{range}</b>{short ? ` · this one is ${short}` : ""}
+        Genuine {band.tierBrand} pieces like this in {band.condition} condition resell from about <b>AED {band.low.toLocaleString("en-US")}</b>
       </div>
       <details style={{marginTop:2}}>
         <summary style={{fontSize:11,color:C.inkLt,cursor:"pointer",minHeight:24,
           display:"flex",alignItems:"center"}}>How this works</summary>
         <div style={{fontSize:11,color:C.inkLt,lineHeight:1.5,marginTop:2}}>
-          Pieces of this kind, in this condition, from published resale data.{where ? ` ${where}` : ""}{" "}
-          A guide, not an appraisal of this piece.
+          The lowest prices genuine pieces of this model reach second-hand, from published resale
+          data. Far below it is a reason to ask for proof of purchase. A guide, not an appraisal of this piece.
         </div>
       </details>
     </div>

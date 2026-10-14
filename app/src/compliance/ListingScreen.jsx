@@ -94,7 +94,7 @@ function Box({ tone, children }) {
     ok:     { bg: "#F2F7F3", border: C.green, fg: C.ink },
     warn:   { bg: C.sand,    border: C.gold,  fg: C.ink },
     review: { bg: C.sand,    border: C.terra, fg: C.ink },
-    block:  { bg: "#FBF0EE", border: C.red,   fg: C.ink },
+    block:  { bg: "var(--c-alert-bg)", border: C.red,   fg: C.ink },
   }[tone];
   return (
     <div style={{

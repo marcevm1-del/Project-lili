@@ -288,19 +288,21 @@ export async function bootstrap(seedItems, seedShops) {
     // (discovery/ranking.js), and the honest created_at for a demo piece is
     // when the demo started — a fresh install genuinely has a fresh catalogue,
     // and a fortnight later the strip empties by itself, as it should.
+    //
+    // Audit A2-4: every piece stamped within the last few hours made all ten
+    // tiles say NEW, which carries no information. The first three read as
+    // new; the rest are dated weeks back, as a real catalogue would be.
     const now = Date.now();
     const stamped = (seedItems || []).map((i, n) => {
-      const { isNew, hasStory, ...rest } = i;
-      return { ...rest, created_at: new Date(now - n * 3600e3).toISOString() };
+      const { isNew, hasStory, saved, ...rest } = i;
+      const ageMs = n < 3 ? n * 3600e3 : (16 + n * 5) * 86400e3;
+      return { ...rest, created_at: new Date(now - ageMs).toISOString() };
     });
     await setJSON(K.items, stamped);
     await setJSON(K.shops, seedShops);
-    // The demo catalogue carries a few `saved` flags so a cold start does not
-    // look untouched. Now that a save is a set of ids rather than a flag on the
-    // listing, that set has to be seeded HERE — otherwise the screen shows
-    // three hearts while the store holds none, and the first tap corrects the
-    // count downwards instead of up.
-    await setJSON(K.saved, stamped.filter((i) => i.saved).map((i) => i.id));
+    // A2-4: a visitor's saves start empty. Hearts she never tapped were a
+    // claim about her that wasn't true.
+    await setJSON(K.saved, []);
     await setJSON(K.seeded, true);
   }
   return {

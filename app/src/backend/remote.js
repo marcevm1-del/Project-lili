@@ -122,6 +122,14 @@ const fromRow = (r) => r && ({ ...r,
   thumb: Array.isArray(r.thumbs) && r.thumbs.length ? r.thumbs[0]
        : (Array.isArray(r.photos) && r.photos.length ? r.photos[0] : null) });
 
+// A2-11: the private reads name their columns, as listings and shops do, so a
+// column added later (an internal note, a flag) is never sent by accident.
+const LILI_CONVERSATIONS_COLUMNS = "id,buyer_uid,seller_uid,shop_id,item_id,last_message,last_at,created_at";
+const LILI_MEETS_COLUMNS = "id,conversation_id,item_id,proposed_by,place_key,place_note,meet_at,state,confirmed_at,cancelled_by,checkin_by,checkin_state,checkin_at,created_at";
+const LILI_MESSAGES_COLUMNS = "id,conversation_id,sender_uid,body,read_at,created_at";
+const LILI_NOTIFICATIONS_COLUMNS = "id,user_id,kind,title,body,link_kind,link_id,read_at,created_at";
+const LILI_OFFERS_COLUMNS = "id,item_id,shop_id,buyer_uid,seller_uid,amount,currency,message,state,counter_of,responded_at,expires_at,created_at,made_by";
+
 // ── the row allowlist ───────────────────────────────────────────────────────
 //
 // v2.8 fix, and the most expensive bug in the project so far.
@@ -906,7 +914,7 @@ export async function getConversations() {
   const sb = await db();
   const uid = await currentUid();
   const { data, error } = await sb.from("lili_conversations")
-    .select("*").or(`buyer_uid.eq.${uid},seller_uid.eq.${uid}`)
+    .select(LILI_CONVERSATIONS_COLUMNS).or(`buyer_uid.eq.${uid},seller_uid.eq.${uid}`)
     .order("last_at", { ascending: false });
   if (error) throw error;
   return (data || []).map((c) => ({ ...c, mine: c.buyer_uid === uid ? "buyer" : "seller" }));
@@ -917,7 +925,7 @@ export async function openConversation({ sellerUid, shopId, itemId }) {
   const sb = await db();
   const uid = await currentUid();
   if (sellerUid === uid) throw new Error("That's your own listing");
-  let find = sb.from("lili_conversations").select("*")
+  let find = sb.from("lili_conversations").select(LILI_CONVERSATIONS_COLUMNS)
     .eq("buyer_uid", uid).eq("seller_uid", sellerUid);
   // `.eq(col, null)` asks for `= NULL`, which matches nothing, so a thread
   // about the shop rather than a piece was opened again every time.
@@ -934,7 +942,7 @@ export async function openConversation({ sellerUid, shopId, itemId }) {
 export async function getMessages(conversationId) {
   const sb = await db();
   const { data, error } = await sb.from("lili_messages")
-    .select("*").eq("conversation_id", conversationId)
+    .select(LILI_MESSAGES_COLUMNS).eq("conversation_id", conversationId)
     .order("created_at", { ascending: true }).limit(500);
   if (error) throw error;
   return data || [];
@@ -1108,7 +1116,7 @@ export async function eraseMe() {
 
 export async function getMeets(conversationId) {
   const sb = await db();
-  const { data, error } = await sb.from("lili_meets").select("*")
+  const { data, error } = await sb.from("lili_meets").select(LILI_MEETS_COLUMNS)
     .eq("conversation_id", conversationId).order("created_at", { ascending: false }).limit(10);
   if (error) throw error;
   return data || [];
@@ -1256,7 +1264,7 @@ export async function getShopStats(shopId) {
 export async function getNotifications({ unreadOnly = false, limit = 50 } = {}) {
   const sb = await db();
   const uid = await currentUid();
-  let q = sb.from("lili_notifications").select("*").eq("user_id", uid)
+  let q = sb.from("lili_notifications").select(LILI_NOTIFICATIONS_COLUMNS).eq("user_id", uid)
     .order("created_at", { ascending: false }).limit(limit);
   if (unreadOnly) q = q.is("read_at", null);
   const { data, error } = await q;
@@ -1342,7 +1350,7 @@ export async function makeOffer({ itemId, shopId, sellerUid, amount, message }) 
 export async function getOffers() {
   const sb = await db();
   const uid = await currentUid();
-  const { data, error } = await sb.from("lili_offers").select("*")
+  const { data, error } = await sb.from("lili_offers").select(LILI_OFFERS_COLUMNS)
     .or(`buyer_uid.eq.${uid},seller_uid.eq.${uid}`)
     .order("created_at", { ascending: false }).limit(200);
   if (error) throw error;
