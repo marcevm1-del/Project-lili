@@ -1,4 +1,149 @@
 ﻿key,english,arabic,area,status,notes
+delivery_and_price,Delivery & price,التوصيل والسعر,Already on screen,draft — check and correct,"Arabic drafted by an AI assistant and already on screen; fix it, or send it back unchanged to approve it"
+buy_title,Buy,الشراء,Already on screen,draft — check and correct,"Arabic drafted by an AI assistant and already on screen; fix it, or send it back unchanged to approve it"
+buy_n_pieces,Buy {n} pieces,شراء {n} قطع,Already on screen,draft — check and correct,"Arabic drafted by an AI assistant and already on screen; fix it, or send it back unchanged to approve it"
+from_shop,from {shop},من {shop},Already on screen,draft — check and correct,"Arabic drafted by an AI assistant and already on screen; fix it, or send it back unchanged to approve it"
+deliver_to,Deliver to,التوصيل إلى,Already on screen,draft — check and correct,"Arabic drafted by an AI assistant and already on screen; fix it, or send it back unchanged to approve it"
+how_it_gets_to_you,How it gets to you,طريقة وصولها إليكِ,Already on screen,draft — check and correct,"Arabic drafted by an AI assistant and already on screen; fix it, or send it back unchanged to approve it"
+loading_options,Loading the options…,جارٍ تحميل الخيارات…,Already on screen,draft — check and correct,"Arabic drafted by an AI assistant and already on screen; fix it, or send it back unchanged to approve it"
+no_delivery_here,"This seller doesn't deliver here. Try another country, or message her.",لا توصل هذه البائعة إلى هنا. جرّبي بلداً آخر، أو راسليها.,Already on screen,draft — check and correct,"Arabic drafted by an AI assistant and already on screen; fix it, or send it back unchanged to approve it"
+estimated,estimated,تقديري,Already on screen,draft — check and correct,"Arabic drafted by an AI assistant and already on screen; fix it, or send it back unchanged to approve it"
+est_short,est.,تقديري,Already on screen,draft — check and correct,"Arabic drafted by an AI assistant and already on screen; fix it, or send it back unchanged to approve it"
+address,Address,العنوان,Already on screen,draft — check and correct,"Arabic drafted by an AI assistant and already on screen; fix it, or send it back unchanged to approve it"
+full_name,Full name,الاسم الكامل,Already on screen,draft — check and correct,"Arabic drafted by an AI assistant and already on screen; fix it, or send it back unchanged to approve it"
+mobile_number,Mobile number,رقم الجوال,Already on screen,draft — check and correct,"Arabic drafted by an AI assistant and already on screen; fix it, or send it back unchanged to approve it"
+building_street_area,"Building, street, area",المبنى، الشارع، المنطقة,Already on screen,draft — check and correct,"Arabic drafted by an AI assistant and already on screen; fix it, or send it back unchanged to approve it"
+flat_or_villa_optional,Flat or villa (optional),الشقة أو الفيلا (اختياري),Already on screen,draft — check and correct,"Arabic drafted by an AI assistant and already on screen; fix it, or send it back unchanged to approve it"
+emirate_or_city,Emirate or city,الإمارة أو المدينة,Already on screen,draft — check and correct,"Arabic drafted by an AI assistant and already on screen; fix it, or send it back unchanged to approve it"
+city,City,المدينة,Already on screen,draft — check and correct,"Arabic drafted by an AI assistant and already on screen; fix it, or send it back unchanged to approve it"
+remember_address,Remember this address on this phone,احفظي هذا العنوان على هذا الهاتف,Already on screen,draft — check and correct,"Arabic drafted by an AI assistant and already on screen; fix it, or send it back unchanged to approve it"
+address_after_payment,"The seller sees your address only after you've paid, to send the parcel.",لا ترى البائعة عنوانكِ إلا بعد أن تدفعي، لترسل الطرد.,Already on screen,draft — check and correct,"Arabic drafted by an AI assistant and already on screen; fix it, or send it back unchanged to approve it"
+n_pieces,{n} pieces,{n} قطع,Already on screen,draft — check and correct,"Arabic drafted by an AI assistant and already on screen; fix it, or send it back unchanged to approve it"
+piece_cap,Piece,القطعة,Already on screen,draft — check and correct,"Arabic drafted by an AI assistant and already on screen; fix it, or send it back unchanged to approve it"
+payments_off_1,"Paying in the app isn't switched on yet, so this is what it would cost.",الدفع داخل التطبيق غير مفعّل بعد، لذا هذه هي التكلفة المتوقعة.,Already on screen,draft — check and correct,"Arabic drafted by an AI assistant and already on screen; fix it, or send it back unchanged to approve it"
+payments_off_2,"For now, agree the delivery with the seller in Messages, or make an offer.",في الوقت الحالي، اتفقي على التوصيل مع البائعة في الرسائل، أو قدّمي عرضاً.,Already on screen,draft — check and correct,"Arabic drafted by an AI assistant and already on screen; fix it, or send it back unchanged to approve it"
+payments_off_3,lili can't refund money you send her before the piece arrives.,لا تستطيع lili إعادة مبلغ ترسلينه إليها قبل وصول القطعة.,Already on screen,draft — check and correct,"Arabic drafted by an AI assistant and already on screen; fix it, or send it back unchanged to approve it"
+held_1,"You pay on Stripe's secure page, and Stripe holds the money until you confirm you have the piece.",تدفعين على صفحة Stripe الآمنة، وتحتفظ Stripe بالمبلغ حتى تؤكدي استلام القطعة.,Already on screen,draft — check and correct,"Arabic drafted by an AI assistant and already on screen; fix it, or send it back unchanged to approve it"
+held_2,"The seller has {days} days to send it, or you're refunded in full.",أمام البائعة {days} أيام لإرسالها، وإلا يُعاد إليكِ المبلغ كاملاً.,Already on screen,draft — check and correct,"Arabic drafted by an AI assistant and already on screen; fix it, or send it back unchanged to approve it"
+held_3,Report a problem before confirming and the money stays held; with no report it goes to the seller {days} days after sending.,إن أبلغتِ عن مشكلة قبل التأكيد يبقى المبلغ محجوزاً؛ ومن دون بلاغ يُحوَّل إلى البائعة بعد {days} يوماً من الإرسال.,Already on screen,draft — check and correct,"Arabic drafted by an AI assistant and already on screen; fix it, or send it back unchanged to approve it"
+make_offer_instead,Make an offer instead,قدّمي عرضاً بدلاً من ذلك,Already on screen,draft — check and correct,"Arabic drafted by an AI assistant and already on screen; fix it, or send it back unchanged to approve it"
+ask_seller_about_these,Ask the seller about these,اسألي البائعة عنها,Already on screen,draft — check and correct,"Arabic drafted by an AI assistant and already on screen; fix it, or send it back unchanged to approve it"
+pay_amount,Pay {amount},ادفعي {amount},Already on screen,draft — check and correct,"Arabic drafted by an AI assistant and already on screen; fix it, or send it back unchanged to approve it"
+opening_payment,Opening secure payment…,جارٍ فتح صفحة الدفع الآمنة…,Already on screen,draft — check and correct,"Arabic drafted by an AI assistant and already on screen; fix it, or send it back unchanged to approve it"
+sign_in_to_buy,Sign in to buy.,سجّلي الدخول للشراء.,Already on screen,draft — check and correct,"Arabic drafted by an AI assistant and already on screen; fix it, or send it back unchanged to approve it"
+payments_not_on,Paying in the app isn't switched on yet.,الدفع داخل التطبيق غير مفعّل بعد.,Already on screen,draft — check and correct,"Arabic drafted by an AI assistant and already on screen; fix it, or send it back unchanged to approve it"
+didnt_go_through,That didn't go through. Try again.,لم تكتمل العملية. حاولي مرة أخرى.,Already on screen,draft — check and correct,"Arabic drafted by an AI assistant and already on screen; fix it, or send it back unchanged to approve it"
+finish_paying,Finish paying on Stripe's secure page. Your order is held for {min} minutes; after that the pieces go back on sale.,أكملي الدفع على صفحة Stripe الآمنة. نحجز طلبكِ {min} دقيقة، وبعدها تعود القطع للبيع.,Already on screen,draft — check and correct,"Arabic drafted by an AI assistant and already on screen; fix it, or send it back unchanged to approve it"
+money_stays,The money stays with Stripe until you confirm you have the piece. Follow the order in Profile → My purchases.,يبقى المبلغ لدى Stripe حتى تؤكدي استلام القطعة. تابعي الطلب من حسابي ← مشترياتي.,Already on screen,draft — check and correct,"Arabic drafted by an AI assistant and already on screen; fix it, or send it back unchanged to approve it"
+go_to_purchases,Go to my purchases,إلى مشترياتي,Already on screen,draft — check and correct,"Arabic drafted by an AI assistant and already on screen; fix it, or send it back unchanged to approve it"
+close,Close,إغلاق,Already on screen,draft — check and correct,"Arabic drafted by an AI assistant and already on screen; fix it, or send it back unchanged to approve it"
+free_uae,Free in the UAE,مجاناً داخل الإمارات,Already on screen,draft — check and correct,"Arabic drafted by an AI assistant and already on screen; fix it, or send it back unchanged to approve it"
+region_uae,UAE,الإمارات,Already on screen,draft — check and correct,"Arabic drafted by an AI assistant and already on screen; fix it, or send it back unchanged to approve it"
+region_gcc,GCC,الخليج,Already on screen,draft — check and correct,"Arabic drafted by an AI assistant and already on screen; fix it, or send it back unchanged to approve it"
+bundle_note,Bundle more of her pieces and pay one delivery fee.,اجمعي أكثر من قطعة من متجرها وادفعي رسوم توصيل واحدة.,Already on screen,draft — check and correct,"Arabic drafted by an AI assistant and already on screen; fix it, or send it back unchanged to approve it"
+delivery_options_total,Delivery options & total,خيارات التوصيل والمجموع,Already on screen,draft — check and correct,"Arabic drafted by an AI assistant and already on screen; fix it, or send it back unchanged to approve it"
+no_payment_yet_note,lili doesn't take payment yet — you and the seller agree payment and delivery.,لا تتولى lili الدفع بعد — تتفقين أنتِ والبائعة على الدفع والتوصيل.,Already on screen,draft — check and correct,"Arabic drafted by an AI assistant and already on screen; fix it, or send it back unchanged to approve it"
+away_until_name,{shop} is away until {date}.,{shop} في إجازة حتى {date}.,Already on screen,draft — check and correct,"Arabic drafted by an AI assistant and already on screen; fix it, or send it back unchanged to approve it"
+away_reopen_note,Offers and orders reopen then. You can still save it or message her.,تُفتح العروض والطلبات حينها. وما زال بإمكانكِ حفظها أو مراسلتها.,Already on screen,draft — check and correct,"Arabic drafted by an AI assistant and already on screen; fix it, or send it back unchanged to approve it"
+similar_pieces,Similar pieces,قطع مشابهة,Already on screen,draft — check and correct,"Arabic drafted by an AI assistant and already on screen; fix it, or send it back unchanged to approve it"
+more_from_shop,More from {shop},المزيد من {shop},Already on screen,draft — check and correct,"Arabic drafted by an AI assistant and already on screen; fix it, or send it back unchanged to approve it"
+size_n,Size {size},المقاس {size},Already on screen,draft — check and correct,"Arabic drafted by an AI assistant and already on screen; fix it, or send it back unchanged to approve it"
+my_orders,My orders,طلباتي,Already on screen,draft — check and correct,"Arabic drafted by an AI assistant and already on screen; fix it, or send it back unchanged to approve it"
+shop_orders,Shop orders,طلبات متجري,Already on screen,draft — check and correct,"Arabic drafted by an AI assistant and already on screen; fix it, or send it back unchanged to approve it"
+wallet,Wallet,المحفظة,Already on screen,draft — check and correct,"Arabic drafted by an AI assistant and already on screen; fix it, or send it back unchanged to approve it"
+sign_in_to_see_orders,Sign in to see your orders.,سجّلي الدخول لرؤية طلباتكِ.,Already on screen,draft — check and correct,"Arabic drafted by an AI assistant and already on screen; fix it, or send it back unchanged to approve it"
+loading,Loading…,جارٍ التحميل…,Already on screen,draft — check and correct,"Arabic drafted by an AI assistant and already on screen; fix it, or send it back unchanged to approve it"
+nothing_bought_yet,"Nothing bought yet. When you buy with Buy, the order and its tracking show here.",لم تشتري شيئاً بعد. عندما تشترين، يظهر الطلب وتتبّعه هنا.,Already on screen,draft — check and correct,"Arabic drafted by an AI assistant and already on screen; fix it, or send it back unchanged to approve it"
+no_shop_orders_yet,"No orders yet. When someone buys from your shop, you'll see it here with the address to send it to.",لا طلبات بعد. عندما يشتري أحد من متجركِ، سترينه هنا مع العنوان الذي ترسلين إليه.,Already on screen,draft — check and correct,"Arabic drafted by an AI assistant and already on screen; fix it, or send it back unchanged to approve it"
+couldnt_load_orders,Couldn't load your orders.,تعذّر تحميل طلباتكِ.,Already on screen,draft — check and correct,"Arabic drafted by an AI assistant and already on screen; fix it, or send it back unchanged to approve it"
+couldnt_load_wallet,Couldn't load your wallet.,تعذّر تحميل محفظتكِ.,Already on screen,draft — check and correct,"Arabic drafted by an AI assistant and already on screen; fix it, or send it back unchanged to approve it"
+sold_lower,sold,مباعة,Already on screen,draft — check and correct,"Arabic drafted by an AI assistant and already on screen; fix it, or send it back unchanged to approve it"
+items_plus_delivery,{items} + delivery {fee},{items} + التوصيل {fee},Already on screen,draft — check and correct,"Arabic drafted by an AI assistant and already on screen; fix it, or send it back unchanged to approve it"
+free_lower,free,مجاناً,Already on screen,draft — check and correct,"Arabic drafted by an AI assistant and already on screen; fix it, or send it back unchanged to approve it"
+next_await_buyer,Finish paying to hold it. Unpaid orders are cancelled after {min} minutes.,أكملي الدفع لحجزها. تُلغى الطلبات غير المدفوعة بعد {min} دقيقة.,Already on screen,draft — check and correct,"Arabic drafted by an AI assistant and already on screen; fix it, or send it back unchanged to approve it"
+next_await_seller,Waiting for the buyer to pay.,بانتظار دفع المشترية.,Already on screen,draft — check and correct,"Arabic drafted by an AI assistant and already on screen; fix it, or send it back unchanged to approve it"
+next_paid_buyer,"Paid. The money is held. The seller has until {date} to send it, or you're refunded in full.",تم الدفع والمبلغ محجوز. أمام البائعة حتى {date} لإرسالها، وإلا يُعاد إليكِ المبلغ كاملاً.,Already on screen,draft — check and correct,"Arabic drafted by an AI assistant and already on screen; fix it, or send it back unchanged to approve it"
+next_paid_seller,"Paid. Send it by {date} ({days} days), or the buyer is refunded.",تم الدفع. أرسليها قبل {date} (خلال {days} أيام)، وإلا يُعاد المبلغ للمشترية.,Already on screen,draft — check and correct,"Arabic drafted by an AI assistant and already on screen; fix it, or send it back unchanged to approve it"
+next_shipped_buyer,"On its way. Tap ""I have it"" when it arrives. With no report, the money goes to the seller on {date}.",في الطريق. اضغطي «استلمتها» عند وصولها. ومن دون بلاغ يُحوَّل المبلغ إلى البائعة في {date}.,Already on screen,draft — check and correct,"Arabic drafted by an AI assistant and already on screen; fix it, or send it back unchanged to approve it"
+next_shipped_seller,"Sent. The money is released when she confirms, or on {date} if she doesn't report a problem.",أُرسلت. يُحوَّل المبلغ عند تأكيدها، أو في {date} إن لم تبلغ عن مشكلة.,Already on screen,draft — check and correct,"Arabic drafted by an AI assistant and already on screen; fix it, or send it back unchanged to approve it"
+next_disputed,A problem was reported. The money stays held until lili decides.,تم الإبلاغ عن مشكلة. يبقى المبلغ محجوزاً حتى تقرر lili.,Already on screen,draft — check and correct,"Arabic drafted by an AI assistant and already on screen; fix it, or send it back unchanged to approve it"
+next_done_buyer,Done. Enjoy it.,تم. استمتعي بها.,Already on screen,draft — check and correct,"Arabic drafted by an AI assistant and already on screen; fix it, or send it back unchanged to approve it"
+next_done_seller,Done. The money is on its way to you (see Wallet).,تم. المبلغ في طريقه إليكِ (انظري المحفظة).,Already on screen,draft — check and correct,"Arabic drafted by an AI assistant and already on screen; fix it, or send it back unchanged to approve it"
+next_refunded,Refunded in full.,أُعيد المبلغ كاملاً.,Already on screen,draft — check and correct,"Arabic drafted by an AI assistant and already on screen; fix it, or send it back unchanged to approve it"
+next_cancelled,Cancelled.,أُلغي الطلب.,Already on screen,draft — check and correct,"Arabic drafted by an AI assistant and already on screen; fix it, or send it back unchanged to approve it"
+next_cancelled_reason,Cancelled: {reason}.,أُلغي: {reason}.,Already on screen,draft — check and correct,"Arabic drafted by an AI assistant and already on screen; fix it, or send it back unchanged to approve it"
+tracking_label,Tracking:,رقم التتبع:,Already on screen,draft — check and correct,"Arabic drafted by an AI assistant and already on screen; fix it, or send it back unchanged to approve it"
+track,Track,تتبّع,Already on screen,draft — check and correct,"Arabic drafted by an AI assistant and already on screen; fix it, or send it back unchanged to approve it"
+send_to,Send to,أرسلي إلى,Already on screen,draft — check and correct,"Arabic drafted by an AI assistant and already on screen; fix it, or send it back unchanged to approve it"
+problem_label,Problem:,المشكلة:,Already on screen,draft — check and correct,"Arabic drafted by an AI assistant and already on screen; fix it, or send it back unchanged to approve it"
+decided_refund,lili decided: refund the buyer,قرار lili: إعادة المبلغ للمشترية,Already on screen,draft — check and correct,"Arabic drafted by an AI assistant and already on screen; fix it, or send it back unchanged to approve it"
+decided_release,lili decided: pay the seller,قرار lili: الدفع للبائعة,Already on screen,draft — check and correct,"Arabic drafted by an AI assistant and already on screen; fix it, or send it back unchanged to approve it"
+mark_as_sent,Mark as sent,تأكيد الإرسال,Already on screen,draft — check and correct,"Arabic drafted by an AI assistant and already on screen; fix it, or send it back unchanged to approve it"
+mark_as_handed_over,Mark as handed over,تأكيد التسليم,Already on screen,draft — check and correct,"Arabic drafted by an AI assistant and already on screen; fix it, or send it back unchanged to approve it"
+cancel_and_refund,Cancel and refund,إلغاء وإعادة المبلغ,Already on screen,draft — check and correct,"Arabic drafted by an AI assistant and already on screen; fix it, or send it back unchanged to approve it"
+i_have_it,I have it,استلمتها,Already on screen,draft — check and correct,"Arabic drafted by an AI assistant and already on screen; fix it, or send it back unchanged to approve it"
+report_a_problem,Report a problem,الإبلاغ عن مشكلة,Already on screen,draft — check and correct,"Arabic drafted by an AI assistant and already on screen; fix it, or send it back unchanged to approve it"
+pay_now,Pay now,ادفعي الآن,Already on screen,draft — check and correct,"Arabic drafted by an AI assistant and already on screen; fix it, or send it back unchanged to approve it"
+courier_tracking_number,{carrier} tracking number,رقم التتبع لدى {carrier},Already on screen,draft — check and correct,"Arabic drafted by an AI assistant and already on screen; fix it, or send it back unchanged to approve it"
+buyer_window_note,The buyer has {days} days from now to confirm or report a problem; after that the money is released to you.,أمام المشترية {days} يوماً من الآن للتأكيد أو الإبلاغ عن مشكلة؛ وبعدها يُحوَّل المبلغ إليكِ.,Already on screen,draft — check and correct,"Arabic drafted by an AI assistant and already on screen; fix it, or send it back unchanged to approve it"
+handed_over_note,Only tap this once you've handed the piece over.,لا تضغطي هنا إلا بعد تسليم القطعة.,Already on screen,draft — check and correct,"Arabic drafted by an AI assistant and already on screen; fix it, or send it back unchanged to approve it"
+confirm,Confirm,تأكيد,Already on screen,draft — check and correct,"Arabic drafted by an AI assistant and already on screen; fix it, or send it back unchanged to approve it"
+saving,Saving…,جارٍ الحفظ…,Already on screen,draft — check and correct,"Arabic drafted by an AI assistant and already on screen; fix it, or send it back unchanged to approve it"
+received_warning,Confirm only if the piece is in your hands and is what was described. This releases the money to the seller and can't be undone.,أكّدي فقط إن كانت القطعة بين يديكِ ومطابقة للوصف. هذا يحوّل المبلغ إلى البائعة ولا يمكن التراجع عنه.,Already on screen,draft — check and correct,"Arabic drafted by an AI assistant and already on screen; fix it, or send it back unchanged to approve it"
+yes_i_have_it,"Yes, I have it",نعم، استلمتها,Already on screen,draft — check and correct,"Arabic drafted by an AI assistant and already on screen; fix it, or send it back unchanged to approve it"
+not_yet,Not yet,ليس بعد,Already on screen,draft — check and correct,"Arabic drafted by an AI assistant and already on screen; fix it, or send it back unchanged to approve it"
+what_went_wrong,What went wrong?,ما المشكلة؟,Already on screen,draft — check and correct,"Arabic drafted by an AI assistant and already on screen; fix it, or send it back unchanged to approve it"
+what_happened,"What happened, in a sentence or two",ماذا حدث، في جملة أو جملتين,Already on screen,draft — check and correct,"Arabic drafted by an AI assistant and already on screen; fix it, or send it back unchanged to approve it"
+held_while_looked_at,The money stays held while lili looks at it. Both of you hear the decision and why.,يبقى المبلغ محجوزاً بينما تراجع lili الأمر، وستعرفان القرار وسببه.,Already on screen,draft — check and correct,"Arabic drafted by an AI assistant and already on screen; fix it, or send it back unchanged to approve it"
+report,Report,إبلاغ,Already on screen,draft — check and correct,"Arabic drafted by an AI assistant and already on screen; fix it, or send it back unchanged to approve it"
+cancel_refund_note,The buyer gets a full refund and the piece goes back on sale.,تستعيد المشترية المبلغ كاملاً وتعود القطعة للبيع.,Already on screen,draft — check and correct,"Arabic drafted by an AI assistant and already on screen; fix it, or send it back unchanged to approve it"
+cancel_the_order,Cancel the order,إلغاء الطلب,Already on screen,draft — check and correct,"Arabic drafted by an AI assistant and already on screen; fix it, or send it back unchanged to approve it"
+cancelling,Cancelling…,جارٍ الإلغاء…,Already on screen,draft — check and correct,"Arabic drafted by an AI assistant and already on screen; fix it, or send it back unchanged to approve it"
+didnt_work,That didn't work. Try again.,لم ينجح ذلك. حاولي مرة أخرى.,Already on screen,draft — check and correct,"Arabic drafted by an AI assistant and already on screen; fix it, or send it back unchanged to approve it"
+held,Held,محجوز,Already on screen,draft — check and correct,"Arabic drafted by an AI assistant and already on screen; fix it, or send it back unchanged to approve it"
+held_hint,"Paid by buyers, waiting for delivery",دفعته المشتريات، بانتظار التسليم,Already on screen,draft — check and correct,"Arabic drafted by an AI assistant and already on screen; fix it, or send it back unchanged to approve it"
+releasing,Releasing,قيد التحويل,Already on screen,draft — check and correct,"Arabic drafted by an AI assistant and already on screen; fix it, or send it back unchanged to approve it"
+releasing_hint,On its way to your bank,في طريقه إلى بنككِ,Already on screen,draft — check and correct,"Arabic drafted by an AI assistant and already on screen; fix it, or send it back unchanged to approve it"
+paid_out,Paid out,تم التحويل,Already on screen,draft — check and correct,"Arabic drafted by an AI assistant and already on screen; fix it, or send it back unchanged to approve it"
+paid_out_hint,Already in your bank,وصل إلى بنككِ,Already on screen,draft — check and correct,"Arabic drafted by an AI assistant and already on screen; fix it, or send it back unchanged to approve it"
+wallet_off,"Paying in the app isn't switched on yet, so nothing is held here. Buyers pay you directly when you meet.",الدفع داخل التطبيق غير مفعّل بعد، لذا لا يُحجز شيء هنا. تدفع لكِ المشتريات مباشرة عند اللقاء.,Already on screen,draft — check and correct,"Arabic drafted by an AI assistant and already on screen; fix it, or send it back unchanged to approve it"
+wallet_ready,Your bank account is connected through Stripe. Released money is paid to it automatically.,حسابكِ البنكي مرتبط عبر Stripe، ويُحوَّل إليه المبلغ تلقائياً عند الإفراج عنه.,Already on screen,draft — check and correct,"Arabic drafted by an AI assistant and already on screen; fix it, or send it back unchanged to approve it"
+wallet_connect,"To be paid, connect your bank account through Stripe (lili never sees your bank details). Money waits safely in Releasing until you do.",لتستلمي أموالكِ، اربطي حسابكِ البنكي عبر Stripe (لا ترى lili بياناتكِ البنكية). ينتظر المبلغ بأمان في «قيد التحويل» حتى تفعلي.,Already on screen,draft — check and correct,"Arabic drafted by an AI assistant and already on screen; fix it, or send it back unchanged to approve it"
+opening_stripe,Opening Stripe…,جارٍ فتح Stripe…,Already on screen,draft — check and correct,"Arabic drafted by an AI assistant and already on screen; fix it, or send it back unchanged to approve it"
+finish_connecting_bank,Finish connecting your bank,أكملي ربط حسابكِ البنكي,Already on screen,draft — check and correct,"Arabic drafted by an AI assistant and already on screen; fix it, or send it back unchanged to approve it"
+connect_your_bank,Connect your bank,اربطي حسابكِ البنكي,Already on screen,draft — check and correct,"Arabic drafted by an AI assistant and already on screen; fix it, or send it back unchanged to approve it"
+payouts_not_on,Payouts aren't switched on yet.,التحويلات غير مفعّلة بعد.,Already on screen,draft — check and correct,"Arabic drafted by an AI assistant and already on screen; fix it, or send it back unchanged to approve it"
+delivery_hint_1,Switch on as many as you like: shops with more options sell faster.,فعّلي ما شئتِ منها: المتاجر ذات الخيارات الأكثر تبيع أسرع.,Already on screen,draft — check and correct,"Arabic drafted by an AI assistant and already on screen; fix it, or send it back unchanged to approve it"
+delivery_hint_2,"The buyer pays the delivery fee when she buys, and it's paid to you with the sale.",تدفع المشترية رسوم التوصيل عند الشراء، وتصلكِ مع ثمن البيع.,Already on screen,draft — check and correct,"Arabic drafted by an AI assistant and already on screen; fix it, or send it back unchanged to approve it"
+delivery_hint_3,You book the courier and add the tracking number.,تحجزين شركة التوصيل وتضيفين رقم التتبع.,Already on screen,draft — check and correct,"Arabic drafted by an AI assistant and already on screen; fix it, or send it back unchanged to approve it"
+parcel_size,Parcel size,حجم الطرد,Already on screen,draft — check and correct,"Arabic drafted by an AI assistant and already on screen; fix it, or send it back unchanged to approve it"
+ways_to_get_it_there,Ways to get it to the buyer,طرق إيصالها إلى المشترية,Already on screen,draft — check and correct,"Arabic drafted by an AI assistant and already on screen; fix it, or send it back unchanged to approve it"
+offer_carrier,Offer {carrier},اعرضي {carrier},Already on screen,draft — check and correct,"Arabic drafted by an AI assistant and already on screen; fix it, or send it back unchanged to approve it"
+bundling,Bundling,تجميع القطع,Already on screen,draft — check and correct,"Arabic drafted by an AI assistant and already on screen; fix it, or send it back unchanged to approve it"
+bundling_hint,A buyer can add more of your pieces to one order and pay one delivery fee.,يمكن للمشترية إضافة أكثر من قطعة من متجركِ إلى طلب واحد ودفع رسوم توصيل واحدة.,Already on screen,draft — check and correct,"Arabic drafted by an AI assistant and already on screen; fix it, or send it back unchanged to approve it"
+allow_bundling,Allow bundling,السماح بالتجميع,Already on screen,draft — check and correct,"Arabic drafted by an AI assistant and already on screen; fix it, or send it back unchanged to approve it"
+holiday_mode,Holiday mode,وضع الإجازة,Already on screen,draft — check and correct,"Arabic drafted by an AI assistant and already on screen; fix it, or send it back unchanged to approve it"
+holiday_hint_1,"Going away? Until the date you pick, your pieces leave the feed and search, and new offers and orders wait.",مسافرة؟ حتى التاريخ الذي تختارينه، تختفي قطعكِ من الصفحة الرئيسية والبحث، وتنتظر العروض والطلبات الجديدة.,Already on screen,draft — check and correct,"Arabic drafted by an AI assistant and already on screen; fix it, or send it back unchanged to approve it"
+holiday_hint_2,"Offers you already have stay open for you to answer. On the date, everything opens again by itself.",تبقى العروض التي وصلتكِ مفتوحة لتردّي عليها، وفي ذلك التاريخ يُفتح كل شيء تلقائياً.,Already on screen,draft — check and correct,"Arabic drafted by an AI assistant and already on screen; fix it, or send it back unchanged to approve it"
+away_until_date,Away until {date},في إجازة حتى {date},Already on screen,draft — check and correct,"Arabic drafted by an AI assistant and already on screen; fix it, or send it back unchanged to approve it"
+back_on,Back on,العودة في,Already on screen,draft — check and correct,"Arabic drafted by an AI assistant and already on screen; fix it, or send it back unchanged to approve it"
+note_for_buyers,A note for buyers (optional),ملاحظة للمشتريات (اختيارية),Already on screen,draft — check and correct,"Arabic drafted by an AI assistant and already on screen; fix it, or send it back unchanged to approve it"
+note_for_buyers_example,"e.g. Away for Eid, back on the 24th",مثلاً: في إجازة العيد، أعود يوم 24,Already on screen,draft — check and correct,"Arabic drafted by an AI assistant and already on screen; fix it, or send it back unchanged to approve it"
+go_away_until_then,Go away until then,إجازة حتى ذلك اليوم,Already on screen,draft — check and correct,"Arabic drafted by an AI assistant and already on screen; fix it, or send it back unchanged to approve it"
+change_the_date,Change the date,تغيير التاريخ,Already on screen,draft — check and correct,"Arabic drafted by an AI assistant and already on screen; fix it, or send it back unchanged to approve it"
+im_back_now,I'm back now,عدتُ الآن,Already on screen,draft — check and correct,"Arabic drafted by an AI assistant and already on screen; fix it, or send it back unchanged to approve it"
+youre_away_until,You're away until {date}.,أنتِ في إجازة حتى {date}.,Already on screen,draft — check and correct,"Arabic drafted by an AI assistant and already on screen; fix it, or send it back unchanged to approve it"
+youre_back,You're back. Offers and orders are open.,عدتِ. العروض والطلبات مفتوحة.,Already on screen,draft — check and correct,"Arabic drafted by an AI assistant and already on screen; fix it, or send it back unchanged to approve it"
+didnt_save,That didn't save. Try again.,لم يُحفظ ذلك. حاولي مرة أخرى.,Already on screen,draft — check and correct,"Arabic drafted by an AI assistant and already on screen; fix it, or send it back unchanged to approve it"
+away_shop_banner,Her pieces are here to look at and save; offers and orders reopen when she's back.,قطعها متاحة للتصفح والحفظ، وتُفتح العروض والطلبات عند عودتها.,Already on screen,draft — check and correct,"Arabic drafted by an AI assistant and already on screen; fix it, or send it back unchanged to approve it"
+away_myshop_banner,"Your pieces are out of the feed and search, and new offers wait until then. Change it in Profile → Settings.",قطعكِ خارج الصفحة الرئيسية والبحث، والعروض الجديدة تنتظر حتى ذلك الحين. غيّري ذلك من حسابي ← الإعدادات.,Already on screen,draft — check and correct,"Arabic drafted by an AI assistant and already on screen; fix it, or send it back unchanged to approve it"
+n_saved,{n} saved,حفظها {n},Already on screen,draft — check and correct,"Arabic drafted by an AI assistant and already on screen; fix it, or send it back unchanged to approve it"
+one_offer_waiting,One offer waiting,عرض واحد بانتظاركِ,Already on screen,draft — check and correct,"Arabic drafted by an AI assistant and already on screen; fix it, or send it back unchanged to approve it"
+n_offers_waiting,{n} offers waiting,{n} عروض بانتظاركِ,Already on screen,draft — check and correct,"Arabic drafted by an AI assistant and already on screen; fix it, or send it back unchanged to approve it"
+lower_price,Lower price,خفّضي السعر,Already on screen,draft — check and correct,"Arabic drafted by an AI assistant and already on screen; fix it, or send it back unchanged to approve it"
+tells_n,tells {n},يُبلغ {n},Already on screen,draft — check and correct,"Arabic drafted by an AI assistant and already on screen; fix it, or send it back unchanged to approve it"
+pick_lower_price,"Pick a lower price, at least AED {min}.",اختاري سعراً أقل، لا يقل عن {min} درهم.,Already on screen,draft — check and correct,"Arabic drafted by an AI assistant and already on screen; fix it, or send it back unchanged to approve it"
+new_price_for,New price for {title},السعر الجديد لـ{title},Already on screen,draft — check and correct,"Arabic drafted by an AI assistant and already on screen; fix it, or send it back unchanged to approve it"
 a_reviewer_will_look_at_this_and_you_ll_get_the_,A reviewer will look at this and you'll get the outcome and the reason for it.,,Reporting a listing or a person,not yet wired,compliance/ReportDialog.jsx
 claims_to_be_a_brand_it_isn_t,Claims to be a brand it isn't,,Reporting a listing or a person,not yet wired,compliance/ReportDialog.jsx
 counterfeit_or_replica,Counterfeit or replica,,Reporting a listing or a person,not yet wired,compliance/ReportDialog.jsx
@@ -7,7 +152,7 @@ not_allowed_to_be_sold_here,Not allowed to be sold here,,Reporting a listing or 
 offensive_or_inappropriate_imagery,Offensive or inappropriate imagery,,Reporting a listing or a person,not yet wired,compliance/ReportDialog.jsx
 restricted_in_this_market,Restricted in this market,,Reporting a listing or a person,not yet wired,compliance/ReportDialog.jsx
 scam_or_fraud,Scam or fraud,,Reporting a listing or a person,not yet wired,compliance/ReportDialog.jsx
-something_else,Something else,,Reporting a listing or a person,not yet wired,compliance/ReportDialog.jsx
+something_else,Something else,,Reporting a listing or a person,not yet wired,compliance/ReportDialog.jsx delivery/carriers.js
 stolen_goods,Stolen goods,,Reporting a listing or a person,not yet wired,compliance/ReportDialog.jsx
 the_other_person,The other person,,Reporting a listing or a person,not yet wired,compliance/ReportDialog.jsx
 what_s_wrong_with_it,What's wrong with it,,Reporting a listing or a person,not yet wired,compliance/ReportDialog.jsx
@@ -50,10 +195,12 @@ somebody_works_there,Somebody works there,,Arranging to meet a seller,not yet wi
 somewhere_else,Somewhere else,,Arranging to meet a seller,not yet wired,meet/places.js
 somewhere_with_tables_and_a_counter_order_someth,Somewhere with tables and a counter. Order something; it buys you both time.,,Arranging to meet a seller,not yet wired,meet/places.js
 that_didn_t_reach_lili_nothing_changed_try_again,That didn't reach lili. Nothing changed — try again in a moment.,,Arranging to meet a seller,not yet wired,meet/MeetPlan.jsx
-that_didn_t_work,That didn't work.,,Arranging to meet a seller,not yet wired,meet/MeetPlan.jsx
+that_didn_t_work,That didn't work.,,Arranging to meet a seller,not yet wired,meet/MeetPlan.jsx trust/ReviewPrompt.jsx
 the_food_court_or_a_coffee_shop_on_the_ground_fl,"The food court or a coffee shop on the ground floor. Busy, indoors, staffed, cameras.",,Arranging to meet a seller,not yet wired,meet/places.js
 the_most_common_thing_that_goes_wrong_is_not_a_f,The most common thing that goes wrong is not a fake bag. Being asked to come inside is itself the signal.,,Arranging to meet a seller,not yet wired,meet/places.js
 the_uae_s_official_platform_for_reporting_online,The UAE's official platform for reporting online crime and fraud.,,Arranging to meet a seller,not yet wired,meet/places.js
+there_s_already_a_plan_in_this_conversation_here,There's already a plan in this conversation. Here it is.,,Arranging to meet a seller,not yet wired,meet/MeetPlan.jsx
+when_uae_time,When (UAE time),,Arranging to meet a seller,not yet wired,meet/MeetPlan.jsx
 which_one_e_g_the_caf_on_the_ground_floor,Which one? e.g. the café on the ground floor,,Arranging to meet a seller,not yet wired,meet/MeetPlan.jsx
 which_place,Which place,,Arranging to meet a seller,not yet wired,meet/MeetPlan.jsx
 a_cluttered_bed_makes_the_piece_hard_to_see_and_,A cluttered bed makes the piece hard to see and the seller hard to trust.,,Listing something for sale,not yet wired,sell/listingQuality.js
@@ -112,17 +259,30 @@ this_can_t_be_listed_on_lili,This can't be listed on lili.,,Listing several piec
 what_is_it_e_g_zimmermann_floral_dress,What is it? e.g. Zimmermann floral dress,,Listing several pieces at once,not yet wired,sell/BulkList.jsx
 you_can_close_this,You can close this.,,Listing several pieces at once,not yet wired,sell/BulkList.jsx
 a_little_soft,A little soft,,Errors the app reports when something fails,not yet wired,data/imageQuality.js
+abaya_couture,Abaya Couture,,Errors the app reports when something fails,not yet wired,data/resaleValue.js market/shared.jsx
 add_at_least_one_photo_listings_without_one_rare,Add at least one photo — listings without one rarely sell.,,Errors the app reports when something fails,not yet wired,data/images.js
 aed_15_000_and_above,"AED 15,000 and above",,Errors the app reports when something fails,not yet wired,data/fees.js
 audemars_piguet,Audemars Piguet,,Errors the app reports when something fails,not yet wired,data/resaleValue.js
 backend_is_not_configured,Backend is not configured,,Errors the app reports when something fails,not yet wired,backend/remote.js
+balenciaga,Balenciaga,,Errors the app reports when something fails,not yet wired,data/resaleValue.js market/shared.jsx
+bottega_veneta,Bottega Veneta,,Errors the app reports when something fails,not yet wired,data/resaleValue.js market/shared.jsx
+christian_louboutin,Christian Louboutin,,Errors the app reports when something fails,not yet wired,data/resaleValue.js market/shared.jsx
 couldn_t_read_that_file,Couldn't read that file,,Errors the app reports when something fails,not yet wired,data/images.js
 couldn_t_read_that_image,Couldn't read that image,,Errors the app reports when something fails,not yet wired,data/images.js
+david_yurman,David Yurman,,Errors the app reports when something fails,not yet wired,data/resaleValue.js market/shared.jsx
+dubai_modest_fashion,Dubai Modest Fashion,,Errors the app reports when something fails,not yet wired,data/resaleValue.js market/shared.jsx
+emirati_local_designer,Emirati / Local Designer,,Errors the app reports when something fails,not yet wired,data/resaleValue.js market/shared.jsx
 enter_an_amount,Enter an amount,,Errors the app reports when something fails,not yet wired,backend/remote.js data/offers.js
 every_write_is_attributed_to_an_authenticated_us,Every write is attributed to an authenticated user,,Errors the app reports when something fails,not yet wired,data/repo.js
 get_items,GET  /items,,Errors the app reports when something fails,not yet wired,data/repo.js
 get_shops,GET  /shops,,Errors the app reports when something fails,not yet wired,data/repo.js
+gianvito_rossi,Gianvito Rossi,,Errors the app reports when something fails,not yet wired,data/resaleValue.js market/shared.jsx
+isabel_marant,Isabel Marant,,Errors the app reports when something fails,not yet wired,data/resaleValue.js market/shared.jsx
+jimmy_choo,Jimmy Choo,,Errors the app reports when something fails,not yet wired,data/resaleValue.js market/shared.jsx
 khaleej_times_uae_luxury_resale_market_2025,"Khaleej Times, UAE luxury resale market (2025)",,Errors the app reports when something fails,not yet wired,data/resaleValue.js
+local_designer,Local Designer,,Errors the app reports when something fails,not yet wired,data/resaleValue.js market/shared.jsx
+louis_vuitton,Louis Vuitton,,Errors the app reports when something fails,not yet wired,data/resaleValue.js market/shared.jsx
+manolo_blahnik,Manolo Blahnik,,Errors the app reports when something fails,not yet wired,data/resaleValue.js market/shared.jsx
 most_searched_style_classic_flap_retention_not_p,Most-searched style (Classic Flap); retention not published as a single figure.,,Errors the app reports when something fails,not yet wired,data/resaleValue.js
 move_closer_or_crop_in_so_it_fills_most_of_the_p,"Move closer, or crop in, so it fills most of the picture.",,Errors the app reports when something fails,not yet wired,data/imageQuality.js
 move_next_to_a_window_and_turn_the_ceiling_light,"Move next to a window and turn the ceiling light off. Daylight, no flash.",,Errors the app reports when something fails,not yet wired,data/imageQuality.js
@@ -132,7 +292,6 @@ no_signal_your_offer_is_saved_but_hasn_t_been_se,No signal — your offer is sav
 nothing_to_send,Nothing to send,,Errors the app reports when something fails,not yet wired,backend/remote.js data/conversations.js
 observed_uae_price_range_and_market_size,Observed UAE price range and market size.,,Errors the app reports when something fails,not yet wired,data/resaleValue.js
 oecd_euipo_mapping_global_trade_in_fakes_2025,"OECD/EUIPO, Mapping Global Trade in Fakes (2025)",,Errors the app reports when something fails,not yet wired,data/resaleValue.js
-only_the_seller_can_counter,Only the seller can counter,,Errors the app reports when something fails,not yet wired,backend/remote.js
 open_a_shop_before_listing,Open a shop before listing,,Errors the app reports when something fails,not yet wired,backend/remote.js
 patch_items_id,PATCH /items/:id,,Errors the app reports when something fails,not yet wired,data/repo.js
 patch_shops_id,PATCH /shops/:id,,Errors the app reports when something fails,not yet wired,data/repo.js
@@ -143,10 +302,15 @@ post_shops,POST /shops,,Errors the app reports when something fails,not yet wire
 price_is_the_only_reliable_single_counterfeit_in,"Price is the only reliable single counterfeit indicator, and only ~54–63% precise alone.",,Errors the app reports when something fails,not yet wired,data/resaleValue.js
 priced_where_comparable_pieces_sell,Priced where comparable pieces sell.,,Errors the app reports when something fails,not yet wired,data/resaleValue.js
 rebag_clair_report_6th_annual_december_2025,"Rebag Clair Report, 6th annual (December 2025)",,Errors the app reports when something fails,not yet wired,data/resaleValue.js
+reformation,Reformation,,Errors the app reports when something fails,not yet wired,data/resaleValue.js market/shared.jsx
 replace_these_six_with_authenticated_http_calls_,Replace these six with authenticated HTTP calls and the app becomes ,,Errors the app reports when something fails,not yet wired,data/repo.js
+saint_laurent,Saint Laurent,,Errors the app reports when something fails,not yet wired,data/resaleValue.js market/shared.jsx
 screening_runs_server_side_too_the_client_check_,"Screening runs server-side too — the client check is a courtesy, not a gate",,Errors the app reports when something fails,not yet wired,data/repo.js
+self_portrait,Self Portrait,,Errors the app reports when something fails,not yet wired,data/resaleValue.js market/shared.jsx
 semi_automatic_identification_of_counterfeit_off,Semi-Automatic Identification of Counterfeit Offers in Online Marketplaces (2015),,Errors the app reports when something fails,not yet wired,data/resaleValue.js
 sideways_photograph,Sideways photograph,,Errors the app reports when something fails,not yet wired,data/imageQuality.js
+sign_in_to_leave_a_review,Sign in to leave a review,,Errors the app reports when something fails,not yet wired,data/repo.js
+sign_in_to_save_a_search,Sign in to save a search,,Errors the app reports when something fails,not yet wired,data/repo.js
 soft_delete_only_moderation_needs_the_history,Soft delete only; moderation needs the history,,Errors the app reports when something fails,not yet wired,data/repo.js
 speedy_13_yoy_murakami_collab_styles_exceeded_13,Speedy +13% YoY; Murakami collab styles exceeded 130% retention.,,Errors the app reports when something fails,not yet wired,data/resaleValue.js
 step_out_of_direct_sun_or_turn_so_the_light_is_b,"Step out of direct sun, or turn so the light is behind you rather than behind the piece.",,Errors the app reports when something fails,not yet wired,data/imageQuality.js
@@ -158,158 +322,152 @@ that_message_is_too_long,That message is too long,,Errors the app reports when s
 that_offer_expired_ask_her_to_make_another,That offer expired. Ask her to make another.,,Errors the app reports when something fails,not yet wired,data/offers.js
 that_s_your_own_listing,That's your own listing,,Errors the app reports when something fails,not yet wired,backend/remote.js
 the_feed_shows_tall_tiles_so_a_wide_photo_gets_c,"The feed shows tall tiles, so a wide photo gets cropped. Turn the phone upright.",,Errors the app reports when something fails,not yet wired,data/imageQuality.js
+the_frankie_shop,The Frankie Shop,,Errors the app reports when something fails,not yet wired,data/resaleValue.js market/shared.jsx
 the_light_has_washed_it_out,The light has washed it out,,Errors the app reports when something fails,not yet wired,data/imageQuality.js
 the_piece_is_small_in_the_frame,The piece is small in the frame,,Errors the app reports when something fails,not yet wired,data/imageQuality.js
 the_realreal_2025_resale_report_september_2025,The RealReal 2025 Resale Report (September 2025),,Errors the app reports when something fails,not yet wired,data/resaleValue.js
 this_one_is_out_of_focus,This one is out of focus,,Errors the app reports when something fails,not yet wired,data/imageQuality.js
+tiffany_co,Tiffany & Co,,Errors the app reports when something fails,not yet wired,data/resaleValue.js market/shared.jsx
 tiffany_co_2,Tiffany & Co.,,Errors the app reports when something fails,not yet wired,data/resaleValue.js
 too_dark_to_see_the_colour,Too dark to see the colour,,Errors the app reports when something fails,not yet wired,data/imageQuality.js
 under_aed_500,Under AED 500,,Errors the app reports when something fails,not yet wired,data/fees.js
 usd_467bn_2_3_of_world_trade_clothing_footwear_a,"USD 467bn, 2.3% of world trade; clothing, footwear and handbags lead seizures.",,Errors the app reports when something fails,not yet wired,data/resaleValue.js
 value_retention_vs_original_retail_by_brand_and_,"Value retention vs original retail, by brand and model.",,Errors the app reports when something fails,not yet wired,data/resaleValue.js
+van_cleef_arpels,Van Cleef & Arpels,,Errors the app reports when something fails,not yet wired,data/resaleValue.js market/shared.jsx
 waiting_for_her,Waiting for her,,Errors the app reports when something fails,not yet wired,data/offers.js meet/MeetPlan.jsx
 you_already_have_an_offer_open_on_this_piece,You already have an offer open on this piece,,Errors the app reports when something fails,not yet wired,backend/remote.js
-your_listing_didn_t_reach_lili_nothing_was_publi_2,Your listing didn't reach lili — nothing was published. ,,Errors the app reports when something fails,not yet wired,data/repo.js
+your_listing_didn_t_reach_lili_nothing_was_publi,Your listing didn't reach lili — nothing was published. ,,Errors the app reports when something fails,not yet wired,data/repo.js
 yoy_resale_price_movement_condition_and_category,YoY resale price movement; condition and category demand data.,,Errors the app reports when something fails,not yet wired,data/resaleValue.js
-georgia_serif,"Georgia,serif",,"Loading, errors and empty screens",not yet wired,ErrorBoundary.jsx Marketplace.jsx compliance/LegalCenter.jsx compliance/ModerationQueue.jsx compliance/ReportDialog.jsx compliance/ui.js invites/InviteRoster.jsx notifications/NotificationsSheet.jsx offers/OffersPage.jsx sell/BulkList.jsx settings/Settings.jsx
+zimmermann,Zimmermann,,Errors the app reports when something fails,not yet wired,data/resaleValue.js market/shared.jsx
+georgia_serif,"Georgia,serif",,"Loading, errors and empty screens",not yet wired,ErrorBoundary.jsx Marketplace.jsx compliance/LegalCenter.jsx compliance/ModerationQueue.jsx compliance/ReportDialog.jsx compliance/ui.js delivery/CheckoutSheet.jsx invites/InviteRoster.jsx market/FiltersPanel.jsx market/ItemModal.jsx market/OfferModal.jsx market/shared.jsx notifications/NotificationsSheet.jsx offers/OffersPage.jsx pages/CartPage.jsx pages/MessagesPage.jsx pages/ProfilePage.jsx pages/SellPage.jsx pages/ShopPages.jsx sell/BulkList.jsx settings/Settings.jsx
 retry_loading_this_photo,Retry loading this photo,,"Loading, errors and empty screens",not yet wired,loading/Skeleton.jsx
 that_didn_t_work_twice_so_it_s_us_and_not_you_st,"That didn't work twice, so it's us and not you. Starting fresh usually clears it.",,"Loading, errors and empty screens",not yet wired,ErrorBoundary.jsx
 this_is_on_our_side_not_yours_nothing_you_were_d,"This is on our side, not yours. Nothing you were doing has been lost.",,"Loading, errors and empty screens",not yet wired,ErrorBoundary.jsx
-abaya_couture,Abaya Couture,,The main shopping screens,not yet wired,Marketplace.jsx data/resaleValue.js
-accessories,Accessories,,The main shopping screens,not yet wired,Marketplace.jsx
-add_a_bio_later_in_settings,Add a bio later in Settings,,The main shopping screens,not yet wired,Marketplace.jsx
-add_to_cart_2,Add to cart,,The main shopping screens,not yet wired,Marketplace.jsx
-agree_and_open_my_shop,Agree and open my shop,,The main shopping screens,not yet wired,Marketplace.jsx
-balenciaga,Balenciaga,,The main shopping screens,not yet wired,Marketplace.jsx data/resaleValue.js
-beautiful_zimmermann_ruffle_mini_dress_with_flor,Beautiful Zimmermann ruffle mini dress with floral print. Worn once to a brunch. Perfect condition.,,The main shopping screens,not yet wired,Marketplace.jsx
-beautifully_crafted_linen_abaya_in_warm_white_wo,Beautifully crafted linen abaya in warm white. Worn once to a family gathering.,,The main shopping screens,not yet wired,Marketplace.jsx
-before_your_first_piece_goes_up,Before your first piece goes up,,The main shopping screens,not yet wired,Marketplace.jsx
-bottega_veneta,Bottega Veneta,,The main shopping screens,not yet wired,Marketplace.jsx data/resaleValue.js
-bottega_veneta_pouch,Bottega Veneta Pouch,,The main shopping screens,not yet wired,Marketplace.jsx
-buyer_protection,Buyer Protection,,The main shopping screens,not yet wired,Marketplace.jsx
-carefully_loved_ready_for_a_second_life,"Carefully loved, ready for a second life",,The main shopping screens,not yet wired,Marketplace.jsx
-cat_eye_tortoiseshell,Cat Eye · Tortoiseshell,,The main shopping screens,not yet wired,Marketplace.jsx
-categories,Categories,,The main shopping screens,not yet wired,Marketplace.jsx
-celine_cat_eye_sunglasses_in_tortoiseshell_come_,Celine cat-eye sunglasses in tortoiseshell. Come with original case and cleaning cloth.,,The main shopping screens,not yet wired,Marketplace.jsx
-celine_sunglasses,Celine Sunglasses,,The main shopping screens,not yet wired,Marketplace.jsx
-chanel_classic_flap_bag,Chanel Classic Flap Bag,,The main shopping screens,not yet wired,Marketplace.jsx
-chlo_woody_tote,Chloé Woody Tote,,The main shopping screens,not yet wired,Marketplace.jsx
-chlo_woody_tote_in_tan_and_white_barely_used_per,Chloé Woody tote in tan and white. Barely used. Perfect summer bag.,,The main shopping screens,not yet wired,Marketplace.jsx
-christian_louboutin,Christian Louboutin,,The main shopping screens,not yet wired,Marketplace.jsx data/resaleValue.js
-clean_lines_quiet_luxury_always,Clean lines. Quiet luxury. Always.,,The main shopping screens,not yet wired,Marketplace.jsx
-clear_the_search_to_see_everything_she_has,Clear the search to see everything she has.,,The main shopping screens,not yet wired,Marketplace.jsx
-couldn_t_add_that_photo,Couldn't add that photo,,The main shopping screens,not yet wired,Marketplace.jsx
+accessories,Accessories,,The main shopping screens,not yet wired,market/shared.jsx
+add_a_bio_later_in_settings,Add a bio later in Settings,,The main shopping screens,not yet wired,pages/SellPage.jsx
+agree_and_open_my_shop,Agree and open my shop,,The main shopping screens,not yet wired,pages/SellPage.jsx
+beautiful_zimmermann_ruffle_mini_dress_with_flor,Beautiful Zimmermann ruffle mini dress with floral print. Worn once to a brunch. Perfect condition.,,The main shopping screens,not yet wired,market/shared.jsx
+beautifully_crafted_linen_abaya_in_warm_white_wo,Beautifully crafted linen abaya in warm white. Worn once to a family gathering.,,The main shopping screens,not yet wired,market/shared.jsx
+before_your_first_piece_goes_up,Before your first piece goes up,,The main shopping screens,not yet wired,pages/SellPage.jsx
+bottega_veneta_pouch,Bottega Veneta Pouch,,The main shopping screens,not yet wired,market/shared.jsx
+carefully_loved_ready_for_a_second_life,"Carefully loved, ready for a second life",,The main shopping screens,not yet wired,market/shared.jsx
+cat_eye_tortoiseshell,Cat Eye · Tortoiseshell,,The main shopping screens,not yet wired,market/shared.jsx
+categories,Categories,,The main shopping screens,not yet wired,market/shared.jsx
+celine_cat_eye_sunglasses_in_tortoiseshell_come_,Celine cat-eye sunglasses in tortoiseshell. Come with original case and cleaning cloth.,,The main shopping screens,not yet wired,market/shared.jsx
+celine_sunglasses,Celine Sunglasses,,The main shopping screens,not yet wired,market/shared.jsx
+chanel_classic_flap_bag,Chanel Classic Flap Bag,,The main shopping screens,not yet wired,market/shared.jsx
+chlo_woody_tote,Chloé Woody Tote,,The main shopping screens,not yet wired,market/shared.jsx
+chlo_woody_tote_in_tan_and_white_barely_used_per,Chloé Woody tote in tan and white. Barely used. Perfect summer bag.,,The main shopping screens,not yet wired,market/shared.jsx
+clean_lines_quiet_luxury_always,Clean lines. Quiet luxury. Always.,,The main shopping screens,not yet wired,market/shared.jsx
+clear_search,Clear search,,The main shopping screens,not yet wired,market/shared.jsx
+clear_the_search_to_see_everything_she_has,Clear the search to see everything she has.,,The main shopping screens,not yet wired,pages/ShopPages.jsx
+couldn_t_add_that_photo,Couldn't add that photo,,The main shopping screens,not yet wired,pages/SellPage.jsx
 couldn_t_open_that_conversation,Couldn't open that conversation.,,The main shopping screens,not yet wired,Marketplace.jsx
-couldn_t_read_that_photo,Couldn't read that photo,,The main shopping screens,not yet wired,Marketplace.jsx
-david_yurman,David Yurman,,The main shopping screens,not yet wired,Marketplace.jsx data/resaleValue.js
-describe_your_piece_condition_details_why_you_lo,"Describe your piece — condition details, why you loved it, any wear... وصف القطعة",,The main shopping screens,not yet wired,Marketplace.jsx
-designer_finds_timeless_vintage_gems,Designer finds & timeless vintage gems,,The main shopping screens,not yet wired,Marketplace.jsx
-dubai_design_cream,Dubai Design · Cream,,The main shopping screens,not yet wired,Marketplace.jsx
-dubai_finds,Dubai Finds,,The main shopping screens,not yet wired,Marketplace.jsx
-dubai_modest_fashion,Dubai Modest Fashion,,The main shopping screens,not yet wired,Marketplace.jsx data/resaleValue.js
+couldn_t_read_that_photo,Couldn't read that photo,,The main shopping screens,not yet wired,pages/SellPage.jsx
+cover_photo,Cover photo,,The main shopping screens,not yet wired,pages/SellPage.jsx
+describe_your_piece_condition_details_why_you_lo,"Describe your piece — condition details, why you loved it, any wear... وصف القطعة",,The main shopping screens,not yet wired,pages/SellPage.jsx
+designer_finds_timeless_vintage_gems,Designer finds & timeless vintage gems,,The main shopping screens,not yet wired,market/shared.jsx
+dubai_design_cream,Dubai Design · Cream,,The main shopping screens,not yet wired,market/shared.jsx
+dubai_finds,Dubai Finds,,The main shopping screens,not yet wired,market/shared.jsx
 dubai_only_for_now,"Dubai only, for now",,The main shopping screens,not yet wired,Marketplace.jsx
-elevated_everyday_from_dubai_with_love,Elevated everyday — from Dubai with love,,The main shopping screens,not yet wired,Marketplace.jsx
-emirati_local_designer,Emirati / Local Designer,,The main shopping screens,not yet wired,Marketplace.jsx data/resaleValue.js
-enter_amount,Enter amount...,,The main shopping screens,not yet wired,Marketplace.jsx
-every_listing_screened,Every listing screened,,The main shopping screens,not yet wired,Marketplace.jsx
-expert_verification,Expert verification,,The main shopping screens,not yet wired,Marketplace.jsx
-follow_her_and_you_ll_see_the_first_piece_when_i,Follow her and you'll see the first piece when it goes up.,,The main shopping screens,not yet wired,Marketplace.jsx
-gianvito_rossi,Gianvito Rossi,,The main shopping screens,not yet wired,Marketplace.jsx data/resaleValue.js
-gianvito_rossi_gianvito_105_pumps_in_nude_pvc_mi,Gianvito Rossi Gianvito 105 pumps in nude PVC. Minor sole wear. Stunning on.,,The main shopping screens,not yet wired,Marketplace.jsx
-gianvito_rossi_heels,Gianvito Rossi Heels,,The main shopping screens,not yet wired,Marketplace.jsx
-haya_s_collection,Haya's Collection,,The main shopping screens,not yet wired,Marketplace.jsx
-i_have_the_receipt_card_or_serial,"I have the receipt, card or serial",,The main shopping screens,not yet wired,Marketplace.jsx
-i_ll_photograph_what_came_with_it,I'll photograph what came with it.,,The main shopping screens,not yet wired,Marketplace.jsx
-iconic_van_cleef_arpels_vintage_alhambra_necklac,Iconic Van Cleef & Arpels Vintage Alhambra necklace. Yellow gold with malachite. Comes with original pouch.,,The main shopping screens,not yet wired,Marketplace.jsx
-in_person_verification,In-person verification,,The main shopping screens,not yet wired,Marketplace.jsx
-intrecciato_nude,Intrecciato · Nude,,The main shopping screens,not yet wired,Marketplace.jsx
-invitation_code,Invitation code,,The main shopping screens,not yet wired,Marketplace.jsx
-isabel_marant,Isabel Marant,,The main shopping screens,not yet wired,Marketplace.jsx data/resaleValue.js
-it_s_saved_on_this_phone_and_will_go_the_moment_,It's saved on this phone and will go the moment you have signal.,,The main shopping screens,not yet wired,Marketplace.jsx
-item_details,Item details,,The main shopping screens,not yet wired,Marketplace.jsx
-jacquemus_le_chiquito,Jacquemus Le Chiquito,,The main shopping screens,not yet wired,Marketplace.jsx
-jacquemus_le_chiquito_in_caramel_leather_absolut,Jacquemus Le Chiquito in caramel leather. Absolutely perfect condition with dustbag.,,The main shopping screens,not yet wired,Marketplace.jsx
-jimmy_choo,Jimmy Choo,,The main shopping screens,not yet wired,Marketplace.jsx data/resaleValue.js
-just_listed,Just listed,,The main shopping screens,not yet wired,Marketplace.jsx
-last_step_then_you_re_live,Last step — then you're live,,The main shopping screens,not yet wired,Marketplace.jsx
-leen_s_closet,Leen's Closet,,The main shopping screens,not yet wired,Marketplace.jsx
-linen_abaya,Linen Abaya,,The main shopping screens,not yet wired,Marketplace.jsx
-local_designer,Local Designer,,The main shopping screens,not yet wired,Marketplace.jsx data/resaleValue.js
-louis_vuitton,Louis Vuitton,,The main shopping screens,not yet wired,Marketplace.jsx data/resaleValue.js
-luxury_finds,Luxury finds,,The main shopping screens,not yet wired,Marketplace.jsx
-luxury_pieces_curated_with_love_in_dubai_marina,Luxury pieces curated with love in Dubai Marina,,The main shopping screens,not yet wired,Marketplace.jsx
+elevated_everyday_from_dubai_with_love,Elevated everyday — from Dubai with love,,The main shopping screens,not yet wired,market/shared.jsx
+enter_amount,Enter amount...,,The main shopping screens,not yet wired,market/OfferModal.jsx
+every_listing_screened,Every listing screened,,The main shopping screens,not yet wired,Marketplace.jsx pages/ProfilePage.jsx
+expert_verification,Expert verification,,The main shopping screens,not yet wired,pages/SellPage.jsx
+follow_her_and_you_ll_see_the_first_piece_when_i,Follow her and you'll see the first piece when it goes up.,,The main shopping screens,not yet wired,pages/ShopPages.jsx
+gianvito_rossi_gianvito_105_pumps_in_nude_pvc_mi,Gianvito Rossi Gianvito 105 pumps in nude PVC. Minor sole wear. Stunning on.,,The main shopping screens,not yet wired,market/shared.jsx
+gianvito_rossi_heels,Gianvito Rossi Heels,,The main shopping screens,not yet wired,market/shared.jsx
+give_your_shop_a_name,Give your shop a name,,The main shopping screens,not yet wired,pages/SellPage.jsx
+haya_s_collection,Haya's Collection,,The main shopping screens,not yet wired,market/shared.jsx
+how_would_you_like_to_list,How would you like to list?,,The main shopping screens,not yet wired,pages/SellPage.jsx
+i_have_the_receipt_card_or_serial,"I have the receipt, card or serial",,The main shopping screens,not yet wired,pages/SellPage.jsx
+i_ll_photograph_what_came_with_it,I'll photograph what came with it.,,The main shopping screens,not yet wired,pages/SellPage.jsx
+iconic_van_cleef_arpels_vintage_alhambra_necklac,Iconic Van Cleef & Arpels Vintage Alhambra necklace. Yellow gold with malachite. Comes with original pouch.,,The main shopping screens,not yet wired,market/shared.jsx
+in_person_verification,In-person verification,,The main shopping screens,not yet wired,pages/SellPage.jsx
+intrecciato_nude,Intrecciato · Nude,,The main shopping screens,not yet wired,market/shared.jsx
+invitation_code,Invitation code,,The main shopping screens,not yet wired,pages/SellPage.jsx
+it_s_saved_on_this_phone_and_will_go_the_moment_,It's saved on this phone and will go the moment you have signal.,,The main shopping screens,not yet wired,market/OfferModal.jsx
+item_details,Item details,,The main shopping screens,not yet wired,market/ItemModal.jsx
+jacquemus_le_chiquito,Jacquemus Le Chiquito,,The main shopping screens,not yet wired,market/shared.jsx
+jacquemus_le_chiquito_in_caramel_leather_absolut,Jacquemus Le Chiquito in caramel leather. Absolutely perfect condition with dustbag.,,The main shopping screens,not yet wired,market/shared.jsx
+just_arrived,Just arrived,,The main shopping screens,not yet wired,Marketplace.jsx
+just_listed,Just listed,,The main shopping screens,not yet wired,market/shared.jsx
+last_step_then_you_re_live,Last step — then you're live,,The main shopping screens,not yet wired,pages/SellPage.jsx
+leen_s_closet,Leen's Closet,,The main shopping screens,not yet wired,market/shared.jsx
+linen_abaya,Linen Abaya,,The main shopping screens,not yet wired,market/shared.jsx
+luxury_finds,Luxury finds,,The main shopping screens,not yet wired,market/shared.jsx
+luxury_pieces_curated_with_love_in_dubai_marina,Luxury pieces curated with love in Dubai Marina,,The main shopping screens,not yet wired,market/shared.jsx
 m12_5v14m5_12h14,M12 5v14M5 12h14,,The main shopping screens,not yet wired,Marketplace.jsx
 m16_10a4_4_0_01_8_0,M16 10a4 4 0 01-8 0,,The main shopping screens,not yet wired,Marketplace.jsx
 m18_8a6_6_0_006_8c0_7_3_9_3_9h18s_3_2_3_9m13_73_,M18 8A6 6 0 006 8c0 7-3 9-3 9h18s-3-2-3-9M13.73 21a2 2 0 01-3.46 0,,The main shopping screens,not yet wired,Marketplace.jsx
 m20_21v_2a4_4_0_00_4_4h8a4_4_0_00_4_4v2,M20 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2,,The main shopping screens,not yet wired,Marketplace.jsx
-m20_84_4_61a5_5_5_5_0_00_7_78_0l12_5_67l_1_06_1_,M20.84 4.61a5.5 5.5 0 00-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 00-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 000-7.78z,,The main shopping screens,not yet wired,Marketplace.jsx
-m21_21l_4_35_4_35,M21 21l-4.35-4.35,,The main shopping screens,not yet wired,Marketplace.jsx
+m21_21l_4_35_4_35,M21 21l-4.35-4.35,,The main shopping screens,not yet wired,Marketplace.jsx market/shared.jsx
 m3_9_5l12_3l9_6_5v20a1_1_0_01_1_1h5a1_1_0_01_1_1,M3 9.5L12 3l9 6.5V20a1 1 0 01-1 1H5a1 1 0 01-1-1V9.5z,,The main shopping screens,not yet wired,Marketplace.jsx
 m6_2l3_6v14a2_2_0_002_2h14a2_2_0_002_2v6l_3_4z,M6 2L3 6v14a2 2 0 002 2h14a2 2 0 002-2V6l-3-4z,,The main shopping screens,not yet wired,Marketplace.jsx
 m9_21v12h6v9,M9 21V12h6v9,,The main shopping screens,not yet wired,Marketplace.jsx
-make_an_offer_2,Make an offer,,The main shopping screens,not yet wired,Marketplace.jsx
-make_an_offer,Make an Offer,,The main shopping screens,not yet wired,Marketplace.jsx
-manolo_blahnik,Manolo Blahnik,,The main shopping screens,not yet wired,Marketplace.jsx data/resaleValue.js
-medium_beige_lambskin,Medium · Beige Lambskin,,The main shopping screens,not yet wired,Marketplace.jsx
-message_seller,Message Seller,,The main shopping screens,not yet wired,Marketplace.jsx
-message_with_your_offer,Message with your offer,,The main shopping screens,not yet wired,Marketplace.jsx
-messages_stay_private,Messages stay private,,The main shopping screens,not yet wired,Marketplace.jsx
-mini_bag_caramel,Mini Bag · Caramel,,The main shopping screens,not yet wired,Marketplace.jsx
-minimal_by_mia,Minimal by Mia,,The main shopping screens,not yet wired,Marketplace.jsx
-no_photograph_yet_a_piece_without_one_rarely_sel,No photograph yet — a piece without one rarely sells.,,The main shopping screens,not yet wired,Marketplace.jsx
-no_price_yet_you_ll_need_one_to_publish,No price yet. You'll need one to publish.,,The main shopping screens,not yet wired,Marketplace.jsx
-no_title_yet_you_ll_need_one_to_publish,No title yet. You'll need one to publish.,,The main shopping screens,not yet wired,Marketplace.jsx
-not_yet_available,Not yet available,,The main shopping screens,not yet wired,Marketplace.jsx
+make_an_offer,Make an offer,,The main shopping screens,not yet wired,market/OfferModal.jsx
+make_an_offer_2,Make an Offer,,The main shopping screens,not yet wired,market/shared.jsx
+medium_beige_lambskin,Medium · Beige Lambskin,,The main shopping screens,not yet wired,market/shared.jsx
+message_a_seller_from_any_listing,Message a seller from any listing,,The main shopping screens,not yet wired,pages/MessagesPage.jsx
+message_seller,Message Seller,,The main shopping screens,not yet wired,market/shared.jsx
+message_with_your_offer,Message with your offer,,The main shopping screens,not yet wired,market/OfferModal.jsx
+messages_stay_private,Messages stay private,,The main shopping screens,not yet wired,pages/ProfilePage.jsx
+mini_bag_caramel,Mini Bag · Caramel,,The main shopping screens,not yet wired,market/shared.jsx
+minimal_by_mia,Minimal by Mia,,The main shopping screens,not yet wired,market/shared.jsx
+no_photograph_yet_a_piece_without_one_rarely_sel,No photograph yet — a piece without one rarely sells.,,The main shopping screens,not yet wired,pages/SellPage.jsx
+no_price_yet_you_ll_need_one_to_publish,No price yet. You'll need one to publish.,,The main shopping screens,not yet wired,pages/SellPage.jsx
+no_title_yet_you_ll_need_one_to_publish,No title yet. You'll need one to publish.,,The main shopping screens,not yet wired,pages/SellPage.jsx
+not_yet_available,Not yet available,,The main shopping screens,not yet wired,pages/SellPage.jsx
 notifications,Notifications,,The main shopping screens,not yet wired,Marketplace.jsx notifications/NotificationsSheet.jsx
-nude_pumps_38,Nude Pumps 38,,The main shopping screens,not yet wired,Marketplace.jsx
-offer_amount,Offer amount,,The main shopping screens,not yet wired,Marketplace.jsx
+nude_pumps_38,Nude Pumps 38,,The main shopping screens,not yet wired,market/shared.jsx
+offer_amount,Offer amount,,The main shopping screens,not yet wired,market/OfferModal.jsx
 opening_a_shop_needs_an_account_it_s_how_your_bu,Opening a shop needs an account — it's how your buyers reach you and how you get paid.,,The main shopping screens,not yet wired,Marketplace.jsx
-physical_inspection_in_dubai,Physical inspection in Dubai.,,The main shopping screens,not yet wired,Marketplace.jsx
-picked_up_where_you_left_off,Picked up where you left off.,,The main shopping screens,not yet wired,Marketplace.jsx
-reasons_on_every_decision,Reasons on every decision,,The main shopping screens,not yet wired,Marketplace.jsx
-reformation,Reformation,,The main shopping screens,not yet wired,Marketplace.jsx data/resaleValue.js
-reformation_fitted_midi_in_warm_terracotta_worn_,Reformation fitted midi in warm terracotta. Worn once to a brunch. Stunning silhouette.,,The main shopping screens,not yet wired,Marketplace.jsx
-reformation_midi_dress,Reformation Midi Dress,,The main shopping screens,not yet wired,Marketplace.jsx
-report_this_conversation,Report this conversation,,The main shopping screens,not yet wired,Marketplace.jsx
-ruffle_mini,Ruffle Mini,,The main shopping screens,not yet wired,Marketplace.jsx
-saint_laurent,Saint Laurent,,The main shopping screens,not yet wired,Marketplace.jsx data/resaleValue.js
-search_for_items_brands_sellers,"Search for items, brands, sellers...",,The main shopping screens,not yet wired,Marketplace.jsx
-search_items_brands_sellers,"Search items, brands, sellers...",,The main shopping screens,not yet wired,Marketplace.jsx
-second_shelf,Second Shelf,,The main shopping screens,not yet wired,Marketplace.jsx
-secure_payment,Secure Payment,,The main shopping screens,not yet wired,Marketplace.jsx
-self_portrait,Self Portrait,,The main shopping screens,not yet wired,Marketplace.jsx data/resaleValue.js
-send_message,Send message,,The main shopping screens,not yet wired,Marketplace.jsx
-sign_in_first_an_invitation_is_attached_to_an_ac,Sign in first — an invitation is attached to an account.,,The main shopping screens,not yet wired,Marketplace.jsx
-summer_edit,Summer edit,,The main shopping screens,not yet wired,Marketplace.jsx
-tan_white_canvas,Tan & White Canvas,,The main shopping screens,not yet wired,Marketplace.jsx
-tell_us_how_you_re_selling,Tell us how you're selling,,The main shopping screens,not yet wired,Marketplace.jsx
-terracotta_fitted,Terracotta · Fitted,,The main shopping screens,not yet wired,Marketplace.jsx
-that_code_has_already_been_used,That code has already been used.,,The main shopping screens,not yet wired,Marketplace.jsx
-that_didn_t_send_try_again,That didn't send. Try again.,,The main shopping screens,not yet wired,Marketplace.jsx
-the_best_pre_loved_pieces_in_the_uae,The best pre-loved pieces in the UAE,,The main shopping screens,not yet wired,Marketplace.jsx
-the_frankie_shop,The Frankie Shop,,The main shopping screens,not yet wired,Marketplace.jsx data/resaleValue.js
-the_iconic_bottega_veneta_pouch_in_nude_intrecci,"The iconic Bottega Veneta pouch in nude intrecciato leather. Like new, barely carried.",,The main shopping screens,not yet wired,Marketplace.jsx
-the_vintage_edit,The Vintage Edit,,The main shopping screens,not yet wired,Marketplace.jsx
-third_party_authentication_partner,Third-party authentication partner.,,The main shopping screens,not yet wired,Marketplace.jsx
-tiffany_co,Tiffany & Co,,The main shopping screens,not yet wired,Marketplace.jsx data/resaleValue.js
-timeless_chanel_classic_flap_in_beige_lambskin_w,"Timeless Chanel Classic Flap in beige lambskin with gold hardware. Gently used, excellent condition. Comes with dust bag and authenticity card.",,The main shopping screens,not yet wired,Marketplace.jsx
-too_many_attempts_wait_an_hour_and_try_again_and,Too many attempts. Wait an hour and try again — and check you have the right code.,,The main shopping screens,not yet wired,Marketplace.jsx
-try_part_of_her_name_in_either_language,"Try part of her name, in either language.",,The main shopping screens,not yet wired,Marketplace.jsx
-type_the_code_first,Type the code first.,,The main shopping screens,not yet wired,Marketplace.jsx
-van_cleef_arpels,Van Cleef & Arpels,,The main shopping screens,not yet wired,Marketplace.jsx data/resaleValue.js
-van_cleef_vintage_alhambra,Van Cleef Vintage Alhambra,,The main shopping screens,not yet wired,Marketplace.jsx
-verified_seller,Verified Seller,,The main shopping screens,not yet wired,Marketplace.jsx
-we_couldn_t_reach_lili_just_now_your_code_is_fin,We couldn't reach lili just now. Your code is fine; try again in a moment.,,The main shopping screens,not yet wired,Marketplace.jsx
-we_don_t_recognise_that_code_check_it_against_th,We don't recognise that code. Check it against the message it came in.,,The main shopping screens,not yet wired,Marketplace.jsx
-weekend_picks,Weekend picks ,,The main shopping screens,not yet wired,Marketplace.jsx
+pay_with_buy_and_the_money_is_held_by_stripe_unt,Pay with Buy and the money is held by Stripe until you confirm the piece arrived. Agree to pay any other way and lili can't help if it goes wrong.,,The main shopping screens,not yet wired,market/ItemModal.jsx
+physical_inspection_in_dubai,Physical inspection in Dubai.,,The main shopping screens,not yet wired,pages/SellPage.jsx
+pick_all_that_apply,Pick all that apply,,The main shopping screens,not yet wired,Marketplace.jsx
+picked_up_where_you_left_off,Picked up where you left off.,,The main shopping screens,not yet wired,pages/SellPage.jsx
+quick_offers,Quick offers,,The main shopping screens,not yet wired,market/OfferModal.jsx
+reasons_on_every_decision,Reasons on every decision,,The main shopping screens,not yet wired,pages/ProfilePage.jsx
+reformation_fitted_midi_in_warm_terracotta_worn_,Reformation fitted midi in warm terracotta. Worn once to a brunch. Stunning silhouette.,,The main shopping screens,not yet wired,market/shared.jsx
+reformation_midi_dress,Reformation Midi Dress,,The main shopping screens,not yet wired,market/shared.jsx
+report_this_conversation,Report this conversation,,The main shopping screens,not yet wired,pages/MessagesPage.jsx
+reserved_for_another_buyer_offers_are_closed,Reserved for another buyer — offers are closed,,The main shopping screens,not yet wired,market/ItemModal.jsx
+ruffle_mini,Ruffle Mini,,The main shopping screens,not yet wired,market/shared.jsx
+search_for_items_brands_sellers,"Search for items, brands, sellers...",,The main shopping screens,not yet wired,market/shared.jsx
+search_items_brands_sellers,"Search items, brands, sellers...",,The main shopping screens,not yet wired,pages/SearchPage.jsx
+second_shelf,Second Shelf,,The main shopping screens,not yet wired,market/shared.jsx
+send_message,Send message,,The main shopping screens,not yet wired,pages/MessagesPage.jsx
+set_my_sizes,Set my sizes,,The main shopping screens,not yet wired,Marketplace.jsx
+shop_by_your_favourite_categories,Shop by your favourite categories,,The main shopping screens,not yet wired,Marketplace.jsx
+show_more_pieces,Show more pieces,,The main shopping screens,not yet wired,Marketplace.jsx
+sign_in_first_an_invitation_is_attached_to_an_ac,Sign in first — an invitation is attached to an account.,,The main shopping screens,not yet wired,pages/SellPage.jsx
+size_system_you_know,Size system you know,,The main shopping screens,not yet wired,pages/SellPage.jsx
+sizes_shown_in,Sizes shown in,,The main shopping screens,not yet wired,market/FiltersPanel.jsx
+summer_edit,Summer edit,,The main shopping screens,not yet wired,market/shared.jsx
+tan_white_canvas,Tan & White Canvas,,The main shopping screens,not yet wired,market/shared.jsx
+tell_us_how_you_re_selling,Tell us how you're selling,,The main shopping screens,not yet wired,pages/SellPage.jsx
+terracotta_fitted,Terracotta · Fitted,,The main shopping screens,not yet wired,market/shared.jsx
+that_code_has_already_been_used,That code has already been used.,,The main shopping screens,not yet wired,pages/SellPage.jsx
+that_didn_t_send_try_again,That didn't send. Try again.,,The main shopping screens,not yet wired,market/OfferModal.jsx pages/MessagesPage.jsx
+the_best_pre_loved_pieces_in_the_uae,The best pre-loved pieces in the UAE,,The main shopping screens,not yet wired,market/shared.jsx
+the_iconic_bottega_veneta_pouch_in_nude_intrecci,"The iconic Bottega Veneta pouch in nude intrecciato leather. Like new, barely carried.",,The main shopping screens,not yet wired,market/shared.jsx
+the_vintage_edit,The Vintage Edit,,The main shopping screens,not yet wired,market/shared.jsx
+third_party_authentication_partner,Third-party authentication partner.,,The main shopping screens,not yet wired,pages/SellPage.jsx
+timeless_chanel_classic_flap_in_beige_lambskin_w,"Timeless Chanel Classic Flap in beige lambskin with gold hardware. Gently used, excellent condition. Comes with dust bag and authenticity card.",,The main shopping screens,not yet wired,market/shared.jsx
+too_many_attempts_wait_an_hour_and_try_again_and,Too many attempts. Wait an hour and try again — and check you have the right code.,,The main shopping screens,not yet wired,pages/SellPage.jsx
+try_part_of_her_name_in_either_language,"Try part of her name, in either language.",,The main shopping screens,not yet wired,pages/ShopPages.jsx
+type_the_code_first,Type the code first.,,The main shopping screens,not yet wired,pages/SellPage.jsx
+van_cleef_vintage_alhambra,Van Cleef Vintage Alhambra,,The main shopping screens,not yet wired,market/shared.jsx
+we_couldn_t_reach_lili_just_now_your_code_is_fin,We couldn't reach lili just now. Your code is fine; try again in a moment.,,The main shopping screens,not yet wired,pages/SellPage.jsx
+we_don_t_recognise_that_code_check_it_against_th_2,We don't recognise that code. Check it against the message it came in.,,The main shopping screens,not yet wired,pages/SellPage.jsx
+weekend_picks,Weekend picks ,,The main shopping screens,not yet wired,market/shared.jsx
 what_you_like,What you like,,The main shopping screens,not yet wired,Marketplace.jsx
-which_brand_it_s_the_first_thing_a_buyer_searche,Which brand? It's the first thing a buyer searches for.,,The main shopping screens,not yet wired,Marketplace.jsx
-yellow_gold_malachite,Yellow Gold · Malachite,,The main shopping screens,not yet wired,Marketplace.jsx
-you_re_browsing_without_an_account_create_one_fi,"You're browsing without an account. Create one first, then enter the code.",,The main shopping screens,not yet wired,Marketplace.jsx
+which_brand_it_s_the_first_thing_a_buyer_searche,Which brand? It's the first thing a buyer searches for.,,The main shopping screens,not yet wired,pages/SellPage.jsx
+yellow_gold_malachite,Yellow Gold · Malachite,,The main shopping screens,not yet wired,market/shared.jsx
+you_re_browsing_without_an_account_create_one_fi,"You're browsing without an account. Create one first, then enter the code.",,The main shopping screens,not yet wired,pages/SellPage.jsx
 you_re_told_who_you_re_buying_from,You're told who you're buying from,,The main shopping screens,not yet wired,Marketplace.jsx
-your_listing_didn_t_reach_lili_nothing_was_publi,Your listing didn't reach lili — nothing was published. Please try again.,,The main shopping screens,not yet wired,Marketplace.jsx
-zimmermann,Zimmermann,,The main shopping screens,not yet wired,Marketplace.jsx data/resaleValue.js
-zimmermann_floral_dress,Zimmermann Floral Dress,,The main shopping screens,not yet wired,Marketplace.jsx
+your_listing_didn_t_reach_lili_nothing_was_publi_2,Your listing didn't reach lili — nothing was published. Please try again.,,The main shopping screens,not yet wired,pages/SellPage.jsx
+zimmermann_floral_dress,Zimmermann Floral Dress,,The main shopping screens,not yet wired,market/shared.jsx
 a_mall_a_caf_a_hotel_lobby_daylight_never_a_home,"A mall, a café, a hotel lobby. Daylight. Never a home address, and never a car park after dark.",,Messages between two women,not yet wired,messages/MeetSafely.jsx
 check_the_piece_before_you_pay,Check the piece before you pay,,Messages between two women,not yet wired,messages/MeetSafely.jsx
 dismiss_safety_note,Dismiss safety note,,Messages between two women,not yet wired,messages/MeetSafely.jsx
@@ -318,15 +476,23 @@ read_this_first,Read this first,,Messages between two women,not yet wired,messag
 serial_stitching_hardware_the_flaws_in_the_photo_2,"Serial, stitching, hardware, the flaws in the photos. lili does not hold your money, so the moment to be sure is before it leaves your hand.",,Messages between two women,not yet wired,messages/MeetSafely.jsx
 that_message_is_too_long_2_000_characters_is_the,"That message is too long — 2,000 characters is the limit.",,Messages between two women,not yet wired,data/conversations.js
 counter_amount,Counter amount,,Making and answering offers,not yet wired,offers/OffersPage.jsx
+i_can_t_buy_it_after_all,I can't buy it after all,,Making and answering offers,not yet wired,offers/OffersPage.jsx
 offer_from_a_buyer,Offer from a buyer,,Making and answering offers,not yet wired,offers/OffersPage.jsx
+offers_you_make_and_offers_you_receive_both_appe,Offers you make and offers you receive both appear here.,,Making and answering offers,not yet wired,offers/OffersPage.jsx
+release_the_reservation,Release the reservation,,Making and answering offers,not yet wired,offers/OffersPage.jsx
 something_went_wrong_loading_your_offers,Something went wrong loading your offers.,,Making and answering offers,not yet wired,offers/OffersPage.jsx
-that_didn_t_go_through,That didn't go through.,,Making and answering offers,not yet wired,offers/OffersPage.jsx
+that_didn_t_go_through,That didn't go through.,,Making and answering offers,not yet wired,offers/OffersPage.jsx pages/ShopPages.jsx
 we_couldn_t_reach_lili_just_now_your_offers_are_,We couldn't reach lili just now. Your offers are safe — this is only the list.,,Making and answering offers,not yet wired,offers/OffersPage.jsx
+yes_cancel,"Yes, cancel",,Making and answering offers,not yet wired,offers/OffersPage.jsx
+yes_release,"Yes, release",,Making and answering offers,not yet wired,offers/OffersPage.jsx
+your_counter_offer,Your counter-offer,,Making and answering offers,not yet wired,offers/OffersPage.jsx
 your_price,Your price,,Making and answering offers,not yet wired,offers/OffersPage.jsx
 most_saved,Most Saved,,Search and filters,not yet wired,discovery/ranking.js
 newest_first,Newest First,,Search and filters,not yet wired,discovery/filters.js discovery/ranking.js
 price_high_to_low,Price: High to Low,,Search and filters,not yet wired,discovery/ranking.js
 price_low_to_high,Price: Low to High,,Search and filters,not yet wired,discovery/ranking.js
+save_this_search,Save this search,,Search and filters,not yet wired,discovery/SavedSearches.jsx
+that_didn_t_save,That didn't save.,,Search and filters,not yet wired,discovery/SavedSearches.jsx
 a_little_longer_8_characters_or_more,A little longer — 8 characters or more.,,Signing in,not yet wired,auth/breachCheck.js
 add_padding,Add-Padding,,Signing in,not yet wired,auth/breachCheck.js
 at_least_8_characters,At least 8 characters,,Signing in,not yet wired,auth/AuthScreen.jsx
@@ -376,6 +542,9 @@ what_if_it_turns_up_fake_or_not_as_described,"What if it turns up fake, or not a
 when_do_i_get_paid,When do I get paid?,,Help centre answers,not yet wired,HelpCentre.jsx
 who_am_i_actually_buying_from,Who am I actually buying from?,,Help centre answers,not yet wired,HelpCentre.jsx
 yes_most_sellers_here_are_clearing_their_own_war,Yes — most sellers here are clearing their own wardrobes. You tell us which ,,Help centre answers,not yet wired,HelpCentre.jsx
+all_policies,All policies,,Privacy & safety centre,not yet wired,compliance/LegalCenter.jsx
+appeal_not_upheld,Appeal not upheld,,Privacy & safety centre,not yet wired,compliance/LegalCenter.jsx
+appeal_under_review,Appeal under review,,Privacy & safety centre,not yet wired,compliance/LegalCenter.jsx
 beta_roster,Beta roster,,Privacy & safety centre,not yet wired,compliance/LegalCenter.jsx
 brand_name,Brand name,,Privacy & safety centre,not yet wired,compliance/LegalCenter.jsx
 brand_owner_report_a_fake,Brand owner? Report a fake,,Privacy & safety centre,not yet wired,compliance/LegalCenter.jsx
@@ -391,28 +560,34 @@ how_a_dispute_is_handled,How a dispute is handled,,Privacy & safety centre,not y
 how_lili_works,How lili works,,Privacy & safety centre,not yet wired,compliance/LegalCenter.jsx
 how_listings_and_sellers_are_policed,How listings and sellers are policed,,Privacy & safety centre,not yet wired,compliance/LegalCenter.jsx
 if_something_goes_wrong,If something goes wrong,,Privacy & safety centre,not yet wired,compliance/LegalCenter.jsx compliance/agreements.js
+if_something_is_wrong,If something is wrong,,Privacy & safety centre,not yet wired,compliance/LegalCenter.jsx
 if_something_s_wrong,If something's wrong,,Privacy & safety centre,not yet wired,compliance/LegalCenter.jsx
 internal_invitations_and_who_actually_listed,"Internal — invitations, and who actually listed",,Privacy & safety centre,not yet wired,compliance/LegalCenter.jsx
 internal_reports_waiting_on_a_decision,Internal — reports waiting on a decision,,Privacy & safety centre,not yet wired,compliance/LegalCenter.jsx
 item_names_seller_handles_and_what_identifies_th,"Item names, seller handles, and what identifies them as fake",,Privacy & safety centre,not yet wired,compliance/LegalCenter.jsx
 moderation_queue,Moderation queue,,Privacy & safety centre,not yet wired,compliance/LegalCenter.jsx compliance/ModerationQueue.jsx
-my_reports,My reports,,Privacy & safety centre,not yet wired,compliance/LegalCenter.jsx
+my_reports_and_decisions,My reports and decisions,,Privacy & safety centre,not yet wired,compliance/LegalCenter.jsx
 nothing_was_deleted_we_couldn_t_reach_lili_your_,Nothing was deleted — we couldn't reach lili. Your account is untouched. Try again in a moment.,,Privacy & safety centre,not yet wired,compliance/LegalCenter.jsx
 notice_received,Notice received,,Privacy & safety centre,not yet wired,compliance/LegalCenter.jsx
+overturned_on_appeal_the_strike_was_removed,Overturned on appeal: the strike was removed,,Privacy & safety centre,not yet wired,compliance/LegalCenter.jsx
 owns_the_item_sets_the_price_writes_the_listing__2,"Owns the item, sets the price, writes the listing, and hands it to you herself. The sale contract is with her — lili is not a party to it.",,Privacy & safety centre,not yet wired,compliance/LegalCenter.jsx
 owns_the_item_sets_the_price_writes_the_listing_,"Owns the item, sets the price, writes the listing, packs and ships it, and handles the return. The sale contract is with them.",,Privacy & safety centre,not yet wired,compliance/LegalCenter.jsx
 payments_tax_delivery,"Payments, tax & delivery",,Privacy & safety centre,not yet wired,compliance/LegalCenter.jsx
 permanent_and_we_mean_it,"Permanent, and we mean it",,Privacy & safety centre,not yet wired,compliance/LegalCenter.jsx
 registration_threshold,Registration threshold,,Privacy & safety centre,not yet wired,compliance/LegalCenter.jsx
 report_a_counterfeit,Report a counterfeit,,Privacy & safety centre,not yet wired,compliance/LegalCenter.jsx
-reports_you_ve_sent_and_their_state,Reports you've sent and their state,,Privacy & safety centre,not yet wired,compliance/LegalCenter.jsx
+reports_you_sent_decisions_about_you_appeals,"Reports you sent, decisions about you, appeals",,Privacy & safety centre,not yet wired,compliance/LegalCenter.jsx
 rights_holder_takedown_route,Rights-holder takedown route,,Privacy & safety centre,not yet wired,compliance/LegalCenter.jsx
+rules_and_internal,Rules and internal,,Privacy & safety centre,not yet wired,compliance/LegalCenter.jsx
 rules_for_this_market_are_still_being_mapped,Rules for this market are still being mapped.,,Privacy & safety centre,not yet wired,compliance/LegalCenter.jsx
 safety_moderation,Safety & moderation,,Privacy & safety centre,not yet wired,compliance/LegalCenter.jsx
 seller_earnings_reporting,Seller earnings reporting,,Privacy & safety centre,not yet wired,compliance/LegalCenter.jsx
 selling_rules_here,Selling rules here,,Privacy & safety centre,not yet wired,compliance/LegalCenter.jsx
+send_appeal,Send appeal,,Privacy & safety centre,not yet wired,compliance/LegalCenter.jsx
 show_me_pieces_i_d_like,Show me pieces I'd like,,Privacy & safety centre,not yet wired,compliance/LegalCenter.jsx
 tax_on_the_seller_s_sale,Tax on the seller's sale,,Privacy & safety centre,not yet wired,compliance/LegalCenter.jsx
+terms_privacy_selling_safety_appeals_in_full,"Terms, privacy, selling, safety, appeals — in full",,Privacy & safety centre,not yet wired,compliance/LegalCenter.jsx
+the_appeal_didn_t_send_check_your_connection_and,The appeal didn't send. Check your connection and try again.,,Privacy & safety centre,not yet wired,compliance/LegalCenter.jsx
 the_seller,The seller,,Privacy & safety centre,not yet wired,compliance/LegalCenter.jsx
 this_device_is_not_connected_to_lili_so_this_is_,"This device is not connected to lili, so this is the phone's half only.",,Privacy & safety centre,not yet wired,compliance/LegalCenter.jsx
 two_halves_what_lili_holds_about_your_account_an,"Two halves: what lili holds about your account, and what is stored only on this phone.",,Privacy & safety centre,not yet wired,compliance/LegalCenter.jsx
@@ -423,6 +598,7 @@ what_we_ask_for_and_when,"What we ask for, and when",,Privacy & safety centre,no
 what_you_ve_agreed_to_and_undo_it,"What you've agreed to, and undo it",,Privacy & safety centre,not yet wired,compliance/LegalCenter.jsx
 who_holds_the_money_and_who_ships,Who holds the money and who ships,,Privacy & safety centre,not yet wired,compliance/LegalCenter.jsx
 who_you_re_buying_from_and_who_owes_you_what,"Who you're buying from, and who owes you what",,Privacy & safety centre,not yet wired,compliance/LegalCenter.jsx
+why_the_decision_was_wrong_and_what_shows_it_a_r,"Why the decision was wrong, and what shows it: a receipt, a serial, a photo",,Privacy & safety centre,not yet wired,compliance/LegalCenter.jsx
 withdrawing_is_as_easy_as_giving_that_s_the_rule,"Withdrawing is as easy as giving — that's the rule here, and it's why this is one tap.",,Privacy & safety centre,not yet wired,compliance/LegalCenter.jsx
 you_can_opt_out_of_sale_or_sharing_of_your_data_,You can opt out of sale or sharing of your data at any time.,,Privacy & safety centre,not yet wired,compliance/LegalCenter.jsx
 your_account_is_gone,Your account is gone,,Privacy & safety centre,not yet wired,compliance/LegalCenter.jsx
@@ -436,18 +612,91 @@ this_will_need_a_quick_check,This will need a quick check,,When a listing is hel
 worth_fixing_before_you_publish,Worth fixing before you publish,,When a listing is held for review,not yet wired,compliance/ListingScreen.jsx
 you_can_publish_a_reviewer_looks_at_it_before_it,You can publish — a reviewer looks at it before it goes live to buyers.,,When a listing is held for review,not yet wired,compliance/ListingScreen.jsx
 you_can_publish_as_is_but_this_is_likely_to_cost,"You can publish as-is, but this is likely to cost you a sale.",,When a listing is held for review,not yet wired,compliance/ListingScreen.jsx
+a_bundle_a_suitcase_size_bag,"A bundle, a suitcase-size bag",,Elsewhere,not yet wired,delivery/carriers.js
+a_client_that_can_tell_the_server_it_paid_is_a_c,A client that can tell the server it paid is a client that will.,,Elsewhere,not yet wired,payments/processor.js
+a_coat_boots_a_large_bag,"A coat, boots, a large bag",,Elsewhere,not yet wired,delivery/carriers.js
+a_commercial_arrangement_that_does_not_punish_in,A commercial arrangement that does not punish 'inconclusive',,Elsewhere,not yet wired,trust/authentication.js
+a_decline_button_that_makes_her_say_something_di,A decline button that makes her say something diminishing about herself. ,,Elsewhere,not yet wired,ux/persuasion.js
+a_line_for_the_next_person_optional_on_time_as_d,A line for the next person (optional) — on time? as described?,,Elsewhere,not yet wired,trust/ReviewPrompt.jsx
+a_named_authenticator_a_company_or_a_person_unde,A named authenticator — a company or a person — under contract,,Elsewhere,not yet wired,trust/authentication.js
+a_prompt_she_declined_is_a_decision_not_a_round_,"A prompt she declined is a decision, not a round in a negotiation. ",,Elsewhere,not yet wired,ux/persuasion.js
+a_published_listing_ends_on_what_she_made_shown_,"A published listing ends on what she made, shown as a buyer will see it. ",,Elsewhere,not yet wired,ux/persuasion.js
+a_rating_is_shown_once_real_buyers_have_left_one,"A rating is shown once real buyers have left one, and not before.",,Elsewhere,not yet wired,ux/persuasion.js
+a_refund_path_that_a_person_can_actually_operate,"A refund path that a person can actually operate, with an SLA",,Elsewhere,not yet wired,payments/processor.js
+a_report_ends_with_what_happens_next_an_erasure_,A report ends with what happens next. An erasure ends with a receipt of counts.,,Elsewhere,not yet wired,ux/persuasion.js
+a_rider_collects_from_you_and_delivers_the_same_,A rider collects from you and delivers the same day.,,Elsewhere,not yet wired,delivery/carriers.js
+a_signed_contract_with_a_payment_processor_licen,A signed contract with a payment processor licensed in the market,,Elsewhere,not yet wired,payments/processor.js
+a_signed_webhook_endpoint_with_replay_protection,"A signed webhook endpoint, with replay protection",,Elsewhere,not yet wired,payments/processor.js
+a_top_a_dress_a_small_bag,"A top, a dress, a small bag",,Elsewhere,not yet wired,delivery/carriers.js
+a_vat_invoice_for_lili_s_commission_and_a_decisi,"A VAT invoice for lili's commission, and a decision on deemed supplier",,Elsewhere,not yet wired,payments/processor.js
+a_verdict_has_to_be_attributable_to_somebody_who,A verdict has to be attributable to somebody who can be asked about it.,,Elsewhere,not yet wired,trust/authentication.js
+a_verdict_must_say_who_decided_it_when_and_on_wh,"A verdict must say who decided it, when, and on what basis",,Elsewhere,not yet wired,trust/authentication.js
+a_verdict_that_follows_a_listing_rather_than_an_,A verdict that follows a listing rather than an item is a verdict ,,Elsewhere,not yet wired,trust/authentication.js
+an_abandoned_listing_is_kept_and_offered_back_pi,An abandoned listing is kept and offered back: 'Picked up where you left off.',,Elsewhere,not yet wired,ux/persuasion.js
+anchoring_the_first_number_frames_the_rest,Anchoring — the first number frames the rest,,Elsewhere,not yet wired,ux/persuasion.js
+anything_she_can_start_in_the_app_she_can_end_in,Anything she can start in the app she can end in the app. Deletion is ,,Elsewhere,not yet wired,ux/persuasion.js
 arabic_already_forced_that_work_so_urdu_and_pers,"Arabic already forced that work, so Urdu and Persian are cheaper than ",,Elsewhere,not yet wired,i18n/languages.js
+arrowright,ArrowRight,,Elsewhere,not yet wired,sizes/SizeSystemPicker.jsx
+as_listed_s_m_l_eu_shoes,"As listed (S, M, L · EU shoes)",,Elsewhere,not yet wired,sizes/sizeSystem.js
+asia_dubai,Asia/Dubai,,Elsewhere,not yet wired,delivery/OrdersPage.jsx meet/when.js settings/Settings.jsx shops/away.js
+bags_accessories_and_jewellery_are_one_size_so_t,"Bags, accessories and jewellery are one size, so they always show.",,Elsewhere,not yet wired,profile/preferences.js
+both_of_you_have_reviewed_so_both_reviews_are_no,"Both of you have reviewed, so both reviews are now on your profiles.",,Elsewhere,not yet wired,trust/ReviewPrompt.jsx
+chest_pit_to_pit,Chest (pit to pit),,Elsewhere,not yet wired,listing/FitAndFlaws.jsx
+clear_all_preferences,Clear all preferences,,Elsewhere,not yet wired,profile/ProfilePreferences.jsx
+collection_live_is_false_no_screen_claims_money_,COLLECTION_LIVE is false — no screen claims money moves.,,Elsewhere,not yet wired,payments/processor.js
+confirmation_in_writing_that_funds_never_touch_a,Confirmation in writing that funds never touch a lili account,,Elsewhere,not yet wired,payments/processor.js
+consent_that_arrives_already_given_is_not_consen,Consent that arrives already given is not consent. Every box in this app ,,Elsewhere,not yet wired,ux/persuasion.js
+converted_sizes_are_approximate_and_vary_by_bran,Converted sizes are approximate and vary by brand.,,Elsewhere,not yet wired,sizes/sizeSystem.js
+covers_saudi_arabia_and_the_gulf_drop_off_at_an_,Covers Saudi Arabia and the Gulf. Drop off at an SMSA branch.,,Elsewhere,not yet wired,delivery/carriers.js
+crash_reports,Crash reports,,Elsewhere,not yet wired,legal/facts.js
+dangerous_the_flag_is_on_with_no_processor_behin,DANGEROUS: the flag is on with no processor behind it. Every screen ,,Elsewhere,not yet wired,payments/processor.js
+database_sign_in_and_photo_storage,"Database, sign-in and photo storage",,Elsewhere,not yet wired,legal/facts.js
+dhl_express,DHL Express,,Elsewhere,not yet wired,delivery/carriers.js
+door_to_door_drop_it_at_an_aramex_counter_or_boo,Door to door. Drop it at an Aramex counter or book a pickup.,,Elsewhere,not yet wired,delivery/carriers.js
+dresses_abayas,Dresses & abayas,,Elsewhere,not yet wired,profile/preferences.js
+each_of_those_endings_states_something_that_actu,Each of those endings states something that actually happened.,,Elsewhere,not yet wired,ux/persuasion.js
+emirates_post,Emirates Post,,Elsewhere,not yet wired,delivery/carriers.js
+endowment_effect_you_value_what_feels_already_yo,Endowment effect — you value what feels already yours,,Elsewhere,not yet wired,ux/persuasion.js
+european_union_stockholm_sweden,"European Union (Stockholm, Sweden)",,Elsewhere,not yet wired,legal/facts.js
+every_cost_is_shown_where_the_number_is_shown_re,Every cost is shown where the number is shown. Revealing a fee after ,,Elsewhere,not yet wired,ux/persuasion.js
+every_listing_is_one_piece_dressing_that_up_as_a,Every listing is one piece. Dressing that up as a countdown is manufacturing ,,Elsewhere,not yet wired,ux/persuasion.js
+everything_else_in_your_account,Everything else in your account,,Elsewhere,not yet wired,legal/facts.js
+examined_and_found_genuine,Examined and found genuine,,Elsewhere,not yet wired,trust/authentication.js
+examined_and_found_not_genuine,Examined and found not genuine,,Elsewhere,not yet wired,trust/authentication.js
+examined_and_could_not_be_decided_from_what_was_,"Examined, and could not be decided from what was available",,Elsewhere,not yet wired,trust/authentication.js
+express_across_the_uae_and_the_gcc_drop_off_at_a,Express across the UAE and the GCC. Drop off at a DHL point or book a pickup.,,Elsewhere,not yet wired,delivery/carriers.js
+extra_large,Extra large,,Elsewhere,not yet wired,delivery/carriers.js
+extra_small,Extra small,,Elsewhere,not yet wired,delivery/carriers.js
 follows_your_phone_s_own_light_or_dark_setting,Follows your phone's own light or dark setting.,,Elsewhere,not yet wired,theme/theme.js
+getting_this_wrong_is_not_a_bug_it_is_operating_,"Getting this wrong is not a bug, it is operating unlicensed.",,Elsewhere,not yet wired,payments/processor.js
+goal_gradient_effect_motivation_rises_as_the_end,Goal-gradient effect — motivation rises as the end gets closer,,Elsewhere,not yet wired,ux/persuasion.js
+google_s_own_infrastructure,Google's own infrastructure,,Elsewhere,not yet wired,legal/facts.js
+hand_it_over_somewhere_busy_and_public_no_delive,Hand it over somewhere busy and public. No delivery fee.,,Elsewhere,not yet wired,delivery/carriers.js
+her_contacts_are_other_people_s_data_and_were_ne,Her contacts are other people's data and were never consented by them. ,,Elsewhere,not yet wired,ux/persuasion.js
+holding_a_float_is_a_central_bank_of_the_uae_lic,Holding a float is a Central Bank of the UAE licensing question. ,,Elsewhere,not yet wired,payments/processor.js
+how_a_verdict_is_tied_to_one_physical_object,How a verdict is tied to one physical object,,Elsewhere,not yet wired,trust/authentication.js
+how_does_it_fit,How does it fit,,Elsewhere,not yet wired,listing/FitAndFlaws.jsx
+i_think_it_s_not_genuine,I think it's not genuine,,Elsewhere,not yet wired,delivery/carriers.js
+if_it_is_lili_that_is_a_business_lili_is_not_in_,"If it is lili, that is a business lili is not in. If it is the ",,Elsewhere,not yet wired,trust/authentication.js
 interface_strings_can_start_machine_assisted_wit,Interface strings can start machine-assisted with human review. Legal ,,Elsewhere,not yet wired,i18n/languages.js
+it_arrived_damaged,It arrived damaged,,Elsewhere,not yet wired,delivery/carriers.js
+it_hasn_t_arrived,It hasn't arrived,,Elsewhere,not yet wired,delivery/carriers.js
+it_is_literally_true_of_resale_nothing_is_manufa,It is literally true of resale. Nothing is manufactured to make it so.,,Elsewhere,not yet wired,ux/persuasion.js
+it_is_saved_the_sentence_is_a_fact_and_the_frami,"It is saved. The sentence is a fact, and the framing is the choice.",,Elsewhere,not yet wired,ux/persuasion.js
+it_removes_her_listing_and_it_is_an_accusation_s,It removes her listing and it is an accusation. She gets a route.,,Elsewhere,not yet wired,trust/authentication.js
+jewellery_a_scarf_sunglasses,"Jewellery, a scarf, sunglasses",,Elsewhere,not yet wired,delivery/carriers.js
 joined_this_month,Joined this month,,Elsewhere,not yet wired,trust/TrustSignals.jsx
+kyc_enforced_at_the_tiers_in_sellerrules_js_befo,"KYC enforced at the tiers in sellerRules.js, before any payout",,Elsewhere,not yet wired,payments/processor.js
 latin_script_so_the_cheapest_of_these_to_add_wel,"Latin script, so the cheapest of these to add well.",,Elsewhere,not yet wired,i18n/languages.js
 legal_text_platform_terms_seller_agreement_priva,"Legal text — Platform Terms, Seller Agreement, Privacy Notice — must be ",,Elsewhere,not yet wired,i18n/languages.js
+listing_removed_with_or_without_a_warning,Listing removed (with or without a warning),,Elsewhere,not yet wired,legal/facts.js
+loose_thread,Loose thread,,Elsewhere,not yet wired,listing/FitAndFlaws.jsx
+loss_aversion_a_loss_weighs_more_than_an_equival,Loss aversion — a loss weighs more than an equivalent gain,,Elsewhere,not yet wired,ux/persuasion.js
 m11_3_5h20_5v13l_9_9_9_9zm16_2_8_2v_1,M11 3.5H20.5V13l-9 9-9-9zM16.2 8.2v.1,,Elsewhere,not yet wired,icons/Icon.jsx
 m11_4a7_7_0_1_1_0_14_7_7_0_0_1_0_14m16_2_16_2_20,M11 4a7 7 0 1 1 0 14 7 7 0 0 1 0-14M16.2 16.2 20.5 20.5,,Elsewhere,not yet wired,icons/Icon.jsx
 m12_11_5a3_75_3_75_0_1_0_0_7_5_3_75_3_75_0_0_0_0,M12 11.5a3.75 3.75 0 1 0 0-7.5 3.75 3.75 0 0 0 0 7.5M4.5 20.5c0-3.6 3.4-5.75 7.5-5.75s7.5 2.15 7.5 5.75,,Elsewhere,not yet wired,icons/Icon.jsx
 m12_20_2_4_9_13_3a4_4_4_4_0_0_1_0_6_4_4_7_4_7_0_,M12 20.2 4.9 13.3a4.4 4.4 0 0 1 0-6.4 4.7 4.7 0 0 1 6.5 0l.6.6.6-.6a4.7 4.7 0 0 1 6.5 0 4.4 4.4 0 0 1 0 6.4z,,Elsewhere,not yet wired,icons/Icon.jsx
 m12_20_5_3_5_9_5_6_5_4_5h11l3_5zm3_5_9_5h17m8_5_,M12 20.5 3.5 9.5 6.5 4.5h11l3 5zM3.5 9.5h17M8.5 4.5 12 9.5 15.5 4.5M9 9.5l3 11 3-11,,Elsewhere,not yet wired,icons/Icon.jsx
-m12_20_5_4_5_10_7_5_4_5h9l19_5_10zm4_5_10h15m7_5,M12 20.5 4.5 10 7.5 4.5h9L19.5 10zM4.5 10h15M7.5 4.5 12 10l4.5-5.5,,Elsewhere,not yet wired,icons/Icon.jsx
 m12_20_5c0_4_5_4_7_6_1_2_9_6m12_6_10_4c_1_6_2_2_,M12 20.5c0-4.5.4-7.6 1.2-9.6M12.6 10.4c-1.6-2.2-4-3-6.6-2.2 1.4-2.4 4-3.2 6.6-1.9-.4-2.6 1-4.6 3.6-5-1.2 2.2-1 4 .4 5.4 2.2-1.4 4.6-1 6.2 1-2.6-.2-4.6.6-5.8 2.4,,Elsewhere,not yet wired,icons/Icon.jsx
 m12_3_5_19_5_6v6c0_4_3_2_7_2_7_5_8_5c7_7_19_2_4_,M12 3.5 19.5 6v6c0 4-3.2 7.2-7.5 8.5C7.7 19.2 4.5 16 4.5 12V6z,,Elsewhere,not yet wired,icons/Icon.jsx
 m12_3_5a5_5_5_5_0_0_1_5_5_5_5c0_4_1_5_5_5_2_6_5h,M12 3.5a5.5 5.5 0 0 1 5.5 5.5c0 4 1.5 5.5 2 6.5H4.5c.5-1 2-2.5 2-6.5A5.5 5.5 0 0 1 12 3.5M10 18.5a2 2 0 0 0 4 0,,Elsewhere,not yet wired,icons/Icon.jsx
@@ -455,10 +704,10 @@ m12_3_5a8_5_8_5_0_1_1_0_17_8_5_8_5_0_0_1_0_17m12,M12 3.5a8.5 8.5 0 1 1 0 17 8.5 
 m12_3_5a8_5_8_5_0_1_1_0_17_8_5_8_5_0_0_1_0_17m3_,M12 3.5a8.5 8.5 0 1 1 0 17 8.5 8.5 0 0 1 0-17M3.5 12h17M12 3.5c2.2 2.3 3.4 5.3 3.4 8.5s-1.2 6.2-3.4 8.5c-2.2-2.3-3.4-5.3-3.4-8.5S9.8 5.8 12 3.5,,Elsewhere,not yet wired,icons/Icon.jsx
 m12_3_5a8_5_8_5_0_1_1_0_17_8_5_8_5_0_0_1_0_17m6_,M12 3.5a8.5 8.5 0 1 1 0 17 8.5 8.5 0 0 1 0-17M6 6l12 12,,Elsewhere,not yet wired,icons/Icon.jsx
 m12_3_5a8_5_8_5_0_1_1_0_17_8_5_8_5_0_0_1_0_17m9_,M12 3.5a8.5 8.5 0 1 1 0 17 8.5 8.5 0 0 1 0-17M9.6 9.4A2.5 2.5 0 0 1 14.5 10c0 1.7-2.5 2-2.5 3.6M12 16.8v.1,,Elsewhere,not yet wired,icons/Icon.jsx
-m12_3_5c2_9_0_4_6_2_3_4_6_5_8_0_3_9_1_6_9_1_6_8_,M12 3.5c2.9 0 4.6 2.3 4.6 5.8 0 3.9-1 6.9-1.6 8.4-.5 1.3-1.5 1.9-3 1.9s-2.5-.6-3-1.9c-.6-1.5-1.6-4.5-1.6-8.4 0-3.5 1.7-5.8 4.6-5.8zM10 19.6l.5 1.9h3l.5-1.9,,Elsewhere,not yet wired,icons/Icon.jsx
 m12_3_5l1_7_4_8_4_8_1_7_4_8_1_7l12_16_5l_1_7_4_8,M12 3.5l1.7 4.8 4.8 1.7-4.8 1.7L12 16.5l-1.7-4.8-4.8-1.7 4.8-1.7zM18.5 15.5l.8 2.2 2.2.8-2.2.8-.8 2.2-.8-2.2-2.2-.8 2.2-.8z,,Elsewhere,not yet wired,icons/Icon.jsx
 m12_3_8l2_5_5_2_5_6_8_4_4_9_5_7_5_2_7_5_2_7_9_5_,M12 3.8l2.5 5.2 5.6.8-4 4 .9 5.7-5-2.7-5 2.7.9-5.7-4-4 5.6-.8z,,Elsewhere,not yet wired,icons/Icon.jsx
 m12_4_21_19_5h3zm12_10v4_5m12_17_2v_1,M12 4 21 19.5H3zM12 10v4.5M12 17.2v.1,,Elsewhere,not yet wired,icons/Icon.jsx
+m12_4_3_9_3_5_6_3_7_1_4_9_13_3l2_1_6_4_2_4_1_1_8,M12 4.3 9.3 5 6.3 7.1 4.9 13.3l2.1.6.4-2.4-1.1 8.8a26 26 0 0 0 11.4 0l-1.1-8.8.4 2.4 2.1-.6-1.4-6.2-3-2.1zM12 4.3v15.9,,Elsewhere,not yet wired,icons/Icon.jsx
 m12_4v16m7_20h10m4_8_5h16m4_8_5_1_8_14h4_4zm20_8,M12 4v16M7 20h10M4 8.5h16M4 8.5 1.8 14h4.4zM20 8.5 17.8 14h4.4zM8 4.5h8,,Elsewhere,not yet wired,icons/Icon.jsx
 m12_5_5v13m5_5_12h13,M12 5.5v13M5.5 12h13,,Elsewhere,not yet wired,icons/Icon.jsx
 m14_5_5_7_5_12l7_7,M14.5 5 7.5 12l7 7,,Elsewhere,not yet wired,icons/Icon.jsx
@@ -466,7 +715,6 @@ m2_5_12s5_8_6_5_12_6_5_21_5_12_21_5_12_18_2_17_5,M2.5 12S5.8 6.5 12 6.5 21.5 12 
 m2_5_5_5h19v13h_19zm2_5_10h19m5_5_14_5h3,M2.5 5.5h19v13h-19zM2.5 10h19M5.5 14.5h3,,Elsewhere,not yet wired,icons/Icon.jsx
 m2_5_6_5h11v10h_11zm13_5_10h3_8l3_2_3_3v3_2h_7zm,M2.5 6.5h11v10h-11zM13.5 10h3.8l3.2 3.3v3.2h-7zM7 19.5a1.6 1.6 0 1 0 0-.01M17 19.5a1.6 1.6 0 1 0 0-.01,,Elsewhere,not yet wired,icons/Icon.jsx
 m2_5_9_5_12_4l9_5_5_5zm5_9_5v8m9_5_9_5v8m14_5_9_,M2.5 9.5 12 4l9.5 5.5zM5 9.5v8M9.5 9.5v8M14.5 9.5v8M19 9.5v8M3 20.5h18,,Elsewhere,not yet wired,icons/Icon.jsx
-m2_5_9_5h19m4_5_9_5c0_3_1_2_4_5_3_2_4_5s3_3_1_5_,M2.5 9.5h19M4.5 9.5c0 3 1.2 4.5 3.2 4.5s3.3-1.5 3.3-4.5M13 9.5c0 3 1.3 4.5 3.3 4.5s3.2-1.5 3.2-4.5M11 11h2,,Elsewhere,not yet wired,icons/Icon.jsx
 m20_5_11_6c0_3_9_3_8_7_8_5_7a10_10_0_0_1_2_4_3l4,M20.5 11.6c0 3.9-3.8 7-8.5 7a10 10 0 0 1-2.4-.3L4.5 20l1.2-3.4A6.6 6.6 0 0 1 3.5 11.6c0-3.9 3.8-7 8.5-7s8.5 3.1 8.5 7z,,Elsewhere,not yet wired,icons/Icon.jsx
 m20_5_14_8a8_6_8_6_0_0_1_9_2_3_5a8_6_8_6_0_1_0_1,M20.5 14.8A8.6 8.6 0 0 1 9.2 3.5a8.6 8.6 0 1 0 11.3 11.3,,Elsewhere,not yet wired,icons/Icon.jsx
 m20_5_3_5_3_5_10_2l6_4_2_9_2_9_6_4z,M20.5 3.5 3.5 10.2l6.4 2.9 2.9 6.4z,,Elsewhere,not yet wired,icons/Icon.jsx
@@ -476,44 +724,119 @@ m3_5_5_5h17v13h_17zm8_5_12a2_2_0_1_0_0_4_2_2_0_0,M3.5 5.5h17v13h-17zM8.5 12a2 2 
 m3_5_6_5h17m6_5_12h11m10_17_5h4,M3.5 6.5h17M6.5 12h11M10 17.5h4,,Elsewhere,not yet wired,icons/Icon.jsx
 m3_5_8_5h3_2l1_4_2_3h7_8l1_4_2_3h3_2v10a1_5_1_5_,M3.5 8.5h3.2l1.4-2.3h7.8l1.4 2.3h3.2v10a1.5 1.5 0 0 1-1.5 1.5H5a1.5 1.5 0 0 1-1.5-1.5zM12 17a3.5 3.5 0 1 0 0-7 3.5 3.5 0 0 0 0 7,,Elsewhere,not yet wired,icons/Icon.jsx
 m4_20v4m4_20h16m8_17v11m12_5_17v7_5m17_17v_4,M4 20V4M4 20h16M8 17V11M12.5 17V7.5M17 17v-4,,Elsewhere,not yet wired,icons/Icon.jsx
-m4_9_5h16m4_9_5_5_6_4_5h12_8l20_9_5m5_5_9_5v19a1,M4 9.5h16M4 9.5 5.6 4.5h12.8L20 9.5M5.5 9.5V19a1.5 1.5 0 0 0 1.5 1.5h10a1.5 1.5 0 0 0 1.5-1.5V9.5M9.5 20.5v-5h5v5,,Elsewhere,not yet wired,icons/Icon.jsx
-m5_8_5h14l1_12h4zm8_8_8_5v6_6a3_2_3_2_0_0_1_6_4_,M5 8.5h14l1 12H4zM8.8 8.5V6.6a3.2 3.2 0 0 1 6.4 0v1.9,,Elsewhere,not yet wired,icons/Icon.jsx
+m4_2_9_6h15_6m4_2_9_6_5_9_4_8h12_2l1_7_4_8m5_7_9,M4.2 9.6h15.6M4.2 9.6 5.9 4.8h12.2l1.7 4.8M5.7 9.6v9.9a1.4 1.4 0 0 0 1.4 1.4h9.8a1.4 1.4 0 0 0 1.4-1.4V9.6M10 20.9v-5.2a2 2 0 0 1 4 0v5.2,,Elsewhere,not yet wired,icons/Icon.jsx
+m4_4_18_3c3_8_5_6_7_2_5_8_7_5_9l2_3_4_3_1_1_6_1_,M4.4 18.3c3.8-.5 6.7-2.5 8.7-5.9l2-3.4 3.1 1.6-1.9 3.6c1.6.5 2.7 1.4 3.1 2.8.3 1 .3 2 0 3.1H4.4zM16.3 19.5l1.5-3.4,,Elsewhere,not yet wired,icons/Icon.jsx
 m5_9_5l7_7_7_7,M5 9.5l7 7 7-7,,Elsewhere,not yet wired,icons/Icon.jsx
 m5_5_10_5h13v10h_13zm8_5_10_5v7_8a3_5_3_5_0_0_1_,M5.5 10.5h13v10h-13zM8.5 10.5V7.8a3.5 3.5 0 0 1 7 0v2.7,,Elsewhere,not yet wired,icons/Icon.jsx
 m6_3_5h12v17l_2_1_4_2_1_4_2_1_4_2_1_4_2_1_4zm9_8,M6 3.5h12v17l-2-1.4-2 1.4-2-1.4-2 1.4-2-1.4zM9 8.5h6M9 12.5h6,,Elsewhere,not yet wired,icons/Icon.jsx
 m6_6l12_12m18_6_6_18,M6 6l12 12M18 6 6 18,,Elsewhere,not yet wired,icons/Icon.jsx
-m7_5_3_5h9l3_5_17h4zm7_5_8_5h9,M7.5 3.5h9l3.5 17H4zM7.5 8.5h9,,Elsewhere,not yet wired,icons/Icon.jsx
+m6_2_9_2h11_6l1_10_6a1_4_1_4_0_0_1_1_4_1_5h6_6a1,M6.2 9.2h11.6l1 10.6a1.4 1.4 0 0 1-1.4 1.5H6.6a1.4 1.4 0 0 1-1.4-1.5zM9 9.2V7a3 3 0 0 1 6 0v2.2M6.6 13.4h10.8,,Elsewhere,not yet wired,icons/Icon.jsx
+m6_6_4_6v1_3a5_4_5_4_0_0_0_10_8_0v4_6m12_11_3l_1,M6.6 4.6v1.3a5.4 5.4 0 0 0 10.8 0V4.6M12 11.3l-1.6 2.7a1.9 1.9 0 1 0 3.2 0z,,Elsewhere,not yet wired,icons/Icon.jsx
+m7_9_4_6h8_2l_5_2_6_5_1_2_2_5_11_4a20_20_0_0_1_1,M7.9 4.6h8.2l.5 2.6-.5 1.2 2.5 11.4a20 20 0 0 1-13.2 0L7.9 8.4l-.5-1.2zM7.4 7.2h9.2,,Elsewhere,not yet wired,icons/Icon.jsx
+m8_2_4_6_4_9_6_5l_9_4_4_7_9_1h5_4m15_8_4_6l3_3_1,M8.2 4.6 4.9 6.5l.9 4.4-.7 9.1h5.4M15.8 4.6l3.3 1.9-.9 4.4.7 9.1h-5.4M8.2 4.6l1.9 3.4L12 6.7l1.9 1.3 1.9-3.4M12 6.7v13.3,,Elsewhere,not yet wired,icons/Icon.jsx
 m8_5_10_5a3_3_0_1_0_0_6_3_3_0_0_0_0_6m2_5_20c0_3,M8.5 10.5a3 3 0 1 0 0-6 3 3 0 0 0 0 6M2.5 20c0-3 2.7-4.5 6-4.5s6 1.5 6 4.5M15.5 9.6a2.6 2.6 0 1 0 0-5.2M17 15.9c2.7.4 4.5 1.9 4.5 4.1,,Elsewhere,not yet wired,icons/Icon.jsx
-m8_5_3_5h7l4_2_8_1_8_4_3_1_2_7_6_10_6h6_9l_6_10_,M8.5 3.5h7l4 2.8-1.8 4.3-1.2-.7.6 10.6H6.9l.6-10.6-1.2.7-1.8-4.3z,,Elsewhere,not yet wired,icons/Icon.jsx
-m8_8_3_5_12_7l3_2_3_5_4_3_2_4_1_3_5_1_1_8_6h4_7l,M8.8 3.5 12 7l3.2-3.5 4.3 2.4-1.3 5 1.1 8.6H4.7l1.1-8.6-1.3-5zM12 7v13.5,,Elsewhere,not yet wired,icons/Icon.jsx
-m9_3_5h6l2_5_3_4_2_2_1_7_3_2_4_1_1_1_4_3_8_1h6_5,M9 3.5h6l2.5 3.4-2.2 1.7.3 2.4-1.1 1.4 3 8.1H6.5l3-8.1-1.1-1.4.3-2.4-2.2-1.7z,,Elsewhere,not yet wired,icons/Icon.jsx
-m9_3_5h6l3_2_3_6_1_6_1_9_1_4_11_5h5_9l1_4_11_5_1,M9 3.5h6l3.2 3.6-1.6 1.9 1.4 11.5H5.9l1.4-11.5-1.6-1.9zM12 4.2v16.3M9 3.5l3 2.6 3-2.6,,Elsewhere,not yet wired,icons/Icon.jsx
+m8_6_4_1_12_6_2l3_4_2_1_1_6_4_3_1_9_1_6_5_2_6l18,M8.6 4.1 12 6.2l3.4-2.1 1.6 4.3-1.9 1.6.5 2.6L18.6 20a17 17 0 0 1-13.2 0l3-7.4.5-2.6-1.9-1.6z,,Elsewhere,not yet wired,icons/Icon.jsx
+m8_9_4_2_12_6l3_1_1_8_3_4_2_3_1_5_3_7_1_4_8_6_9_,M8.9 4.2 12 6l3.1-1.8 3.4 2.3-1.5 3.7-1.4-.8.6 9.2a19 19 0 0 1-8.4 0l.6-9.2-1.4.8-1.5-3.7z,,Elsewhere,not yet wired,icons/Icon.jsx
 m9_5_5l7_7_7_7,M9.5 5l7 7-7 7,,Elsewhere,not yet wired,icons/Icon.jsx
+making_the_exit_harder_than_the_entrance_a_woman,Making the exit harder than the entrance. A woman who wants to leave ,,Elsewhere,not yet wired,ux/persuasion.js
 match_my_phone,Match my phone,,Elsewhere,not yet wired,theme/theme.js
+meet_in_person,Meet in person,,Elsewhere,not yet wired,delivery/carriers.js
+missing_button,Missing button,,Elsewhere,not yet wired,listing/FitAndFlaws.jsx
+moderation_decisions_and_the_evidence_behind_the,Moderation decisions and the evidence behind them,,Elsewhere,not yet wired,legal/facts.js
+no_payment_processor_is_registered,No payment processor is registered.,,Elsewhere,not yet wired,payments/processor.js
+nobody_authenticates_pieces_on_lili_screening_a_,Nobody authenticates pieces on lili. Screening a listing for counterfeit ,,Elsewhere,not yet wired,trust/authentication.js
+nobody_is_counting_who_is_looking_at_a_listing_t,Nobody is counting who is looking at a listing. The sentence would be invented.,,Elsewhere,not yet wired,ux/persuasion.js
+not_a_verdict_unknown_outcome,Not a verdict: unknown outcome,,Elsewhere,not yet wired,trust/authentication.js
+not_as_described,Not as described,,Elsewhere,not yet wired,delivery/carriers.js
+nothing_here_is_promoted_and_if_placement_is_eve,"Nothing here is promoted, and if placement is ever sold it will be ",,Elsewhere,not yet wired,ux/persuasion.js
+notifications_you_have_read,Notifications you have read,,Elsewhere,not yet wired,legal/facts.js
 official_language_consumer_terms_must_be_availab,"Official language. Consumer terms must be available in Arabic, and ",,Elsewhere,not yet wired,i18n/languages.js
+on_its_way,On its way,,Elsewhere,not yet wired,delivery/carriers.js
+one_listing_is_one_specific_second_hand_piece_an,"One listing is one specific second-hand piece, and the app says so — ",,Elsewhere,not yet wired,ux/persuasion.js
+only_the_buyer_and_the_seller_in_this_order_can_,Only the buyer and the seller in this order can review it.,,Elsewhere,not yet wired,trust/ReviewPrompt.jsx
+only_the_two_of_you_who_met_can_review_it,Only the two of you who met can review it.,,Elsewhere,not yet wired,trust/ReviewPrompt.jsx
+paid_to_be_sent,Paid · to be sent,,Elsewhere,not yet wired,delivery/carriers.js
+pay_per_verdict_and_inconclusive_disappears_with,Pay per verdict and inconclusive disappears within a month.,,Elsewhere,not yet wired,trust/authentication.js
+payment_state_must_come_from_the_processor_never,"Payment state must come from the processor, never from the phone. ",,Elsewhere,not yet wired,payments/processor.js
 peach_and_cream_whatever_your_phone_is_doing,"Peach and cream, whatever your phone is doing.",,Elsewhere,not yet wired,theme/theme.js
+peak_end_rule_an_experience_is_remembered_by_its,Peak-end rule — an experience is remembered by its peak and its end,,Elsewhere,not yet wired,ux/persuasion.js
+post_it_from_any_emirates_post_office_delivered_,"Post it from any Emirates Post office, delivered to the door.",,Elsewhere,not yet wired,delivery/carriers.js
+problem_reported,Problem reported,,Elsewhere,not yet wired,delivery/carriers.js
+quiqup_same_day,Quiqup same-day,,Elsewhere,not yet wired,delivery/carriers.js
+rate_limit_counters,Rate-limit counters,,Elsewhere,not yet wired,legal/facts.js
+recognition_over_recall,Recognition over recall,,Elsewhere,not yet wired,ux/persuasion.js
 right_to_left_like_arabic_layout_work_is_shared_,"Right-to-left, like Arabic. Layout work is shared with Arabic.",,Elsewhere,not yet wired,i18n/languages.js
 rtl_languages_need_the_layout_mirrored_not_just_,"RTL languages need the layout mirrored, not just the strings swapped. ",,Elsewhere,not yet wired,i18n/languages.js
+runs_large,Runs large,,Elsewhere,not yet wired,listing/FitAndFlaws.jsx
+runs_small,Runs small,,Elsewhere,not yet wired,listing/FitAndFlaws.jsx
+saved_pieces_and_the_list_persist_and_are_hers_b,"Saved pieces and the list persist, and are hers before any account exists.",,Elsewhere,not yet wired,ux/persuasion.js
+scarcity_a_scarce_thing_is_valued_more,Scarcity — a scarce thing is valued more,,Elsewhere,not yet wired,ux/persuasion.js
+search_brands,Search brands,,Elsewhere,not yet wired,profile/ProfilePreferences.jsx
+search_offers_what_is_genuinely_in_stock_now_rat,Search offers what is genuinely in stock now rather than an empty box.,,Elsewhere,not yet wired,ux/persuasion.js
+seller_suspended_so_selling_is_paused_until_a_mo,"Seller suspended, so selling is paused until a moderator lifts it",,Elsewhere,not yet wired,legal/facts.js
+sellers_set_prices_and_lili_runs_no_sales_so_any,"Sellers set prices and lili runs no sales, so any headline number with ",,Elsewhere,not yet wired,ux/persuasion.js
+sellers_set_prices_lili_does_not_run_sales_and_c,Sellers set prices. lili does not run sales and cannot promise a price will move.,,Elsewhere,not yet wired,ux/persuasion.js
+send_review,Send review,,Elsewhere,not yet wired,trust/ReviewPrompt.jsx
+shipping_rules_names_14_days_that_number_has_to_,SHIPPING.rules names 14 days. That number has to be the processor's ,,Elsewhere,not yet wired,payments/processor.js
+shoes_in_their_box_a_handbag,"Shoes in their box, a handbag",,Elsewhere,not yet wired,delivery/carriers.js
+show_sizes_in,Show sizes in,,Elsewhere,not yet wired,profile/ProfilePreferences.jsx sizes/SizeSystemPicker.jsx
+sign_in_only_if_you_choose_continue_with_google,"Sign-in, only if you choose “Continue with Google”",,Elsewhere,not yet wired,legal/facts.js
 significant_resident_and_visitor_population_and_,"Significant resident and visitor population, and a strong luxury ",,Elsewhere,not yet wired,i18n/languages.js
+small_hole,Small hole,,Elsewhere,not yet wired,listing/FitAndFlaws.jsx
+smsa_express,SMSA Express,,Elsewhere,not yet wired,delivery/carriers.js
+stated_as_reassurance_never_as_threat_your_draft,"Stated as reassurance, never as threat: 'your draft is saved', not ",,Elsewhere,not yet wired,ux/persuasion.js
+tap_again_to_clear_every_preference,Tap again to clear every preference,,Elsewhere,not yet wired,profile/ProfilePreferences.jsx
+that_didn_t_reach_lili_nothing_was_saved_try_aga,That didn't reach lili. Nothing was saved — try again.,,Elsewhere,not yet wired,trust/ReviewPrompt.jsx
+the_band_comes_from_the_resale_model_and_says_no,The band comes from the resale model and says nothing when it has ,,Elsewhere,not yet wired,ux/persuasion.js
+the_draft_is_really_on_the_device_photographs_an,"The draft is really on the device, photographs and all.",,Elsewhere,not yet wired,ux/persuasion.js
+the_hold_period_and_the_dispute_window_agreed_wi,"The hold period and the dispute window, agreed with the processor",,Elsewhere,not yet wired,payments/processor.js
+the_invite_system_uses_codes_she_chooses_to_shar,The invite system uses codes she chooses to share.,,Elsewhere,not yet wired,ux/persuasion.js
 the_keralite_community_in_the_uae_is_large_and_l,The Keralite community in the UAE is large and long-established — ,,Elsewhere,not yet wired,i18n/languages.js
-the_rest_including_the_terms_is_being_translated,"The rest, including the terms, is being translated by a person ",,Elsewhere,not yet wired,i18n/languages.js
+the_listing_flow_names_the_step_and_how_many_are,The listing flow names the step and how many are left.,,Elsewhere,not yet wired,ux/persuasion.js
+the_offer_sheet_shows_the_published_resale_band_,The offer sheet shows the published resale band before she types a figure.,,Elsewhere,not yet wired,ux/persuasion.js
+the_seller_agreement_already_says_lili_is_not_if,The seller agreement already says lili is not. If a processor ,,Elsewhere,not yet wired,payments/processor.js
+the_steps_are_real_and_there_are_genuinely_that_,The steps are real and there are genuinely that many.,,Elsewhere,not yet wired,ux/persuasion.js
+the_terms_are_taken_from_live_listings_not_inven,"The terms are taken from live listings, not invented demand.",,Elsewhere,not yet wired,ux/persuasion.js
+the_word_for_it_is_confirmshaming_and_it_is_bene,The word for it is confirmshaming and it is beneath this product.,,Elsewhere,not yet wired,ux/persuasion.js
 the_working_language_of_business_and_most_of_the,The working language of business and most of the app today.,,Elsewhere,not yet wired,i18n/languages.js
+there_is_no_deadline_an_offer_expiry_is_a_real_c,There is no deadline. An offer expiry is a real clock and is shown as one; ,,Elsewhere,not yet wired,ux/persuasion.js
+there_is_no_subscription_if_one_ever_exists_it_i,There is no subscription. If one ever exists it is opt-in and cancellable ,,Elsewhere,not yet wired,ux/persuasion.js
+these_are_different_claims_and_a_buyer_prices_th,These are different claims and a buyer prices them differently.,,Elsewhere,not yet wired,trust/authentication.js
+they_do_persist_nothing_is_lost_on_close,They do persist. Nothing is lost on close.,,Elsewhere,not yet wired,ux/persuasion.js
+this_app_carried_trusted_by_10_000_women_in_duba,"This app carried 'Trusted by 10,000+ women in Dubai' over five filled stars ",,Elsewhere,not yet wired,ux/persuasion.js
 timeouterror,TimeoutError,,Elsewhere,not yet wired,ux/timeout.js
+tops_jackets,Tops & jackets,,Elsewhere,not yet wired,profile/preferences.js
+trousers_skirts,Trousers & skirts,,Elsewhere,not yet wired,profile/preferences.js
+true_to_size,True to size,,Elsewhere,not yet wired,listing/FitAndFlaws.jsx
+until_you_delete_it_or_delete_your_account,Until you delete it or delete your account,,Elsewhere,not yet wired,legal/facts.js
+usage_analytics_only_if_you_allowed_them,Usage analytics (only if you allowed them),,Elsewhere,not yet wired,legal/facts.js
+visible_wear,Visible wear,,Elsewhere,not yet wired,listing/FitAndFlaws.jsx
+waiting_for_payment,Waiting for payment,,Elsewhere,not yet wired,delivery/carriers.js
 warm_near_black_easier_at_night_and_on_oled_scre,Warm near-black. Easier at night and on OLED screens.,,Elsewhere,not yet wired,theme/theme.js
+what_a_seller_can_do_about_a_wrong_not_genuine,What a seller can do about a wrong 'not genuine',,Elsewhere,not yet wired,trust/authentication.js
+whether_they_examine_the_object_or_only_photogra,"Whether they examine the object or only photographs, stated to the buyer",,Elsewhere,not yet wired,trust/authentication.js
+who_is_liable_when_a_verdict_is_wrong,Who is liable when a verdict is wrong,,Elsewhere,not yet wired,trust/authentication.js
+who_is_the_merchant_of_record_for_a_sale_settled,"Who is the merchant of record for a sale — settled, and written into the seller agreement",,Elsewhere,not yet wired,payments/processor.js
+without_one_there_is_no_lawful_way_to_take_a_car,Without one there is no lawful way to take a card payment at all.,,Elsewhere,not yet wired,payments/processor.js
+your_review,Your review,,Elsewhere,not yet wired,trust/ReviewPrompt.jsx
+zeigarnik_effect_an_unfinished_task_stays_in_min,Zeigarnik effect — an unfinished task stays in mind,,Elsewhere,not yet wired,ux/persuasion.js
+a_badge_with_no_author_is_the_most_expensive_fal,A badge with no author is the most expensive false claim a resale app can make.,,Rules and legal wording,not yet wired,compliance/claims.js
 a_business_seller_owes_you_statutory_returns_and,A business seller owes you statutory returns and warranties. Someone ,,Rules and legal wording,not yet wired,compliance/agreements.js
+a_courier_order_needs_the_courier_s_tracking_num,A courier order needs the courier's tracking number — an untracked parcel is an undefendable dispute,,Rules and legal wording,not yet wired,compliance/sellerRules.js
 a_licensed_payment_processor,A licensed payment processor,,Rules and legal wording,not yet wired,compliance/sellerRules.js
 a_photo_of_the_serial_card_or_receipt_does_this_,"A photo of the serial, card or receipt does this better than the words do.",,Rules and legal wording,not yet wired,compliance/listingRules.js
 a_promoted_listing_carries_a_visible_promoted_la,"A promoted listing carries a visible 'Promoted' label — always, not on hover",,Rules and legal wording,not yet wired,compliance/sellerRules.js
 a_report_is_a_row_it_lands_in_a_queue_a_moderato,"A report is a row. It lands in a queue a moderator opens, and the ",,Rules and legal wording,not yet wired,compliance/claims.js
 a_reported_conversation,A reported conversation,,Rules and legal wording,not yet wired,compliance/moderation.js
 a_security_definer_function_reads_every_table_th,A SECURITY DEFINER function reads every table that carries her id and ,,Rules and legal wording,not yet wired,compliance/claims.js
-a_seller_can_contest_a_strike_contested_strikes_,A seller can contest a strike. Contested strikes don't count until decided ,,Rules and legal wording,not yet wired,compliance/listingRules.js
 act_on_a_valid_takedown_notice_fast_and_log_when,"Act on a valid takedown notice fast, and log when you did",,Rules and legal wording,not yet wired,compliance/intermediary.js
 add_authentication_or_a_receipt_or_check_the_pri,"Add authentication or a receipt, or check the price is right.",,Rules and legal wording,not yet wired,compliance/listingRules.js
 add_your_year_of_birth,Add your year of birth,,Rules and legal wording,not yet wired,compliance/ComplianceProvider.jsx
 adyen_for_platforms,Adyen for Platforms,,Rules and legal wording,not yet wired,compliance/sellerRules.js
 alcohol_tobacco_or_vape,"Alcohol, tobacco or vape",,Rules and legal wording,not yet wired,compliance/listingRules.js
 an_offer_expires_if_it_isn_t_answered,An offer expires if it isn't answered.,,Rules and legal wording,not yet wired,compliance/claims.js
+app_health,App health,,Rules and legal wording,not yet wired,compliance/HealthPanel.jsx
+app_health_all_quiet,App health: all quiet,,Rules and legal wording,not yet wired,compliance/HealthPanel.jsx
 appear_as_a_business_seller,Appear as a business seller,,Rules and legal wording,not yet wired,compliance/sellerRules.js
 arabic_and_english_for_both_since_consumer_terms,"Arabic and English for both, since consumer terms need Arabic",,Rules and legal wording,not yet wired,compliance/markets.js
 arabic_first_interface_not_arabic_as_secondary,"Arabic-first interface, not Arabic-as-secondary",,Rules and legal wording,not yet wired,compliance/markets.js
@@ -531,7 +854,6 @@ buyer_pays_the_processor_not_lili,"Buyer pays the processor, not lili",,Rules an
 casual_seller,Casual seller,,Rules and legal wording,not yet wired,compliance/sellerRules.js
 chanel_herm_s_rolex_cartier_van_cleef_and_simila,"Chanel, Hermès, Rolex, Cartier, Van Cleef and similar are screened ",,Rules and legal wording,not yet wired,compliance/agreements.js
 checkout_com,Checkout.com,,Rules and legal wording,not yet wired,compliance/sellerRules.js
-cites_for_exotic_materials_launch_domestic_open_,CITES for exotic materials. Launch domestic; open corridors deliberately.,,Rules and legal wording,not yet wired,compliance/sellerRules.js
 close_the_shop_hold_payouts,"Close the shop, hold payouts",,Rules and legal wording,not yet wired,compliance/moderation.js
 confirm_locally,Confirm locally,,Rules and legal wording,not yet wired,compliance/sellerRules.js
 consumer_law_applies_in_full_returns_warranties_,"Consumer law applies in full: returns, warranties, and a trading ",,Rules and legal wording,not yet wired,compliance/intermediary.js
@@ -540,11 +862,12 @@ counterfeit_takedown_route_with_a_named_responsi,Counterfeit takedown route with
 counts_and_derived_columns_are_owned_by_the_serv,Counts and derived columns are owned by the server through column-level ,,Rules and legal wording,not yet wired,compliance/claims.js
 creator_licence_checked_before_payment,Creator licence checked before payment,,Rules and legal wording,not yet wired,compliance/sellerRules.js
 criteria_and_kinds_of_place_never_a_named_addres,"Criteria and kinds of place, never a named address and never an ",,Rules and legal wording,not yet wired,compliance/claims.js
-cross_border_resale_drags_in_customs_duty_prohib,"Cross-border resale drags in customs, duty, prohibited-import lists and ",,Rules and legal wording,not yet wired,compliance/sellerRules.js
 dac7_reporting_of_seller_identity_and_earnings_a,"DAC7 reporting of seller identity and earnings, annually",,Rules and legal wording,not yet wired,compliance/markets.js
 decisions_must_be_immutable_once_written_correct,Decisions must be immutable once written. Correct by adding a new record.,,Rules and legal wording,not yet wired,compliance/moderation.js
 declared_as_a_business_or_crosses_the_trader_rev,"Declared as a business, or crosses the trader review threshold",,Rules and legal wording,not yet wired,compliance/sellerRules.js
 deemed_supplier_vat_assessed_the_platform_can_ow,Deemed-supplier VAT assessed — the platform can owe tax on others' sales,,Rules and legal wording,not yet wired,compliance/markets.js
+delivery_is_offered_inside_the_uae_and_to_saudi_,"Delivery is offered inside the UAE and to Saudi Arabia, Kuwait, Qatar, Bahrain ",,Rules and legal wording,not yet wired,compliance/sellerRules.js
+deliverysettings,DeliverySettings,,Rules and legal wording,not yet wired,compliance/claims.js
 describes_itself_relative_to_a_brand_rather_than,Describes itself relative to a brand rather than as one,,Rules and legal wording,not yet wired,compliance/listingRules.js
 describes_the_item_as_a_copy_of_a_brand,Describes the item as a copy of a brand,,Rules and legal wording,not yet wired,compliance/listingRules.js
 digital_services_act_omnibus_directive,Digital Services Act + Omnibus Directive,,Rules and legal wording,not yet wired,compliance/markets.js
@@ -601,7 +924,7 @@ listing_anything_at_all,Listing anything at all,,Rules and legal wording,not yet
 listing_needs_a_verified_phone_number_before_the,Listing needs a verified phone number. Before the first payout I'll ,,Rules and legal wording,not yet wired,compliance/agreements.js
 listing_photos_must_not_contain_nudity_or_sexual,Listing photos must not contain nudity or sexually suggestive posing. ,,Rules and legal wording,not yet wired,compliance/markets.js
 listing_removed_seller_told_why,"Listing removed, seller told why",,Rules and legal wording,not yet wired,compliance/listingRules.js
-listing_removed_selling_paused_7_days,"Listing removed, selling paused 7 days",,Rules and legal wording,not yet wired,compliance/listingRules.js
+listing_removed_one_more_strike_closes_the_shop,Listing removed; one more strike closes the shop,,Rules and legal wording,not yet wired,compliance/listingRules.js
 local_consumer_protection_authority,Local consumer protection authority,,Rules and legal wording,not yet wired,compliance/sellerRules.js
 marketplace_facilitator_registration_the_platfor,Marketplace facilitator registration — the platform collects and remits ,,Rules and legal wording,not yet wired,compliance/markets.js
 maroof_registration_for_the_platform,Maroof registration for the platform,,Rules and legal wording,not yet wired,compliance/markets.js
@@ -629,11 +952,13 @@ no_provenance_stated,No provenance stated,,Rules and legal wording,not yet wired
 no_weapons_alcohol_tobacco_or_vapes_medicines_or,"No weapons, alcohol, tobacco or vapes, medicines or supplements, used ",,Rules and legal wording,not yet wired,compliance/agreements.js
 no_on_current_reading,"No, on current reading",,Rules and legal wording,not yet wired,compliance/sellerRules.js
 nobody_you_pay_her_directly,Nobody — you pay her directly,,Rules and legal wording,not yet wired,compliance/sellerRules.js
+nobody_verifies_a_seller_trust_authentication_js,Nobody verifies a seller. trust/authentication.js refuses to issue ,,Rules and legal wording,not yet wired,compliance/claims.js
 not_open_here_yet,Not open here yet,,Rules and legal wording,not yet wired,compliance/ComplianceProvider.jsx
 nothing_about_how_you_use_the_app_is_collected_u,Nothing about how you use the app is collected unless you agree to it.,,Rules and legal wording,not yet wired,compliance/claims.js
-nothing_generates_a_tracking_number,Nothing generates a tracking number.,,Rules and legal wording,not yet wired,compliance/claims.js
+nothing_here_is_switched_on_for_you_nothing_is_p,"Nothing here is switched on for you. Nothing is pre-ticked. Everything below stays off until you decide otherwise, and you can change your mind any time.",,Rules and legal wording,not yet wired,compliance/ComplianceProvider.jsx
 notifications_to_reporter_and_seller_are_the_ser,"Notifications to reporter and seller are the server's job, not the client's.",,Rules and legal wording,not yet wired,compliance/moderation.js
 off_unless_you_want_it_one_tap_to_stop_always,"Off unless you want it. One tap to stop, always.",,Rules and legal wording,not yet wired,compliance/ComplianceProvider.jsx
+once_paid_the_seller_has_4_days_to_send_it_or_yo,"Once paid, the seller has 4 days to send it or you're refunded; with no problem reported the money is released 14 days after sending.",,Rules and legal wording,not yet wired,compliance/claims.js
 one_breach_removes_the_listing_two_pauses_my_sel,One breach removes the listing. Two pauses my selling for a week. ,,Rules and legal wording,not yet wired,compliance/agreements.js
 one_list_on_the_compliance_context_read_by_every,"One list on the compliance context, read by every surface that renders ",,Rules and legal wording,not yet wired,compliance/claims.js
 online_safety_act_duties_assessed_for_user_to_us,Online Safety Act duties assessed for user-to-user content,,Rules and legal wording,not yet wired,compliance/markets.js
@@ -671,25 +996,25 @@ regulated_medicine_or_supplement,Regulated medicine or supplement,,Rules and leg
 remove_and_pause_the_shop,Remove and pause the shop,,Rules and legal wording,not yet wired,compliance/moderation.js
 remove_and_warn_the_seller,Remove and warn the seller,,Rules and legal wording,not yet wired,compliance/moderation.js
 remove_the_listing,Remove the listing,,Rules and legal wording,not yet wired,compliance/moderation.js
+rendered_on_every_listing_detail_until_v2_10_wit,Rendered on every listing detail until v2.10 with nothing behind it. ,,Rules and legal wording,not yet wired,compliance/claims.js
 repeat_breaches_close_my_shop,Repeat breaches close my shop,,Rules and legal wording,not yet wired,compliance/agreements.js
 report_a_listing_or_a_seller_and_a_person_reads_,Report a listing or a seller and a person reads it.,,Rules and legal wording,not yet wired,compliance/claims.js
 reversed_on_appeal,Reversed on appeal,,Rules and legal wording,not yet wired,compliance/moderation.js
 risk_passes_to_the_buyer_on_delivery_not_on_disp,"Risk passes to the buyer on delivery, not on dispatch",,Rules and legal wording,not yet wired,compliance/sellerRules.js
 route_funds_through_a_cbuae_licensed_processor_d,Route funds through a CBUAE-licensed processor. Do not hold buyer ,,Rules and legal wording,not yet wired,compliance/markets.js
 run_promoted_listings,Run promoted listings,,Rules and legal wording,not yet wired,compliance/sellerRules.js
-saudi_arabia,Saudi Arabia,,Rules and legal wording,not yet wired,compliance/markets.js
+saudi_arabia,Saudi Arabia,,Rules and legal wording,not yet wired,compliance/markets.js delivery/carriers.js
 saudi_e_commerce_law_2019_implementing_regulatio,Saudi E-Commerce Law (2019) + implementing regulations,,Rules and legal wording,not yet wired,compliance/markets.js
 save_items,Save items,,Rules and legal wording,not yet wired,compliance/sellerRules.js
 selfie_match_against_the_id,Selfie match against the ID,,Rules and legal wording,not yet wired,compliance/sellerRules.js
 sell_above_the_casual_cap,Sell above the casual cap,,Rules and legal wording,not yet wired,compliance/sellerRules.js
 seller_agreement_making_the_seller_the_merchant_,Seller agreement making the seller the merchant of record,,Rules and legal wording,not yet wired,compliance/markets.js
 seller_bank_and_contact_details_verified_and_dis,Seller bank and contact details verified and disclosed under the INFORM Act,,Rules and legal wording,not yet wired,compliance/markets.js
-seller_dispatches_within_3_working_days_of_the_s,Seller dispatches within 3 working days of the sale,,Rules and legal wording,not yet wired,compliance/sellerRules.js
 selling_as_a_business,Selling as a business,,Rules and legal wording,not yet wired,compliance/intermediary.js
 selling_as_a_business_switch_the_shop_to_a_busin,Selling as a business? Switch the shop to a business seller — the buyer's rights depend on it.,,Rules and legal wording,not yet wired,compliance/listingRules.js
 selling_from_my_own_wardrobe,Selling from my own wardrobe,,Rules and legal wording,not yet wired,compliance/intermediary.js
-shipping_live_is_false_no_carrier_account_no_lab,"SHIPPING.live is false: no carrier account, no label, no tracking ",,Rules and legal wording,not yet wired,compliance/claims.js
-shop_closed_payouts_held_pending_review,"Shop closed, payouts held pending review",,Rules and legal wording,not yet wired,compliance/listingRules.js
+shipping_live_payments_live_is_false,SHIPPING.live (= PAYMENTS_LIVE) is false.,,Rules and legal wording,not yet wired,compliance/claims.js
+shop_closed,Shop closed,,Rules and legal wording,not yet wired,compliance/listingRules.js legal/facts.js
 show_me_things_i_d_actually_love,Show me things I'd actually love,,Rules and legal wording,not yet wired,compliance/ComplianceProvider.jsx
 some_listings_are_held_for_review_before_they_ap,Some listings are held for review before they appear.,,Rules and legal wording,not yet wired,compliance/claims.js
 state_patchwork_ccpa_cpra_vcdpa_and_others,"State patchwork — CCPA/CPRA, VCDPA, and others",,Rules and legal wording,not yet wired,compliance/markets.js
@@ -697,6 +1022,7 @@ state_by_state_privacy_do_not_sell_link_opt_out_,"State-by-state privacy: do-not
 stated_on_the_same_object_as_the_sentence_above_,Stated on the same object as the sentence above. What lili can do ,,Rules and legal wording,not yet wired,compliance/claims.js
 statutory_returns_and_warranties_generally_do_no,Statutory returns and warranties generally do not apply to a private ,,Rules and legal wording,not yet wired,compliance/intermediary.js
 staying_signed_in_your_saved_pieces_your_cart_wi,"Staying signed in, your saved pieces, your cart. Without these there's no app.",,Rules and legal wording,not yet wired,compliance/ComplianceProvider.jsx
+strikes_count_in_total_and_don_t_expire,Strikes count in total and don't expire,,Rules and legal wording,not yet wired,compliance/listingRules.js
 stripe_connect,Stripe Connect,,Rules and legal wording,not yet wired,compliance/sellerRules.js
 talk_to_the_seller,Talk to the seller,,Rules and legal wording,not yet wired,compliance/sellerRules.js
 talk_to_the_seller_first_then_bring_us_in_we_rea,"Talk to the seller first, then bring us in — we read the listing, the ",,Rules and legal wording,not yet wired,compliance/agreements.js
@@ -705,33 +1031,31 @@ that_code_has_already_been_used_if_that_wasn_t_y,"That code has already been use
 the_actions_exist_a_moderator_can_take_them_and_,"The actions exist, a moderator can take them, and each writes an ",,Rules and legal wording,not yet wired,compliance/claims.js
 the_activity_on_the_licence_should_describe_oper,"The activity on the licence should describe operating a platform, ",,Rules and legal wording,not yet wired,compliance/markets.js
 the_cart_said_this_while_writing_nothing_and_tel,The cart said this while writing nothing and telling nobody.,,Rules and legal wording,not yet wired,compliance/claims.js
-the_payment_stays_with_the_processor_until_deliv,"The payment stays with the processor until delivery or 14 days, whichever first",,Rules and legal wording,not yet wired,compliance/sellerRules.js
 the_price_you_see_is_the_price_she_set,The price you see is the price she set.,,Rules and legal wording,not yet wired,compliance/claims.js
 the_processor_holds_the_payment_while_a_dispute_,The processor holds the payment while a dispute is open,,Rules and legal wording,not yet wired,compliance/sellerRules.js
 the_rate_is_defined_and_the_payout_arithmetic_is,"The rate is defined and the payout arithmetic is tested, but nothing ",,Rules and legal wording,not yet wired,compliance/claims.js
 the_rules_for_using_lili_itself_your_account_how,"The rules for using lili itself — your account, how you behave here, ",,Rules and legal wording,not yet wired,compliance/agreements.js
 the_sale_is_between_me_and_the_buyer_i_own_the_i,"The sale is between me and the buyer. I own the item, I set the price, ",,Rules and legal wording,not yet wired,compliance/agreements.js
+the_seller_can_appeal_within_14_days_a_different,"The seller can appeal within 14 days. A different moderator decides, and a ",,Rules and legal wording,not yet wired,compliance/listingRules.js
 the_seller_is_told_which_rule_in_words_at_the_mo,"The seller is told which rule, in words, at the moment it happens.",,Rules and legal wording,not yet wired,compliance/claims.js
-the_seller_ships_lili_supplies_the_label_the_tra,"The seller ships. lili supplies the label, the tracking and the clock.",,Rules and legal wording,not yet wired,compliance/sellerRules.js
 the_server_timestamp_is_authoritative_never_trus,The server timestamp is authoritative — never trust the device clock for SLA.,,Rules and legal wording,not yet wired,compliance/moderation.js
+there_are_no_reviews_the_fabricated_4_9_from_2_0,"There are no reviews. The fabricated 4.9 from '2,000+ reviews' came ",,Rules and legal wording,not yet wired,compliance/claims.js
 there_is_no_authenticator_screening_for_counterf,There is no authenticator. Screening for counterfeit signals is not authentication.,,Rules and legal wording,not yet wired,compliance/claims.js
 there_is_no_processor_no_account_and_no_code_pat,"There is no processor, no account and no code path that moves money. ",,Rules and legal wording,not yet wired,compliance/claims.js
 there_is_no_returns_window_and_nothing_to_enforc,There is no returns window and nothing to enforce one with.,,Rules and legal wording,not yet wired,compliance/claims.js
-there_is_no_shipping_integration_no_label_and_no,"There is no shipping integration, no label and no carrier.",,Rules and legal wording,not yet wired,compliance/claims.js
-there_is_no_shipping_yet_you_arrange_to_meet_her,"There is no shipping yet. You arrange to meet her somewhere public and busy, and the piece changes hands there.",,Rules and legal wording,not yet wired,compliance/sellerRules.js
-there_is_no_shipping_you_arrange_to_meet_and_the,"There is no shipping. You arrange to meet, and the piece changes hands there.",,Rules and legal wording,not yet wired,compliance/claims.js
+these_are_the_choices_you_saved_last_time_change,"These are the choices you saved last time. Change any of them, or leave them as they are.",,Rules and legal wording,not yet wired,compliance/ComplianceProvider.jsx
 this_is_the_tier_that_carries_consumer_law_dutie,This is the tier that carries consumer-law duties. The buyer gets returns ,,Rules and legal wording,not yet wired,compliance/sellerRules.js
 three_closes_the_shop_and_holds_payouts_pending_,Three closes the shop and holds payouts pending review. I can contest ,,Rules and legal wording,not yet wired,compliance/agreements.js
 tick_both_to_continue,Tick both to continue,,Rules and legal wording,not yet wired,compliance/ComplianceProvider.jsx
-tracking_is_mandatory_an_untracked_parcel_is_an_,Tracking is mandatory — an untracked parcel is an undefendable dispute,,Rules and legal wording,not yet wired,compliance/sellerRules.js
 trade_at_volume,Trade at volume,,Rules and legal wording,not yet wired,compliance/sellerRules.js
 trade_licence_or_e_trader_licence_for_the_market,Trade licence or e-trader licence for the market,,Rules and legal wording,not yet wired,compliance/sellerRules.js
 trader_identity_collection_and_verification_dsa_,Trader identity collection and verification (DSA Art. 30),,Rules and legal wording,not yet wired,compliance/markets.js
+two_of_these_start_on_because_that_is_the_defaul,"Two of these start on, because that is the default where you are. Switch off whatever you do not want — now, or any time from Privacy & Safety.",,Rules and legal wording,not yet wired,compliance/ComplianceProvider.jsx
 uk_gdpr_data_protection_act_2018,UK GDPR + Data Protection Act 2018,,Rules and legal wording,not yet wired,compliance/markets.js
 under_appeal,Under appeal,,Rules and legal wording,not yet wired,compliance/moderation.js
-united_arab_emirates,United Arab Emirates,,Rules and legal wording,not yet wired,compliance/markets.js
-united_kingdom,United Kingdom,,Rules and legal wording,not yet wired,compliance/markets.js
-united_states,United States,,Rules and legal wording,not yet wired,compliance/markets.js
+united_arab_emirates,United Arab Emirates,,Rules and legal wording,not yet wired,compliance/markets.js delivery/carriers.js
+united_kingdom,United Kingdom,,Rules and legal wording,not yet wired,compliance/markets.js sizes/sizeSystem.js
+united_states,United States,,Rules and legal wording,not yet wired,compliance/markets.js sizes/sizeSystem.js
 unsettled_agent_vs_principal_turns_on_the_seller,Unsettled — agent vs principal turns on the seller agreement wording. Get this in writing.,,Rules and legal wording,not yet wired,compliance/sellerRules.js
 used_intimate_apparel,Used intimate apparel,,Rules and legal wording,not yet wired,compliance/listingRules.js
 uses_what_you_save_and_search_so_your_feed_looks,Uses what you save and search so your feed looks like your taste.,,Rules and legal wording,not yet wired,compliance/ComplianceProvider.jsx
@@ -741,9 +1065,10 @@ vat_registration_number_where_the_seller_is_regi,"VAT registration number, where
 verified_email,Verified email,,Rules and legal wording,not yet wired,compliance/sellerRules.js
 verified_mobile_number,Verified mobile number,,Rules and legal wording,not yet wired,compliance/sellerRules.js
 verified_no_such_programme_exists_in_dubai,Verified: no such programme exists in Dubai.,,Rules and legal wording,not yet wired,compliance/claims.js
+was_no_shipping_v2_10_after_the_legal_centre_tol,"Was 'no-shipping' (v2.10), after the Legal Centre told a buyer the ",,Rules and legal wording,not yet wired,compliance/claims.js
 we_closed_the_seller_s_shop,We closed the seller's shop.,,Rules and legal wording,not yet wired,compliance/moderation.js
 we_couldn_t_reach_lili_just_now_try_again_when_y,We couldn't reach lili just now. Try again when you have signal.,,Rules and legal wording,not yet wired,compliance/ComplianceProvider.jsx
-we_don_t_recognise_that_code_check_it_against_th_2,We don't recognise that code. Check it against the message we sent you.,,Rules and legal wording,not yet wired,compliance/ComplianceProvider.jsx
+we_don_t_recognise_that_code_check_it_against_th,We don't recognise that code. Check it against the message we sent you.,,Rules and legal wording,not yet wired,compliance/ComplianceProvider.jsx
 we_list_introduce_and_enforce_the_rules_we_never,"We list, introduce, and enforce the rules. We never hold your money and never own the item.",,Rules and legal wording,not yet wired,compliance/sellerRules.js
 we_list_introduce_and_enforce_the_rules_your_mon,"We list, introduce, and enforce the rules. Your money never passes through lili, and we never own the item.",,Rules and legal wording,not yet wired,compliance/sellerRules.js
 we_looked_at_this_and_it_doesn_t_break_our_rules,We looked at this and it doesn't break our rules. Here's why.,,Rules and legal wording,not yet wired,compliance/moderation.js
@@ -759,6 +1084,7 @@ written_position_on_vat_agent_vs_principal_confi,"Written position on VAT agent 
 yes_the_platform_is_liable_for_vat_on_the_seller,Yes — the platform is liable for VAT on the seller's sale in defined cases,,Rules and legal wording,not yet wired,compliance/sellerRules.js
 you_can_delete_your_account_and_it_is_actually_d,"You can delete your account, and it is actually deleted.",,Rules and legal wording,not yet wired,compliance/claims.js
 you_can_get_a_copy_of_everything_lili_holds_abou,You can get a copy of everything lili holds about you.,,Rules and legal wording,not yet wired,compliance/claims.js
+you_cannot_buy_the_payments_seam_refuses_every_c,You cannot buy. The payments seam refuses every call while no ,,Rules and legal wording,not yet wired,compliance/claims.js
 you_pay_the_processor_it_releases_the_money_to_h,You pay the processor. It releases the money to her once the piece reaches you.,,Rules and legal wording,not yet wired,compliance/sellerRules.js
 you_re_already_on_the_list_go_ahead,You're already on the list — go ahead.,,Rules and legal wording,not yet wired,compliance/ComplianceProvider.jsx
 you_re_in_welcome,You're in. Welcome.,,Rules and legal wording,not yet wired,compliance/ComplianceProvider.jsx
@@ -773,4 +1099,21 @@ seller_s_grounds_for_appeal,Seller's grounds for appeal,,Internal — moderator 
 she_did_not_attach_the_conversation_decide_on_wh,"She did not attach the conversation. Decide on what she wrote, or ask her.",,Internal — moderator screens,not yet wired,compliance/ModerationQueue.jsx
 the_person_reported,The person reported,,Internal — moderator screens,not yet wired,compliance/ModerationQueue.jsx
 the_person_who_reported,The person who reported,,Internal — moderator screens,not yet wired,compliance/ModerationQueue.jsx
+the_seller_s_grounds_didn_t_load_open_the_case_a,The seller's grounds didn't load. Open the case again.,,Internal — moderator screens,not yet wired,compliance/ModerationQueue.jsx
 why_one_or_two_sentences,Why — one or two sentences,,Internal — moderator screens,not yet wired,compliance/ModerationQueue.jsx
+your_reason_one_or_two_sentences,Your reason — one or two sentences,,Internal — moderator screens,not yet wired,compliance/ModerationQueue.jsx
+a_decision_about_what_a_notification_may_say_on_,A decision about what a notification may say on a locked screen,,Notifications,not yet wired,notifications/push.js
+a_firebase_project_with_google_services_json_in_,"A Firebase project, with google-services.json in android/app",,Notifications,not yet wired,notifications/push.js
+a_registration_needs_a_token_and_a_platform,A registration needs a token and a platform,,Notifications,not yet wired,notifications/push.js
+a_server_key_in_the_client_is_a_key_anybody_can_,"A server key in the client is a key anybody can send notifications with, ",,Notifications,not yet wired,notifications/push.js
+a_server_side_sender_holding_the_fcm_key_an_edge,"A server-side sender holding the FCM key — an Edge Function, not the app",,Notifications,not yet wired,notifications/push.js
+a_toggle_she_cannot_find_is_not_a_choice_she_has,A toggle she cannot find is not a choice she has.,,Notifications,not yet wired,notifications/push.js
+an_apns_key_and_the_push_capability_enabled_in_x,An APNs key and the push capability enabled in Xcode,,Notifications,not yet wired,notifications/push.js
+android_delivery_goes_through_fcm_without_the_fi,Android delivery goes through FCM. Without the file the app builds and never registers.,,Notifications,not yet wired,notifications/push.js
+complianceprovider_already_holds_per_purpose_con,ComplianceProvider already holds per-purpose consent; this joins it.,,Notifications,not yet wired,notifications/push.js
+leen_is_the_abaya_still_available,Leen: is the abaya still available?\,,Notifications,not yet wired,notifications/push.js
+not_a_dependency_of_this_project_today_nothing_c,Not a dependency of this project today. Nothing can receive a token without it.,,Notifications,not yet wired,notifications/push.js
+permission_to_notify_is_not_consent_to_notify_ab,Permission to notify is not consent to notify about everything. ,,Notifications,not yet wired,notifications/push.js
+there_is_no_notification_service_connected_nothi,There is no notification service connected. Nothing is being sent to anybody.,,Notifications,not yet wired,notifications/push.js
+turning_them_off_inside_lili_not_only_in_the_os_,"Turning them off inside lili, not only in the OS settings",,Notifications,not yet wired,notifications/push.js
+which_notifications_she_gets_chosen_by_her_store,"Which notifications she gets, chosen by her, stored with her consent record",,Notifications,not yet wired,notifications/push.js

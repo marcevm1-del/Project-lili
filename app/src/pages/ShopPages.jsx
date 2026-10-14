@@ -50,8 +50,7 @@ export function MyShopPage({shop,items,setTab,justListed,onDismissListed,onMarkS
       {isAway(shop) && (
         <div role="status" style={{margin:"12px 14px 0",padding:"10px 14px",background:C.sand,borderRadius:12,
           fontSize:12,color:C.ink,lineHeight:1.5}}>
-          <b>You're away until {backOn(shop)}.</b> Your pieces are out of the feed and search, and new
-          offers wait until then. Change it in Profile → Settings.
+          <b>{t("youre_away_until", { date: backOn(shop) })}</b> {t("away_myshop_banner")}
         </div>
       )}
       {/* Peak-end. The one flow this marketplace depends on used to finish by
@@ -125,11 +124,11 @@ export function MyShopPage({shop,items,setTab,justListed,onDismissListed,onMarkS
                 {(Number(item.saves) > 0 || waiting[item.id] > 0) && (
                   <div style={{fontSize:11,color:C.inkLt,marginTop:3,display:"flex",gap:8,flexWrap:"wrap"}}>
                     {Number(item.saves) > 0 && <span style={{display:"inline-flex",alignItems:"center",gap:3}}>
-                      <Icon name="heart" size={11} filled/>{item.saves} saved</span>}
+                      <Icon name="heart" size={11} filled/>{t("n_saved", { n: item.saves })}</span>}
                     {waiting[item.id] > 0 && (
                       <button onClick={()=>setTab("offers")} style={{background:"none",border:"none",padding:0,
                         color:C.terraTx,fontWeight:700,fontSize:11,cursor:"pointer",fontFamily:"inherit"}}>
-                        {waiting[item.id]} {waiting[item.id] === 1 ? "offer" : "offers"} waiting</button>
+                        {waiting[item.id] === 1 ? t("one_offer_waiting") : t("n_offers_waiting", { n: waiting[item.id] })}</button>
                     )}
                   </div>
                 )}
@@ -138,16 +137,16 @@ export function MyShopPage({shop,items,setTab,justListed,onDismissListed,onMarkS
                     <form onSubmit={e=>{ e.preventDefault();
                         const v = Math.round(Number(String(lowering.value).replace(/[^0-9.]/g,"")));
                         if (!(v >= MIN_PRICE) || v >= Number(item.price)) {
-                          setErr(`Pick a lower price, at least AED ${MIN_PRICE}.`); return; }
+                          setErr(t("pick_lower_price", { min: MIN_PRICE })); return; }
                         act(item.id, async ()=>{ await onLowerPrice(item.id, v); setLowering(null); }); }}
                       style={{display:"flex",gap:6,marginTop:8}}>
-                      <input value={lowering.value} inputMode="numeric" aria-label={`New price for ${item.title}`}
+                      <input value={lowering.value} inputMode="numeric" aria-label={t("new_price_for", { title: item.title })}
                         onChange={e=>setLowering({ id:item.id, value:e.target.value })}
                         style={{flex:1,minWidth:0,padding:"6px 8px",borderRadius:8,border:`1px solid ${C.border}`,
                           fontSize:16,background:C.white,color:C.ink,fontFamily:"inherit"}}/>
                       <button type="submit" disabled={busy===item.id}
                         style={{padding:"6px 10px",borderRadius:8,fontSize:11,fontWeight:700,cursor:"pointer",
-                          background:C.btn,color:C.onBtn,border:"none"}}>Save</button>
+                          background:C.btn,color:C.onBtn,border:"none"}}>{t("save")}</button>
                     </form>
                   ) : (
                     <button onClick={()=>{ setErr(null); setLowering({ id:item.id,
@@ -155,7 +154,7 @@ export function MyShopPage({shop,items,setTab,justListed,onDismissListed,onMarkS
                         value:String(Math.max(MIN_PRICE, Math.round(Number(item.price) * 0.9))) }); }}
                       style={{marginTop:8,width:"100%",padding:"6px 4px",borderRadius:8,fontSize:11,fontWeight:600,
                         cursor:"pointer",background:"none",color:C.inkLt,border:`1px dashed ${C.border}`}}>
-                      Lower price{Number(item.saves) > 0 ? ` · tells ${item.saves}` : ""}
+                      {t("lower_price")}{Number(item.saves) > 0 ? ` · ${t("tells_n", { n: item.saves })}` : ""}
                     </button>
                   )
                 )}
@@ -307,8 +306,7 @@ export function ShopViewPage({shop,items,onSave,setModal,onBack,onReport,onFollo
         {isAway(shop) && (
           <div role="note" style={{background:C.sand,borderRadius:12,padding:"10px 12px",marginBottom:12,
             fontSize:12,color:C.ink,lineHeight:1.5}}>
-            <b>Away until {backOn(shop)}.</b>{shop.awayNote ? ` “${shop.awayNote}”` : ""} Her pieces are here
-            to look at and save; offers and orders reopen when she's back.
+            <b>{t("away_until_date", { date: backOn(shop) })}.</b>{shop.awayNote ? ` “${shop.awayNote}”` : ""} {t("away_shop_banner")}
           </div>
         )}
         <div style={{display:"flex",gap:20,marginBottom:12,paddingBottom:12,borderBottom:`1px solid ${C.border}`}}>

@@ -58,6 +58,7 @@ const OUT_DIR = "i18n";
 const FOR_TRANSLATOR = join(OUT_DIR, "to-translate.csv");
 const FOR_DEVELOPER  = join(OUT_DIR, "not-yet-extracted.csv");
 const RETURNED       = join(OUT_DIR, "translated.csv");
+const DRAFTS         = "src/i18n/drafts.js";
 const DICT           = "src/i18n/strings.js";
 
 const MAX_LEN = 160;   // the legal-text line, same as the one i18n.test.mjs asserts
@@ -226,6 +227,18 @@ async function runExport() {
     wired++;
   }
 
+  // 1b. On screen in Arabic already, but drafted by an AI assistant: her
+  //     correction replaces the draft, and the key comes off drafts.js.
+  const { DRAFT_AR } = await import("./src/i18n/drafts.js");
+  let drafts = 0;
+  for (const k of DRAFT_AR) {
+    const v = STRINGS[k];
+    if (!v || !v.ar) continue;
+    rows.push([k, v.en, v.ar, "Already on screen", "draft — check and correct",
+               "Arabic drafted by an AI assistant and already on screen; fix it, or send it back unchanged to approve it"]);
+    drafts++;
+  }
+
   // 2. Not wired yet — translate now, and it is there when the string moves.
   const pending = [];
   const usedKeys = new Set(Object.keys(STRINGS));
@@ -255,6 +268,7 @@ async function runExport() {
   console.log(`\n\x1b[1mThe translator's file\x1b[0m  ${FOR_TRANSLATOR}`);
   console.log(`  \x1b[1m${wired + unwired}\x1b[0m strings, in the order they should be worked`);
   console.log(`  \x1b[2m${wired} already wired — they change a screen the moment they come back`);
+  console.log(`  ${drafts} drafted by an AI assistant — on screen now, waiting for her to check them`);
   console.log(`  ${unwired} not wired yet — translating them now means no second wait later\x1b[0m`);
   if (skippedTooLong.length)
     console.log(`  \x1b[2m${skippedTooLong.length} left out for being over ${MAX_LEN} characters. Terms, the`);
@@ -314,6 +328,9 @@ async function runImport() {
     accepted.push([key, ar, isNew ? en : null]);
   }
 
+  // Keys she has checked: a draft row that came back with Arabic in it.
+  const { DRAFT_AR } = await import("./src/i18n/drafts.js");
+  const reviewed = new Set(accepted.map(([k]) => k).filter((k) => DRAFT_AR.has(k)));
   if (accepted.length) {
     let src = readFileSync(DICT, "utf8");
     for (const [key, ar, newEn] of accepted) {
@@ -327,13 +344,22 @@ async function runImport() {
       }
       // Match the entry however it is written, and replace only its ar field.
       const re = new RegExp(`(\\n  ${key}:\\s*\\{[^}]*?)ar:\\s*null`, "m");
+      // a draft's Arabic is replaced outright: hers is the reviewed version
+      const reDraft = new RegExp(`(\\n  ${key}:\\s*\\{[^}]*?ar:\\s*)"(?:[^"\\\\]|\\\\.)*"`, "m");
       if (re.test(src)) src = src.replace(re, `$1ar: "${esc}"`);
+      else if (reviewed.has(key) && reDraft.test(src)) src = src.replace(reDraft, `$1"${esc}"`);
       else {
         const re2 = new RegExp(`(\\n  ${key}:\\s*\\{\\s*en:\\s*"(?:[^"\\\\]|\\\\.)*")\\s*\\}`, "m");
         src = src.replace(re2, `$1, ar: "${esc}" }`);
       }
     }
     writeFileSync(DICT, src);
+    if (reviewed.size) {
+      let d = readFileSync(DRAFTS, "utf8");
+      for (const k of reviewed) d = d.replace(new RegExp(`\\n  "${k}",`), "");
+      writeFileSync(DRAFTS, d);
+      console.log(`  ${reviewed.size} AI drafts checked by the translator and taken off ${DRAFTS}`);
+    }
   }
 
   console.log(`\n\x1b[1m${accepted.length}\x1b[0m translations written into ${DICT}`);

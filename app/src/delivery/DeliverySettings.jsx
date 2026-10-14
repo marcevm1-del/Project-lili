@@ -2,7 +2,9 @@ import { useEffect, useState } from "react";
 import { C } from "../compliance/ui.js";
 import Icon from "../icons/Icon.jsx";
 import { loadRates } from "./rates.js";
-import { CARRIERS, PARCEL_SIZES } from "./carriers.js";
+import { CARRIERS, PARCEL_SIZES, inLang } from "./carriers.js";
+import { t, getLang } from "../i18n/t.js";
+import { money } from "../i18n/direction.js";
 
 // ─────────────────────────────────────────────────────────────────────────────
 //  The sell form's Delivery section, after Yaga's.
@@ -29,17 +31,13 @@ export default function DeliverySettings({ form, setForm }) {
   return (
     <section aria-labelledby="delivery-h" style={{ display: "grid", gap: 10 }}>
       <div>
-        <h3 id="delivery-h" style={h3}>Delivery</h3>
-        <p style={hint}>
-          Switch on as many as you like: shops with more options sell faster. The buyer pays the
-          delivery fee when she buys, and it's paid to you with the sale. You book the courier and
-          add the tracking number.
-        </p>
+        <h3 id="delivery-h" style={h3}>{t("delivery")}</h3>
+        <p style={hint}>{t("delivery_hint_1")} {t("delivery_hint_2")} {t("delivery_hint_3")}</p>
       </div>
 
       <div>
-        <div style={label}>Parcel size</div>
-        <div role="radiogroup" aria-label="Parcel size" style={{ display: "grid", gap: 6 }}>
+        <div style={label}>{t("parcel_size")}</div>
+        <div role="radiogroup" aria-label={t("parcel_size")} style={{ display: "grid", gap: 6 }}>
           {PARCEL_SIZES.map((p) => {
             const sel = p.key === size;
             return (
@@ -48,8 +46,8 @@ export default function DeliverySettings({ form, setForm }) {
                 style={{ ...row, borderColor: sel ? C.terra : C.border, background: sel ? C.sand : C.white }}>
                 <span style={{ ...dot, borderColor: sel ? C.terra : C.border }}>{sel && <span style={dotIn} />}</span>
                 <span style={{ flex: 1, minWidth: 0, textAlign: "start" }}>
-                  <span style={{ fontSize: 13, fontWeight: 600, color: C.ink }}>{p.label}</span>
-                  <span style={{ display: "block", fontSize: 11, color: C.inkLt }}>{p.fits} · {p.dims}</span>
+                  <span style={{ fontSize: 13, fontWeight: 600, color: C.ink }}>{inLang(p, "label", getLang())}</span>
+                  <span style={{ display: "block", fontSize: 11, color: C.inkLt }}>{inLang(p, "fits", getLang())} · {inLang(p, "dims", getLang())}</span>
                 </span>
               </button>
             );
@@ -58,7 +56,7 @@ export default function DeliverySettings({ form, setForm }) {
       </div>
 
       <div style={{ display: "grid", gap: 6 }}>
-        <div style={label}>Ways to get it to the buyer</div>
+        <div style={label}>{t("ways_to_get_it_there")}</div>
         {CARRIERS.map((c) => {
           const sel = on.includes(c.key);
           const uae = fee(c.key, "UAE"), gcc = fee(c.key, "GCC");
@@ -67,17 +65,17 @@ export default function DeliverySettings({ form, setForm }) {
             <label key={c.key} style={{ ...row, borderColor: sel ? C.terra : C.border, cursor: "pointer" }}>
               <Icon name={c.key === "meet" ? "handshake" : "truck"} size={18} style={{ color: C.terraTx, flexShrink: 0 }} />
               <span style={{ flex: 1, minWidth: 0 }}>
-                <span style={{ fontSize: 13, fontWeight: 600, color: C.ink }}>{c.name}</span>
+                <span style={{ fontSize: 13, fontWeight: 600, color: C.ink }}>{inLang(c, "name", getLang())}</span>
                 <span style={{ display: "block", fontSize: 11, color: C.inkLt, lineHeight: 1.45 }}>
-                  {c.about}
+                  {inLang(c, "about", getLang())}
                   {c.key !== "meet" && (uae || gcc) && (
-                    <> · {uae ? `UAE AED ${uae.fee}` : ""}{uae && gcc ? " · " : ""}{gcc ? `GCC AED ${gcc.fee}` : ""}
-                      {estimated ? " (estimated)" : ""}</>
+                    <> · {uae ? `${t("region_uae")} ${money(uae.fee)}` : ""}{uae && gcc ? " · " : ""}{gcc ? `${t("region_gcc")} ${money(gcc.fee)}` : ""}
+                      {estimated ? ` (${t("estimated")})` : ""}</>
                   )}
                 </span>
               </span>
               <input type="checkbox" checked={sel} onChange={() => toggle(c.key)}
-                aria-label={`Offer ${c.name}`} style={{ width: 22, height: 22, accentColor: "var(--c-accent-btn)" }} />
+                aria-label={t("offer_carrier", { carrier: inLang(c, "name", getLang()) })} style={{ width: 22, height: 22, accentColor: "var(--c-accent-btn)" }} />
             </label>
           );
         })}
@@ -86,13 +84,11 @@ export default function DeliverySettings({ form, setForm }) {
       <label style={{ ...row, cursor: "pointer" }}>
         <Icon name="bag" size={18} style={{ color: C.terraTx, flexShrink: 0 }} />
         <span style={{ flex: 1, minWidth: 0 }}>
-          <span style={{ fontSize: 13, fontWeight: 600, color: C.ink }}>Bundling</span>
-          <span style={{ display: "block", fontSize: 11, color: C.inkLt, lineHeight: 1.45 }}>
-            A buyer can add more of your pieces to one order and pay one delivery fee.
-          </span>
+          <span style={{ fontSize: 13, fontWeight: 600, color: C.ink }}>{t("bundling")}</span>
+          <span style={{ display: "block", fontSize: 11, color: C.inkLt, lineHeight: 1.45 }}>{t("bundling_hint")}</span>
         </span>
         <input type="checkbox" checked={!!form.bundling} onChange={() => setForm({ ...form, bundling: !form.bundling })}
-          aria-label="Allow bundling" style={{ width: 22, height: 22, accentColor: "var(--c-accent-btn)" }} />
+          aria-label={t("allow_bundling")} style={{ width: 22, height: 22, accentColor: "var(--c-accent-btn)" }} />
       </label>
     </section>
   );

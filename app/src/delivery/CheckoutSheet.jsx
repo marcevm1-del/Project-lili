@@ -6,7 +6,9 @@ import * as store from "../compliance/store.js";
 import { loadRates } from "./rates.js";
 import { useFocusTrap, dialogProps } from "../a11y/useFocusTrap.js";
 import { PAYMENTS_LIVE } from "../compliance/sellerRules.js";
-import { carrier, COUNTRIES, regionFor, UNPAID_MINUTES, AUTO_RELEASE_DAYS, SHIP_WITHIN_DAYS } from "./carriers.js";
+import { carrier, COUNTRIES, regionFor, inLang, UNPAID_MINUTES, AUTO_RELEASE_DAYS, SHIP_WITHIN_DAYS } from "./carriers.js";
+import { t, getLang } from "../i18n/t.js";
+import { money } from "../i18n/direction.js";
 
 // ─────────────────────────────────────────────────────────────────────────────
 //  Buy: one piece, or a bundle from one shop.
@@ -87,57 +89,52 @@ export default function CheckoutSheet({ items, shopName, onClose, onDone, onSign
       const res = await remote.createOrder({ itemIds: ids, method, region,
         shipTo: courier ? { ...ship, country } : null });
       if (!res || !res.ok) {
-        setProblem(res && res.reason === "sign_in_required" ? "Sign in to buy." :
-                   res && res.reason === "payments_off" ? "Paying in the app isn't switched on yet." :
-                   "That didn't go through. Try again.");
+        setProblem(res && res.reason === "sign_in_required" ? t("sign_in_to_buy") :
+                   res && res.reason === "payments_off" ? t("payments_not_on") :
+                   t("didnt_go_through"));
         setBusy(false); return;
       }
       await remote.payForOrder(res.order_id);
       setStarted(true);
     } catch (e) {
       const m = (e && e.message) || "";
-      setProblem(m === "payments_not_configured" ? "Paying in the app isn't switched on yet." : m || "That didn't go through. Try again.");
+      setProblem(m === "payments_not_configured" ? t("payments_not_on") : m || t("didnt_go_through"));
     }
     setBusy(false);
   };
 
   return (
     <div onClick={onClose} style={overlay}>
-      <div ref={trap} {...dialogProps("Buy")} onClick={(e) => e.stopPropagation()} className="safe-sheet" style={sheet}>
+      <div ref={trap} {...dialogProps(t("buy_title"))} onClick={(e) => e.stopPropagation()} className="safe-sheet" style={sheet}>
         <div style={{ display: "flex", alignItems: "baseline", justifyContent: "space-between", gap: 10 }}>
           <div style={{ fontFamily: "Georgia,serif", fontStyle: "italic", fontSize: 20, color: C.ink }}>
-            {payOn === false ? "Delivery & price" : items.length > 1 ? `Buy ${items.length} pieces` : "Buy"}
+            {payOn === false ? t("delivery_and_price") : items.length > 1 ? t("buy_n_pieces", { n: items.length }) : t("buy_title")}
           </div>
-          <button onClick={onClose} aria-label="Close" className="tap-round" style={closeBtn}>
+          <button onClick={onClose} aria-label={t("close")} className="tap-round" style={closeBtn}>
             <Icon name="close" size={16} stroke={2} />
           </button>
         </div>
         <div style={{ fontSize: 12, color: C.inkLt, marginBottom: 14 }}>
-          {items.map((i) => i.title).join(", ")}{shopName ? ` · from ${shopName}` : ""}
+          {items.map((i) => (getLang() === "ar" && i.titleAr) || i.title).join("، ")}{shopName ? ` · ${t("from_shop", { shop: shopName })}` : ""}
         </div>
 
         {started ? (
           <div style={{ display: "grid", gap: 10 }}>
-            <p style={para}>Finish paying on Stripe's secure page. Your order is held for {UNPAID_MINUTES} minutes; after that the
-              pieces go back on sale.</p>
-            <p style={para}>The money stays with Stripe until you confirm you have the piece. Follow the order in
-              Profile → My purchases.</p>
-            <button onClick={() => { onDone && onDone(); onClose(); }} style={primary}>Go to my purchases</button>
+            <p style={para}>{t("finish_paying", { min: UNPAID_MINUTES })}</p>
+            <p style={para}>{t("money_stays")}</p>
+            <button onClick={() => { onDone && onDone(); onClose(); }} style={primary}>{t("go_to_purchases")}</button>
           </div>
         ) : (
           <>
-            <div style={label}>Deliver to</div>
+            <div style={label}>{t("deliver_to")}</div>
             <select value={country} onChange={(e) => setCountry(e.target.value)} aria-label="Country" style={field}>
-              {COUNTRIES.map((c) => <option key={c.code} value={c.code}>{c.name}</option>)}
+              {COUNTRIES.map((c) => <option key={c.code} value={c.code}>{inLang(c, "name", getLang())}</option>)}
             </select>
 
-            <div style={label}>How it gets to you</div>
-            {quote === null && <p style={para}>Loading the options…</p>}
-            {quote && quote.length === 0 && (
-              <p style={para}>The seller doesn't deliver {region === "GCC" ? "outside the UAE" : "this way"} for
-                {items.length > 1 ? " these pieces" : " this piece"}. Try another country, or message her.</p>
-            )}
-            <div role="radiogroup" aria-label="Delivery" style={{ display: "grid", gap: 6, marginBottom: 12 }}>
+            <div style={label}>{t("how_it_gets_to_you")}</div>
+            {quote === null && <p style={para}>{t("loading_options")}</p>}
+            {quote && quote.length === 0 && <p style={para}>{t("no_delivery_here")}</p>}
+            <div role="radiogroup" aria-label={t("delivery")} style={{ display: "grid", gap: 6, marginBottom: 12 }}>
               {(quote || []).map((q) => {
                 const c = carrier(q.method); const sel = q.method === method;
                 return (
@@ -145,12 +142,12 @@ export default function CheckoutSheet({ items, shopName, onClose, onDone, onSign
                     style={{ ...row, borderColor: sel ? C.terra : C.border, background: sel ? C.sand : C.white }}>
                     <Icon name={q.method === "meet" ? "handshake" : "truck"} size={18} style={{ color: C.terraTx, flexShrink: 0 }} />
                     <span style={{ flex: 1, minWidth: 0, textAlign: "start" }}>
-                      <span style={{ fontSize: 13, fontWeight: 600, color: C.ink }}>{c ? c.name : q.method}</span>
-                      <span style={{ display: "block", fontSize: 11, color: C.inkLt }}>{c && c.about}</span>
+                      <span style={{ fontSize: 13, fontWeight: 600, color: C.ink }}>{c ? inLang(c, "name", getLang()) : q.method}</span>
+                      <span style={{ display: "block", fontSize: 11, color: C.inkLt }}>{c && inLang(c, "about", getLang())}</span>
                     </span>
                     <span style={{ fontSize: 13, fontWeight: 700, color: C.ink, whiteSpace: "nowrap" }}>
-                      {Number(q.fee) ? `AED ${q.fee}` : "Free"}
-                      {Number(q.fee) && !q.confirmed ? <span style={{ display: "block", fontSize: 11, fontWeight: 500, color: C.inkLt }}>estimated</span> : null}
+                      {Number(q.fee) ? money(q.fee) : t("free")}
+                      {Number(q.fee) && !q.confirmed ? <span style={{ display: "block", fontSize: 11, fontWeight: 500, color: C.inkLt }}>{t("estimated")}</span> : null}
                     </span>
                   </button>
                 );
@@ -159,9 +156,9 @@ export default function CheckoutSheet({ items, shopName, onClose, onDone, onSign
 
             {courier && payOn !== false && (
               <div style={{ display: "grid", gap: 8, marginBottom: 12 }}>
-                <div style={label}>Address</div>
-                {[["name", "Full name"], ["phone", "Mobile number"], ["line1", "Building, street, area"],
-                  ["line2", "Flat or villa (optional)"], ["city", region === "UAE" ? "Emirate or city" : "City"]].map(([k, l]) => (
+                <div style={label}>{t("address")}</div>
+                {[["name", t("full_name")], ["phone", t("mobile_number")], ["line1", t("building_street_area")],
+                  ["line2", t("flat_or_villa_optional")], ["city", region === "UAE" ? t("emirate_or_city") : t("city")]].map(([k, l]) => (
                   <input key={k} value={ship[k]} onChange={(e) => setShip({ ...ship, [k]: e.target.value })}
                     placeholder={l} aria-label={l} inputMode={k === "phone" ? "tel" : undefined}
                     autoComplete={{ name: "name", phone: "tel", line1: "address-line1", line2: "address-line2", city: "address-level2" }[k]}
@@ -169,42 +166,38 @@ export default function CheckoutSheet({ items, shopName, onClose, onDone, onSign
                 ))}
                 <label style={{ display: "flex", gap: 8, alignItems: "center", fontSize: 12, color: C.inkLt, minHeight: 32 }}>
                   <input type="checkbox" checked={remember} onChange={() => setRemember(!remember)} />
-                  Remember this address on this phone
+                  {t("remember_address")}
                 </label>
-                <p style={{ ...para, fontSize: 11 }}>The seller sees your address only after you've paid, to send the parcel.</p>
+                <p style={{ ...para, fontSize: 11 }}>{t("address_after_payment")}</p>
               </div>
             )}
 
             <div style={summary}>
-              <Line l={items.length > 1 ? `${items.length} pieces` : "Piece"} v={`AED ${subtotal.toLocaleString("en-US")}`} />
-              <Line l="Delivery" v={method ? (fee ? `AED ${fee.toLocaleString("en-US")}` : "Free") : "—"} />
-              <Line l={<b>Total</b>} v={<b>AED {(subtotal + fee).toLocaleString("en-US")}</b>} />
+              <Line l={items.length > 1 ? t("n_pieces", { n: items.length }) : t("piece_cap")} v={money(subtotal)} />
+              <Line l={t("delivery")} v={method ? (fee ? money(fee) : t("free")) : "—"} />
+              <Line l={<b>{t("total")}</b>} v={<b>{money(subtotal + fee)}</b>} />
             </div>
 
             {payOn === false ? (
               <div role="note" style={{ ...para, background: C.sand, borderRadius: 12, padding: "10px 12px", marginBottom: 10 }}>
-                Paying in the app isn't switched on yet, so this is what it would cost. For now, agree the
-                delivery with the seller in Messages, or make an offer. lili can't refund money you send her
-                before the piece arrives.
+                {t("payments_off_1")} {t("payments_off_2")} {t("payments_off_3")}
               </div>
             ) : (
               <p style={{ ...para, fontSize: 11, marginBottom: 10 }}>
-                You pay on Stripe's secure page. Stripe holds the money until you confirm you have the piece. The seller
-                has {SHIP_WITHIN_DAYS} days to send it, or you're refunded in full. Report a problem before confirming and
-                the money stays held; with no report it goes to the seller {AUTO_RELEASE_DAYS} days after sending.
+                {t("held_1")} {t("held_2", { days: SHIP_WITHIN_DAYS })} {t("held_3", { days: AUTO_RELEASE_DAYS })}
               </p>
             )}
             {problem && <div role="alert" style={{ fontSize: 12, color: C.redTx, marginBottom: 8 }}>{problem}
-              {problem === "Sign in to buy." && onSignIn && <> <button onClick={onSignIn} style={link}>Sign in</button></>}</div>}
+              {problem === t("sign_in_to_buy") && onSignIn && <> <button onClick={onSignIn} style={link}>{t("sign_in")}</button></>}</div>}
 
             {payOn === false ? (
               items.length > 1 && onMessage
-                ? <button onClick={() => { onClose(); onMessage(items[0]); }} style={primary}>Ask the seller about these</button>
-                : <button onClick={() => { onClose(); onOffer && onOffer(items[0]); }} style={primary}>Make an offer instead</button>
+                ? <button onClick={() => { onClose(); onMessage(items[0]); }} style={primary}>{t("ask_seller_about_these")}</button>
+                : <button onClick={() => { onClose(); onOffer && onOffer(items[0]); }} style={primary}>{t("make_offer_instead")}</button>
             ) : (
               <button onClick={pay} disabled={busy || !method || !addressOk || payOn !== true}
                 style={{ ...primary, opacity: busy || !method || !addressOk || payOn !== true ? 0.55 : 1 }}>
-                {busy ? "Opening secure payment…" : `Pay AED ${(subtotal + fee).toLocaleString("en-US")}`}
+                {busy ? t("opening_payment") : t("pay_amount", { amount: money(subtotal + fee) })}
               </button>
             )}
           </>

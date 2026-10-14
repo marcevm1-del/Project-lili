@@ -24,6 +24,7 @@ const SUITES = [
   ["devices",    "node devices.test.mjs",           66],
   ["a11y",       "node a11y.test.mjs",              19],
   ["security",   "node security.test.mjs",         223],
+  ["i18n",       "node i18n.test.mjs",              34],
 ];
 
 const only = process.argv.slice(2);

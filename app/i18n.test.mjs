@@ -13,7 +13,7 @@
 //  is still English. A metric that is green on day one and cannot go down is
 //  worse than no metric, because somebody will quote it.
 // ─────────────────────────────────────────────────────────────────────────────
-import { readFileSync, readdirSync, statSync } from "node:fs";
+import { readFileSync, readdirSync, statSync, existsSync } from "node:fs";
 import { join } from "node:path";
 
 import { marketSource } from "./market-source.mjs";
@@ -98,6 +98,14 @@ for (const f of srcFiles) {
   }
 }
 const real = interfaceCoverage(englishOnly, "ar");
+{
+  // The language screen names a fraction; it must be the measured one.
+  const FRACTIONS = { eighth: [9, 16], fifth: [17, 24], quarter: [25, 30], third: [31, 40], half: [45, 55] };
+  const note = getLanguage("ar").note || "";
+  const named = Object.keys(FRACTIONS).find((f) => new RegExp(`\\b(a|an) ${f}\\b`).test(note));
+  check("the language screen's 'about a …' is the fraction actually measured",
+    named && real.pct >= FRACTIONS[named][0] && real.pct <= FRACTIONS[named][1], `${named} vs ${real.pct}%`);
+}
 check("interface coverage is reported separately, and is not the same number",
   real.pct < dict.pct, `interface ${real.pct}% vs dictionary ${dict.pct}%`);
 check("the real figure is honest about how much is left",
@@ -154,6 +162,18 @@ check("and it is marked as needing a native speaker's review, not passed off as 
   /REASONS_NEED_NATIVE_REVIEW/.test(report));
 check("the legal text is NOT machine-translated into the dictionary",
   !Object.values(STRINGS).some((e) => e.en.length > 160));
+
+// Arabic drafted by an AI assistant is on screen (better than English for an
+// Arabic reader) but is named as a draft until a native speaker has read it.
+const { DRAFT_AR } = await import("./src/i18n/drafts.js");
+check("every AI-drafted string is listed as a draft, and every listed draft exists with Arabic",
+  DRAFT_AR.size > 0 && [...DRAFT_AR].every((k) => STRINGS[k] && /[\u0600-\u06FF]/.test(STRINGS[k].ar || "")));
+const exported = existsSync("i18n/to-translate.csv") ? readFileSync("i18n/to-translate.csv", "utf8") : "";
+check("the translator's file hands her every draft to check, with the Arabic filled in",
+  [...DRAFT_AR].every((k) => exported.includes(`${k},`)) && /draft — check and correct/.test(exported),
+  "run: node i18n-export.mjs");
+check("importing her file can replace a draft and take it off the list",
+  /reviewed\.has\(key\) && reDraft\.test\(src\)/.test(readFileSync("i18n-export.mjs", "utf8")));
 
 section("7. It is wired to something");
 

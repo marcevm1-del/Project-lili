@@ -16,19 +16,25 @@
 // ─────────────────────────────────────────────────────────────────────────────
 
 export const CARRIERS = [
-  { key: "meet", name: "Meet in person", regions: ["UAE"],
-    about: "Hand it over somewhere busy and public. No delivery fee." },
-  { key: "aramex", name: "Aramex", regions: ["UAE", "GCC"],
+  { key: "meet", name: "Meet in person", nameAr: "لقاء شخصي", regions: ["UAE"],
+    about: "Hand it over somewhere busy and public. No delivery fee.",
+    aboutAr: "سلّميها في مكان عام مزدحم. بلا رسوم توصيل." },
+  { key: "aramex", name: "Aramex", nameAr: "أرامكس", regions: ["UAE", "GCC"],
     about: "Door to door. Drop it at an Aramex counter or book a pickup.",
+    aboutAr: "من الباب إلى الباب. سلّميها في أحد فروع أرامكس أو احجزي استلاماً.",
     track: (n) => `https://www.aramex.com/track/results?ShipmentNumber=${encodeURIComponent(n)}` },
-  { key: "emirates_post", name: "Emirates Post", regions: ["UAE"],
-    about: "Post it from any Emirates Post office, delivered to the door." },
-  { key: "quiqup", name: "Quiqup same-day", regions: ["UAE"],
-    about: "A rider collects from you and delivers the same day." },
-  { key: "smsa", name: "SMSA Express", regions: ["UAE", "GCC"],
-    about: "Covers Saudi Arabia and the Gulf. Drop off at an SMSA branch." },
-  { key: "dhl", name: "DHL Express", regions: ["UAE", "GCC"],
+  { key: "emirates_post", name: "Emirates Post", nameAr: "بريد الإمارات", regions: ["UAE"],
+    about: "Post it from any Emirates Post office, delivered to the door.",
+    aboutAr: "أرسليها من أي مكتب لبريد الإمارات، وتُسلَّم إلى الباب." },
+  { key: "quiqup", name: "Quiqup same-day", nameAr: "كويك أب في نفس اليوم", regions: ["UAE"],
+    about: "A rider collects from you and delivers the same day.",
+    aboutAr: "يستلمها مندوب منكِ ويوصلها في اليوم نفسه." },
+  { key: "smsa", name: "SMSA Express", nameAr: "سمسا إكسبرس", regions: ["UAE", "GCC"],
+    about: "Covers Saudi Arabia and the Gulf. Drop off at an SMSA branch.",
+    aboutAr: "تغطي السعودية والخليج. سلّميها في أحد فروع سمسا." },
+  { key: "dhl", name: "DHL Express", nameAr: "دي إتش إل إكسبرس", regions: ["UAE", "GCC"],
     about: "Express across the UAE and the GCC. Drop off at a DHL point or book a pickup.",
+    aboutAr: "توصيل سريع في الإمارات والخليج. سلّميها في نقطة DHL أو احجزي استلاماً.",
     track: (n) => `https://www.dhl.com/ae-en/home/tracking/tracking-express.html?submit=1&tracking-id=${encodeURIComponent(n)}` },
 ];
 export const COURIERS = CARRIERS.filter((c) => c.key !== "meet");
@@ -36,11 +42,16 @@ export const carrier = (key) => CARRIERS.find((c) => c.key === key) || null;
 
 /** Parcel sizes, the way couriers in the region price them. */
 export const PARCEL_SIZES = [
-  { key: "XS", label: "Extra small", fits: "Jewellery, a scarf, sunglasses", dims: "up to 30 × 20 × 5 cm · 0.5 kg" },
-  { key: "S",  label: "Small",       fits: "A top, a dress, a small bag",   dims: "up to 40 × 30 × 10 cm · 1 kg" },
-  { key: "M",  label: "Medium",      fits: "Shoes in their box, a handbag", dims: "up to 45 × 35 × 20 cm · 3 kg" },
-  { key: "L",  label: "Large",       fits: "A coat, boots, a large bag",    dims: "up to 60 × 40 × 40 cm · 5 kg" },
-  { key: "XL", label: "Extra large", fits: "A bundle, a suitcase-size bag", dims: "up to 60 × 50 × 60 cm · 10 kg" },
+  { key: "XS", label: "Extra small", fits: "Jewellery, a scarf, sunglasses", dims: "up to 30 × 20 × 5 cm · 0.5 kg",
+    labelAr: "صغير جداً", fitsAr: "مجوهرات، وشاح، نظارة شمسية", dimsAr: "حتى 30 × 20 × 5 سم · 0.5 كغ" },
+  { key: "S",  label: "Small",       fits: "A top, a dress, a small bag",   dims: "up to 40 × 30 × 10 cm · 1 kg",
+    labelAr: "صغير", fitsAr: "بلوزة، فستان، حقيبة صغيرة", dimsAr: "حتى 40 × 30 × 10 سم · 1 كغ" },
+  { key: "M",  label: "Medium",      fits: "Shoes in their box, a handbag", dims: "up to 45 × 35 × 20 cm · 3 kg",
+    labelAr: "متوسط", fitsAr: "حذاء في علبته، حقيبة يد", dimsAr: "حتى 45 × 35 × 20 سم · 3 كغ" },
+  { key: "L",  label: "Large",       fits: "A coat, boots, a large bag",    dims: "up to 60 × 40 × 40 cm · 5 kg",
+    labelAr: "كبير", fitsAr: "معطف، جزمة، حقيبة كبيرة", dimsAr: "حتى 60 × 40 × 40 سم · 5 كغ" },
+  { key: "XL", label: "Extra large", fits: "A bundle, a suitcase-size bag", dims: "up to 60 × 50 × 60 cm · 10 kg",
+    labelAr: "كبير جداً", fitsAr: "مجموعة قطع، حقيبة بحجم حقيبة سفر", dimsAr: "حتى 60 × 50 × 60 سم · 10 كغ" },
 ];
 
 // The starting estimates migration 33 seeds into lili_delivery_rates, kept here
@@ -64,13 +75,17 @@ export const ESTIMATED_RATES = Object.entries(SEEDED).flatMap(([k, v]) => {
 
 /** Where a buyer can have it sent. Everything outside the UAE is "GCC". */
 export const COUNTRIES = [
-  { code: "AE", name: "United Arab Emirates", region: "UAE" },
-  { code: "SA", name: "Saudi Arabia", region: "GCC" },
-  { code: "KW", name: "Kuwait", region: "GCC" },
-  { code: "QA", name: "Qatar", region: "GCC" },
-  { code: "BH", name: "Bahrain", region: "GCC" },
-  { code: "OM", name: "Oman", region: "GCC" },
+  { code: "AE", name: "United Arab Emirates", nameAr: "الإمارات العربية المتحدة", region: "UAE" },
+  { code: "SA", name: "Saudi Arabia", nameAr: "السعودية", region: "GCC" },
+  { code: "KW", name: "Kuwait", nameAr: "الكويت", region: "GCC" },
+  { code: "QA", name: "Qatar", nameAr: "قطر", region: "GCC" },
+  { code: "BH", name: "Bahrain", nameAr: "البحرين", region: "GCC" },
+  { code: "OM", name: "Oman", nameAr: "عُمان", region: "GCC" },
 ];
+// In the reader's language (the Arabic is a draft awaiting native review, like
+// the rest of i18n/drafts.js). `lang` is passed in so this file stays import-free.
+export const inLang = (o, field, lang) => (lang === "ar" && o && o[`${field}Ar`]) || (o && o[field]) || "";
+
 export const regionFor = (code) => (COUNTRIES.find((c) => c.code === code) || COUNTRIES[0]).region;
 
 // The order rules the database enforces (migration 33). The policies quote
@@ -80,19 +95,19 @@ export const AUTO_RELEASE_DAYS = 14;
 export const UNPAID_MINUTES = 30;
 
 export const ORDER_STATES = {
-  awaiting_payment: { label: "Waiting for payment", tone: "wait" },
-  paid:             { label: "Paid · to be sent",    tone: "act" },
-  shipped:          { label: "On its way",           tone: "act" },
-  completed:        { label: "Completed",            tone: "done" },
-  cancelled:        { label: "Cancelled",            tone: "off" },
-  refunded:         { label: "Refunded",             tone: "off" },
-  disputed:         { label: "Problem reported",     tone: "warn" },
+  awaiting_payment: { label: "Waiting for payment", labelAr: "بانتظار الدفع",            tone: "wait" },
+  paid:             { label: "Paid · to be sent",    labelAr: "مدفوع · بانتظار الإرسال", tone: "act" },
+  shipped:          { label: "On its way",           labelAr: "في الطريق",              tone: "act" },
+  completed:        { label: "Completed",            labelAr: "مكتمل",                  tone: "done" },
+  cancelled:        { label: "Cancelled",            labelAr: "ملغى",                   tone: "off" },
+  refunded:         { label: "Refunded",             labelAr: "أُعيد المبلغ",            tone: "off" },
+  disputed:         { label: "Problem reported",     labelAr: "تم الإبلاغ عن مشكلة",     tone: "warn" },
 };
 
 export const ISSUE_REASONS = [
-  ["not_received", "It hasn't arrived"],
-  ["not_as_described", "Not as described"],
-  ["damaged", "It arrived damaged"],
-  ["counterfeit", "I think it's not genuine"],
-  ["other", "Something else"],
+  ["not_received", "It hasn't arrived", "لم تصل بعد"],
+  ["not_as_described", "Not as described", "ليست كما في الوصف"],
+  ["damaged", "It arrived damaged", "وصلت تالفة"],
+  ["counterfeit", "I think it's not genuine", "أظن أنها غير أصلية"],
+  ["other", "Something else", "شيء آخر"],
 ];

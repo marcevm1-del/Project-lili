@@ -152,40 +152,36 @@ function HolidayMode({ myShop, onShopUpdated }) {
       const shop = { ...myShop, awayUntil: saved ? saved.awayUntil : until,
                      awayNote: saved ? saved.awayNote : (until ? normaliseText(note, 140) || null : null) };
       onShopUpdated && onShopUpdated(shop);
-      setMsg(until ? `You're away until ${backOn(shop)}.` : "You're back. Offers and orders are open.");
+      setMsg(until ? t("youre_away_until", { date: backOn(shop) }) : t("youre_back"));
       if (!until) { setDate(""); setNote(""); }
     } catch (e) {
-      setMsg((e && e.message) || "That didn't save. Try again.");
+      setMsg((e && e.message) || t("didnt_save"));
     }
     setBusy(false);
   };
 
   return (
     <section aria-labelledby="holiday-h" style={{ marginTop: 26 }}>
-      <h3 id="holiday-h" style={{ fontSize: 15, fontWeight: 700, color: C.ink, margin: "0 0 4px" }}>Holiday mode</h3>
-      <p style={p}>
-        Going away? Until the date you pick, your pieces leave the feed and search, and new
-        offers and orders wait. Offers you already have stay open for you to answer. On the
-        date, everything opens again by itself.
-      </p>
+      <h3 id="holiday-h" style={{ fontSize: 15, fontWeight: 700, color: C.ink, margin: "0 0 4px" }}>{t("holiday_mode")}</h3>
+      <p style={p}>{t("holiday_hint_1")} {t("holiday_hint_2")}</p>
       {away && (
         <div role="status" style={{ background: C.sand, borderRadius: 12, padding: "10px 12px", fontSize: 13,
           color: C.ink, marginBottom: 12 }}>
-          Away until <b>{backOn(myShop)}</b>{myShop.awayNote ? ` · “${myShop.awayNote}”` : ""}
+          <b>{t("away_until_date", { date: backOn(myShop) })}</b>{myShop.awayNote ? ` · “${myShop.awayNote}”` : ""}
         </div>
       )}
-      <div style={label}>Back on</div>
+      <div style={label}>{t("back_on")}</div>
       <input type="date" value={date} min={tomorrow} max={latest} onChange={(e) => setDate(e.target.value)}
-        aria-label="Back on" style={{ ...fieldStyle, marginBottom: 12 }} />
-      <div style={label}>A note for buyers (optional)</div>
+        aria-label={t("back_on")} data-field="back-on" style={{ ...fieldStyle, marginBottom: 12 }} />
+      <div style={label}>{t("note_for_buyers")}</div>
       <input value={note} maxLength={140} onChange={(e) => setNote(e.target.value)}
-        placeholder="e.g. Away for Eid, back on the 24th" aria-label="A note for buyers"
+        placeholder={t("note_for_buyers_example")} aria-label={t("note_for_buyers")} data-field="away-note"
         style={{ ...fieldStyle, marginBottom: 12 }} />
       <div style={{ display: "flex", gap: 8, flexWrap: "wrap" }}>
         <Btn disabled={busy || !date} onClick={() => apply(untilEndOf(date))}>
-          {busy ? "Saving…" : away ? "Change the date" : "Go away until then"}
+          {busy ? t("saving") : away ? t("change_the_date") : t("go_away_until_then")}
         </Btn>
-        {away && <Btn tone="outline" disabled={busy} onClick={() => apply(null)}>I'm back now</Btn>}
+        {away && <Btn tone="outline" disabled={busy} onClick={() => apply(null)}>{t("im_back_now")}</Btn>}
       </div>
       {msg && <p role="status" style={{ ...p, marginTop: 10 }}>{msg}</p>}
     </section>

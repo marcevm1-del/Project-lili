@@ -7,14 +7,14 @@ import { FitPanel } from "../listing/FitAndFlaws.jsx";
 import Icon from "../icons/Icon.jsx";
 import { useFocusTrap, dialogProps } from "../a11y/useFocusTrap.js";
 import * as offers from "../data/offers.js";
-import { t } from "../i18n/t.js";
+import { t, getLang } from "../i18n/t.js";
 import { space } from "../theme/scale.js";
 import { alignEnd, backArrow, money } from "../i18n/direction.js";
 import { C, T, Avatar, Stars, earnedFollowers, ItemPhoto } from "./shared.jsx";
 import { sizeLabel, kindOf, APPROXIMATE_NOTE } from "../sizes/sizeSystem.js";
 import { useSizeSystem } from "../sizes/SizeSystemPicker.jsx";
 import * as remote from "../backend/remote.js";
-import { carrier } from "../delivery/carriers.js";
+import { carrier, inLang } from "../delivery/carriers.js";
 import { loadRates } from "../delivery/rates.js";
 import { PAYMENTS_LIVE } from "../compliance/sellerRules.js";
 import { isAway, backOn } from "../shops/away.js";
@@ -104,29 +104,29 @@ export function DeliveryInfo({item, onSeeTotal}) {
   const size = item.parcelSize || "S";
   const fee = (k, region) => rates.find(r => r.carrier === k && r.size === size && r.region === region);
   return (
-    <section aria-label="Delivery" style={{margin:"0 0 16px"}}>
-      <div style={{fontSize:13,fontWeight:700,color:C.ink,marginBottom:6}}>Delivery</div>
+    <section aria-label={t("delivery")} data-section="delivery" style={{margin:"0 0 16px"}}>
+      <div style={{fontSize:13,fontWeight:700,color:C.ink,marginBottom:6}}>{t("delivery")}</div>
       <div style={{display:"grid",gap:4}}>
         {ways.map(k => { const c = carrier(k); if (!c) return null;
           const uae = fee(k, "UAE"), gcc = fee(k, "GCC");
           return (
             <div key={k} style={{display:"flex",alignItems:"center",gap:8,fontSize:12,color:C.ink,minHeight:28}}>
               <Icon name={k === "meet" ? "handshake" : "truck"} size={16} style={{color:C.terraTx,flexShrink:0}}/>
-              <span style={{flex:1}}>{c.name}</span>
+              <span style={{flex:1}}>{inLang(c, "name", getLang())}</span>
               <span style={{color:C.inkLt,whiteSpace:"nowrap"}}>
-                {k === "meet" ? "Free · UAE" :
-                  uae || gcc ? <>{uae ? `UAE AED ${uae.fee}` : ""}{uae && gcc ? " · " : ""}{gcc ? `GCC AED ${gcc.fee}` : ""}
-                    {!(uae||gcc).confirmed ? " (est.)" : ""}</> : ""}
+                {k === "meet" ? t("free_uae") :
+                  uae || gcc ? <>{uae ? `${t("region_uae")} ${money(uae.fee)}` : ""}{uae && gcc ? " · " : ""}{gcc ? `${t("region_gcc")} ${money(gcc.fee)}` : ""}
+                    {!(uae||gcc).confirmed ? ` (${t("est_short")})` : ""}</> : ""}
               </span>
             </div>
           );
         })}
       </div>
-      {item.bundling && <div style={{fontSize:11,color:C.inkLt,marginTop:4}}>Bundle more of her pieces and pay one delivery fee.</div>}
+      {item.bundling && <div style={{fontSize:11,color:C.inkLt,marginTop:4}}>{t("bundle_note")}</div>}
       {onSeeTotal && (
         <button onClick={onSeeTotal} style={{marginTop:8,width:"100%",minHeight:44,borderRadius:22,cursor:"pointer",
           background:C.white,border:`1.5px solid ${C.terra}`,color:C.terraTx,fontWeight:700,fontSize:13,fontFamily:"inherit"}}>
-          Delivery options &amp; total
+          {t("delivery_options_total")}
         </button>
       )}
     </section>
@@ -194,8 +194,8 @@ export function ItemModal({item,shop,items=[],onOpenItem,onSave,onClose,onOffer,
           {away && (
             <div role="note" style={{background:C.sand,border:`1px solid ${C.border}`,borderRadius:12,
               padding:"10px 12px",marginBottom:14,fontSize:12,color:C.ink,lineHeight:1.5}}>
-              <b>{shop.name} is away until {backOn(shop)}.</b>{shop.awayNote ? ` “${shop.awayNote}”` : ""}{" "}
-              Offers and orders reopen then. You can still save it or message her.
+              <b>{t("away_until_name", { shop: shop.name, date: backOn(shop) })}</b>{shop.awayNote ? ` “${shop.awayNote}”` : ""}{" "}
+              {t("away_reopen_note")}
             </div>
           )}
 
@@ -258,7 +258,7 @@ export function ItemModal({item,shop,items=[],onOpenItem,onSave,onClose,onOffer,
             paddingTop:12,borderTop:`1px solid ${C.border}`}}>
             {payOn
               ? "Pay with Buy and the money is held by Stripe until you confirm the piece arrived. Agree to pay any other way and lili can't help if it goes wrong."
-              : "lili doesn't take payment yet — you and the seller agree payment and delivery."}
+              : t("no_payment_yet_note")}
           </div>
 
           <MoreFromShop item={item} shop={shop} items={items} onOpen={onOpenItem}/>
@@ -340,7 +340,7 @@ export function MoreFromShop({item, shop, items, onOpen}) {
   const more = (items||[]).filter(i=>i.shopId===item.shopId && i.id!==item.id
     && (!i.status || i.status==="live")).slice(0,8);
   if (!shop || more.length===0 || !onOpen) return null;
-  return <PieceStrip label={`More from ${shop.name}`} pieces={more} onOpen={onOpen}/>;
+  return <PieceStrip label={t("more_from_shop", { shop: shop.name })} pieces={more} onOpen={onOpen}/>;
 }
 
 // Other sellers' pieces of the same kind (discovery/similar.js): somewhere to
@@ -357,7 +357,7 @@ export function SimilarPieces({item, items, onOpen}) {
     return () => { alive = false; };
   }, [item && item.id, items && items.length]);
   if (!onOpen || similar.length === 0) return null;
-  return <PieceStrip label="Similar pieces" pieces={similar} onOpen={onOpen} sizeSys={sizeSys}/>;
+  return <PieceStrip label={t("similar_pieces")} pieces={similar} onOpen={onOpen} sizeSys={sizeSys}/>;
 }
 
 function PieceStrip({label, pieces, onOpen, sizeSys}) {
@@ -374,7 +374,7 @@ function PieceStrip({label, pieces, onOpen, sizeSys}) {
             <PriceTag item={i} size={13}/>
             {sizeSys && i.size && i.size !== "OS" && (
               <div style={{fontSize:11,color:C.inkLt,whiteSpace:"nowrap",overflow:"hidden",textOverflow:"ellipsis"}}>
-                Size {sizeLabel(i.size, sizeSys)}</div>
+                {t("size_n", { size: sizeLabel(i.size, sizeSys) })}</div>
             )}
           </button>
         ))}

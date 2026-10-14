@@ -1231,7 +1231,10 @@ const asym = Object.entries(D2).filter(([, v]) => {
   if (!v.ar) return false;
   const num = (x) => (x.match(/[0-9٠-٩]/g) || []).length;
   // a Latin word inside the Arabic field means the split cut in the wrong place
-  if (/[A-Za-z]{4,}/.test(v.ar) && !/lili/i.test(v.ar)) return true;
+  // — except {placeholders}, filled in at runtime, and the brands that are
+  // written in Latin in Arabic too (lili itself, Stripe, DHL)
+  const arWords = v.ar.replace(/\{[a-z_]+\}/g, "").replace(/\b(lili|Stripe|DHL)\b/g, "");
+  if (/[A-Za-z]{4,}/.test(arWords)) return true;
   return /\(/.test(v.en) !== /\(/.test(v.ar) || (num(v.en) > 0) !== (num(v.ar) > 0);
 });
 check("neither language carries information the other does not",
