@@ -41,21 +41,16 @@ the_rest_are_below,The rest are below.,Listing several pieces at once,sell/BulkL
 this_can_t_be_listed_on_lili,This can't be listed on lili.,Listing several pieces at once,sell/BulkList.jsx
 what_is_it_e_g_zimmermann_floral_dress,What is it? e.g. Zimmermann floral dress,Listing several pieces at once,sell/BulkList.jsx
 you_can_close_this,You can close this.,Listing several pieces at once,sell/BulkList.jsx
-a_little_soft,A little soft,Errors the app reports when something fails,data/imageQuality.js
 abaya_couture,Abaya Couture,Errors the app reports when something fails,data/resaleValue.js market/shared.jsx
-add_at_least_one_photo_listings_without_one_rare,Add at least one photo — listings without one rarely sell.,Errors the app reports when something fails,data/images.js
 aed_15_000_and_above,"AED 15,000 and above",Errors the app reports when something fails,data/fees.js
 audemars_piguet,Audemars Piguet,Errors the app reports when something fails,data/resaleValue.js
 backend_is_not_configured,Backend is not configured,Errors the app reports when something fails,backend/remote.js
 balenciaga,Balenciaga,Errors the app reports when something fails,data/resaleValue.js market/shared.jsx
 bottega_veneta,Bottega Veneta,Errors the app reports when something fails,data/resaleValue.js market/shared.jsx
 christian_louboutin,Christian Louboutin,Errors the app reports when something fails,data/resaleValue.js market/shared.jsx
-couldn_t_read_that_file,Couldn't read that file,Errors the app reports when something fails,data/images.js
-couldn_t_read_that_image,Couldn't read that image,Errors the app reports when something fails,data/images.js
 david_yurman,David Yurman,Errors the app reports when something fails,data/resaleValue.js market/shared.jsx
 dubai_modest_fashion,Dubai Modest Fashion,Errors the app reports when something fails,data/resaleValue.js market/shared.jsx
 emirati_local_designer,Emirati / Local Designer,Errors the app reports when something fails,data/resaleValue.js market/shared.jsx
-enter_an_amount,Enter an amount,Errors the app reports when something fails,backend/remote.js data/offers.js
 every_write_is_attributed_to_an_authenticated_us,Every write is attributed to an authenticated user,Errors the app reports when something fails,data/repo.js
 get_items,GET  /items,Errors the app reports when something fails,data/repo.js
 get_shops,GET  /shops,Errors the app reports when something fails,data/repo.js
@@ -67,15 +62,9 @@ local_designer,Local Designer,Errors the app reports when something fails,data/r
 louis_vuitton,Louis Vuitton,Errors the app reports when something fails,data/resaleValue.js market/shared.jsx
 manolo_blahnik,Manolo Blahnik,Errors the app reports when something fails,data/resaleValue.js market/shared.jsx
 most_searched_style_classic_flap_retention_not_p,Most-searched style (Classic Flap); retention not published as a single figure.,Errors the app reports when something fails,data/resaleValue.js
-move_closer_or_crop_in_so_it_fills_most_of_the_p,"Move closer, or crop in, so it fills most of the picture.",Errors the app reports when something fails,data/imageQuality.js
-move_next_to_a_window_and_turn_the_ceiling_light,"Move next to a window and turn the ceiling light off. Daylight, no flash.",Errors the app reports when something fails,data/imageQuality.js
 never_trust_a_client_supplied_id_owner_price_or_,"Never trust a client-supplied id, owner, price or status",Errors the app reports when something fails,data/repo.js
-no_file_chosen,No file chosen,Errors the app reports when something fails,data/images.js
-no_signal_your_offer_is_saved_but_hasn_t_been_se,No signal — your offer is saved but hasn't been sent yet.,Errors the app reports when something fails,data/offers.js
-nothing_to_send,Nothing to send,Errors the app reports when something fails,backend/remote.js data/conversations.js
 observed_uae_price_range_and_market_size,Observed UAE price range and market size.,Errors the app reports when something fails,data/resaleValue.js
 oecd_euipo_mapping_global_trade_in_fakes_2025,"OECD/EUIPO, Mapping Global Trade in Fakes (2025)",Errors the app reports when something fails,data/resaleValue.js
-open_a_shop_before_listing,Open a shop before listing,Errors the app reports when something fails,backend/remote.js
 patch_items_id,PATCH /items/:id,Errors the app reports when something fails,data/repo.js
 patch_shops_id,PATCH /shops/:id,Errors the app reports when something fails,data/repo.js
 patek_philippe,Patek Philippe,Errors the app reports when something fails,data/resaleValue.js
@@ -91,33 +80,18 @@ saint_laurent,Saint Laurent,Errors the app reports when something fails,data/res
 screening_runs_server_side_too_the_client_check_,"Screening runs server-side too — the client check is a courtesy, not a gate",Errors the app reports when something fails,data/repo.js
 self_portrait,Self Portrait,Errors the app reports when something fails,data/resaleValue.js market/shared.jsx
 semi_automatic_identification_of_counterfeit_off,Semi-Automatic Identification of Counterfeit Offers in Online Marketplaces (2015),Errors the app reports when something fails,data/resaleValue.js
-sideways_photograph,Sideways photograph,Errors the app reports when something fails,data/imageQuality.js
-sign_in_to_save_a_search,Sign in to save a search,Errors the app reports when something fails,data/repo.js
 soft_delete_only_moderation_needs_the_history,Soft delete only; moderation needs the history,Errors the app reports when something fails,data/repo.js
 speedy_13_yoy_murakami_collab_styles_exceeded_13,Speedy +13% YoY; Murakami collab styles exceeded 130% retention.,Errors the app reports when something fails,data/resaleValue.js
-step_out_of_direct_sun_or_turn_so_the_light_is_b,"Step out of direct sun, or turn so the light is behind you rather than behind the piece.",Errors the app reports when something fails,data/imageQuality.js
-tap_the_piece_on_your_screen_before_you_shoot_ho,"Tap the piece on your screen before you shoot, hold still, and take it again.",Errors the app reports when something fails,data/imageQuality.js
-tap_to_focus_on_the_fabric_and_retake_it_buyers_,Tap to focus on the fabric and retake it — buyers zoom in on stitching.,Errors the app reports when something fails,data/imageQuality.js
 that_can_be_right_for_a_rare_model_full_set_with,"That can be right for a rare model, full set with receipt, or a piece in exceptional condition. If it is, say which in the description — otherwise it will sit.",Errors the app reports when something fails,data/resaleValue.js
-that_file_type_isn_t_supported_use_a_photo,That file type isn't supported. Use a photo.,Errors the app reports when something fails,data/images.js
-that_message_is_too_long,That message is too long,Errors the app reports when something fails,backend/remote.js
-that_offer_expired_ask_her_to_make_another,That offer expired. Ask her to make another.,Errors the app reports when something fails,data/offers.js
-that_s_your_own_listing,That's your own listing,Errors the app reports when something fails,backend/remote.js
-the_feed_shows_tall_tiles_so_a_wide_photo_gets_c,"The feed shows tall tiles, so a wide photo gets cropped. Turn the phone upright.",Errors the app reports when something fails,data/imageQuality.js
 the_frankie_shop,The Frankie Shop,Errors the app reports when something fails,data/resaleValue.js market/shared.jsx
-the_light_has_washed_it_out,The light has washed it out,Errors the app reports when something fails,data/imageQuality.js
-the_piece_is_small_in_the_frame,The piece is small in the frame,Errors the app reports when something fails,data/imageQuality.js
 the_realreal_2025_resale_report_september_2025,The RealReal 2025 Resale Report (September 2025),Errors the app reports when something fails,data/resaleValue.js
-this_one_is_out_of_focus,This one is out of focus,Errors the app reports when something fails,data/imageQuality.js
 tiffany_co,Tiffany & Co,Errors the app reports when something fails,data/resaleValue.js market/shared.jsx
 tiffany_co_2,Tiffany & Co.,Errors the app reports when something fails,data/resaleValue.js
-too_dark_to_see_the_colour,Too dark to see the colour,Errors the app reports when something fails,data/imageQuality.js
 under_aed_500,Under AED 500,Errors the app reports when something fails,data/fees.js
 usd_467bn_2_3_of_world_trade_clothing_footwear_a,"USD 467bn, 2.3% of world trade; clothing, footwear and handbags lead seizures.",Errors the app reports when something fails,data/resaleValue.js
 value_retention_vs_original_retail_by_brand_and_,"Value retention vs original retail, by brand and model.",Errors the app reports when something fails,data/resaleValue.js
 van_cleef_arpels,Van Cleef & Arpels,Errors the app reports when something fails,data/resaleValue.js market/shared.jsx
 waiting_for_her,Waiting for her,Errors the app reports when something fails,data/offers.js
-you_already_have_an_offer_open_on_this_piece,You already have an offer open on this piece,Errors the app reports when something fails,backend/remote.js
 your_listing_didn_t_reach_lili_nothing_was_publi,Your listing didn't reach lili — nothing was published. ,Errors the app reports when something fails,data/repo.js
 yoy_resale_price_movement_condition_and_category,YoY resale price movement; condition and category demand data.,Errors the app reports when something fails,data/resaleValue.js
 zimmermann,Zimmermann,Errors the app reports when something fails,data/resaleValue.js market/shared.jsx
@@ -200,14 +174,12 @@ yellow_gold_malachite,Yellow Gold · Malachite,The main shopping screens,market/
 you_re_told_who_you_re_buying_from,You're told who you're buying from,The main shopping screens,Marketplace.jsx
 zimmermann_floral_dress,Zimmermann Floral Dress,The main shopping screens,market/shared.jsx
 no_signal_your_message_is_saved_but_hasn_t_been_,No signal — your message is saved but hasn't been sent yet.,Messages between two women,data/conversations.js
-that_message_is_too_long_2_000_characters_is_the,"That message is too long — 2,000 characters is the limit.",Messages between two women,data/conversations.js
 counter_amount,Counter amount,Making and answering offers,offers/OffersPage.jsx
 i_can_t_buy_it_after_all,I can't buy it after all,Making and answering offers,offers/OffersPage.jsx
 offer_from_a_buyer,Offer from a buyer,Making and answering offers,offers/OffersPage.jsx
 offers_you_make_and_offers_you_receive_both_appe,Offers you make and offers you receive both appear here.,Making and answering offers,offers/OffersPage.jsx
 release_the_reservation,Release the reservation,Making and answering offers,offers/OffersPage.jsx
 something_went_wrong_loading_your_offers,Something went wrong loading your offers.,Making and answering offers,offers/OffersPage.jsx
-that_didn_t_go_through,That didn't go through.,Making and answering offers,offers/OffersPage.jsx pages/ShopPages.jsx
 we_couldn_t_reach_lili_just_now_your_offers_are_,We couldn't reach lili just now. Your offers are safe — this is only the list.,Making and answering offers,offers/OffersPage.jsx
 yes_cancel,"Yes, cancel",Making and answering offers,offers/OffersPage.jsx
 yes_release,"Yes, release",Making and answering offers,offers/OffersPage.jsx
@@ -218,7 +190,6 @@ newest_first,Newest First,Search and filters,discovery/filters.js discovery/rank
 price_high_to_low,Price: High to Low,Search and filters,discovery/ranking.js
 price_low_to_high,Price: Low to High,Search and filters,discovery/ranking.js
 save_this_search,Save this search,Search and filters,discovery/SavedSearches.jsx
-that_didn_t_save,That didn't save.,Search and filters,discovery/SavedSearches.jsx
 a_little_longer_8_characters_or_more,A little longer — 8 characters or more.,Signing in,auth/breachCheck.js
 add_padding,Add-Padding,Signing in,auth/breachCheck.js
 at_least_8_characters,At least 8 characters,Signing in,auth/AuthScreen.jsx

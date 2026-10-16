@@ -207,6 +207,22 @@ section("7b. Arabic is downloaded by the women who read it");
     /await loadArabic\(\)[\s\S]{0,80}setDir\(lang\.dir\)/.test(readFileSync("src/i18n/LanguagePicker.jsx", "utf8")));
 }
 
+section("7c. Errors and photo warnings are translated where they are shown");
+
+{
+  const { KNOWN } = await import("./src/i18n/errors.js");
+  const off = Object.entries(KNOWN.EXACT).filter(([msg, key]) => !STRINGS[key] || STRINGS[key].en !== msg).map(([m]) => m);
+  check("every error the screens translate has an entry whose English is that exact message",
+    off.length === 0, off.slice(0, 3).join(" | "));
+  const iq = readFileSync("src/data/imageQuality.js", "utf8");
+  const pc = readFileSync("src/sell/PhotoCoach.jsx", "utf8");
+  const codes = [...pc.matchAll(/"([a-z]+\.[a-z]+)": "(iq_[a-z_]+)"/g)];
+  const iqOff = codes.filter(([, , key]) => !STRINGS[`${key}_title`] || !iq.includes(STRINGS[`${key}_title`].en)
+                                       || !STRINGS[`${key}_fix`] || !iq.includes(STRINGS[`${key}_fix`].en)).map(([, c]) => c);
+  check("every photo warning the coach translates still matches what the checker writes",
+    codes.length >= 6 && iqOff.length === 0, iqOff.join(", "));
+}
+
 section("8. The translator's file round-trips");
 
 // The mechanism has existed since v2.9.3 and the only thing missing is a

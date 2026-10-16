@@ -11,6 +11,7 @@ import { marginStart, marginEnd, alignEnd, money, when } from "../i18n/direction
 import { C, Avatar, TopBar, BackBtn, Placeholder } from "../market/shared.jsx";
 import { CARRIERS, carrier, inLang } from "../delivery/carriers.js";
 import { findTracking } from "../delivery/tracking.js";
+import { localError } from "../i18n/errors.js";
 const BuySafely = lazy(() => import("../messages/BuySafely.jsx"));
 const ReviewPrompt = lazy(() => import("../trust/ReviewPrompt.jsx"));
 
@@ -346,7 +347,7 @@ export function MessagesPage({shops,items,onReport,openThreadId,onOpened,error,o
         {sendError && (
           <div role="alert" style={{padding:"8px 14px",background:"var(--c-alert-bg)",
             borderTop:`1px solid ${C.red}`,fontSize:12,color:C.ink,lineHeight:1.5}}>
-            {sendError}
+            {localError(sendError)}
           </div>
         )}
         {threads[active] && threads[active].mine === "seller" && (

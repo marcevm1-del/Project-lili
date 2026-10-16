@@ -34,6 +34,17 @@ import { t, getLang } from "../i18n/t.js";
 //  what she needs once there is nothing specific to say.
 // ─────────────────────────────────────────────────────────────────────────────
 
+// What data/imageQuality.js found, by its code, in the reader's language. The
+// checker keeps writing English (its suite reads those sentences); a code not
+// listed here is shown as the checker wrote it.
+const FINDING_KEYS = {
+  "blur.bad": "iq_blur_bad", "blur.soft": "iq_blur_soft",
+  "exposure.dark": "iq_dark", "exposure.blown": "iq_blown",
+  "framing.small": "iq_small", "framing.landscape": "iq_landscape",
+};
+const findingText = (f, part) =>
+  getLang() === "ar" && FINDING_KEYS[f.code] ? t(`${FINDING_KEYS[f.code]}_${part}`) : f[part];
+
 export default function PhotoCoach({ count = 0, findings = [] }) {
   const [open, setOpen] = useState(count === 0);
   const remaining = Math.max(0, PHOTO_TARGET - count);
@@ -55,8 +66,8 @@ export default function PhotoCoach({ count = 0, findings = [] }) {
                     style={{ color: f.severity === "high" ? C.redTx : C.terraTx,
                              marginTop: 2, flexShrink: 0 }} />
               <div style={{ fontSize: 12, lineHeight: 1.5 }}>
-                <b style={{ color: C.ink }}>{f.title}.</b>{" "}
-                <span style={{ color: C.inkLt }}>{f.fix}</span>
+                <b style={{ color: C.ink }}>{findingText(f, "title")}.</b>{" "}
+                <span style={{ color: C.inkLt }}>{findingText(f, "fix")}</span>
               </div>
             </div>
           ))}

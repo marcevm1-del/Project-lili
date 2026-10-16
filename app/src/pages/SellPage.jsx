@@ -23,6 +23,7 @@ import { C, Lili, CONDITIONS, SIZES, ITEM_CATS, ICON_FOR_CAT, APPROVED_BRANDS, B
 import { PayoutBox } from "../market/OfferModal.jsx";
 import { sizeLabel } from "../sizes/sizeSystem.js";
 import { useSizeSystem, SizeSystemPicker } from "../sizes/SizeSystemPicker.jsx";
+import { localError } from "../i18n/errors.js";
 const Settings = lazy(() => import("../settings/Settings.jsx"));
 const BulkList = lazy(() => import("../sell/BulkList.jsx"));
 const PhotoCoach = lazy(() => import("../sell/PhotoCoach.jsx"));
@@ -533,7 +534,7 @@ export function SellPage({myShop,onCreateShop,onAddItem,setTab,onListed}) {
               )}
             </div>
             {photoError && (
-              <div style={{fontSize:12,color:C.red,marginTop:8,lineHeight:1.5}}>{photoError}</div>
+              <div style={{fontSize:12,color:C.red,marginTop:8,lineHeight:1.5}}>{localError(photoError)}</div>
             )}
             <div style={{fontSize:11,color:C.inkLt,marginTop:8,lineHeight:1.55}}>
               {t("location_removed")}
@@ -672,7 +673,7 @@ export function SellPage({myShop,onCreateShop,onAddItem,setTab,onListed}) {
             {publishError && (
               <div role="alert" style={{background:"var(--c-alert-bg)",border:`1.5px solid ${C.red}`,
                 borderRadius:12,padding:"12px 14px",fontSize:12,lineHeight:1.55,color:C.ink}}>
-                <b style={{color:C.redTx}}>{t("not_published")}</b> {publishError}
+                <b style={{color:C.redTx}}>{t("not_published")}</b> {localError(publishError)}
               </div>
             )}
             {/* v2.9. `submit` returns early when the title or the price is
@@ -765,7 +766,7 @@ export function SellPage({myShop,onCreateShop,onAddItem,setTab,onListed}) {
             {publishError && (
               <div role="alert" style={{background:"var(--c-alert-bg)",border:`1.5px solid ${C.red}`,
                 borderRadius:12,padding:"12px 14px",fontSize:12,lineHeight:1.55,color:C.ink}}>
-                <b style={{color:C.redTx}}>{t("not_published")}</b> {publishError}
+                <b style={{color:C.redTx}}>{t("not_published")}</b> {localError(publishError)}
               </div>
             )}
             {/* v2.9. `submit` returns early when the title or the price is

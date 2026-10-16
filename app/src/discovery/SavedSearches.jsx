@@ -3,6 +3,7 @@ import { C } from "../compliance/ui.js";
 import Icon from "../icons/Icon.jsx";
 import * as repo from "../data/repo.js";
 import { money } from "../i18n/direction.js";
+import { localError } from "../i18n/errors.js";
 
 // ── search page (Jacob's Law: dedicated search tab like Depop/TikTok) ─────
 // The search she just ran, kept on the server with a count of new matches.
@@ -42,7 +43,7 @@ export function SaveSearchButton({q, filters, prominent}) {
         {!prominent && <Icon name="bell" size={13}/>}
         {state==="busy" ? "Saving…" : "Save this search"}
       </button>
-      {problem && <div role="alert" style={{fontSize:12,color:C.redTx,marginTop:6}}>{problem}</div>}
+      {problem && <div role="alert" style={{fontSize:12,color:C.redTx,marginTop:6}}>{localError(problem)}</div>}
     </div>
   );
 }

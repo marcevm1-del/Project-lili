@@ -10,6 +10,7 @@ import { t } from "../i18n/t.js";
 import { space } from "../theme/scale.js";
 import { money } from "../i18n/direction.js";
 import { C, Placeholder } from "./shared.jsx";
+import { localError } from "../i18n/errors.js";
 
 
 // ── payout ─────────────────────────────────────────────────────────────────
@@ -229,7 +230,7 @@ export function OfferModal({item,shop,onClose,onSubmit}) {
             {error && (
               <div role="alert" style={{background:"var(--c-alert-bg)",border:`1px solid ${C.red}`,
                 borderRadius:10,padding:"10px 14px",marginBottom:12,fontSize:12,
-                color:C.ink,lineHeight:1.55}}>{error}</div>
+                color:C.ink,lineHeight:1.55}}>{localError(error)}</div>
             )}
 
             <button onClick={send} disabled={value===null||value<=0||sending}
