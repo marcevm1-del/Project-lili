@@ -90,7 +90,7 @@ begin
   insert into lili_conversations(buyer_uid, seller_uid, item_id, shop_id) values (b1, me, i, s) returning id into cv;
   -- ── meeting in person is removed (migration 39) ─────────────────────────
   perform pg_temp.act(b1);
-  begin insert into lili_meets(conversation_id, item_id, proposed_by, place_key, meet_at) values (cv, i, b1, 'mall', now() + interval '1 day');
+  begin insert into lili_meets(conversation_id, place_key, meet_at) values (cv, 'mall', now() + interval '1 day');
     perform pg_temp.ok('no meet plan can be proposed', false);
   exception when object_not_in_prerequisite_state then perform pg_temp.ok('no meet plan can be proposed', true); end;
   perform pg_temp.act(null);
