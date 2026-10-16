@@ -3,6 +3,7 @@
 import Icon from "../icons/Icon.jsx";
 import * as offers from "../data/offers.js";
 import { t } from "../i18n/t.js";
+import { chevron } from "../i18n/direction.js";
 import { VERSION_LABEL } from "../version.js";
 import { space } from "../theme/scale.js";
 import { C, Lili, TopBar } from "../market/shared.jsx";
@@ -35,12 +36,12 @@ export function ProfilePage({myShop,items,setTab,onOpenLegal,onOpenPreferences,o
       {label:t("shop_orders"),icon:"truck",action:()=>onOpenOrders&&onOpenOrders("seller")},
     ]},
     { title: t("your_account_group"), rows: [
-      {label: session ? `Signed in as ${(session.user&&session.user.email)||"your account"}` : t("sign_in"),
+      {label: session ? t("signed_in_as", { who: (session.user&&session.user.email)||t("your_account_lower") }) : t("sign_in"),
        icon:"user", action: session ? onSignOut : onOpenAuth,
-       trailing: session ? "Sign out" : null},
+       trailing: session ? t("sign_out") : null},
       {label:t("wallet"),icon:"card",action:()=>onOpenOrders&&onOpenOrders("wallet")},
       {label:t("my_preferences"),icon:"lock",action:onOpenPreferences,
-       trailing:"Private"},
+       trailing:t("private_label")},
       {label:t("privacy_safety"),icon:"shield",action:onOpenLegal},
     ]},
     { title: t("app_group"), rows: [
@@ -145,13 +146,13 @@ export function ProfilePage({myShop,items,setTab,onOpenLegal,onOpenPreferences,o
                     <Icon name={item.icon} size={19} style={{color:C.terraTx}}/>
                     {item.label}
                     {item.trailing
-                      ? <span style={{marginLeft:"auto",fontSize:11,fontWeight:700,color:C.terraTx,
+                      ? <span style={{marginInlineStart:"auto",fontSize:11,fontWeight:700,color:C.terraTx,
                           border:`1px solid ${C.border}`,borderRadius:20,padding:"3px 10px"}}>{item.trailing}</span>
                       : item.action
-                      ? <span style={{marginLeft:"auto",color:C.inkLt}}>›</span>
-                      : <span style={{marginLeft:"auto",fontSize:11,fontWeight:700,
+                      ? <span style={{marginInlineStart:"auto",color:C.inkLt}}>{chevron()}</span>
+                      : <span style={{marginInlineStart:"auto",fontSize:11,fontWeight:700,
                           color:C.inkLt,border:`1px solid ${C.border}`,borderRadius:20,
-                          padding:"2px 8px",whiteSpace:"nowrap"}}>Soon</span>}
+                          padding:"2px 8px",whiteSpace:"nowrap"}}>{t("soon")}</span>}
                   </button>
                 ))}
             </div>
@@ -172,16 +173,15 @@ export function ProfilePage({myShop,items,setTab,onOpenLegal,onOpenPreferences,o
         <div style={{textAlign:"center",marginTop:24,padding:"16px",
           background:C.white,borderRadius:14,border:`1px solid ${C.border}`}}>
           <div style={{fontFamily:"Georgia,serif",fontStyle:"italic",fontSize:15,
-            color:C.ink,marginBottom:6}}>Early days, on purpose</div>
+            color:C.ink,marginBottom:6}}>{t("early_days")}</div>
           <div style={{fontSize:12,color:C.inkLt,lineHeight:1.6}}>
-            No inflated numbers here. Shops show what they have actually sold,
-            and nothing before that. Ratings arrive when real buyers leave them.
+            {t("early_days_hint")}
           </div>
           <div style={{display:"flex",justifyContent:"center",gap:18,marginTop:12,flexWrap:"wrap"}}>
-            {[["tag","Every listing screened"],["lock","Messages stay private"],["scales","Reasons on every decision"]].map(([icon,t])=>(
-              <span key={t} style={{fontSize:11,color:C.inkLt,display:"inline-flex",
+            {[["tag","every_listing_screened"],["lock","messages_stay_private"],["scales","reasons_on_every_decision"]].map(([icon,key])=>(
+              <span key={key} style={{fontSize:11,color:C.inkLt,display:"inline-flex",
                 alignItems:"center",gap:4}}>
-                <Icon name={icon} size={10} stroke={2}/>{t}
+                <Icon name={icon} size={10} stroke={2}/>{t(key)}
               </span>
             ))}
           </div>

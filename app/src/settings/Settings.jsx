@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import { C, Shell, Btn, Note } from "../compliance/ui.js";
 import * as repo from "../data/repo.js";
 import { normaliseText } from "../ux/input.js";
-import { t } from "../i18n/t.js";
+import { t, getLang } from "../i18n/t.js";
 import { isAway, backOn, MAX_AWAY_DAYS, untilEndOf } from "../shops/away.js";
 
 // ─────────────────────────────────────────────────────────────────────────────
@@ -60,7 +60,7 @@ export default function Settings({ myShop, onShopUpdated, onBack }) {
 
   if (!myShop) {
     return (
-      <Shell title="Settings" subtitle="الإعدادات" onBack={onBack}>
+      <Shell title={t("settings")} subtitle={getLang() === "ar" ? undefined : "الإعدادات"} onBack={onBack}>
         <p style={p}>
           Once you open a shop, this is where you'll set its Arabic name, write a
           bio and choose its colour.
@@ -74,7 +74,7 @@ export default function Settings({ myShop, onShopUpdated, onBack }) {
   }
 
   return (
-    <Shell title="Settings" subtitle="الإعدادات" onBack={onBack}>
+    <Shell title={t("settings")} subtitle={getLang() === "ar" ? undefined : "الإعدادات"} onBack={onBack}>
       <p style={p}>
         The details we didn't ask for when you opened your shop, because none of
         them should have stood between you and your first piece.
@@ -86,7 +86,7 @@ export default function Settings({ myShop, onShopUpdated, onBack }) {
         <div style={{ background: form.banner, height: 52 }} />
         <div style={{ padding: "10px 14px 14px" }}>
           <div style={{ fontFamily: "Georgia,serif", fontWeight: 700, fontSize: 16, color: C.ink }}>
-            {form.name || "Your shop"}
+            {form.name || t("your_shop_label")}
           </div>
           {form.nameAr && (
             <div style={{ fontSize: 12, color: C.terraTx, marginTop: 2, direction: "rtl" }}>
@@ -94,23 +94,23 @@ export default function Settings({ myShop, onShopUpdated, onBack }) {
             </div>
           )}
           <div style={{ fontSize: 12, color: C.inkLt, marginTop: 4, lineHeight: 1.5 }}>
-            {form.bio || "Add a bio so buyers know who they're buying from."}
+            {form.bio || t("add_bio_hint")}
           </div>
         </div>
       </div>
 
       <Field label={t("shop_name_2")} value={form.name}
-             onChange={set("name")} placeholder="e.g. Desert Rose Closet" />
+             onChange={set("name")} placeholder={t("shop_name_example")} />
       <Field label={t("arabic_name")} value={form.nameAr}
              onChange={set("nameAr")} placeholder="خزانة الوردة" rtl />
       <Field label={t("bio")} value={form.bio} onChange={set("bio")}
-             placeholder="Describe your style, what you sell, how you pack…" multiline />
+             placeholder={t("bio_placeholder")} multiline />
 
       <div style={label}>{t("shop_colour")}</div>
       <div style={{ display: "flex", gap: 10, marginBottom: 6, flexWrap: "wrap" }}>
         {BANNERS.map((b) => (
           <button key={b} onClick={() => set("banner")(b)}
-            aria-label={`Shop colour ${b}`}
+            aria-label={t("shop_colour_n", { colour: b })}
             className="tap-round"
             style={{
               width: 34, height: 34, borderRadius: "50%", background: b,
@@ -121,7 +121,7 @@ export default function Settings({ myShop, onShopUpdated, onBack }) {
       </div>
 
       <Btn disabled={busy || !form.name.trim()} onClick={save}>
-        {busy ? "Saving…" : saved ? "Saved" : t("save_changes")}
+        {busy ? t("saving") : saved ? t("saved_done") : t("save_changes")}
       </Btn>
 
       <Note>

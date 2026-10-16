@@ -113,15 +113,12 @@ chlo_woody_tote,Chloé Woody Tote,The main shopping screens,market/shared.jsx
 chlo_woody_tote_in_tan_and_white_barely_used_per,Chloé Woody tote in tan and white. Barely used. Perfect summer bag.,The main shopping screens,market/shared.jsx
 clean_lines_quiet_luxury_always,Clean lines. Quiet luxury. Always.,The main shopping screens,market/shared.jsx
 clear_search,Clear search,The main shopping screens,market/shared.jsx
-clear_the_search_to_see_everything_she_has,Clear the search to see everything she has.,The main shopping screens,pages/ShopPages.jsx
 couldn_t_open_that_conversation,Couldn't open that conversation.,The main shopping screens,Marketplace.jsx
 designer_finds_timeless_vintage_gems,Designer finds & timeless vintage gems,The main shopping screens,market/shared.jsx
 dubai_design_cream,Dubai Design · Cream,The main shopping screens,market/shared.jsx
 dubai_finds,Dubai Finds,The main shopping screens,market/shared.jsx
 dubai_only_for_now,"Dubai only, for now",The main shopping screens,Marketplace.jsx
 elevated_everyday_from_dubai_with_love,Elevated everyday — from Dubai with love,The main shopping screens,market/shared.jsx
-every_listing_screened,Every listing screened,The main shopping screens,Marketplace.jsx pages/ProfilePage.jsx
-follow_her_and_you_ll_see_the_first_piece_when_i,Follow her and you'll see the first piece when it goes up.,The main shopping screens,pages/ShopPages.jsx
 gianvito_rossi_gianvito_105_pumps_in_nude_pvc_mi,Gianvito Rossi Gianvito 105 pumps in nude PVC. Minor sole wear. Stunning on.,The main shopping screens,market/shared.jsx
 gianvito_rossi_heels,Gianvito Rossi Heels,The main shopping screens,market/shared.jsx
 haya_s_collection,Haya's Collection,The main shopping screens,market/shared.jsx
@@ -145,14 +142,12 @@ m6_2l3_6v14a2_2_0_002_2h14a2_2_0_002_2v6l_3_4z,M6 2L3 6v14a2 2 0 002 2h14a2 2 0 
 m9_21v12h6v9,M9 21V12h6v9,The main shopping screens,Marketplace.jsx
 medium_beige_lambskin,Medium · Beige Lambskin,The main shopping screens,market/shared.jsx
 message_seller,Message Seller,The main shopping screens,market/shared.jsx
-messages_stay_private,Messages stay private,The main shopping screens,pages/ProfilePage.jsx
 mini_bag_caramel,Mini Bag · Caramel,The main shopping screens,market/shared.jsx
 minimal_by_mia,Minimal by Mia,The main shopping screens,market/shared.jsx
 notifications,Notifications,The main shopping screens,Marketplace.jsx notifications/NotificationsSheet.jsx
 nude_pumps_38,Nude Pumps 38,The main shopping screens,market/shared.jsx
 opening_a_shop_needs_an_account_it_s_how_your_bu,Opening a shop needs an account — it's how your buyers reach you and how you get paid.,The main shopping screens,Marketplace.jsx
 pick_all_that_apply,Pick all that apply,The main shopping screens,Marketplace.jsx
-reasons_on_every_decision,Reasons on every decision,The main shopping screens,pages/ProfilePage.jsx
 reformation_fitted_midi_in_warm_terracotta_worn_,Reformation fitted midi in warm terracotta. Worn once to a brunch. Stunning silhouette.,The main shopping screens,market/shared.jsx
 reformation_midi_dress,Reformation Midi Dress,The main shopping screens,market/shared.jsx
 ruffle_mini,Ruffle Mini,The main shopping screens,market/shared.jsx
@@ -167,7 +162,6 @@ the_best_pre_loved_pieces_in_the_uae,The best pre-loved pieces in the UAE,The ma
 the_iconic_bottega_veneta_pouch_in_nude_intrecci,"The iconic Bottega Veneta pouch in nude intrecciato leather. Like new, barely carried.",The main shopping screens,market/shared.jsx
 the_vintage_edit,The Vintage Edit,The main shopping screens,market/shared.jsx
 timeless_chanel_classic_flap_in_beige_lambskin_w,"Timeless Chanel Classic Flap in beige lambskin with gold hardware. Gently used, excellent condition. Comes with dust bag and authenticity card.",The main shopping screens,market/shared.jsx
-try_part_of_her_name_in_either_language,"Try part of her name, in either language.",The main shopping screens,pages/ShopPages.jsx
 van_cleef_vintage_alhambra,Van Cleef Vintage Alhambra,The main shopping screens,market/shared.jsx
 weekend_picks,Weekend picks ,The main shopping screens,market/shared.jsx
 yellow_gold_malachite,Yellow Gold · Malachite,The main shopping screens,market/shared.jsx
@@ -291,8 +285,6 @@ your_account_is_gone,Your account is gone,Privacy & safety centre,compliance/Leg
 invitations_need_the_backend,Invitations need the backend.,Invitations to the beta,invites/InviteRoster.jsx
 nobody_has_used_a_code_yet_hand_them_out_in_pers,Nobody has used a code yet. Hand them out in person; a code sent into a group chat is a code nobody feels responsible for.,Invitations to the beta,invites/InviteRoster.jsx
 we_couldn_t_reach_lili_just_now,We couldn't reach lili just now.,Invitations to the beta,invites/InviteRoster.jsx
-add_a_bio_so_buyers_know_who_they_re_buying_from,Add a bio so buyers know who they're buying from.,Settings,settings/Settings.jsx
-describe_your_style_what_you_sell_how_you_pack,"Describe your style, what you sell, how you pack…",Settings,settings/Settings.jsx
 this_can_t_be_listed,This can't be listed,When a listing is held for review,compliance/ListingScreen.jsx
 this_will_need_a_quick_check,This will need a quick check,When a listing is held for review,compliance/ListingScreen.jsx
 worth_fixing_before_you_publish,Worth fixing before you publish,When a listing is held for review,compliance/ListingScreen.jsx

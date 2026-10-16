@@ -874,7 +874,7 @@ const usesKey = (k) => new RegExp(`t\\("${k}"\\)`).test(market) && !!DICT[k];
 check("the sellers page says something when there are no shops",
   usesKey("no_shops_open_yet"));
 check("a shop with nothing listed says so",
-  /hasn't listed anything yet/.test(market));
+  /t\("shop_hasnt_listed"/.test(market) && /hasn't listed anything yet/.test(DICT.shop_hasnt_listed.en));
 check("stories belonging to shops that do not exist are not drawn",
   /filter\(x=>!!x\.shop\)/.test(market));
 check("the home feed tells an empty catalogue from filters set too tight",

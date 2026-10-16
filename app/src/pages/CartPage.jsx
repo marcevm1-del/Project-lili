@@ -58,7 +58,7 @@ export function CartPage({cart, shops, removeFromCart, setTab, onMessageSeller, 
     <div style={{paddingBottom:72}}>
       <div style={{background:C.cream, padding:"14px 16px", borderBottom:`1px solid ${C.border}`,
         display:"flex", alignItems:"center", gap:10}}>
-        <button onClick={()=>setTab("home")} aria-label="Back" style={{background:"none",border:"none",cursor:"pointer",fontSize:20,color:C.ink,
+        <button onClick={()=>setTab("home")} aria-label={t("back")} style={{background:"none",border:"none",cursor:"pointer",fontSize:20,color:C.ink,
           minWidth:44,minHeight:44,display:"flex",alignItems:"center",justifyContent:"center"}}>{backArrow()}</button>
         <div style={{flex:1}}>
           <div style={{fontFamily:"Georgia,serif", fontStyle:"italic", fontSize:18, color:C.terraTx}}>{t("your_list")}</div>
@@ -151,7 +151,7 @@ export function CartPage({cart, shops, removeFromCart, setTab, onMessageSeller, 
                       style={{width:"100%", marginTop:10, background:C.white, color:C.terraTx,
                         border:`1.5px solid ${C.terra}`, borderRadius:24, padding:"10px 0", fontWeight:700,
                         fontSize:13, cursor:"pointer", fontFamily:"inherit", minHeight:44}}>
-                      {bundle ? `Delivery & total for all ${items.length}, one parcel` : "Delivery options & total"}
+                      {bundle ? t("delivery_total_bundle", { n: items.length }) : t("delivery_options_total")}
                     </button>
                   );
                 })()}

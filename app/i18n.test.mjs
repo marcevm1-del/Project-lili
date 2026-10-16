@@ -105,9 +105,11 @@ for (const f of srcFiles) {
 const real = interfaceCoverage(englishOnly, "ar");
 {
   // The language screen names a fraction; it must be the measured one.
-  const FRACTIONS = { eighth: [9, 16], fifth: [17, 24], quarter: [25, 30], third: [31, 40], half: [45, 55] };
+  const FRACTIONS = { eighth: [9, 16], fifth: [17, 24], quarter: [25, 30], third: [31, 40],
+                      "two fifths": [40, 44], half: [45, 55] };
   const note = getLanguage("ar").note || "";
-  const named = Object.keys(FRACTIONS).find((f) => new RegExp(`\\b(a|an) ${f}\\b`).test(note));
+  const named = Object.keys(FRACTIONS).find((f) => new RegExp(`\\b(a|an) ${f}\\b`).test(note))
+    || (/\babout two fifths\b/.test(note) ? "two fifths" : undefined);
   check("the language screen's 'about a …' is the fraction actually measured",
     named && real.pct >= FRACTIONS[named][0] && real.pct <= FRACTIONS[named][1], `${named} vs ${real.pct}%`);
 }

@@ -39,7 +39,7 @@ export function MyShopPage({shop,items,setTab,justListed,onDismissListed,onMarkS
   const [err,setErr] = useState(null);
   const act = async (id, fn) => {
     setBusy(id); setErr(null);
-    try { await fn(); } catch(e) { setErr((e && e.message) || "That didn't go through."); }
+    try { await fn(); } catch(e) { setErr((e && e.message) || t("err_didnt_go_through")); }
     finally { setBusy(null); }
   };
   const badge = (st) => st==="sold" ? t("status_sold")
@@ -193,7 +193,7 @@ export function MyShopPage({shop,items,setTab,justListed,onDismissListed,onMarkS
               Photo, details, price — about a minute. Your first piece is the hardest;
               after that it's muscle memory.
             </div>
-            <div style={{fontSize:12,marginTop:6}}>Tap "+ List Item" to add your first piece</div>
+            <div style={{fontSize:12,marginTop:6}}>{t("tap_list_item_first")}</div>
           </div>
         )}
       </div>
@@ -240,7 +240,7 @@ export function SellersPage({shops,items,setTab,setViewShop,onFollow,isFollowing
                   border:`1.5px solid ${C.terra}`,color:isFollowing&&isFollowing(shop.id)?C.white:C.terraTx,
                   borderRadius:20,padding:"5px 14px",fontSize:12,fontWeight:600,cursor:"pointer",
                   flexShrink:0,fontFamily:"inherit"}}>
-                {isFollowing&&isFollowing(shop.id)?T.following?.[0]||"Following":T.follow[0]}
+                {isFollowing&&isFollowing(shop.id)?t("following"):t("follow")}
               </button>
             </div>
           );
@@ -252,17 +252,17 @@ export function SellersPage({shops,items,setTab,setViewShop,onFollow,isFollowing
           <div style={{textAlign:"center",padding:"46px 20px",color:C.inkLt}}>
             <Icon name="shops" size={28} stroke={1.4} style={{color:C.terra,marginBottom:10,opacity:0.8}}/>
             <div style={{fontSize:14,color:C.ink}}>
-              {q.trim() ? `No seller called "${q}"` : t("no_shops_open_yet")}
+              {q.trim() ? t("no_seller_called", { q }) : t("no_shops_open_yet")}
             </div>
             <div style={{fontSize:12,marginTop:6,lineHeight:1.6,maxWidth:270,margin:"6px auto 0"}}>
               {q.trim()
-                ? "Try part of her name, in either language."
-                : "lili is opening with a small group of sellers in Dubai. Their shops appear here as they open them."}
+                ? t("try_part_of_name")
+                : t("sellers_opening_hint")}
             </div>
             {q.trim() && (
               <button onClick={()=>setQ("")} style={{marginTop:14,background:"none",
                 border:`1.5px solid ${C.terra}`,color:C.terraTx,borderRadius:20,padding:"8px 18px",
-                fontSize:12,fontWeight:600,cursor:"pointer",fontFamily:"inherit"}}>Show all sellers</button>
+                fontSize:12,fontWeight:600,cursor:"pointer",fontFamily:"inherit"}}>{t("show_all_sellers")}</button>
             )}
           </div>
         )}
@@ -283,7 +283,7 @@ export function ShopViewPage({shop,items,onSave,setModal,onBack,onReport,onFollo
   return (
     <div style={{paddingBottom:72}}>
       <div style={{background:shop.banner||C.terra,height:76,position:"relative"}}>
-        <button className="tap-round" onClick={onBack} aria-label="Back" style={{position:"absolute",top:14,left:14,background:C.scrimCC,
+        <button className="tap-round" onClick={onBack} aria-label={t("back")} style={{position:"absolute",top:14,left:14,background:C.scrimCC,
           border:"none",borderRadius:"50%",width:44,height:44,cursor:"pointer",fontSize:16,
           backdropFilter:"blur(4px)",display:"flex",alignItems:"center",justifyContent:"center"}}>{backArrow()}</button>
       </div>
@@ -300,7 +300,7 @@ export function ShopViewPage({shop,items,onSave,setModal,onBack,onReport,onFollo
             style={{background:following?C.terra:"none",border:`1.5px solid ${C.terra}`,
               color:following?C.white:C.terraTx,borderRadius:20,padding:"6px 16px",
               fontSize:12,fontWeight:600,cursor:"pointer",fontFamily:"inherit"}}>
-            {following?"Following":"Follow"}
+            {following?t("following"):t("follow")}
           </button>
         </div>
         {isAway(shop) && (
@@ -337,17 +337,17 @@ export function ShopViewPage({shop,items,onSave,setModal,onBack,onReport,onFollo
           <div style={{textAlign:"center",padding:"40px 18px",color:C.inkLt}}>
             <Icon name="bag" size={26} stroke={1.4} style={{color:C.terra,marginBottom:10,opacity:0.8}}/>
             <div style={{fontSize:13,color:C.ink}}>
-              {mine.length===0 ? `${shop.name} hasn't listed anything yet` : `Nothing in this shop for "${q}"`}
+              {mine.length===0 ? t("shop_hasnt_listed", { shop: shop.name }) : t("nothing_in_shop_for", { q })}
             </div>
             <div style={{fontSize:12,marginTop:6,lineHeight:1.6}}>
               {mine.length===0
-                ? "Follow her and you'll see the first piece when it goes up."
-                : "Clear the search to see everything she has."}
+                ? t("follow_for_first_piece")
+                : t("clear_search_to_see_all")}
             </div>
             {mine.length>0 && (
               <button onClick={()=>setQ("")} style={{marginTop:12,background:"none",
                 border:`1.5px solid ${C.terra}`,color:C.terraTx,borderRadius:20,padding:"7px 16px",
-                fontSize:12,fontWeight:600,cursor:"pointer",fontFamily:"inherit"}}>Show everything</button>
+                fontSize:12,fontWeight:600,cursor:"pointer",fontFamily:"inherit"}}>{t("show_everything")}</button>
             )}
           </div>
         )}
