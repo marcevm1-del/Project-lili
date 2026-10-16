@@ -1,5 +1,5 @@
-import { STRINGS } from "./strings.js";
-import { getDir, onDirChange } from "./direction.js";
+import { EN } from "./strings.en.js";
+import { getDir, onDirChange, refreshDir } from "./direction.js";
 
 // ─────────────────────────────────────────────────────────────────────────────
 //  ONE LANGUAGE AT A TIME
@@ -36,6 +36,25 @@ import { getDir, onDirChange } from "./direction.js";
 
 let lang = "en";
 
+// ── the Arabic half, on demand ───────────────────────────────────────────────
+// strings.js holds both languages and is the source, but the app reads two
+// files generated from it (i18n-split.mjs): English here, in the first chunk,
+// and Arabic loaded only when Arabic is chosen. Until it arrives t() answers in
+// English, the same fallback as a key with no Arabic yet, and the tree is told
+// to re-render the moment it lands.
+let AR = null;
+let loading = null;
+export function loadArabic() {
+  if (AR) return Promise.resolve(AR);
+  if (!loading) {
+    loading = import("./strings.ar.js")
+      .then((m) => { AR = m.AR; return AR; })
+      .catch((e) => { loading = null; throw e; });
+  }
+  return loading;
+}
+export const arabicLoaded = () => !!AR;
+
 export function setLang(code) {
   lang = code === "ar" ? "ar" : "en";
   return lang;
@@ -51,65 +70,29 @@ export const getLang = () => lang;
  * and fragments cannot express that.
  */
 export function t(key, vars) {
-  const entry = STRINGS[key];
-  if (!entry) {
+  const en = EN[key];
+  if (en === undefined) {
     // A missing key is a bug in the caller, not in the translation. Say which
     // key, in development, and render something readable rather than blank.
     if (typeof console !== "undefined" && console.warn) console.warn("i18n: no string for", key);
     return key;
   }
-  let out = (lang === "ar" && entry.ar) || entry.en || "";
+  let out = (lang === "ar" && AR && AR[key]) || en || "";
   if (vars) for (const [k, v] of Object.entries(vars)) out = out.split(`{${k}}`).join(String(v));
   return out;
 }
 
-/** Both languages, deliberately — for the two or three places that want it. */
-export const both = (key) => {
-  const e = STRINGS[key];
-  if (!e) return key;
-  return e.ar ? `${e.en} · ${e.ar}` : e.en;
-};
-
-/**
- * How much of the DICTIONARY exists in a language.
- *
- * Read the name carefully, because the obvious misreading is the dangerous one.
- * This measures the dictionary, and the dictionary is not the interface: it was
- * seeded from the 128 labels that were ALREADY bilingual, so it reports 100%
- * for Arabic the moment it is created and will keep reporting 100% while most
- * of the app is still English.
- *
- * A number that is 100% on day one and means nothing is exactly the kind of
- * green tick this project keeps deleting. `interfaceCoverage()` below is the
- * one that tells the truth, and it is the one the suite asserts on.
- */
-export function coverage(code = "ar") {
-  const keys = Object.keys(STRINGS);
-  const done = keys.filter((k) => STRINGS[k][code]);
-  return { total: keys.length, translated: done.length,
-           pct: keys.length ? Math.round((100 * done.length) / keys.length) : 0,
-           missing: keys.filter((k) => !STRINGS[k][code]) };
-}
-
-/**
- * How much of what she actually reads exists in a language.
- *
- * Counts translated strings against every user-visible string in the source,
- * translated or not — the denominator the audit used when it found ~150
- * bilingual labels against 600+ English ones. The count is passed in by the
- * caller (the test walks the source; the app does not need to) so this module
- * stays free of filesystem access.
- */
-export function interfaceCoverage(englishOnlyCount, code = "ar") {
-  const c = coverage(code);
-  const total = c.translated + Math.max(0, englishOnlyCount);
-  return { translated: c.translated, untranslated: Math.max(0, englishOnlyCount), total,
-           pct: total ? Math.round((100 * c.translated) / total) : 0 };
-}
+// coverage(), interfaceCoverage() and both() live in i18n/coverage.js: they
+// need both languages at once, and only the suites call them.
 
 // Direction and language move together — `setDir` is what the picker calls, and
 // it is the only thing that publishes a change, so this keeps them in step
 // without a second subscription for every component.
 if (typeof window !== "undefined") {
-  onDirChange(() => setLang(getDir() === "rtl" ? "ar" : "en"));
+  onDirChange(() => {
+    setLang(getDir() === "rtl" ? "ar" : "en");
+    // switched to Arabic by any route before it was loaded: load it, then
+    // re-render once more so the screen changes language as well as direction
+    if (lang === "ar" && !AR) loadArabic().then(refreshDir).catch(() => {});
+  });
 }

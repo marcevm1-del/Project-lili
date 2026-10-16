@@ -5,7 +5,7 @@ import * as store from "../compliance/store.js";
 import { record } from "../compliance/audit.js";
 import Icon from "../icons/Icon.jsx";
 import { setDir, alignStart } from "./direction.js";
-import { setLang } from "./t.js";
+import { setLang, loadArabic } from "./t.js";
 import * as funnel from "../analytics/funnel.js";
 
 const KEY = "lili.language.v1";
@@ -34,6 +34,9 @@ export async function applyLanguage(code) {
   const lang = getLanguage(code);
   await store.set(KEY, lang.code);
   try { document.documentElement.lang = lang.code; } catch { /* no document in a test harness */ }
+  // The Arabic half of the dictionary is its own file (i18n-split.mjs). Load it
+  // before the switch, so the screen changes language and direction together.
+  if (lang.code === "ar") await loadArabic().catch(() => {});
   setDir(lang.dir);
   setLang(lang.code);
   await record("language.selected", { code: lang.code, dir: lang.dir, status: lang.status });

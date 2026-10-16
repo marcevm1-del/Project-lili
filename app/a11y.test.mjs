@@ -177,6 +177,15 @@ await page.emulateMedia({ colorScheme: "light" });
   const skip = page.locator("button").filter({ hasText: /تخط|Skip/ }).first();
   if (await skip.count()) await skip.click().catch(() => {});
   await page.waitForTimeout(400);
+  // The Arabic half of the dictionary is its own file, loaded when Arabic is
+  // chosen (i18n-split.mjs). After a restart in Arabic the feed must read in
+  // Arabic, not fall back to English while the file is still on its way.
+  {
+    const body = await page.evaluate(() => document.body.innerText);
+    const ok = body.includes("عرض الكل") && !body.includes("See all");
+    console.log(`  ${ok ? "\x1b[32m✓" : "\x1b[31m✗"}\x1b[0m Arabic: the feed reads in Arabic after a restart`);
+    if (!ok) violations++;
+  }
   await page.locator("button[data-tile-title]").first().click({ timeout: 3000 }).catch(() => {});
   await page.waitForTimeout(600);
   await scan("item detail (Arabic, right to left)");

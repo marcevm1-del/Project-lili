@@ -57,6 +57,13 @@ export function setDir(next) {
   return dir;
 }
 
+/** Tell every listener again, with the direction unchanged: for when the text
+ *  for the current language arrives after the switch (t.js loadArabic). */
+export function refreshDir() {
+  listeners.forEach((fn) => { try { fn(dir); } catch { /* as above */ } });
+  return dir;
+}
+
 export function onDirChange(fn) {
   listeners.add(fn);
   return () => listeners.delete(fn);

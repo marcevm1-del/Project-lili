@@ -47,9 +47,22 @@ let the API contract test also check the signed-in calls.
 
 `cd app && npm ci && npx playwright install chromium && npm run verify:ci`
 
-Runs 12 suites (unit, walkthrough, browser, device, accessibility, security and the
-live API contract) and fails unless every suite *ran* and printed at least its expected
+Runs 13 suites (unit, walkthrough, browser, device, accessibility, security, Arabic and
+the live API contract) and fails unless every suite *ran* and printed at least its expected
 number of passing checks. A suite that cannot reach Supabase exits 2, not green.
+
+## Arabic
+
+`app/src/i18n/strings.js` is the dictionary: both languages side by side, one entry per
+line. Arabic drafted by an AI assistant is listed in `src/i18n/drafts.js` until a native
+speaker has checked it.
+
+- `node i18n-export.mjs` writes `i18n/to-translate.csv` for the translator.
+- `node i18n-export.mjs import` takes her file back.
+- The app reads two files generated from the dictionary: `strings.en.js` in the first
+  chunk, and `strings.ar.js`, which loads only when Arabic is chosen.
+- `npm run build` regenerates both, and so does an import. The i18n suite fails if the
+  committed copies have drifted (`node i18n-split.mjs`).
 
 ## Supabase
 

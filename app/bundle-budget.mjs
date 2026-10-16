@@ -4,7 +4,9 @@
 // script is parse time before the first piece appears. Measured 8 Oct 2026:
 // largest chunk 274 KB, all JavaScript 800 KB in 31 files. 14 Oct 2026: 328 KB
 // with delivery and orders, back to 268 KB once Sell, the shop pages, Messages
-// and the shortlist loaded on first tap. The budget leaves room to grow
+// and the shortlist loaded on first tap. 16 Oct 2026: 294 KB as the Arabic
+// dictionary grew, 264 KB once the Arabic half became its own file loaded only
+// when Arabic is chosen (i18n-split.mjs). The budget leaves room to grow
 // on purpose and stops a surprise dependency from doubling it unnoticed.
 //
 //   node bundle-budget.mjs        (after npm run build)

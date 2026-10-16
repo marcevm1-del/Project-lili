@@ -353,6 +353,8 @@ async function runImport() {
       }
     }
     writeFileSync(DICT, src);
+    // the app reads the two halves generated from it (i18n-split.mjs)
+    await (await import("./i18n-split.mjs")).writeSplit();
     if (reviewed.size) {
       let d = readFileSync(DRAFTS, "utf8");
       for (const k of reviewed) d = d.replace(new RegExp(`\\n  "${k}",`), "");

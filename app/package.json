@@ -6,6 +6,7 @@
   "type": "module",
   "scripts": {
     "dev": "vite",
+    "prebuild": "node i18n-split.mjs",
     "build": "vite build",
     "preview": "vite preview",
     "smoke": "vite-node smoke.test.mjs",

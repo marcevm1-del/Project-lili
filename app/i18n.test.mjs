@@ -26,7 +26,9 @@ const check = (name, ok, detail) => {
 const section = (t) => console.log(`\n\x1b[1m${t}\x1b[0m`);
 
 const { STRINGS } = await import("./src/i18n/strings.js");
-const { t, setLang, getLang, coverage, interfaceCoverage, both } = await import("./src/i18n/t.js");
+const { t, setLang, getLang, loadArabic } = await import("./src/i18n/t.js");
+const { coverage, interfaceCoverage, both } = await import("./src/i18n/coverage.js");
+await loadArabic();   // the Arabic half is its own file in the app (i18n-split.mjs)
 const { LANGUAGES, getLanguage } = await import("./src/i18n/languages.js");
 
 const srcFiles = [];
@@ -60,12 +62,15 @@ section("2. Failing safely");
 
 check("a missing key renders something readable, not blank",
   t("definitely_not_a_key").length > 0);
+// t() reads the two halves generated from strings.js, so the probe goes there
+const { EN: EN_HALF } = await import("./src/i18n/strings.en.js");
+const { AR: AR_HALF } = await import("./src/i18n/strings.ar.js");
 check("interpolation works, so a sentence stays one string for a translator",
-  (STRINGS.__probe = { en: "{n} left", ar: "بقي {n}" }) && t("__probe", { n: 3 }) === "3 left");
+  (EN_HALF.__probe = "{n} left") && (AR_HALF.__probe = "بقي {n}") && t("__probe", { n: 3 }) === "3 left");
 setLang("ar");
 check("and interpolates in the other language too", t("__probe", { n: 3 }) === "بقي 3");
 setLang("en");
-delete STRINGS.__probe;
+delete EN_HALF.__probe; delete AR_HALF.__probe;
 check("`both` still exists for the places that genuinely want two languages",
   / · /.test(both("filters")));
 
@@ -187,6 +192,20 @@ check("choosing a language sets the strings, not only the direction",
   /setLang\(lang\.code\)/.test(picker) && /setDir\(lang\.dir\)/.test(picker));
 check("and the tree is told, so it re-renders",
   /onDirChange/.test(marketSource()));
+
+section("7b. Arabic is downloaded by the women who read it");
+
+{
+  const { isCurrent } = await import("./i18n-split.mjs");
+  check("the app's English and Arabic halves are generated from strings.js and up to date",
+    await isCurrent(), "run: node i18n-split.mjs");
+  const tSrc = readFileSync("src/i18n/t.js", "utf8");
+  check("the first chunk carries English only; Arabic is loaded when it is chosen",
+    /from "\.\/strings\.en\.js"/.test(tSrc) && !/from "\.\/strings\.js"/.test(tSrc) &&
+    /import\("\.\/strings\.ar\.js"\)/.test(tSrc));
+  check("choosing Arabic loads it before the screen switches",
+    /await loadArabic\(\)[\s\S]{0,80}setDir\(lang\.dir\)/.test(readFileSync("src/i18n/LanguagePicker.jsx", "utf8")));
+}
 
 section("8. The translator's file round-trips");
 
