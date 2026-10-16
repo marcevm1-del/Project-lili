@@ -200,7 +200,7 @@ export function MessagesPage({shops,items,onReport,openThreadId,onOpened,error,o
     const d = new Date(at);
     if (isNaN(d)) return "";
     const mins = Math.round((Date.now() - d.getTime()) / 60000);
-    if (mins < 1) return "now";
+    if (mins < 1) return t("just_now");
     if (mins < 60) return `${mins}m`;
     if (mins < 1440) return `${Math.round(mins / 60)}h`;
     return d.toLocaleDateString();
@@ -229,7 +229,7 @@ export function MessagesPage({shops,items,onReport,openThreadId,onOpened,error,o
               onClick={()=>onReport && onReport({kind:"conversation",
                 id:openThread.id, title:shop?.name||"this conversation",
                 shopId:openThread.shopId, shopName:shop?.name})}
-              aria-label="Report this conversation"
+              aria-label={t("report_this_conversation")}
               className="tap-target"
               style={{background:"none",border:"none",cursor:"pointer",color:C.inkLt,
                 display:"flex",alignItems:"center",padding:4}}>
@@ -295,8 +295,7 @@ export function MessagesPage({shops,items,onReport,openThreadId,onOpened,error,o
         <div ref={scrollRef} style={{flex:1,overflowY:"auto",padding:"14px",display:"flex",flexDirection:"column",gap:10}}>
           {view.length===0 && (
             <div style={{textAlign:"center",color:C.inkLt,fontSize:12,padding:"24px 12px",lineHeight:1.6}}>
-              Nothing here yet. Say hello — sellers reply faster to a real
-              question than to "is this available".
+              {t("say_hello_hint")}
             </div>
           )}
           {view.map((m)=>(
@@ -323,8 +322,8 @@ export function MessagesPage({shops,items,onReport,openThreadId,onOpened,error,o
                   </a>); })()}
                 <div style={{fontSize:11,opacity:0.6,marginTop:4,textAlign:alignEnd()}}>
                   {timeLabel(m.at)}
-                  {m.mine && m.delivered === false && " · not sent"}
-                  {m.mine && m.delivered !== false && m.read && " · read"}
+                  {m.mine && m.delivered === false && ` · ${t("not_sent")}`}
+                  {m.mine && m.delivered !== false && m.read && ` · ${t("read_receipt")}`}
                 </div>
               </div>
             </div>
@@ -376,12 +375,12 @@ export function MessagesPage({shops,items,onReport,openThreadId,onOpened,error,o
           <input value={newMsg} onChange={e=>setNewMsg(e.target.value)}
             onKeyDown={e=>e.key==="Enter"&&send()}
             maxLength={2000}
-            aria-label="Type a message"
+            aria-label={t("type_a_message")}
             placeholder={t("type_a_message")}
             style={{flex:1,padding:"10px 14px",borderRadius:24,border:`1px solid ${C.border}`,
               fontSize:13,outline:"none",fontFamily:"inherit"}}/>
           <button className="tap-round" onClick={send} disabled={sending||!newMsg.trim()}
-            aria-label="Send message"
+            aria-label={t("send_message")}
             style={{background:(sending||!newMsg.trim())?C.sand:C.btn,
               color:(sending||!newMsg.trim())?C.inkLt:C.onBtn,border:"none",
               borderRadius:"50%",width:44,height:44,cursor:sending?"default":"pointer",
@@ -410,8 +409,8 @@ export function MessagesPage({shops,items,onReport,openThreadId,onOpened,error,o
       {threads.length===0
         ? <div style={{textAlign:"center",padding:"80px 20px",color:C.inkLt}}>
             <Icon name="chat" size={38} stroke={1.6} style={{color:C.terra,marginBottom:14}}/>
-            <div style={{fontFamily:"Georgia,serif",fontStyle:"italic",fontSize:16,color:C.terraTx}}>No messages yet</div>
-            <div style={{fontSize:12,marginTop:6}}>{getLang()==="ar" ? "راسلي أي بائعة من صفحة القطعة" : "Message a seller from any listing"}</div>
+            <div style={{fontFamily:"Georgia,serif",fontStyle:"italic",fontSize:16,color:C.terraTx}}>{t("no_messages_yet")}</div>
+            <div style={{fontSize:12,marginTop:6}}>{t("message_a_seller_from_any_listing")}</div>
           </div>
         : <div>
             {threads.map((raw,i)=>{

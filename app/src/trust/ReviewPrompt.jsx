@@ -3,6 +3,7 @@ import { C } from "../compliance/ui.js";
 import Icon from "../icons/Icon.jsx";
 import * as remote from "../backend/remote.js";
 import { withTimeout, BUDGET, isTimeout } from "../ux/timeout.js";
+import { t } from "../i18n/t.js";
 
 // ─────────────────────────────────────────────────────────────────────────────
 //  A REVIEW, AFTER AN ORDER
@@ -19,7 +20,7 @@ import { withTimeout, BUDGET, isTimeout } from "../ux/timeout.js";
 //  can wait to see the other's and answer it.
 // ─────────────────────────────────────────────────────────────────────────────
 
-const WORDS = ["", "Poor", "Not great", "Fine", "Good", "Lovely"];
+const WORDS = ["", "rate_1", "rate_2", "rate_3", "rate_4", "rate_5"];
 
 // `parcelId` instead of `orderId`: the same review after a parcel sent and
 // received in Messages (migration 40), with the same rules.
@@ -33,10 +34,10 @@ export default function ReviewPrompt({ orderId, parcelId, otherRole = "seller", 
   if (sent) {
     return (
       <div role="status" style={{ fontSize: 12, color: C.inkLt, lineHeight: 1.6 }}>
-        <b style={{ color: C.ink }}>Thank you.</b>{" "}
+        <b style={{ color: C.ink }}>{t("thank_you")}</b>{" "}
         {sent.visible
-          ? "Both of you have reviewed, so both reviews are now on your profiles."
-          : `Your review shows once the ${otherRole} has reviewed you too, or in 14 days — so neither of you sees the other's first.`}
+          ? t("review_both_visible")
+          : t(otherRole === "buyer" ? "review_waits_buyer" : "review_waits_seller")}
       </div>
     );
   }
@@ -50,8 +51,8 @@ export default function ReviewPrompt({ orderId, parcelId, otherRole = "seller", 
       setSent(r || { ok: true });
       if (onDone) onDone(r);
     } catch (e) {
-      setProblem(isTimeout(e) ? "That didn't reach lili. Nothing was saved — try again."
-                              : (e && e.message) || "That didn't work.");
+      setProblem(isTimeout(e) ? t("review_not_reached")
+                              : (e && e.message) || t("didnt_work"));
     }
     setBusy(false);
   };
@@ -59,24 +60,24 @@ export default function ReviewPrompt({ orderId, parcelId, otherRole = "seller", 
   return (
     <div>
       <div style={{ fontSize: 13, fontWeight: 700, color: C.ink, marginBottom: 6 }}>
-        Rate the {otherRole}
+        {t(otherRole === "buyer" ? "rate_the_buyer" : "rate_the_seller")}
       </div>
-      <div role="radiogroup" aria-label={`Rate the ${otherRole}`}
+      <div role="radiogroup" aria-label={t(otherRole === "buyer" ? "rate_the_buyer" : "rate_the_seller")}
         style={{ display: "flex", alignItems: "center", gap: 2, marginBottom: 8 }}>
         {[1, 2, 3, 4, 5].map((n) => (
-          <button key={n} role="radio" aria-checked={stars === n} aria-label={`${n} star${n > 1 ? "s" : ""}`}
+          <button key={n} role="radio" aria-checked={stars === n} aria-label={n > 1 ? t("n_stars", { n }) : t("one_star")}
             className="tap-round" onClick={() => setStars(n)}
             style={{ background: "none", border: "none", padding: 4, cursor: "pointer",
               color: n <= stars ? C.terraTx : C.border }}>
             <Icon name="star" size={26} filled={n <= stars} />
           </button>
         ))}
-        <span style={{ fontSize: 12, color: C.inkLt, marginInlineStart: 8 }}>{WORDS[stars]}</span>
+        <span style={{ fontSize: 12, color: C.inkLt, marginInlineStart: 8 }}>{stars ? t(WORDS[stars]) : ""}</span>
       </div>
       {stars > 0 && (
         <textarea value={body} onChange={(e) => setBody(e.target.value)} maxLength={500} rows={2}
-          placeholder="A line for the next person (optional) — on time? as described?"
-          aria-label="Your review"
+          placeholder={t("review_placeholder")}
+          aria-label={t("your_review")}
           style={{ width: "100%", padding: "10px 12px", borderRadius: 10, fontSize: 13,
             border: `1px solid ${C.border}`, background: C.cream, color: C.ink,
             fontFamily: "inherit", boxSizing: "border-box", resize: "vertical", marginBottom: 8 }} />
@@ -88,11 +89,10 @@ export default function ReviewPrompt({ orderId, parcelId, otherRole = "seller", 
         style={{ background: stars ? C.btn : C.sand, color: stars ? C.onBtn : C.inkLt, border: "none",
           borderRadius: 20, padding: "8px 18px", fontSize: 13, fontWeight: 700,
           cursor: stars && !busy ? "pointer" : "default", fontFamily: "inherit", opacity: busy ? 0.6 : 1 }}>
-        {busy ? "Sending…" : "Send review"}
+        {busy ? t("sending") : t("send_review")}
       </button>
       <div style={{ fontSize: 11, color: C.inkLt, marginTop: 8, lineHeight: 1.5 }}>
-        Shown without your name. {orderId ? "Only the buyer and the seller in this order can review it."
-                                          : "Only the two of you in this sale can review it."}
+        {t("shown_without_name")} {orderId ? t("review_only_order") : t("review_only_sale")}
       </div>
     </div>
   );

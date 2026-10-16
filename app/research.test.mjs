@@ -878,7 +878,7 @@ check("a shop with nothing listed says so",
 check("stories belonging to shops that do not exist are not drawn",
   /filter\(x=>!!x\.shop\)/.test(market));
 check("the home feed tells an empty catalogue from filters set too tight",
-  /Nothing matches those filters/.test(market) && /Nothing here yet/.test(market));
+  /Nothing matches those filters/.test(market) && usesKey("nothing_here_yet"));
 check("skeletons and 'nothing found' no longer render at the same time",
   /!showingSkeletons && shown\.length===0/.test(market));
 check("a category tile carries the count behind it",
