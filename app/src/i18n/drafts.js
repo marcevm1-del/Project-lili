@@ -392,4 +392,6 @@ export const DRAFT_AR = new Set([
   "nothing_no_flaws",
   "saying_up_front",
   "fit",
+  "parcel_still_listed",
+  "mark_it_sold",
 ]);

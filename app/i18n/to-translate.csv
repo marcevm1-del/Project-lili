@@ -381,6 +381,8 @@ anything_to_point_out,Anything to point out?,هل من شيء تودين الإ�
 nothing_no_flaws,Nothing — no flaws,لا شيء — بلا عيوب,Already on screen,draft — check and correct,"Arabic drafted by an AI assistant and already on screen; fix it, or send it back unchanged to approve it"
 saying_up_front,Saying so up front is what buyers trust — and a flaw she was told about is not a reason to send it back.,ذكر العيب مسبقاً هو ما يكسب ثقة المشتريات — والعيب الذي عرفته المشترية ليس سبباً لإرجاع القطعة.,Already on screen,draft — check and correct,"Arabic drafted by an AI assistant and already on screen; fix it, or send it back unchanged to approve it"
 fit,Fit,المقاس,Already on screen,draft — check and correct,"Arabic drafted by an AI assistant and already on screen; fix it, or send it back unchanged to approve it"
+parcel_still_listed,"It arrived, but the piece is still listed, so other buyers can still find it.",وصلت، لكن القطعة ما زالت معروضة، فقد تجدها مشتريات أخريات.,Already on screen,draft — check and correct,"Arabic drafted by an AI assistant and already on screen; fix it, or send it back unchanged to approve it"
+mark_it_sold,Mark it sold,ضعي عليها «مُباعة»,Already on screen,draft — check and correct,"Arabic drafted by an AI assistant and already on screen; fix it, or send it back unchanged to approve it"
 a_reviewer_will_look_at_this_and_you_ll_get_the_,A reviewer will look at this and you'll get the outcome and the reason for it.,,Reporting a listing or a person,not yet wired,compliance/ReportDialog.jsx
 claims_to_be_a_brand_it_isn_t,Claims to be a brand it isn't,,Reporting a listing or a person,not yet wired,compliance/ReportDialog.jsx
 counterfeit_or_replica,Counterfeit or replica,,Reporting a listing or a person,not yet wired,compliance/ReportDialog.jsx

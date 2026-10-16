@@ -567,4 +567,6 @@ export const STRINGS = {
   nothing_no_flaws: { en: "Nothing — no flaws", ar: "لا شيء — بلا عيوب" },
   saying_up_front: { en: "Saying so up front is what buyers trust — and a flaw she was told about is not a reason to send it back.", ar: "ذكر العيب مسبقاً هو ما يكسب ثقة المشتريات — والعيب الذي عرفته المشترية ليس سبباً لإرجاع القطعة." },
   fit: { en: "Fit", ar: "المقاس" },
+  parcel_still_listed: { en: "It arrived, but the piece is still listed, so other buyers can still find it.", ar: "وصلت، لكن القطعة ما زالت معروضة، فقد تجدها مشتريات أخريات." },
+  mark_it_sold: { en: "Mark it sold", ar: "ضعي عليها «مُباعة»" },
 };

@@ -1746,6 +1746,9 @@ check("no interface text is set below the 11px floor", tinyType.length === 0 && 
       /await remote\.parcelSent\([\s\S]{0,200}await send\(t\("tracking_line"/.test(msgSrc2) &&
       /!p\.received_at && p\.you_are === "buyer"/.test(msgSrc2) &&
       /<ReviewPrompt parcelId=\{p\.id\}/.test(msgSrc2));
+    check("once it arrived, the seller is offered to take the piece down as sold",
+      /p\.received_at && p\.you_are === "seller" && item && item\.status === "live" && onMarkSold/.test(msgSrc2) &&
+      /onMarkSold=\{onMarkSold\}/.test(read("./src/Marketplace.jsx")));
   }
   {
     // The listing-quality checklist reads in Arabic through dictionary keys; the

@@ -1298,7 +1298,7 @@ export default function Marketplace() {
                         onOpenSettings={()=>setSettingsOpen(true)}
                         onOpenAuth={()=>askToSignIn(null)} session={session}
                         onSignOut={async()=>{ await remote.signOut().catch(()=>{}); setSession(null); }}/>}
-        {tab==="messages"   && <MessagesPage shops={shops} items={items} onReport={s=>setReporting(s)} onOpenOffers={()=>goTab("offers")}
+        {tab==="messages"   && <MessagesPage shops={shops} items={items} onReport={s=>setReporting(s)} onMarkSold={onMarkSold} onOpenOffers={()=>goTab("offers")}
                               openThreadId={openThreadId} onOpened={()=>setOpenThreadId(null)}
                               error={messageError}/>}
         {tab==="offers"     && <OffersPage items={items} shops={shops} onBack={()=>setTab("profile")}/>}

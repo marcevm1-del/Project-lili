@@ -34,7 +34,7 @@ const ReviewPrompt = lazy(() => import("../trust/ReviewPrompt.jsx"));
 //  as the rest of the app. With no backend configured a message is stored on
 //  the device and plainly marked as not sent — because the one thing this
 //  screen must never do again is answer on a seller's behalf.
-export function MessagesPage({shops,items,onReport,openThreadId,onOpened,error,onOpenOffers}) {
+export function MessagesPage({shops,items,onReport,openThreadId,onOpened,error,onOpenOffers,onMarkSold}) {
   const [active,setActive] = useState(null);
   const [newMsg,setNewMsg] = useState("");
   const [threads,setThreads] = useState([]);
@@ -279,6 +279,20 @@ export function MessagesPage({shops,items,onReport,openThreadId,onOpened,error,o
               )}
               {!p.received_at && p.you_are === "seller" && (
                 <div style={{fontSize:11,color:C.inkLt,lineHeight:1.5}}>{t("parcel_waiting_buyer")}</div>
+              )}
+              {/* It arrived, and the piece is still up: other buyers can still
+                  find it and make offers. One tap takes it down as sold. */}
+              {p.received_at && p.you_are === "seller" && item && item.status === "live" && onMarkSold && (
+                <div style={{display:"flex",gap:8,alignItems:"center",flexWrap:"wrap"}}>
+                  <span style={{fontSize:11,color:C.inkLt,lineHeight:1.5,flex:"1 1 160px"}}>{t("parcel_still_listed")}</span>
+                  <button onClick={async()=>{ setParcelBusy(true); setParcelError(null);
+                      try { await onMarkSold(item.id, true); } catch { setParcelError(t("didnt_work")); }
+                      setParcelBusy(false); }}
+                    disabled={parcelBusy} data-action="parcel-mark-sold"
+                    style={{background:C.btn,color:C.onBtn,border:"none",borderRadius:18,padding:"8px 16px",
+                      minHeight:40,fontSize:13,fontWeight:700,cursor:"pointer",fontFamily:"inherit",
+                      opacity:parcelBusy?0.6:1}}>{t("mark_it_sold")}</button>
+                </div>
               )}
               {p.review_open && !p.reviewed && (
                 <Suspense fallback={null}>

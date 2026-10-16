@@ -545,4 +545,6 @@ export const EN = {
   nothing_no_flaws: "Nothing — no flaws",
   saying_up_front: "Saying so up front is what buyers trust — and a flaw she was told about is not a reason to send it back.",
   fit: "Fit",
+  parcel_still_listed: "It arrived, but the piece is still listed, so other buyers can still find it.",
+  mark_it_sold: "Mark it sold",
 };
