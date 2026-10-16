@@ -1,6 +1,7 @@
 import { C } from "../compliance/ui.js";
 import { sizeLabel } from "../sizes/sizeSystem.js";
 import { useSizeSystem } from "../sizes/SizeSystemPicker.jsx";
+import { t } from "../i18n/t.js";
 
 // ── fit, measurements, flaws ───────────────────────────────────────────────
 // A size label says what the tag says. Whether it fits is the question buyers
@@ -22,6 +23,10 @@ export const FLAWS_GARMENT = [["stain","Stain"],["pilling","Pilling"],["fading",
   ["missing_button","Missing button"],["altered","Altered"],["loose_thread","Loose thread"],["odour","Odour"]];
 export const FLAWS_OTHER = [["scuff","Scuffs"],["wear","Visible wear"],["stain","Stain"],["loose_thread","Loose thread"],["odour","Odour"]];
 export const FLAW_LABEL = Object.fromEntries([...FLAWS_GARMENT, ...FLAWS_OTHER]);
+// The buyer's side reads these through the dictionary, so the panel on the
+// piece follows her language. The English is the same as the labels above.
+const FIT_KEY = { small: "runs_small", true: "true_to_size", large: "runs_large" };
+const flawWord = (f) => (FLAW_LABEL[f] ? t(`f_${f}`) : f);
 
 export function FitAndFlaws({form, setForm}) {
   const cat = form.category;
@@ -107,15 +112,15 @@ export function FitPanel({item}) {
       {(fit || mk.length>0) && (
         <div style={{marginBottom:flaws!==null?10:0}}>
           <div style={{fontSize:12,fontWeight:700,color:C.ink,marginBottom:mk.length?6:0}}>
-            Size {sizeLabel(item.size, undefined, { both: true })}{fit ? ` · ${fit[1]}` : ""}
+            {t("size_n", { size: sizeLabel(item.size, undefined, { both: true }) })}{fit ? ` · ${t(FIT_KEY[fit[0]])}` : ""}
             {fit && fit[0]!=="true" && <span style={{fontWeight:400,color:C.inkLt}}>
-              {fit[0]==="small" ? " — consider a size up" : " — consider a size down"}</span>}
+              {` — ${t(fit[0]==="small" ? "consider_size_up" : "consider_size_down")}`}</span>}
           </div>
           {mk.length>0 && (
             <div style={{display:"flex",flexWrap:"wrap",gap:"4px 14px"}}>
               {mk.map(k=>(
                 <span key={k} style={{fontSize:12,color:C.inkLt}}>
-                  {MEASURE_LABEL[k].replace(" (pit to pit)","")} <b style={{color:C.ink}}>{m[k]} cm</b>
+                  {t(`m_${k}`)} <b style={{color:C.ink}}>{m[k]} {t("cm")}</b>
                 </span>
               ))}
             </div>
@@ -126,8 +131,8 @@ export function FitPanel({item}) {
         <div style={{fontSize:12,color:C.inkLt,lineHeight:1.5,
           borderTop:(fit||mk.length)?`1px solid ${C.border}`:"none",paddingTop:(fit||mk.length)?10:0}}>
           <b style={{color:C.ink}}>{item.condition}</b>
-          {flaws.length===0 ? " · no flaws noted by the seller"
-            : <> · the seller points out: {flaws.map(f=>FLAW_LABEL[f]||f).join(", ").toLowerCase()}</>}
+          {flaws.length===0 ? ` · ${t("no_flaws_noted")}`
+            : ` · ${t("seller_points_out", { flaws: flaws.map(flawWord).join(", ").toLowerCase() })}`}
         </div>
       )}
     </div>

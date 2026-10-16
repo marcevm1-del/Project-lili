@@ -91,9 +91,9 @@ export function SearchPage({items,shops,onSave,setModal,filters,setFilters,saved
       <div style={{background:C.cream,padding:"12px 0 0",position:"sticky",top:0,zIndex:90,borderBottom:`1px solid ${C.border}`}}>
         <div style={{display:"flex",alignItems:"center",gap:6,padding:"0 14px 10px"}}>
           <div style={{flex:1}}>
-            <SearchBar value={q} onChange={setQ} autoFocus placeholder="Search items, brands, sellers..." />
+            <SearchBar value={q} onChange={setQ} autoFocus placeholder={t("search_items_brands_sellers")} />
           </div>
-          <button onClick={()=>setShowFilters(true)} className="tap-round" aria-label="Filters" style={{background:"none",border:"none",cursor:"pointer",flexShrink:0,padding:"0 4px"}}>
+          <button onClick={()=>setShowFilters(true)} className="tap-round" aria-label={t("filters")} style={{background:"none",border:"none",cursor:"pointer",flexShrink:0,padding:"0 4px"}}>
             <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke={C.ink} strokeWidth="1.8">
               <line x1="4" y1="6" x2="20" y2="6"/><line x1="4" y1="12" x2="20" y2="12"/>
               <line x1="4" y1="18" x2="20" y2="18"/>
@@ -199,7 +199,7 @@ export function SearchPage({items,shops,onSave,setModal,filters,setFilters,saved
               <SaveSearchButton q={q} filters={filters} prominent/>
               {alternatives.length>0 && (
                 <div style={{marginTop:22}}>
-                  <div style={{fontSize:11,color:C.inkLt,marginBottom:10}}>In stock right now</div>
+                  <div style={{fontSize:11,color:C.inkLt,marginBottom:10}}>{t("in_stock_right_now")}</div>
                   <div style={{display:"flex",flexWrap:"wrap",gap:7,justifyContent:"center"}}>
                     {alternatives.map(a=>(
                       <button key={a} onClick={()=>{setQ(a);funnel.track(funnel.EVENTS.SEARCH_RECOVER,{kind:"suggestion"});}}

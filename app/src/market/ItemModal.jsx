@@ -11,7 +11,7 @@ import { t, getLang } from "../i18n/t.js";
 import { space } from "../theme/scale.js";
 import { alignEnd, backArrow, money } from "../i18n/direction.js";
 import { C, T, Avatar, Stars, earnedFollowers, ItemPhoto } from "./shared.jsx";
-import { sizeLabel, kindOf, APPROXIMATE_NOTE } from "../sizes/sizeSystem.js";
+import { sizeLabel, kindOf } from "../sizes/sizeSystem.js";
 import { useSizeSystem } from "../sizes/SizeSystemPicker.jsx";
 import * as remote from "../backend/remote.js";
 import { carrier, deliveryWays, inLang } from "../delivery/carriers.js";
@@ -63,14 +63,13 @@ export function PriceContext({ item }) {
     <div style={{background:C.sand,border:`1px solid ${C.border}`,borderRadius:12,
       padding:"8px 12px",marginBottom:14}}>
       <div style={{fontSize:12,color:C.ink,lineHeight:1.5}}>
-        Genuine {band.tierBrand} pieces like this in {band.condition} condition resell from about <b>AED {band.low.toLocaleString("en-US")}</b>
+        {t("price_guide", { brand: band.tierBrand, condition: band.condition })} <b>{money(band.low)}</b>
       </div>
       <details style={{marginTop:2}}>
         <summary style={{fontSize:11,color:C.inkLt,cursor:"pointer",minHeight:24,
-          display:"flex",alignItems:"center"}}>How this works</summary>
+          display:"flex",alignItems:"center"}}>{t("how_this_works")}</summary>
         <div style={{fontSize:11,color:C.inkLt,lineHeight:1.5,marginTop:2}}>
-          The lowest prices genuine pieces of this model reach second-hand, from published resale
-          data. Far below it is a reason to ask for proof of purchase. A guide, not an appraisal of this piece.
+          {t("price_guide_how")} {t("price_guide_ask")}
         </div>
       </details>
     </div>
@@ -138,7 +137,7 @@ export function ItemModal({item,shop,items=[],onOpenItem,onSave,onClose,onOffer,
   const away = isAway(shop);
   const canBuy = payOn && !away && !item.reserved && (!item.status || item.status === "live");
   return (
-    <div ref={trap} {...dialogProps(item.title || "Item details")}
+    <div ref={trap} {...dialogProps(item.title || t("item_details"))}
       style={{position:"fixed",top:0,right:0,bottom:0,left:0,zIndex:200,background:"#000a",
       display:"flex",flexDirection:"column",justifyContent:"flex-end"}} onClick={onClose}>
       <div onClick={e=>e.stopPropagation()} style={{
@@ -163,7 +162,7 @@ export function ItemModal({item,shop,items=[],onOpenItem,onSave,onClose,onOffer,
 
                   One fee, one place, one direction: the seller pays a
                   commission, the buyer pays the price on the tag. */}
-              <div style={{fontSize:11,color:C.inkLt,marginTop:1}}>the price she's asking</div>
+              <div style={{fontSize:11,color:C.inkLt,marginTop:1}}>{t("price_she_is_asking")}</div>
             </div>
           </div>
 
@@ -171,7 +170,7 @@ export function ItemModal({item,shop,items=[],onOpenItem,onSave,onClose,onOffer,
 
           {/* tags */}
           <div style={{display:"flex",gap:7,marginBottom:14,flexWrap:"wrap"}}>
-            {[["Brand",item.brand],["Condition",item.condition],["Size",item.size ? sizeLabel(item.size, sizeSys, { both: true }) : ""],["Era",item.era]].map(([l,v])=>(
+            {[[t("brand"),item.brand],[t("condition"),item.condition],[t("size"),item.size ? sizeLabel(item.size, sizeSys, { both: true }) : ""],[t("era"),item.era]].map(([l,v])=>(
               <div key={l} style={{background:C.sand,borderRadius:8,padding:"5px 10px"}}>
                 <div style={{fontSize:11,color:C.inkLt,fontWeight:700,letterSpacing:0.5}}>{l.toUpperCase()}</div>
                 <div style={{fontSize:11,color:C.ink,fontWeight:600}}>{v}</div>
@@ -180,7 +179,7 @@ export function ItemModal({item,shop,items=[],onOpenItem,onSave,onClose,onOffer,
           </div>
           {sizeSys !== "INTL" && kindOf(item.size) && (
             <div style={{fontSize:11,color:C.inkLt,margin:"-8px 0 14px"}}>
-              Listed as {item.size}. {APPROXIMATE_NOTE}
+              {t("listed_as", { size: item.size })} {t("approximate_note")}
             </div>
           )}
 
@@ -205,9 +204,7 @@ export function ItemModal({item,shop,items=[],onOpenItem,onSave,onClose,onOffer,
             <div style={{padding:"12px 0",borderTop:`1px solid ${C.border}`,
               borderBottom:`1px solid ${C.border}`,marginBottom:14,
               fontSize:12,color:C.inkLt,lineHeight:1.6}}>
-              Seller details didn't load, so we can't say whether this is a
-              private or a business sale — it changes your rights. Try again
-              before you commit.
+              {t("seller_details_didnt_load")}
             </div>
           )}
           {shop && (
@@ -219,7 +216,7 @@ export function ItemModal({item,shop,items=[],onOpenItem,onSave,onClose,onOffer,
                 <div style={{fontSize:11,color:C.inkLt}}>{shop.nameAr} · {shop.handle}</div>
                 <div style={{display:"flex",alignItems:"center",gap:6,marginTop:3}}>
                   <Stars rating={shop.rating} reviews={shop.reviews} shop={shop}/>
-                  {earnedFollowers(shop) !== null && <span style={{fontSize:11,color:C.inkLt}}>· {earnedFollowers(shop)} followers</span>}
+                  {earnedFollowers(shop) !== null && <span style={{fontSize:11,color:C.inkLt}}>· {t("n_followers", { n: earnedFollowers(shop) })}</span>}
                 </div>
               </div>
               <button style={{background:"none",border:`1.5px solid ${C.terra}`,
@@ -287,8 +284,8 @@ export function ItemModal({item,shop,items=[],onOpenItem,onSave,onClose,onOffer,
               <Icon name="bag" size={22} stroke={1.6}/><span className="sr-only">{t("add_to_cart")}</span>
             </button>
             <button onClick={()=>!item.reserved && !away && onOffer(item)} disabled={!!item.reserved || away}
-              aria-label={item.reserved ? "Reserved for another buyer — offers are closed"
-                        : away ? `The seller is away until ${backOn(shop)} — offers reopen then` : undefined}
+              aria-label={item.reserved ? t("reserved_offers_closed")
+                        : away ? t("away_offers_reopen", { date: backOn(shop) }) : undefined}
               style={{flex:1,background:C.white,color:C.terraTx,opacity:item.reserved||away?0.55:1,
               border:`1.5px solid ${C.terra}`,borderRadius:24,padding:"8px 0",
               fontWeight:700,cursor:"pointer",fontSize:13,lineHeight:1.25}}>

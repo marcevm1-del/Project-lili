@@ -558,7 +558,7 @@ export function ItemTile({item,onSave,onClick,loading}) {
         {/* Size and condition read together, as one line, under the price —
             the two things she filters on in her head before she taps. */}
         <div style={{fontSize:11,color:C.inkLt,marginTop:2,whiteSpace:"nowrap",overflow:"hidden",textOverflow:"ellipsis"}}>
-          {[item.size && item.size!=="OS" ? `Size ${sizeLabel(item.size)}` : null, item.condition].filter(Boolean).join(" · ")}
+          {[item.size && item.size!=="OS" ? t("size_n", { size: sizeLabel(item.size) }) : null, item.condition].filter(Boolean).join(" · ")}
         </div>
       </div>
     </div>

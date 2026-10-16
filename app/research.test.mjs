@@ -1054,7 +1054,8 @@ check("a listing written offline is not wiped by the next live update",
 check("a failed refresh keeps the device copy rather than blanking the screen",
   /keeping the device copy|return null;/.test(repoSrc));
 check("an unresolvable seller is stated, not hidden",
-  /Seller details didn't load[\s\S]{0,120}changes your rights/.test(market));
+  /t\("seller_details_didnt_load"\)/.test(market) &&
+  /Seller details didn't load[\s\S]{0,120}changes your rights/.test(DICT.seller_details_didnt_load.en));
 
 section("43. Deletion deletes, and export exports");
 
@@ -1954,7 +1955,7 @@ check("it quotes a named model's floor only, never a range or where this price s
   !/band\.high|above that|inside that|under that/.test(market.match(/function PriceContext[\s\S]*?\n}\n/)[0])
   && /band && band\.model &&/.test(read("./src/market/OfferModal.jsx")));
 check("it says it is a guide rather than an appraisal",
-  /not an appraisal of this piece/.test(market));
+  /t\("price_guide_ask"\)/.test(market) && /not an appraisal of this piece/.test(DICT.price_guide_ask.en));
 
 // The line that makes it information rather than a sales pitch. If any of these
 // words appear in the component it has started telling her what to think about

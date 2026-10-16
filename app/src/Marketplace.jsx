@@ -295,7 +295,7 @@ function NewInStrip({items,onSave,setModal,onSeeAll}) {
         <button onClick={onSeeAll} className="tap-target"
           style={{background:"none",border:"none",cursor:"pointer",fontFamily:"inherit",
             fontSize:11,color:C.terraTx,fontWeight:600,display:"flex",alignItems:"center",gap:3}}>
-          See all <Icon name="forward" size={11} stroke={2.4}/>
+          {t("see_all")} <Icon name="forward" size={11} stroke={2.4}/>
         </button>
       </div>
       <div style={{display:"flex",gap:10,overflowX:"auto",padding:"0 14px",paddingBottom:4}}>
@@ -346,15 +346,14 @@ function TasteSheet({ taste, onSave, onClose, onMore }) {
   return (
     <div onClick={onClose} style={{position:"fixed",top:0,right:0,bottom:0,left:0,zIndex:420,
       background:"#000a",display:"flex",flexDirection:"column",justifyContent:"flex-end"}}>
-      <div ref={trap} {...dialogProps("What you like")} onClick={e=>e.stopPropagation()}
+      <div ref={trap} {...dialogProps(t("what_you_like"))} onClick={e=>e.stopPropagation()}
         className="safe-sheet"
         style={{background:C.cream,borderRadius:"20px 20px 0 0",padding:"18px 16px 30px",
           fontFamily:"-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif"}}>
-        <div style={{fontFamily:"Georgia,serif",fontStyle:"italic",fontSize:20,color:C.ink}}>What you like</div>
-        <div style={{fontSize:11,color:C.terraTx,marginBottom:4}}>ما يعجبكِ</div>
+        <div style={{fontFamily:"Georgia,serif",fontStyle:"italic",fontSize:20,color:C.ink}}>{t("what_you_like")}</div>
+        {getLang() !== "ar" && <div style={{fontSize:11,color:C.terraTx,marginBottom:4}}>ما يعجبكِ</div>}
         <p style={{fontSize:12,color:C.inkLt,lineHeight:1.6,margin:"8px 0 16px"}}>
-          These move to the top of your feed. Nothing is hidden from you — the
-          rest is still underneath, in the same order it would have been.
+          {t("taste_hint")}
         </p>
         <div style={{display:"flex",flexWrap:"wrap",gap:8,marginBottom:18}}>
           {OPTIONS.map(c=>(
@@ -372,7 +371,7 @@ function TasteSheet({ taste, onSave, onClose, onMore }) {
           <button onClick={()=>{ onSave(picked); onMore(); }}
             style={{display:"block",background:"none",border:"none",color:C.terraTx,fontSize:13,fontWeight:600,
               textDecoration:"underline",textUnderlineOffset:3,cursor:"pointer",padding:"0 0 16px",minHeight:44,fontFamily:"inherit"}}>
-            Sizes, brands and budget
+            {t("sizes_brands_budget")}
           </button>
         )}
         <button onClick={()=>{onSave(picked);onClose();}}
@@ -592,7 +591,7 @@ function HomePage({items,shops,onSave,setModal,filters,setFilters,stories,setAct
                 style={{background:on?C.btn:C.white,color:on?C.onBtn:C.terraTx,
                   border:`1.5px solid ${on?C.btn:C.terra}`,borderRadius:20,padding:"5px 12px",
                   fontSize:12,fontWeight:700,flexShrink:0,cursor:"pointer",whiteSpace:"nowrap",minWidth:44}}>
-                {set ? `For me${line ? ` · ${line}` : ""}` : "Set my sizes"}
+                {set ? `${t("for_me")}${line ? ` · ${line}` : ""}` : t("set_my_sizes")}
               </button>
             );
           })()}
@@ -651,17 +650,17 @@ function HomePage({items,shops,onSave,setModal,filters,setFilters,stories,setAct
           </div>
           <div style={{fontSize:11,color:C.inkLt,overflow:"hidden",textOverflow:"ellipsis",whiteSpace:"nowrap"}}>
             {tasteLine
-              ? `${tasteLine} first — everything else is still below`
+              ? t("taste_first", { taste: tasteLine })
               : narrowed
-                ? `${shown.length} of ${items.length} ${items.length===1?"piece":"pieces"} match`
-                : `${items.length} ${items.length===1?"piece":"pieces"}, newest first`}
+                ? t(items.length===1 ? "n_of_one_match" : "n_of_m_match", { shown: shown.length, total: items.length })
+                : t(items.length===1 ? "piece_newest_first" : "pieces_newest_first", { n: items.length })}
           </div>
         </div>
         {tasteLine && (
           <button onClick={onEditTaste} className="tap-target"
             style={{background:"none",border:"none",cursor:"pointer",flexShrink:0,
               color:C.terraTx,fontSize:12,fontWeight:600,fontFamily:"inherit"}}>
-            Change
+            {t("change")}
           </button>
         )}
       </div>
@@ -688,7 +687,7 @@ function HomePage({items,shops,onSave,setModal,filters,setFilters,stories,setAct
             style={{background:"none",border:`1.5px solid ${C.terra}`,color:C.terraTx,borderRadius:20,
               padding:"10px 22px",fontSize:13,fontWeight:700,cursor:"pointer",fontFamily:"inherit",
               opacity:loadingMore?0.6:1}}>
-            {loadingMore ? "Loading…" : "Show more pieces"}
+            {loadingMore ? t("loading") : t("show_more_pieces")}
           </button>
         </div>
       )}

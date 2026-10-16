@@ -129,26 +129,26 @@ export function OfferModal({item,shop,onClose,onSubmit}) {
       setSent(offer);
       onSubmit && onSubmit(value);
     } catch (e) {
-      setError(e && e.message ? e.message : "That didn't send. Try again.");
+      setError(e && e.message ? e.message : t("offer_didnt_send"));
     } finally {
       setSending(false);
     }
   };
 
   return (
-    <div ref={trap} {...dialogProps("Make an offer")}
+    <div ref={trap} {...dialogProps(t("make_an_offer"))}
       style={{position:"fixed",top:0,right:0,bottom:0,left:0,zIndex:300,background:"#000a",
       display:"flex",flexDirection:"column",justifyContent:"flex-end"}} onClick={onClose}>
       <div onClick={e=>e.stopPropagation()} style={{
         background:C.cream,borderRadius:"20px 20px 0 0",padding:"20px 16px 40px"}}>
         <div style={{display:"flex",justifyContent:"space-between",alignItems:"center",marginBottom:16}}>
           <div>
-            <div style={{fontFamily:"Georgia,serif",fontSize:18,color:C.ink,fontStyle:"italic"}}>Make an Offer</div>
+            <div style={{fontFamily:"Georgia,serif",fontSize:18,color:C.ink,fontStyle:"italic"}}>{t("make_an_offer")}</div>
             <div style={{fontSize:11,color:C.inkLt}}>
-              قدم عرضاً · Expires in {offers.EXPIRY_HOURS} hours
+              {t("expires_in_hours", { n: offers.EXPIRY_HOURS })}
             </div>
           </div>
-          <button onClick={onClose} aria-label="Close" className="tap-target" style={{background:"none",border:"none",cursor:"pointer",color:C.inkLt,fontSize:22,display:"flex",alignItems:"center",justifyContent:"center"}}><Icon name="close" size={14} stroke={2}/></button>
+          <button onClick={onClose} aria-label={t("close")} className="tap-target" style={{background:"none",border:"none",cursor:"pointer",color:C.inkLt,fontSize:22,display:"flex",alignItems:"center",justifyContent:"center"}}><Icon name="close" size={14} stroke={2}/></button>
         </div>
 
         {/* item preview */}
@@ -175,8 +175,8 @@ export function OfferModal({item,shop,onClose,onSubmit}) {
                 border:`2px solid ${C.terra}`,borderRadius:12,padding:"12px 14px"}}>
                 <span style={{fontWeight:700,color:C.inkLt,fontSize:14}}>AED</span>
                 <input value={amount} onChange={e=>setAmount(e.target.value)} inputMode="decimal"
-                  aria-label="Offer amount"
-                  placeholder="Enter amount..."
+                  aria-label={t("offer_amount")}
+                  placeholder={t("enter_amount")}
                   style={{flex:1,background:"none",border:"none",outline:"none",
                     fontSize:18,fontWeight:700,color:C.ink,fontFamily:"inherit"}}/>
               </div>
@@ -187,7 +187,7 @@ export function OfferModal({item,shop,onClose,onSubmit}) {
                 step where people give up. Rounded to AED 10 — "AED 1,147" reads
                 like a calculator, not a person. */}
             {item.price >= 50 && (
-              <div role="group" aria-label="Quick offers" style={{display:"flex",gap:7,marginBottom:12,flexWrap:"wrap"}}>
+              <div role="group" aria-label={t("quick_offers")} style={{display:"flex",gap:7,marginBottom:12,flexWrap:"wrap"}}>
                 {[10,15,20].map(pct=>{
                   const v = Math.max(10, Math.round(item.price*(1-pct/100)/10)*10);
                   const on = value === v;
@@ -197,7 +197,7 @@ export function OfferModal({item,shop,onClose,onSubmit}) {
                         border:`1.5px solid ${on?C.btn:C.border}`,borderRadius:12,padding:"8px 6px",
                         cursor:"pointer",fontFamily:"inherit",lineHeight:1.3}}>
                       <div style={{fontSize:14,fontWeight:700}}>{money(v)}</div>
-                      <div style={{fontSize:11,opacity:on?1:0.8}}>{pct}% under</div>
+                      <div style={{fontSize:11,opacity:on?1:0.8}}>{t("pct_under", { pct })}</div>
                     </button>
                   );
                 })}
@@ -205,7 +205,7 @@ export function OfferModal({item,shop,onClose,onSubmit}) {
             )}
 
             <input value={note} onChange={e=>setNote(e.target.value)} maxLength={500}
-              aria-label="Message with your offer"
+              aria-label={t("message_with_your_offer")}
               placeholder={t("say_why_if_you_like_it_helps")}
               style={{width:"100%",padding:"10px 12px",borderRadius:10,
                 border:`1px solid ${C.border}`,fontSize:13,outline:"none",
@@ -215,17 +215,15 @@ export function OfferModal({item,shop,onClose,onSubmit}) {
             {band && band.model && (
               <div style={{background:C.sand,borderRadius:10,padding:"10px 14px",marginBottom:12}}>
                 <div style={{fontSize:11,color:C.inkLt,lineHeight:1.55}}>
-                  Genuine {band.tierBrand} pieces like this in {band.condition} condition
-                  resell from about <b style={{color:C.ink}}>{money(band.low)}</b>.
-                  A guide from published resale data, not a valuation of this piece.
+                  {t("price_guide", { brand: band.tierBrand, condition: band.condition })}{" "}
+                  <b style={{color:C.ink}}>{money(band.low)}</b>. {t("offer_price_guide_note")}
                 </div>
               </div>
             )}
             {tooLow && (
               <div style={{background:C.sand,border:`1px solid ${C.gold}`,borderRadius:10,
                 padding:"10px 14px",marginBottom:12,fontSize:11,color:C.ink,lineHeight:1.55}}>
-                That is a long way under the range. Low offers are usually
-                declined without a reply — she may not even see it as serious.
+                {t("offer_too_low")}
               </div>
             )}
             {error && (
@@ -241,8 +239,7 @@ export function OfferModal({item,shop,onClose,onSubmit}) {
               {sending ? t("sending") : t("send_offer")}
             </button>
             <div style={{fontSize:11,color:C.inkLt,textAlign:"center",marginTop:10,lineHeight:1.55}}>
-              She has {offers.EXPIRY_HOURS} hours to answer. The amount can't be
-              changed once sent — by either of you.
+              {t("offer_answer_window", { n: offers.EXPIRY_HOURS })}
             </div>
           </>
         ) : (
@@ -255,13 +252,12 @@ export function OfferModal({item,shop,onClose,onSubmit}) {
             </div>
             <div style={{fontSize:13,color:C.inkLt,marginTop:8,lineHeight:1.6,padding:"0 10px"}}>
               {sent.delivered === false
-                ? "It's saved on this phone and will go the moment you have signal."
-                : <>She's been told. You'll hear back here, and you can withdraw it
-                   any time before she answers.</>}
+                ? t("offer_queued")
+                : t("offer_told")}
             </div>
             <button onClick={onClose} style={{width:"100%",background:C.btn,color:C.onBtn,
               border:"none",borderRadius:30,padding:"12px 0",fontWeight:700,fontSize:14,
-              cursor:"pointer",marginTop:18}}>Done</button>
+              cursor:"pointer",marginTop:18}}>{t("done")}</button>
           </div>
         )}
       </div>

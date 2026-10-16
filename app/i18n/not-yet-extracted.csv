@@ -179,7 +179,6 @@ dubai_design_cream,Dubai Design · Cream,The main shopping screens,market/shared
 dubai_finds,Dubai Finds,The main shopping screens,market/shared.jsx
 dubai_only_for_now,"Dubai only, for now",The main shopping screens,Marketplace.jsx
 elevated_everyday_from_dubai_with_love,Elevated everyday — from Dubai with love,The main shopping screens,market/shared.jsx
-enter_amount,Enter amount...,The main shopping screens,market/OfferModal.jsx
 every_listing_screened,Every listing screened,The main shopping screens,Marketplace.jsx pages/ProfilePage.jsx
 expert_verification,Expert verification,The main shopping screens,pages/SellPage.jsx
 follow_her_and_you_ll_see_the_first_piece_when_i,Follow her and you'll see the first piece when it goes up.,The main shopping screens,pages/ShopPages.jsx
@@ -194,8 +193,6 @@ iconic_van_cleef_arpels_vintage_alhambra_necklac,Iconic Van Cleef & Arpels Vinta
 in_person_verification,In-person verification,The main shopping screens,pages/SellPage.jsx
 intrecciato_nude,Intrecciato · Nude,The main shopping screens,market/shared.jsx
 invitation_code,Invitation code,The main shopping screens,pages/SellPage.jsx
-it_s_saved_on_this_phone_and_will_go_the_moment_,It's saved on this phone and will go the moment you have signal.,The main shopping screens,market/OfferModal.jsx
-item_details,Item details,The main shopping screens,market/ItemModal.jsx
 jacquemus_le_chiquito,Jacquemus Le Chiquito,The main shopping screens,market/shared.jsx
 jacquemus_le_chiquito_in_caramel_leather_absolut,Jacquemus Le Chiquito in caramel leather. Absolutely perfect condition with dustbag.,The main shopping screens,market/shared.jsx
 just_arrived,Just arrived,The main shopping screens,Marketplace.jsx
@@ -213,12 +210,9 @@ m21_21l_4_35_4_35,M21 21l-4.35-4.35,The main shopping screens,Marketplace.jsx ma
 m3_9_5l12_3l9_6_5v20a1_1_0_01_1_1h5a1_1_0_01_1_1,M3 9.5L12 3l9 6.5V20a1 1 0 01-1 1H5a1 1 0 01-1-1V9.5z,The main shopping screens,Marketplace.jsx
 m6_2l3_6v14a2_2_0_002_2h14a2_2_0_002_2v6l_3_4z,M6 2L3 6v14a2 2 0 002 2h14a2 2 0 002-2V6l-3-4z,The main shopping screens,Marketplace.jsx
 m9_21v12h6v9,M9 21V12h6v9,The main shopping screens,Marketplace.jsx
-make_an_offer,Make an offer,The main shopping screens,market/OfferModal.jsx
-make_an_offer_2,Make an Offer,The main shopping screens,market/shared.jsx
 medium_beige_lambskin,Medium · Beige Lambskin,The main shopping screens,market/shared.jsx
 message_a_seller_from_any_listing,Message a seller from any listing,The main shopping screens,pages/MessagesPage.jsx
 message_seller,Message Seller,The main shopping screens,market/shared.jsx
-message_with_your_offer,Message with your offer,The main shopping screens,market/OfferModal.jsx
 messages_stay_private,Messages stay private,The main shopping screens,pages/ProfilePage.jsx
 mini_bag_caramel,Mini Bag · Caramel,The main shopping screens,market/shared.jsx
 minimal_by_mia,Minimal by Mia,The main shopping screens,market/shared.jsx
@@ -228,25 +222,19 @@ no_title_yet_you_ll_need_one_to_publish,No title yet. You'll need one to publish
 not_yet_available,Not yet available,The main shopping screens,pages/SellPage.jsx
 notifications,Notifications,The main shopping screens,Marketplace.jsx notifications/NotificationsSheet.jsx
 nude_pumps_38,Nude Pumps 38,The main shopping screens,market/shared.jsx
-offer_amount,Offer amount,The main shopping screens,market/OfferModal.jsx
 opening_a_shop_needs_an_account_it_s_how_your_bu,Opening a shop needs an account — it's how your buyers reach you and how you get paid.,The main shopping screens,Marketplace.jsx
 physical_inspection_in_dubai,Physical inspection in Dubai.,The main shopping screens,pages/SellPage.jsx
 pick_all_that_apply,Pick all that apply,The main shopping screens,Marketplace.jsx
 picked_up_where_you_left_off,Picked up where you left off.,The main shopping screens,pages/SellPage.jsx
-quick_offers,Quick offers,The main shopping screens,market/OfferModal.jsx
 reasons_on_every_decision,Reasons on every decision,The main shopping screens,pages/ProfilePage.jsx
 reformation_fitted_midi_in_warm_terracotta_worn_,Reformation fitted midi in warm terracotta. Worn once to a brunch. Stunning silhouette.,The main shopping screens,market/shared.jsx
 reformation_midi_dress,Reformation Midi Dress,The main shopping screens,market/shared.jsx
 report_this_conversation,Report this conversation,The main shopping screens,pages/MessagesPage.jsx
-reserved_for_another_buyer_offers_are_closed,Reserved for another buyer — offers are closed,The main shopping screens,market/ItemModal.jsx
 ruffle_mini,Ruffle Mini,The main shopping screens,market/shared.jsx
 search_for_items_brands_sellers,"Search for items, brands, sellers...",The main shopping screens,market/shared.jsx
-search_items_brands_sellers,"Search items, brands, sellers...",The main shopping screens,pages/SearchPage.jsx
 second_shelf,Second Shelf,The main shopping screens,market/shared.jsx
 send_message,Send message,The main shopping screens,pages/MessagesPage.jsx
-set_my_sizes,Set my sizes,The main shopping screens,Marketplace.jsx
 shop_by_your_favourite_categories,Shop by your favourite categories,The main shopping screens,Marketplace.jsx
-show_more_pieces,Show more pieces,The main shopping screens,Marketplace.jsx
 sign_in_first_an_invitation_is_attached_to_an_ac,Sign in first — an invitation is attached to an account.,The main shopping screens,pages/SellPage.jsx
 size_system_you_know,Size system you know,The main shopping screens,pages/SellPage.jsx
 sizes_shown_in,Sizes shown in,The main shopping screens,market/FiltersPanel.jsx
@@ -255,7 +243,6 @@ tan_white_canvas,Tan & White Canvas,The main shopping screens,market/shared.jsx
 tell_us_how_you_re_selling,Tell us how you're selling,The main shopping screens,pages/SellPage.jsx
 terracotta_fitted,Terracotta · Fitted,The main shopping screens,market/shared.jsx
 that_code_has_already_been_used,That code has already been used.,The main shopping screens,pages/SellPage.jsx
-that_didn_t_send_try_again,That didn't send. Try again.,The main shopping screens,market/OfferModal.jsx pages/MessagesPage.jsx
 the_best_pre_loved_pieces_in_the_uae,The best pre-loved pieces in the UAE,The main shopping screens,market/shared.jsx
 the_iconic_bottega_veneta_pouch_in_nude_intrecci,"The iconic Bottega Veneta pouch in nude intrecciato leather. Like new, barely carried.",The main shopping screens,market/shared.jsx
 the_vintage_edit,The Vintage Edit,The main shopping screens,market/shared.jsx
@@ -268,7 +255,6 @@ van_cleef_vintage_alhambra,Van Cleef Vintage Alhambra,The main shopping screens,
 we_couldn_t_reach_lili_just_now_your_code_is_fin,We couldn't reach lili just now. Your code is fine; try again in a moment.,The main shopping screens,pages/SellPage.jsx
 we_don_t_recognise_that_code_check_it_against_th_2,We don't recognise that code. Check it against the message it came in.,The main shopping screens,pages/SellPage.jsx
 weekend_picks,Weekend picks ,The main shopping screens,market/shared.jsx
-what_you_like,What you like,The main shopping screens,Marketplace.jsx
 which_brand_it_s_the_first_thing_a_buyer_searche,Which brand? It's the first thing a buyer searches for.,The main shopping screens,pages/SellPage.jsx
 yellow_gold_malachite,Yellow Gold · Malachite,The main shopping screens,market/shared.jsx
 you_re_browsing_without_an_account_create_one_fi,"You're browsing without an account. Create one first, then enter the code.",The main shopping screens,pages/SellPage.jsx
@@ -447,7 +433,6 @@ clear_all_preferences,Clear all preferences,Elsewhere,profile/ProfilePreferences
 collection_live_is_false_no_screen_claims_money_,COLLECTION_LIVE is false — no screen claims money moves.,Elsewhere,payments/processor.js
 confirmation_in_writing_that_funds_never_touch_a,Confirmation in writing that funds never touch a lili account,Elsewhere,payments/processor.js
 consent_that_arrives_already_given_is_not_consen,Consent that arrives already given is not consent. Every box in this app ,Elsewhere,ux/persuasion.js
-converted_sizes_are_approximate_and_vary_by_bran,Converted sizes are approximate and vary by brand.,Elsewhere,sizes/sizeSystem.js
 covers_saudi_arabia_and_the_gulf_drop_off_at_an_,Covers Saudi Arabia and the Gulf. Drop off at an SMSA branch.,Elsewhere,delivery/carriers.js
 crash_reports,Crash reports,Elsewhere,legal/facts.js
 dangerous_the_flag_is_on_with_no_processor_behin,DANGEROUS: the flag is on with no processor behind it. Every screen ,Elsewhere,payments/processor.js
@@ -490,7 +475,6 @@ kyc_enforced_at_the_tiers_in_sellerrules_js_befo,"KYC enforced at the tiers in s
 latin_script_so_the_cheapest_of_these_to_add_wel,"Latin script, so the cheapest of these to add well.",Elsewhere,i18n/languages.js
 legal_text_platform_terms_seller_agreement_priva,"Legal text — Platform Terms, Seller Agreement, Privacy Notice — must be ",Elsewhere,i18n/languages.js
 listing_removed_with_or_without_a_warning,Listing removed (with or without a warning),Elsewhere,legal/facts.js
-loose_thread,Loose thread,Elsewhere,listing/FitAndFlaws.jsx
 loss_aversion_a_loss_weighs_more_than_an_equival,Loss aversion — a loss weighs more than an equivalent gain,Elsewhere,ux/persuasion.js
 m11_3_5h20_5v13l_9_9_9_9zm16_2_8_2v_1,M11 3.5H20.5V13l-9 9-9-9zM16.2 8.2v.1,Elsewhere,icons/Icon.jsx
 m11_4a7_7_0_1_1_0_14_7_7_0_0_1_0_14m16_2_16_2_20,M11 4a7 7 0 1 1 0 14 7 7 0 0 1 0-14M16.2 16.2 20.5 20.5,Elsewhere,icons/Icon.jsx
@@ -540,7 +524,6 @@ m8_9_4_2_12_6l3_1_1_8_3_4_2_3_1_5_3_7_1_4_8_6_9_,M8.9 4.2 12 6l3.1-1.8 3.4 2.3-1
 m9_5_5l7_7_7_7,M9.5 5l7 7-7 7,Elsewhere,icons/Icon.jsx
 making_the_exit_harder_than_the_entrance_a_woman,Making the exit harder than the entrance. A woman who wants to leave ,Elsewhere,ux/persuasion.js
 match_my_phone,Match my phone,Elsewhere,theme/theme.js
-missing_button,Missing button,Elsewhere,listing/FitAndFlaws.jsx
 moderation_decisions_and_the_evidence_behind_the,Moderation decisions and the evidence behind them,Elsewhere,legal/facts.js
 no_payment_processor_is_registered,No payment processor is registered.,Elsewhere,payments/processor.js
 nobody_authenticates_pieces_on_lili_screening_a_,Nobody authenticates pieces on lili. Screening a listing for counterfeit ,Elsewhere,trust/authentication.js
@@ -566,8 +549,6 @@ rate_limit_counters,Rate-limit counters,Elsewhere,legal/facts.js
 recognition_over_recall,Recognition over recall,Elsewhere,ux/persuasion.js
 right_to_left_like_arabic_layout_work_is_shared_,"Right-to-left, like Arabic. Layout work is shared with Arabic.",Elsewhere,i18n/languages.js
 rtl_languages_need_the_layout_mirrored_not_just_,"RTL languages need the layout mirrored, not just the strings swapped. ",Elsewhere,i18n/languages.js
-runs_large,Runs large,Elsewhere,listing/FitAndFlaws.jsx
-runs_small,Runs small,Elsewhere,listing/FitAndFlaws.jsx
 saved_pieces_and_the_list_persist_and_are_hers_b,"Saved pieces and the list persist, and are hers before any account exists.",Elsewhere,ux/persuasion.js
 scarcity_a_scarce_thing_is_valued_more,Scarcity — a scarce thing is valued more,Elsewhere,ux/persuasion.js
 search_brands,Search brands,Elsewhere,profile/ProfilePreferences.jsx
@@ -581,7 +562,6 @@ shoes_in_their_box_a_handbag,"Shoes in their box, a handbag",Elsewhere,delivery/
 show_sizes_in,Show sizes in,Elsewhere,profile/ProfilePreferences.jsx sizes/SizeSystemPicker.jsx
 sign_in_only_if_you_choose_continue_with_google,"Sign-in, only if you choose “Continue with Google”",Elsewhere,legal/facts.js
 significant_resident_and_visitor_population_and_,"Significant resident and visitor population, and a strong luxury ",Elsewhere,i18n/languages.js
-small_hole,Small hole,Elsewhere,listing/FitAndFlaws.jsx
 smsa_express,SMSA Express,Elsewhere,delivery/carriers.js
 stated_as_reassurance_never_as_threat_your_draft,"Stated as reassurance, never as threat: 'your draft is saved', not ",Elsewhere,ux/persuasion.js
 tap_again_to_clear_every_preference,Tap again to clear every preference,Elsewhere,profile/ProfilePreferences.jsx
@@ -606,10 +586,8 @@ they_do_persist_nothing_is_lost_on_close,They do persist. Nothing is lost on clo
 this_app_carried_trusted_by_10_000_women_in_duba,"This app carried 'Trusted by 10,000+ women in Dubai' over five filled stars ",Elsewhere,ux/persuasion.js
 tops_jackets,Tops & jackets,Elsewhere,profile/preferences.js
 trousers_skirts,Trousers & skirts,Elsewhere,profile/preferences.js
-true_to_size,True to size,Elsewhere,listing/FitAndFlaws.jsx
 until_you_delete_it_or_delete_your_account,Until you delete it or delete your account,Elsewhere,legal/facts.js
 usage_analytics_only_if_you_allowed_them,Usage analytics (only if you allowed them),Elsewhere,legal/facts.js
-visible_wear,Visible wear,Elsewhere,listing/FitAndFlaws.jsx
 waiting_for_payment,Waiting for payment,Elsewhere,delivery/carriers.js
 warm_near_black_easier_at_night_and_on_oled_scre,Warm near-black. Easier at night and on OLED screens.,Elsewhere,theme/theme.js
 what_a_seller_can_do_about_a_wrong_not_genuine,What a seller can do about a wrong 'not genuine',Elsewhere,trust/authentication.js
