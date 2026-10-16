@@ -94,7 +94,7 @@ export const CLAIMS = [
   {
     id: "seller-delivers",
     to: "both",
-    says: "lili doesn't ship. The seller gets it to you the way her listing says: in person, or a courier she books.",
+    says: "lili doesn't ship. The seller sends it with a courier her listing offers, booked by her.",
     state: "enforced",
     enforcedBy: [
       { file: "src/compliance/sellerRules.js", symbol: "SHIPPING" },

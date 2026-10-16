@@ -996,7 +996,7 @@ section("41. Meeting in person is gone, everywhere (migration 39)");
     /alter column delivery set default '\{aramex,emirates_post\}'/.test(m39));
   // Asserted against the code, the dictionary, the policies and the store page,
   // not the commentary, which explains the removal.
-  const told = /\b(meet (her|somewhere|in person|up)|when you meet|at the meet(ing)?|meet-up|meeting in person|hand it over)\b/i;
+  const told = /\b(meet (her|somewhere|in person|up)|when you meet|at the meet(ing)?|meet-up|meeting in person|hand it over|handover between|says: in person)\b/i;
   const where = [], files = [];
   (function walk(d) {
     for (const n of readdirSync(d)) {
