@@ -1747,6 +1747,23 @@ check("no interface text is set below the 11px floor", tinyType.length === 0 && 
       /!p\.received_at && p\.you_are === "buyer"/.test(msgSrc2) &&
       /<ReviewPrompt parcelId=\{p\.id\}/.test(msgSrc2));
   }
+  {
+    // The listing-quality checklist reads in Arabic through dictionary keys; the
+    // English those keys give back must be exactly the English the scorer wrote.
+    const q = await import("./src/sell/listingQuality.js");
+    const { STRINGS: S3 } = await import("./src/i18n/strings.js");
+    const en = (k, v) => Object.entries(v || {}).reduce((o, [a, x]) => o.split(`{${a}}`).join(String(x)), (S3[k] || {}).en || "?");
+    const forms = [{ title: "", photos: [] }, { title: "Bag", photos: ["a"], condition: "Good" },
+      { title: "Chanel Classic Flap medium", brand: "Chanel", titleAr: "شانيل", desc: "x".repeat(150) + " receipt scratch 40cm",
+        photos: [1, 2, 3, 4, 5], condition: "Fair", category: "Dresses" },
+      { title: "gorgeous dress", brand: "Zimmermann", category: "Dresses", photos: [1, 2], desc: "short" }];
+    const off = [];
+    for (const f of forms) for (const c of q.scoreListing(f).checks) {
+      if (c.id === "price") continue;
+      if (!c.tk || en(c.tk[0], c.tk[1]) !== c.title || c.wk.map((k) => en(k)).join(" ") !== c.why) off.push(c.id);
+    }
+    check("every listing-quality check has Arabic keys whose English is word for word the scorer's", off.length === 0, off.join(", "));
+  }
   // the CHECK still names "meet"; migration 39 refuses it before the CHECK runs
   const sqlCouriers = sqlCarriers.split(",").filter((k) => k !== "meet").join();
   check("every carrier the app offers is one the database accepts, and none more",

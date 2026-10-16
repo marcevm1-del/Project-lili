@@ -2,6 +2,7 @@ import { useMemo, useState } from "react";
 import { C } from "../compliance/ui.js";
 import Icon from "../icons/Icon.jsx";
 import { scoreListing } from "./listingQuality.js";
+import { t } from "../i18n/t.js";
 
 // ─────────────────────────────────────────────────────────────────────────────
 //  LISTING QUALITY — the seller-facing half
@@ -20,10 +21,15 @@ import { scoreListing } from "./listingQuality.js";
 // ─────────────────────────────────────────────────────────────────────────────
 
 const TONE = {
-  ready: { label: "Ready to list", bar: C.green },
-  good:  { label: "Nearly there",  bar: C.gold },
-  thin:  { label: "Worth two more minutes", bar: C.terra },
+  ready: { label: "lq_ready", bar: C.green },
+  good:  { label: "lq_nearly",  bar: C.gold },
+  thin:  { label: "lq_two_more", bar: C.terra },
 };
+
+// The checks carry dictionary keys (tk, wk) alongside their English, so this
+// reads in Arabic too. The citations stay in English: they name English sources.
+const titleOf = (c) => (c.tk ? t(c.tk[0], c.tk[1]) : c.title);
+const whyOf = (c) => (c.wk ? c.wk.map((k) => t(k)).join(" ") : c.why);
 
 export default function ListingQuality({ form, photos, compact }) {
   const [open, setOpen] = useState(null);
@@ -45,8 +51,8 @@ export default function ListingQuality({ form, photos, compact }) {
       padding: compact ? "11px 12px" : "13px 14px", marginTop: 14,
     }}>
       <div style={{ display: "flex", alignItems: "center", gap: 8, marginBottom: 10 }}>
-        <span style={{ fontSize: 12, fontWeight: 700, color: C.ink }}>{tone.label}</span>
-        <span style={{ fontSize: 11, color: C.inkLt, marginLeft: "auto" }}>
+        <span style={{ fontSize: 12, fontWeight: 700, color: C.ink }}>{t(tone.label)}</span>
+        <span style={{ fontSize: 11, color: C.inkLt, marginInlineStart: "auto" }}>
           {result.score}/100
         </span>
       </div>
@@ -62,8 +68,7 @@ export default function ListingQuality({ form, photos, compact }) {
 
       {result.top.length === 0 ? (
         <div style={{ fontSize: 12, color: C.inkLt, marginTop: 10, lineHeight: 1.5 }}>
-          Everything we can check from here is done. The rest is the photograph
-          itself, and no score can judge that.
+          {t("lq_all_done")}
         </div>
       ) : (
         <div style={{ marginTop: 10, display: "flex", flexDirection: "column", gap: 7 }}>
@@ -74,7 +79,7 @@ export default function ListingQuality({ form, photos, compact }) {
                 className="tap-target"
                 style={{
                   background: "none", border: "none", padding: 0, cursor: "pointer",
-                  display: "flex", alignItems: "flex-start", gap: 7, textAlign: "left",
+                  display: "flex", alignItems: "flex-start", gap: 7, textAlign: "start",
                   width: "100%", color: C.ink,
                 }}
                 aria-expanded={open === c.id}
@@ -85,16 +90,16 @@ export default function ListingQuality({ form, photos, compact }) {
                   style={{ marginTop: 2, color: c.state === "missing" ? C.terra : C.inkLt }}
                 />
                 <span style={{ fontSize: 12, fontWeight: 600, lineHeight: 1.45, flex: 1 }}>
-                  {c.title}
+                  {titleOf(c)}
                 </span>
                 <span style={{ fontSize: 11, color: C.inkLt, marginTop: 2 }}>
-                  {open === c.id ? "−" : "why"}
+                  {open === c.id ? "−" : t("lq_why")}
                 </span>
               </button>
               {open === c.id && (
                 <div style={{ fontSize: 11, color: C.inkLt, lineHeight: 1.55,
-                              margin: "5px 0 2px 18px" }}>
-                  {c.why}
+                              margin: "5px 0 2px", marginInlineStart: 18 }}>
+                  {whyOf(c)}
                   {c.evidence && (
                     <div style={{ fontSize: 11, opacity: 0.75, marginTop: 5, lineHeight: 1.5 }}>
                       {c.evidence}
@@ -108,7 +113,7 @@ export default function ListingQuality({ form, photos, compact }) {
       )}
 
       <div style={{ fontSize: 11, color: C.inkLt, marginTop: 10, lineHeight: 1.5 }}>
-        Advice, not a gate — you can publish at any score.
+        {t("lq_advice")}
       </div>
     </div>
   );

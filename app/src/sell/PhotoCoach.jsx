@@ -2,7 +2,7 @@ import { useState } from "react";
 import { C } from "../compliance/ui.js";
 import Icon from "../icons/Icon.jsx";
 import { PHOTO_CHECKLIST, PHOTO_TARGET } from "./listingQuality.js";
-import { t } from "../i18n/t.js";
+import { t, getLang } from "../i18n/t.js";
 
 // ─────────────────────────────────────────────────────────────────────────────
 //  PHOTO COACH
@@ -61,8 +61,7 @@ export default function PhotoCoach({ count = 0, findings = [] }) {
             </div>
           ))}
           <div style={{ fontSize: 11, color: C.inkLt, lineHeight: 1.5 }}>
-            Checked on your phone — the photograph isn't sent anywhere to be
-            looked at. You can list it as it is; this is a suggestion, not a rule.
+            {t("pc_checked_on_phone")}
           </div>
         </div>
       )}
@@ -72,7 +71,7 @@ export default function PhotoCoach({ count = 0, findings = [] }) {
         style={{
           background: "none", border: "none", padding: 0, cursor: "pointer",
           display: "flex", alignItems: "center", gap: 8, width: "100%",
-          textAlign: "left", color: C.ink,
+          textAlign: "start", color: C.ink,
         }}
         aria-expanded={open}
       >
@@ -81,34 +80,32 @@ export default function PhotoCoach({ count = 0, findings = [] }) {
           {count === 0
             ? t("six_photos_that_sell")
             : remaining > 0
-            ? `${remaining} more photo${remaining > 1 ? "s" : ""} and this listing is doing its job`
-            : "You've got the shots that matter"}
+            ? t(remaining > 1 ? "pc_more_photos" : "pc_one_more_photo", { n: remaining })
+            : t("pc_got_the_shots")}
         </span>
         <span style={{ fontSize: 11, color: C.inkLt }}>{open ? "−" : "+"}</span>
       </button>
 
       {open && (
         <>
-          <ol style={{ margin: "10px 0 0", padding: "0 0 0 16px",
+          <ol style={{ margin: "10px 0 0", padding: 0, paddingInlineStart: 16,
                        display: "flex", flexDirection: "column", gap: 7 }}>
             {PHOTO_CHECKLIST.map((s) => (
               <li key={s.id} style={{ fontSize: 12, color: C.ink, lineHeight: 1.5 }}>
-                {s.en}
-                <span style={{ fontSize: 11, color: C.inkLt }}> · {s.ar}</span>
+                {/* One language per label: this printed "Daylight, near a window ·
+                    ضوء النهار…" in a single line, which the rest of the app stopped
+                    doing in v2.9.3. */}
+                {getLang() === "ar" ? s.ar : s.en}
                 {s.why && (
                   <div style={{ fontSize: 11, color: C.inkLt, lineHeight: 1.5, marginTop: 1 }}>
-                    {s.why}
+                    {getLang() === "ar" && s.whyAr ? s.whyAr : s.why}
                   </div>
                 )}
               </li>
             ))}
           </ol>
           <div style={{ fontSize: 11, color: C.inkLt, marginTop: 10, lineHeight: 1.55 }}>
-            Marketplace research is consistent on this: better photographs sell
-            more, and the effect is largest on handbags and shoes — about 1.25×
-            and 1.17× the chance of selling, in a study of 75,000 listing images
-            (Ma et al., 2019). It is the cheapest improvement available to any
-            seller here.
+            {t("pc_research_a")} {t("pc_research_b")} {t("pc_research_c")}
           </div>
         </>
       )}

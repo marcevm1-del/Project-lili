@@ -146,6 +146,11 @@ for (const f of srcFiles) {
   // a source scan enumerates shapes and there is no end to them. `npm run
   // uxlaws` reads the rendered label, where there is only ever one shape; this
   // check is for the screens that walk cannot reach without an account.
+  // Shape five, PhotoCoach in v2.12: `{s.en} <span>· {s.ar}</span>`. The same
+  // family with the property spelt in lower case.
+  for (const m of s.matchAll(/·\s*\{\s*[A-Za-z_$][\w$]*\.ar\s*\}/g)) {
+    offenders.push(`${f}: ${m[0].replace(/\s+/g, " ")}`);
+  }
   for (const m of s.matchAll(/·\s*\{\s*[A-Za-z_$][\w$]*\.[\w$]*Ar\b/g)) {
     offenders.push(`${f}: ${m[0].replace(/\s+/g, " ")}`);
   }

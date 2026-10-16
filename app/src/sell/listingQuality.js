@@ -98,7 +98,9 @@ const NEEDS_MEASUREMENTS = new Set(["rtw", "shoes", "abaya"]);
  *
  * @returns {{score:number, grade:string, checks:Array, top:Array}}
  *   checks[] each: {id, state:"pass"|"improve"|"missing", weight, title, why,
- *                   evidence}
+ *                   evidence, tk, wk} — tk/wk are the dictionary keys for the
+ *                   title and the why, so the screen can show them in Arabic;
+ *                   the English in the dictionary is the same as title/why.
  */
 export function scoreListing({
   title = "", titleAr = "", desc = "", brand = "", price = 0,
@@ -120,6 +122,11 @@ export function scoreListing({
       photoCount === 0 ? "Add photos"
       : photoCount < PHOTO_TARGET ? `${photoCount} photo${photoCount > 1 ? "s" : ""} — ${PHOTO_TARGET} sells better`
       : `${photoCount} photos`,
+    tk: photoCount === 0 ? ["lq_add_photos"]
+      : photoCount < PHOTO_TARGET ? [photoCount > 1 ? "lq_photos_better" : "lq_photos_better_one", { n: photoCount, target: PHOTO_TARGET }]
+      : ["lq_n_photos", { n: photoCount }],
+    wk: photoCount === 0 ? ["lq_why_photos_none"]
+      : photoCount < PHOTO_TARGET ? ["lq_why_photos_more_a", "lq_why_photos_more_b"] : ["lq_why_photos_ok"],
     why:
       photoCount === 0
         ? "A listing without a photograph does not sell. Not rarely — it does not sell."
@@ -138,6 +145,8 @@ export function scoreListing({
     state: titleLen === 0 ? "missing"
       : titleLen < 12 || (brand && !titleNamesBrand) ? "improve" : "pass",
     title: titleLen === 0 ? "Add a title" : titleNamesBrand || !brand ? "Title reads well" : "Put the brand in the title",
+    tk: [titleLen === 0 ? "lq_add_title" : titleNamesBrand || !brand ? "lq_title_good" : "lq_brand_in_title"],
+    wk: ["lq_why_title"],
     why: "Search matches on the title first. Brand plus what the thing actually is — \"Chanel Classic Flap, medium\" finds buyers that \"gorgeous bag\" never will.",
     evidence: EVIDENCE.bilingual,
   });
@@ -148,6 +157,8 @@ export function scoreListing({
     weight: 10,
     state: ARABIC.test(titleAr) ? "pass" : "improve",
     title: ARABIC.test(titleAr) ? "Arabic title added" : "Add an Arabic title",
+    tk: [ARABIC.test(titleAr) ? "lq_arabic_added" : "lq_add_arabic"],
+    wk: ["lq_why_arabic"],
     why: "Half this market searches in Arabic. Without an Arabic title your piece is only findable by half the women who would buy it.",
     evidence: EVIDENCE.bilingual,
   });
@@ -160,6 +171,8 @@ export function scoreListing({
     state: descLen === 0 ? "missing" : descLen < DESC_TARGET ? "improve" : "pass",
     title: descLen === 0 ? "Say something about it"
       : descLen < DESC_TARGET ? "Description is thin" : "Description is solid",
+    tk: [descLen === 0 ? "lq_say_something" : descLen < DESC_TARGET ? "lq_desc_thin" : "lq_desc_solid"],
+    wk: ["lq_why_desc"],
     why: "Where you bought it, how often you wore it, why you're letting it go. Three sentences is enough, and it is the difference between a listing and an advert.",
     evidence: EVIDENCE.johnson2015,
   });
@@ -173,6 +186,8 @@ export function scoreListing({
     state: !wornCondition ? "pass" : flawsMentioned ? "pass" : "improve",
     title: !wornCondition ? "Condition stated"
       : flawsMentioned ? "Wear described" : "Describe the wear",
+    tk: [!wornCondition ? "lq_condition_stated" : flawsMentioned ? "lq_wear_described" : "lq_describe_wear"],
+    wk: ["lq_why_condition"],
     why: "Buyers pay for worn pieces — what they will not forgive is finding the mark themselves. Naming it, and photographing it, is what makes the price make sense.",
     evidence: EVIDENCE.trr2025,
   });
@@ -184,6 +199,8 @@ export function scoreListing({
       weight: 8,
       state: MEASURE_WORDS.test(text) ? "pass" : "improve",
       title: MEASURE_WORDS.test(text) ? "Fit described" : "Add measurements",
+      tk: [MEASURE_WORDS.test(text) ? "lq_fit_described" : "lq_add_measurements"],
+      wk: ["lq_why_measure"],
       why: "Sizes are not the same across brands or countries. A bust and a length in centimetres prevents the return, and the return is where the sale is lost.",
       evidence: EVIDENCE.johnson2015,
     });
@@ -197,6 +214,8 @@ export function scoreListing({
       weight: 15,
       state: hasProvenance ? "pass" : "improve",
       title: hasProvenance ? "Provenance mentioned" : "Show what came with it",
+      tk: [hasProvenance ? "lq_provenance" : "lq_show_extras"],
+      wk: ["lq_why_provenance_a", "lq_why_provenance_b"],
       why: "At this price a buyer is not deciding on the photograph alone. Receipt, card, serial, dust bag, box — photograph whatever exists. It is also what keeps your listing out of our review queue.",
       evidence: `${EVIDENCE.gorton2024} ${EVIDENCE.oecd2025}`,
     });
@@ -248,13 +267,17 @@ export function scoreListing({
 // the moment; a score afterwards is a thing she can only feel bad about.
 export const PHOTO_CHECKLIST = [
   { id: "daylight", en: "Daylight, near a window", ar: "ضوء النهار بجانب النافذة",
-    why: "Phone cameras are honest in daylight and grainy under warm indoor bulbs." },
+    why: "Phone cameras are honest in daylight and grainy under warm indoor bulbs.",
+    whyAr: "كاميرا الهاتف صادقة في ضوء النهار ومحبّبة تحت مصابيح المنزل الدافئة." },
   { id: "plain", en: "Plain background", ar: "خلفية بسيطة",
-    why: "A cluttered bed makes the piece hard to see and the seller hard to trust." },
+    why: "A cluttered bed makes the piece hard to see and the seller hard to trust.",
+    whyAr: "سرير مزدحم يُصعّب رؤية القطعة ويُصعّب الثقة بالبائعة." },
   { id: "whole", en: "The whole piece, front and back", ar: "القطعة كاملة، أمام وخلف", },
   { id: "label", en: "The label, and the serial or date code", ar: "الليبل والرقم التسلسلي",
-    why: "This is the photo that ends the authenticity conversation before it starts." },
+    why: "This is the photo that ends the authenticity conversation before it starts.",
+    whyAr: "هذه هي الصورة التي تُنهي سؤال الأصالة قبل أن يبدأ." },
   { id: "flaw", en: "Any mark or wear, close up", ar: "أي علامة أو استخدام عن قرب",
-    why: "Showing it costs you nothing. Hiding it costs you the sale and the dispute." },
+    why: "Showing it costs you nothing. Hiding it costs you the sale and the dispute.",
+    whyAr: "إظهاره لا يكلّفكِ شيئاً. إخفاؤه يكلّفكِ الصفقة والنزاع." },
   { id: "scale", en: "Worn or held, for scale", ar: "مرتدية أو ممسوكة لتوضيح الحجم" },
 ];
