@@ -4,6 +4,7 @@ import Icon from "../icons/Icon.jsx";
 import * as remote from "../backend/remote.js";
 import { useFocusTrap, dialogProps } from "../a11y/useFocusTrap.js";
 import { withTimeout, BUDGET, isTimeout } from "../ux/timeout.js";
+import { localTitle, localBody } from "./localize.js";
 
 // ─────────────────────────────────────────────────────────────────────────────
 //  NOTIFICATIONS
@@ -162,7 +163,7 @@ export default function NotificationsSheet({ onClose, onOpenLink }) {
 
         {list.map((n) => (
           <button key={n.id} onClick={() => open(n)} className="tap-target"
-            style={{ display: "flex", gap: 12, width: "100%", textAlign: "left",
+            style={{ display: "flex", gap: 12, width: "100%", textAlign: "start",
                      background: n.read_at ? "transparent" : C.white,
                      border: `1px solid ${n.read_at ? C.border : C.terra}`,
                      borderRadius: 12, padding: "12px 12px", marginBottom: 8,
@@ -171,11 +172,11 @@ export default function NotificationsSheet({ onClose, onOpenLink }) {
                   style={{ color: C.terraTx, marginTop: 2, flexShrink: 0 }} />
             <div style={{ flex: 1, minWidth: 0 }}>
               <div style={{ fontSize: 13, fontWeight: n.read_at ? 500 : 700, color: C.ink }}>
-                {n.title}
+                {localTitle(n.title)}
               </div>
               {n.body && (
                 <div style={{ fontSize: 12, color: C.inkLt, lineHeight: 1.55, marginTop: 3 }}>
-                  {n.body}
+                  {localBody(n.body)}
                 </div>
               )}
             </div>

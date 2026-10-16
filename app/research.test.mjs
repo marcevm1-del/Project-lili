@@ -1767,6 +1767,21 @@ check("no interface text is set below the 11px floor", tinyType.length === 0 && 
     }
     check("every listing-quality check has Arabic keys whose English is word for word the scorer's", off.length === 0, off.join(", "));
   }
+  {
+    // Notifications are written in English by triggers; the sheet translates the
+    // ones it recognises. If a trigger's wording changes, the pattern goes stale
+    // silently and Arabic readers get English again, so each fixed title is
+    // checked against the migrations that write it.
+    const { PATTERNS } = await import("./src/notifications/localize.js");
+    const sql = readdirSync(new URL("../supabase/migrations/", import.meta.url))
+      .map((f) => read(`../supabase/migrations/${f}`)).join("\n").replace(/''/g, "'");
+    const stale = PATTERNS.TITLES
+      .map(([re]) => re.source)
+      .filter((src) => !/[(]/.test(src))
+      .map((src) => src.replace(/^\^|\$$/g, "").replace(/\\/g, ""))
+      .filter((title) => !sql.includes(title));
+    check("every notification title the sheet translates is still what a trigger writes", stale.length === 0, stale.join(" | "));
+  }
   // the CHECK still names "meet"; migration 39 refuses it before the CHECK runs
   const sqlCouriers = sqlCarriers.split(",").filter((k) => k !== "meet").join();
   check("every carrier the app offers is one the database accepts, and none more",

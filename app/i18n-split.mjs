@@ -35,7 +35,9 @@ export async function render() {
   // a fresh copy every time: the importer calls this after rewriting the file
   const { STRINGS } = await import(`${pathToFileURL(SRC).href}?t=${Date.now()}`);
   const keys = Object.keys(STRINGS);
-  const line = (k, v) => `  ${k}: ${JSON.stringify(v)},`;
+  // keys quoted: an unquoted `password: "Password"` reads to the security
+  // suite exactly like a password written into the source
+  const line = (k, v) => `  ${JSON.stringify(k)}: ${JSON.stringify(v)},`;
   const en = HEAD("English: in the first chunk, read by t() for every key.") +
     "export const EN = {\n" + keys.map((k) => line(k, STRINGS[k].en)).join("\n") + "\n};\n";
   const ar = HEAD("Arabic: loaded only when Arabic is chosen (t.js loadArabic). Keys with no Arabic yet are left out.") +
