@@ -1,0 +1,55 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <!-- Content Security Policy. The app has no inline script and never
+         evaluates strings, so script-src is locked to same-origin. Styles need
+         'unsafe-inline' because React writes style attributes — a far smaller
+         surface than inline script. connect-src names exactly the three places
+         this app may talk to; anything else is refused by the browser.
+
+         frame-ancestors is deliberately absent: browsers IGNORE it in a meta
+         tag — it only works as an HTTP header — so including it achieved
+         nothing but a console warning. A Capacitor app is not framed, but if
+         the web build is ever hosted, set it on the server. -->
+    <meta http-equiv="Content-Security-Policy" content="default-src 'self' capacitor: https://localhost; script-src 'self' capacitor: https://localhost; style-src 'self' 'unsafe-inline' capacitor: https://localhost; img-src 'self' data: blob: https://yjsmkjwvoolsszsedony.supabase.co capacitor: https://localhost; font-src 'self' data: capacitor:; connect-src 'self' https://yjsmkjwvoolsszsedony.supabase.co wss://yjsmkjwvoolsszsedony.supabase.co https://api.pwnedpasswords.com capacitor: https://localhost; base-uri 'self'; form-action 'none'; object-src 'none'">
+
+    <meta charset="UTF-8" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1.0, viewport-fit=cover"
+    />
+    <meta name="theme-color" content="#FFF8F2" />
+    <meta name="description" content="Dubai's luxury resale community. Second hand. First class." />
+    <title>love it or leave it</title>
+  </head>
+  <body>
+    <div id="root">
+      <!-- Visible only if the bundle never runs — an unsupported WebView, a
+           parse error, or a failed download. React replaces this on mount.
+           Without it those cases render a white screen, which no user can
+           report and no crash tool records. -->
+      <div id="boot-fallback" style="min-height:100vh;display:flex;align-items:center;
+           justify-content:center;padding:32px;background:#FDEBD8;
+           font-family:Georgia,serif;color:#5C4A3A;text-align:center">
+        <div style="max-width:300px">
+          <div style="font-size:26px;font-weight:700;letter-spacing:-.5px">l&#9829;l&#9829;</div>
+          <p style="font-size:15px;line-height:1.6;margin:18px 0 8px">
+            lili needs a newer version of Android System WebView to run.
+          </p>
+          <p style="font-size:12.5px;line-height:1.6;color:#756358;margin:0">
+            Open the Play Store, search for <b>Android System WebView</b>, and tap
+            Update. Then reopen lili.
+          </p>
+          <p style="font-size:12.5px;line-height:1.6;color:#756358;margin:14px 0 0;
+             direction:rtl">حدّثي تطبيق Android System WebView من متجر Play ثم افتحي lili من جديد.</p>
+        </div>
+      </div>
+    </div>
+    <!-- Runs before the app on every browser, including ones too old for
+         modules. Chrome 61-75 can parse the bundle but lacks these three APIs,
+         and a missing globalThis is a runtime error, not a graceful
+         degradation. Four lines is cheaper than excluding those devices. -->
+    <script src="/polyfills.js"></script>
+    <script type="module" src="/src/main.jsx"></script>
+  </body>
+</html>

@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+    No plaintext HTTP, anywhere. A marketplace carrying sign-in tokens and
+    photographs has no business speaking unencrypted on hotel wifi.
+
+    User-added certificates are NOT trusted: that is what stops a device with a
+    proxy CA installed from reading traffic in the clear. It also means you
+    cannot inspect the app's traffic with Charles or mitmproxy on a normal
+    device — which is the point.
+-->
+<network-security-config>
+    <base-config cleartextTrafficPermitted="false">
+        <trust-anchors>
+            <certificates src="system" />
+        </trust-anchors>
+    </base-config>
+</network-security-config>
