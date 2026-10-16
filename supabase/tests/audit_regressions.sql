@@ -10,7 +10,7 @@ do $$
 declare
   me uuid; b1 uuid; b2 uuid; s uuid; i uuid; i2 uuid; cv uuid; mt uuid;
   o1 uuid; o2 uuid; ss uuid; j jsonb; n int; t text; bad text; total int;
-  i3 uuid; cs uuid; k0 int; k1 int; d1 uuid; d2 uuid; ord uuid; ord2 uuid; ho uuid; ao uuid;
+  i3 uuid; cs uuid; k0 int; k1 int; d1 uuid; d2 uuid; d3 uuid; ord uuid; ord2 uuid; ho uuid; ao uuid;
 begin
   create temp table _r (label text, ok boolean) on commit drop;
   grant all on _r to public;
@@ -88,27 +88,12 @@ begin
   exception when others then perform pg_temp.ok('the AED 200 minimum is enforced', true); end;
   execute 'reset role';
   insert into lili_conversations(buyer_uid, seller_uid, item_id, shop_id) values (b1, me, i, s) returning id into cv;
-  insert into lili_meets(conversation_id, item_id, proposed_by, place_key, meet_at, state)
-    values (cv, i, b1, 'mall', now() - interval '1 day', 'confirmed') returning id into mt;
-  begin insert into lili_meets(conversation_id, item_id, proposed_by, place_key, meet_at) values (cv, i, b1, 'mall', now() + interval '1 day');
-    perform pg_temp.ok('one live meet plan per conversation', false);
-  exception when unique_violation then perform pg_temp.ok('one live meet plan per conversation', true); end;
-
-  -- ── reviews after a meet ────────────────────────────────────────────────
+  -- ── meeting in person is removed (migration 39) ─────────────────────────
   perform pg_temp.act(b1);
-  j := lili_leave_review(mt, 5, 'Lovely, on time.');
-  perform pg_temp.ok('a review is hidden until both have reviewed', (j ->> 'visible')::boolean = false);
-  begin j := lili_leave_review(mt, 4); perform pg_temp.ok('one review per person per meet', false);
-  exception when others then perform pg_temp.ok('one review per person per meet', true); end;
-  perform pg_temp.act(b2);
-  begin j := lili_leave_review(mt, 1); perform pg_temp.ok('only the two who met can review', false);
-  exception when others then perform pg_temp.ok('only the two who met can review', true); end;
-  perform pg_temp.act(me);
-  j := lili_leave_review(mt, 4, 'Easy buyer');
+  begin insert into lili_meets(conversation_id, item_id, proposed_by, place_key, meet_at) values (cv, i, b1, 'mall', now() + interval '1 day');
+    perform pg_temp.ok('no meet plan can be proposed', false);
+  exception when object_not_in_prerequisite_state then perform pg_temp.ok('no meet plan can be proposed', true); end;
   perform pg_temp.act(null);
-  perform pg_temp.ok('both reviewed: the shop review is public', (select count(*) from lili_shop_reviews(s)) = 1);
-  perform pg_temp.ok('the reputation counts it', (select reviews from lili_reputations() where shop_id = s) = 1);
-  perform pg_temp.ok('completed meets are a public count', lili_shop_meets_done(s) = 1);
   begin select count(*) into n from lili_reviews; perform pg_temp.ok('reviews are not readable directly', false);
   exception when others then perform pg_temp.ok('reviews are not readable directly', true); end;
   execute 'reset role';
@@ -208,9 +193,17 @@ begin
   perform pg_temp.ok('a bundle is quoted only the couriers both pieces allow, at the larger parcel',
     jsonb_array_length(j) = 2 and not exists (select 1 from jsonb_array_elements(j) x where x->>'method' = 'meet')
     and (select (x->>'fee')::numeric from jsonb_array_elements(j) x where x->>'method' = 'aramex') = 40);
-  j := lili_delivery_quote(array[d1], 'GCC');
-  perform pg_temp.ok('meeting in person is not offered across the GCC',
-    not exists (select 1 from jsonb_array_elements(j) x where x->>'method' = 'meet'));
+  perform pg_temp.ok('a listing cannot offer meeting in person: an old app sending it has it taken out',
+    (select delivery from lili_items where id = d1) = array['aramex','dhl']);
+  execute 'reset role';
+  insert into lili_items(owner_uid, shop_id, title, brand, price, category, delivery)
+    values (me, s, 'Courier default test', 'Ganni', 300, 'Skirts', array['meet']) returning id into d3;
+  perform pg_temp.ok('a listing left with no courier gets the default pair',
+    (select delivery from lili_items where id = d3) = array['aramex','emirates_post']);
+  perform pg_temp.ok('a new listing defaults to couriers, not a meet',
+    (select column_default from information_schema.columns where table_schema = 'public'
+       and table_name = 'lili_items' and column_name = 'delivery') like '%aramex,emirates_post%');
+  perform pg_temp.act(b1);
   j := lili_create_order(array[d1], 'aramex', 'UAE', '{"name":"Test Buyer","phone":"0500000000","line1":"Street 1","city":"Dubai","country":"AE"}');
   perform pg_temp.ok('no order while payments are switched off', j->>'reason' = 'payments_off');
   execute 'reset role';
@@ -313,7 +306,11 @@ begin
   execute 'reset role';
   update lili_items set status = 'live' where id = d1;
   perform pg_temp.act(b1);
-  j := lili_create_order(array[d1], 'meet', 'UAE', null); ord2 := (j->>'order_id')::uuid;
+  begin j := lili_create_order(array[d1], 'meet', 'UAE', null);
+    perform pg_temp.ok('no order can be created for a meet', coalesce((j->>'ok')::boolean, false) = false);
+  exception when others then perform pg_temp.ok('no order can be created for a meet', true); end;
+  j := lili_create_order(array[d1], 'aramex', 'UAE', '{"name":"Test Buyer","phone":"0500000000","line1":"Street 1","city":"Dubai","country":"AE"}');
+  ord2 := (j->>'order_id')::uuid;
   execute 'reset role';
   perform lili_order_paid(ord2, 'pi_test2');
   update lili_orders set ship_by = now() - interval '1 minute' where id = ord2;
@@ -324,7 +321,8 @@ begin
 
   -- a problem keeps the money held
   perform pg_temp.act(b1);
-  j := lili_create_order(array[d1], 'meet', 'UAE', null); ord2 := (j->>'order_id')::uuid;
+  j := lili_create_order(array[d1], 'aramex', 'UAE', '{"name":"Test Buyer","phone":"0500000000","line1":"Street 1","city":"Dubai","country":"AE"}');
+  ord2 := (j->>'order_id')::uuid;
   execute 'reset role';
   perform lili_order_paid(ord2, 'pi_test3');
   perform pg_temp.act(b1);

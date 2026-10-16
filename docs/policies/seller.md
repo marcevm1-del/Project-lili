@@ -40,11 +40,11 @@ Buyers may make offers. An offer expires after 48 hours if you don't answer. Whe
 
 ## Delivery
 
-Switch on only the delivery options you will actually use, and pick the parcel size honestly: the buyer sees the fee for it. If you agree courier delivery, pack the piece so it arrives as described, send it promptly with the courier you offered, and give the buyer the tracking number in lili's messages. The Delivery & Returns Policy has the details.
+Switch on only the couriers you will actually use, and pick the parcel size honestly: the buyer sees the fee for it. Pack the piece so it arrives as described, send it promptly with the courier you offered, and give the buyer the tracking number in lili's messages. The Delivery & Returns Policy has the details.
 
 ## Keep it on lili
 
-Keep conversations about a sale in lili's messages until you meet. Messages there can't be edited after sending, and they are what we can look at if something goes wrong.
+Keep conversations about a sale in lili's messages until the piece has arrived. Messages there can't be edited after sending, and they are what we can look at if something goes wrong.
 
 ## Fees
 
@@ -54,4 +54,4 @@ lili charges sellers no fee during the beta. Before any fee starts, we will tell
 
 Breaches lead to strikes under the Reports, Strikes & Appeals Policy, and serious or repeated breaches close the shop.
 
-_Version 2026-10-12._
+_Version 2026-10-16._

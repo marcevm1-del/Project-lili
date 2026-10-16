@@ -5,6 +5,7 @@ import { useCompliance, SELLER_TYPES } from "../compliance";
 import { sellerClausesFor } from "../compliance/agreements.js";
 import * as repo from "../data/repo.js";
 import DeliverySettings from "../delivery/DeliverySettings.jsx";
+import { DEFAULT_DELIVERY, deliveryWays } from "../delivery/carriers.js";
 import { FitAndFlaws } from "../listing/FitAndFlaws.jsx";
 import { processImage, validateFile, LIMITS } from "../data/images.js";
 import { parsePrice } from "../ux/input.js";
@@ -117,7 +118,7 @@ export function SellPage({myShop,onCreateShop,onAddItem,setTab,onListed}) {
   const [publishing,setPublishing] = useState(false);
   const [publishError,setPublishError] = useState(null);
   const [stepError,setStepError] = useState(null);
-  const [form,setForm] = useState({title:"",titleAr:"",category:"Dresses",size:"S",condition:"Like New",era:"Modern",brand:"",price:"",desc:"",fit:null,measurements:{},flaws:null,delivery:["meet"],parcelSize:"S",bundling:false});
+  const [form,setForm] = useState({title:"",titleAr:"",category:"Dresses",size:"S",condition:"Like New",era:"Modern",brand:"",price:"",desc:"",fit:null,measurements:{},flaws:null,delivery:DEFAULT_DELIVERY,parcelSize:"S",bundling:false});
   const [restored,setRestored] = useState(false);
 
   // must be before any early return
@@ -293,7 +294,7 @@ export function SellPage({myShop,onCreateShop,onAddItem,setTab,onListed}) {
         measurements:Object.keys(form.measurements||{}).length ? form.measurements : null,
         flaws:Array.isArray(form.flaws) ? form.flaws : null,
         // how it reaches a buyer, and the parcel it travels in (migration 33)
-        delivery:Array.isArray(form.delivery) && form.delivery.length ? form.delivery : ["meet"],
+        delivery:deliveryWays(form),
         parcelSize:form.parcelSize||"S", bundling:!!form.bundling,
         // v2.9: three fields here were inventions.
         //
@@ -334,7 +335,7 @@ export function SellPage({myShop,onCreateShop,onAddItem,setTab,onListed}) {
     repo.clearDraft().catch(() => {});
     setPublishing(false);
     setMode("choose");setPhotos([]);setThumbs([]);setStep(1);setAuth(null);setStepError(null);
-    setForm({title:"",titleAr:"",category:"Dresses",size:"S",condition:"Like New",era:"Modern",brand:"",price:"",desc:"",fit:null,measurements:{},flaws:null,delivery:["meet"],parcelSize:"S",bundling:false});
+    setForm({title:"",titleAr:"",category:"Dresses",size:"S",condition:"Like New",era:"Modern",brand:"",price:"",desc:"",fit:null,measurements:{},flaws:null,delivery:DEFAULT_DELIVERY,parcelSize:"S",bundling:false});
     setTab("myshop");
   };
 

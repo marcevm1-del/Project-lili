@@ -187,16 +187,16 @@ export const ITEMS = [
 // How each sample piece can reach a buyer (migration 33), so the delivery
 // options, fees and checkout can be seen before any real shop has set them.
 const SAMPLE_DELIVERY = {
-  1: [["meet","aramex","dhl"], "M", true],
-  2: [["meet","aramex","emirates_post","quiqup"], "S", true],
-  3: [["meet","aramex","smsa"], "M", false],
-  4: [["meet","dhl"], "XS", false],
-  5: [["meet","aramex","quiqup","smsa"], "M", false],
-  6: [["meet","emirates_post","quiqup"], "S", false],
-  7: [["meet","aramex","emirates_post"], "XS", false],
-  8: [["meet","aramex","quiqup","smsa","dhl"], "S", false],
-  9: [["meet","aramex","dhl"], "S", true],
-  10: [["meet","aramex","quiqup"], "S", false],
+  1: [["aramex","dhl"], "M", true],
+  2: [["aramex","emirates_post","quiqup"], "S", true],
+  3: [["aramex","smsa"], "M", false],
+  4: [["dhl"], "XS", false],
+  5: [["aramex","quiqup","smsa"], "M", false],
+  6: [["emirates_post","quiqup"], "S", false],
+  7: [["aramex","emirates_post"], "XS", false],
+  8: [["aramex","quiqup","smsa","dhl"], "S", false],
+  9: [["aramex","dhl"], "S", true],
+  10: [["aramex","quiqup"], "S", false],
 };
 for (const it of ITEMS) {
   const d = SAMPLE_DELIVERY[it.id];

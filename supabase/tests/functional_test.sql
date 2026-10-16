@@ -111,17 +111,12 @@ begin
   n := lili_expire_offers(10);
   select state into t from lili_offers where id = o3; r := r || ' E7 expired=' || t;
 
-  -- F · meet                                   expect: false confirmed/fine 1
+  -- F · meeting in person is removed (39)       expect: refused
   perform pg_temp.act(buyer);
-  insert into lili_meets(conversation_id, place_key, meet_at) values (cv, 'mall_of_the_emirates', now() + interval '1 day') returning id into mt;
-  begin update lili_meets set state = 'confirmed' where id = mt; b := true; exception when others then b := false; end;
-  r := r || ' | F1 self_confirm=' || b;
-  perform pg_temp.act(me, true);
-  update lili_meets set state = 'confirmed' where id = mt;
-  perform pg_temp.act(buyer);
-  update lili_meets set checkin_state = 'fine' where id = mt;
-  select state || '/' || checkin_state into t from lili_meets where id = mt; r := r || ' F2 meet=' || t;
-  select count(*) into n from lili_notifications where kind = 'meet_confirmed'; r := r || ' F3 notif=' || n;
+  begin
+    insert into lili_meets(conversation_id, place_key, meet_at) values (cv, 'mall_of_the_emirates', now() + interval '1 day');
+    r := r || ' | F1 meet=accepted';
+  exception when object_not_in_prerequisite_state then r := r || ' | F1 meet=refused'; end;
 
   -- G · report and moderate a listing          expect: false true removed 1/active 1 1 1
   insert into lili_moderation_cases(kind, target_item_id, reasons, detail) values ('listing', i2, array['counterfeit'], 'Looks fake');

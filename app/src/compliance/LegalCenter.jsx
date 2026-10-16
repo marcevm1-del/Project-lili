@@ -577,7 +577,7 @@ function MoneyView({ onBack }) {
         <>
           <div style={ruleRow}>
             <span style={{ color: C.terraTx }}>◦</span>
-            <span>You agree the price in lili, then meet and pay her directly.</span>
+            <span>You agree the price and the courier in lili, then pay her directly.</span>
           </div>
           <div style={ruleRow}>
             <span style={{ color: C.terraTx }}>◦</span>

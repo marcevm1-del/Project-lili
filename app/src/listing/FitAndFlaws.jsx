@@ -85,7 +85,7 @@ export function FitAndFlaws({form, setForm}) {
           ))}
         </div>
         <div style={{fontSize:11,color:C.inkLt,marginTop:6,lineHeight:1.5}}>
-          Saying so up front is what buyers trust — and a flaw she was told about is not a reason to back out at the meet.
+          Saying so up front is what buyers trust — and a flaw she was told about is not a reason to send it back.
         </div>
       </div>
     </div>

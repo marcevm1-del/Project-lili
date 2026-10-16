@@ -25,15 +25,15 @@ const FAQ = [
        "the rules. We don't take your money and we don't own anything here." },
   { q: "Does lili hold my money?", qAr: "هل تحتفظ lili بأموالي؟",
     a: "No. Not yet, and it matters that you know it. You and the seller agree a " +
-       "price here, you meet somewhere public, and you pay her directly. Nothing " +
+       "price and a courier here, and you pay her directly. Nothing " +
        "passes through lili, so there is no payment for us to hold back or return. " +
        "A licensed processor holding the money until the piece is in your hands is " +
        "the plan, and it needs a trade licence and a regulated payment provider " +
        "before it can be real." },
   { q: "What if it turns up fake, or not as described?", qAr: "إذا كانت مقلدة؟",
-    a: "Check it before you hand anything over — that is the moment, and right now " +
-       "it is the only one. Serial, stitching, hardware, the flaws you saw in the " +
-       "photos. If it's wrong, walk away. Afterwards we cannot get your money back, " +
+    a: "Ask for a video before you send any money — that is the moment, and right " +
+       "now it is the only one. Serial, stitching, hardware, the flaws you saw in the " +
+       "photos. If anything is off, don't pay. Afterwards we cannot get your money back, " +
        "because we never had it. What we can do is act on her: report the listing " +
        "and we read it, and your conversation too if you attach it, and we can take " +
        "the piece down and close the shop." },
@@ -50,9 +50,10 @@ const FAQ = [
        "being deducted today — with no payment rail there is nothing to deduct it " +
        "from — so the schedule is what you'll be charged when there is one." },
   { q: "When do I get paid?", qAr: "متى أستلم المبلغ؟",
-    a: "The buyer pays you directly when you meet, so it's in your hands the same " +
-       "moment the piece leaves them. Count it before she goes. lili is not in the " +
-       "middle of that, which also means we cannot help if it goes wrong afterwards." },
+    a: "The buyer pays you directly, so agree how and when in Messages. Send the " +
+       "piece once the money has reached you, and give her the tracking number. " +
+       "lili is not in the middle of that, which also means we cannot help if it " +
+       "goes wrong afterwards." },
   { q: "Can I sell if I'm not a business?", qAr: "هل أبيع كشخص عادي؟",
     a: "Yes — most sellers here are clearing their own wardrobes. You tell us which " +
        "you are when you open your shop, and buyers see it on every listing, because " +

@@ -139,8 +139,8 @@ export const REFUSED = [
   // Two things make them non-negotiable here beyond taste. Google Play's
   // Deceptive Behaviour policy rejects most of them outright, and UAE Federal
   // Law 15/2020 on Consumer Protection requires that price and terms be clear
-  // before commitment. A marketplace where a woman meets a stranger in a mall
-  // car park with AED 3,000 in her bag runs entirely on whether she believes
+  // before commitment. A marketplace where a woman sends a stranger AED 3,000
+  // for a parcel she hasn't seen runs entirely on whether she believes
   // what the screen told her. Manipulation is not merely wrong here; it is the
   // fastest way to destroy the only asset the product has.
   { id: "drip-pricing",

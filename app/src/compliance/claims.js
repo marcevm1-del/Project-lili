@@ -58,7 +58,7 @@ export const CLAIMS = [
   {
     id: "no-money-held",
     to: "both",
-    says: "lili does not handle your money. You pay her in person when you meet.",
+    says: "lili does not handle your money. You pay her directly.",
     state: "enforced",
     enforcedBy: [
       { file: "src/compliance/sellerRules.js", symbol: "HOW_MONEY_WORKS" },
@@ -225,18 +225,6 @@ export const CLAIMS = [
     how: "One list on the compliance context, read by every surface that renders " +
          "a listing, asserted by the functional suite across the feed, search and " +
          "shops.",
-  },
-
-  // ── meeting ──────────────────────────────────────────────────────────────
-  {
-    id: "meet-advice-only",
-    to: "both",
-    says: "Meet somewhere public and busy. These are the qualities to look for.",
-    state: "enforced",
-    enforcedBy: [{ file: "src/meet/places.js", symbol: "CRITERIA" }],
-    how: "Criteria and kinds of place, never a named address and never an " +
-         "endorsement. There is no Dubai Police safe-exchange-zone programme — " +
-         "this was checked — so nothing may imply one exists.",
   },
 ];
 

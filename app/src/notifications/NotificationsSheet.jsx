@@ -47,13 +47,6 @@ const ICON = {
   listing_live: "clock",
   listing_blocked: "ban",
   shop_action: "shield",
-  // v2.9 — the meet. The CHECK on lili_notifications.kind was extended in the
-  // same migration that added them, because forgetting that step is exactly how
-  // offers came to be filed as kind='message'.
-  meet_proposed: "handshake",
-  meet_confirmed: "check",
-  meet_declined: "clock",
-  meet_cancelled: "ban",
   // A new piece for a saved search. Links to the item, like a price drop.
   saved_search: "search",
 };

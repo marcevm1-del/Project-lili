@@ -629,17 +629,8 @@ export async function setAway(id, until, note) {
 // Persisted because an abandoned cart that survives a restart is worth real
 // money, and because losing it on a crash is the kind of thing people uninstall over.
 // ── reviews ────────────────────────────────────────────────────────────────
-// Server-only: a review is about a meet two people agreed on the server, so a
+// Server-only: a review is about an order completed on the server, so a
 // device-only install has nothing to review and nothing to show.
-export async function getReviewsOwed() {
-  if (!remoteReady) return [];
-  try { return await remote.getReviewsOwed(); }
-  catch (e) { console.warn("reviews owed unavailable:", e && e.message); return []; }
-}
-export async function leaveReview(meetId, stars, body) {
-  if (!remoteReady) throw new Error(whyNoWrites || "Sign in to leave a review");
-  return remote.leaveReview(meetId, stars, body);
-}
 export async function getShopReviews(shopId) {
   if (!remoteRead || typeof shopId !== "string") return [];
   try { return await remote.getShopReviews(shopId); }

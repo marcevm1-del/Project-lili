@@ -7,8 +7,9 @@
 //
 //  Written to describe the product as it is built today: lili lists pieces and
 //  introduces people. It takes no payment, holds no money, ships nothing and
-//  authenticates nothing. Buyer and seller meet in person, or the seller sends
-//  the piece with a courier she books (migration 33), and they pay each other.
+//  authenticates nothing. The seller sends the piece with a courier she books
+//  (migration 33; meeting in person was removed in migration 39), and they pay
+//  each other.
 //
 //  Paying in the app (Stripe holding the money until delivery) is built but
 //  off: PAYMENTS_LIVE in compliance/sellerRules.js. Flipping it is a policy
@@ -24,7 +25,6 @@
 //  Section bodies: a string is a paragraph; { list: [...] } is a bullet list.
 // ─────────────────────────────────────────────────────────────────────────────
 
-import { CRITERIA } from "../meet/places.js";
 import { COURIERS, COUNTRIES } from "../delivery/carriers.js";
 import {
   OPERATOR, POLICY_VERSION, LEGALLY_REVIEWED, MARKET, MIN_AGE, MIN_PRICE,
@@ -59,11 +59,11 @@ export const POLICIES = [
         "By creating an account or using the app you agree to these terms and to the policies they link to. If you don't agree, please don't use lili.",
       ]},
       { h: "What lili is, and what it is not", body: [
-        "lili is a marketplace where people list pre-owned fashion and others can find it, make offers and arrange to meet. We provide the listings, the messaging, the rules and their enforcement.",
+        "lili is a marketplace where people list pre-owned fashion and others can find it, make offers and arrange delivery. We provide the listings, the messaging, the rules and their enforcement.",
         { list: [
           "lili does not own, hold, inspect, price or sell any item. Every piece belongs to the person selling it.",
-          "lili does not take payment, hold money or issue refunds. You pay the seller directly when you meet.",
-          "lili does not deliver anything. The seller hands the piece over in person or sends it with a courier she books herself. The Delivery & Returns Policy explains how.",
+          "lili does not take payment, hold money or issue refunds. You and the seller agree how you pay her directly.",
+          "lili does not deliver anything. The seller sends the piece with a courier she books herself. The Delivery & Returns Policy explains how.",
           "lili does not authenticate items. Nothing in the app is a guarantee that a piece is genuine.",
         ]},
         "When you buy, your agreement is with the seller, not with us. What you are owed depends on whether she sells privately or as a business; see the Seller Policy.",
@@ -93,7 +93,7 @@ export const POLICIES = [
         "You can stop using lili and delete your account at any time from Profile → Privacy & Safety.",
       ]},
       { h: "Our responsibility", body: [
-        "We run lili with reasonable skill and care. Because we are not a party to sales, we are not responsible for the condition, legality, authenticity or handover of an item, or for what happens at a meeting between two members.",
+        "We run lili with reasonable skill and care. Because we are not a party to sales, we are not responsible for the condition, legality, authenticity or delivery of an item, or for arrangements made between two members.",
         "The service is provided as it is and may sometimes be unavailable. Nothing in these terms limits liability that the law does not allow us to limit, including for fraud or for death or personal injury caused by negligence.",
       ]},
       { h: "Changes", body: [
@@ -121,7 +121,7 @@ export const POLICIES = [
           "Account: your email address, how you signed in, and your year of birth (to confirm you are an adult). Needed to provide the service.",
           "Your country and data choices: so the app applies the right rules and respects what you allowed.",
           "Shop and listings: shop name, bio, the pieces you list, their photos, prices, sizes and condition. Public by design, because the point of a listing is that people see it.",
-          "Messages and meet-up plans: what you and the other person write, and the place and time you agree. Only the two of you can read them.",
+          "Messages: what you and the other person write, including a delivery address you choose to share. Only the two of you can read them.",
           "Offers, saves, follows, saved searches and reviews: to run those features. Reviews are public; the rest is private to you, except that a seller sees the offers made to her.",
           "Reports you make, and moderation decisions about you: to keep the marketplace safe and to answer appeals.",
           "Crash reports: the error message, app version, platform and screen, with email addresses, numbers and web addresses removed. Linked to your account if you are signed in, so we can fix what you hit.",
@@ -205,10 +205,10 @@ export const POLICIES = [
         `Buyers may make offers. An offer expires after ${OFFER_EXPIRY_HOURS} hours if you don't answer. When you accept one, the piece is reserved for that buyer and other offers on it are declined. Release the reservation in the app if the sale falls through; don't sell a reserved piece to someone else.`,
       ]},
       { h: "Delivery", body: [
-        "Switch on only the delivery options you will actually use, and pick the parcel size honestly: the buyer sees the fee for it. If you agree courier delivery, pack the piece so it arrives as described, send it promptly with the courier you offered, and give the buyer the tracking number in lili's messages. The Delivery & Returns Policy has the details.",
+        "Switch on only the couriers you will actually use, and pick the parcel size honestly: the buyer sees the fee for it. Pack the piece so it arrives as described, send it promptly with the courier you offered, and give the buyer the tracking number in lili's messages. The Delivery & Returns Policy has the details.",
       ]},
       { h: "Keep it on lili", body: [
-        "Keep conversations about a sale in lili's messages until you meet. Messages there can't be edited after sending, and they are what we can look at if something goes wrong.",
+        "Keep conversations about a sale in lili's messages until the piece has arrived. Messages there can't be edited after sending, and they are what we can look at if something goes wrong.",
       ]},
       { h: "Fees", body: [
         "lili charges sellers no fee during the beta. Before any fee starts, we will tell you the amount and give you the chance to close your shop first.",
@@ -264,7 +264,7 @@ export const POLICIES = [
       ]},
       { h: "What lili checks, and what it doesn't", body: [
         "Every listing is screened for signs of a copy: wording, price far below what a genuine piece costs, and missing provenance. Suspect listings go to a person before they go live.",
-        "This screening reduces risk. It is not authentication, and lili does not certify any item as genuine. Check the piece in person before you pay, and ask for proof of purchase.",
+        "This screening reduces risk. It is not authentication, and lili does not certify any item as genuine. Ask the seller for a video of the piece before you pay, and ask for proof of purchase.",
       ]},
       { h: "Brand owners and rights holders", body: [
         `If a listing infringes your trademark, copyright or design, ${rightsContact}. Tell us who you are, what you own, which listing, and why it infringes. We act on complete notices promptly and tell the seller what was removed and why.`,
@@ -298,7 +298,7 @@ export const POLICIES = [
         ]},
       ]},
       { h: "Be reliable", body: [
-        "Reply to offers and messages, turn up when you agreed to, and cancel in the app if plans change. Repeated no-shows are a breach.",
+        "Reply to offers and messages, send what you sold when you said you would, and tell the buyer in the app if plans change. Repeatedly failing to send is a breach.",
       ]},
       { h: "Blocking and reporting", body: [
         "You can block a seller: her shop and listings disappear from your feed and search on this phone. If someone is bothering you, report them from the listing, shop or conversation, and stop replying; we can restrict their account.",
@@ -309,28 +309,30 @@ export const POLICIES = [
   // ── 7 ──────────────────────────────────────────────────────────────────────
   {
     id: "safety",
-    title: "Meeting & Safety",
-    titleAr: "اللقاء والسلامة",
-    summary: "How to hand a piece over safely in person, and what to do if something goes wrong.",
+    title: "Buying & Selling Safely",
+    titleAr: "البيع والشراء بأمان",
+    summary: "How to buy and sell by courier without getting caught out, and what to do if something goes wrong.",
     sections: [
-      { h: "Choose a good place", body: [
-        "lili suggests kinds of place, not addresses, and none is supervised or approved by the police. Judge any place by these tests:",
-        { list: CRITERIA.map((c) => `${c.label}. ${c.why}`) },
-        "Never meet at a home address, and never in a car park after dark.",
+      { h: "Keep it in lili", body: [
+        "Agree the price, the courier and the delivery fee in lili's messages. Messages there can't be edited after sending, and they are what we can look at if something goes wrong. A chat moved to another app is not.",
       ]},
-      { h: "Before you go", body: [
+      { h: "Before you pay", body: [
         { list: [
-          "Agree the place and time in lili's meet-up plan, so there is a record.",
-          "Tell a friend where you're going and when.",
-          "Keep the conversation in lili.",
+          "Ask for a short video of the piece: condition, size, labels, serials, and anything the listing promised.",
+          "Look at the shop's reviews and how long it has been open.",
+          "Never pay a deposit or a “holding fee”, and never pay through a link someone sends you.",
+          "Prefer cash on delivery where the courier offers it.",
         ]},
       ]},
-      { h: "At the meeting", body: [
+      { h: "Before you send", body: [
         { list: [
-          "Check the piece before you pay: condition, size, labels, serials, and anything the listing promised.",
-          "Pay only when you are happy, and only in a way you are comfortable with.",
-          "If anything feels wrong, leave. You never need a reason.",
+          "Photograph the piece and the sealed parcel before you hand it to the courier.",
+          "Use a courier the listing offers, and keep the receipt.",
+          "Give the buyer the tracking number in lili the day it goes.",
         ]},
+      ]},
+      { h: "Your address", body: [
+        "Share a delivery address only with the person you're buying from, only in lili, and only once you've agreed the sale. A courier needs a name, a phone number and an address, nothing more.",
       ]},
       { h: "If something goes wrong", body: [
         "In an emergency, call 999. For Dubai Police non-emergencies, call 901. Then report the member in lili so we can act on their account.",
@@ -346,7 +348,7 @@ export const POLICIES = [
     summary: "lili doesn't handle money. How payment works between members, and how to spot a scam.",
     sections: [
       { h: "How payment works", body: [
-        "lili takes no payment and holds no money. You pay the seller directly, at the meeting, once you have checked the piece. Because lili never has the money, lili cannot refund it. For a piece sent by courier, read “Paying for a delivered piece” in the Delivery & Returns Policy.",
+        "lili takes no payment and holds no money. You and the seller agree how you pay her directly. Because lili never has the money, lili cannot refund it. Before you send anything, read “Paying for a delivered piece” in the Delivery & Returns Policy.",
       ]},
       { h: "Signs of a scam", body: [
         { list: [
@@ -372,9 +374,8 @@ export const POLICIES = [
     summary: "The ways a seller can get a piece to you in the UAE and the GCC, who pays for delivery, and what to do if it doesn't arrive or isn't as described.",
     sections: [
       { h: "How a piece gets to you", body: [
-        "Each listing shows the ways that seller is happy to get the piece to you, chosen by her when she listed it:",
+        "Each listing shows the couriers that seller is happy to send the piece with, chosen by her when she listed it:",
         { list: [
-          "Meeting in person, inside the UAE. No delivery fee. The Meeting & Safety Policy applies.",
           ...COURIERS.map((c) => `${c.name}: ${c.regions.includes("GCC") ? "within the UAE and to the rest of the GCC" : "within the UAE"}.`),
         ]},
         "lili does not deliver anything and has no account with any courier. The seller books the courier herself and gives you the courier's tracking number.",
@@ -387,7 +388,7 @@ export const POLICIES = [
         "A seller who switches on bundling lets you buy several of her pieces together and pay one delivery fee for the largest parcel.",
       ]},
       { h: "Paying for a delivered piece", body: [
-        "lili takes no payment, so with courier delivery you and the seller agree how you pay. Paying before the parcel arrives means trusting someone you haven't met: lili cannot refund it. Prefer meeting in person, prefer cash on delivery where the courier offers it, and look at the shop's reviews first.",
+        "lili takes no payment, so with courier delivery you and the seller agree how you pay. Paying before the parcel arrives means trusting someone you haven't met: lili cannot refund it. Prefer cash on delivery where the courier offers it, ask for a video of the piece first, and look at the shop's reviews.",
       ]},
       { h: "If it doesn't arrive, or isn't as described", body: [
         { list: [
@@ -411,7 +412,7 @@ export const POLICIES = [
     sections: [
       { h: "Making an offer", body: [
         `You can offer any amount at or above the ${aed(MIN_PRICE)} minimum. An offer can't be changed once sent, by either side. The seller has ${OFFER_EXPIRY_HOURS} hours to accept, decline or counter, after which it expires.`,
-        "An offer is a serious intention to buy, not a binding contract. The sale happens when you meet and pay.",
+        "An offer is a serious intention to buy, not a binding contract. The sale happens when you pay and she sends it.",
       ]},
       { h: "Acceptance and reservation", body: [
         "When the seller accepts, the piece is reserved for you and other offers on it are declined. Other buyers see it as reserved. Either of you can release the reservation in the app if the sale isn't going ahead.",
@@ -430,10 +431,10 @@ export const POLICIES = [
     summary: "Who can review whom, and how the trust signals on shops are earned.",
     sections: [
       { h: "Who can review", body: [
-        `Only someone who completed a meet-up with a shop can review it, once per meet-up, within ${REVIEW_WINDOW_DAYS} days. That way every review comes from a real handover.`,
+        `Only the buyer and the seller in a completed order can review each other, once per order, within ${REVIEW_WINDOW_DAYS} days of it completing. That way every review comes from a real sale.`,
       ]},
       { h: "What a review must be", body: [
-        "Your own honest experience of the piece and the handover. No offensive language, personal information, or reviews offered or requested in exchange for anything.",
+        "Your own honest experience of the piece and the delivery. No offensive language, personal information, or reviews offered or requested in exchange for anything.",
       ]},
       { h: "Ratings and counts", body: [
         "A shop's rating and counts are shown only once they are earned from real activity. lili never shows invented ratings, and demonstration shops are marked as samples.",

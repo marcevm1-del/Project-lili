@@ -28,4 +28,4 @@ What can never be listed on lili, and why.
 
 Prohibited listings are refused or removed, and usually count as a strike. Anything that looks like a crime may be reported to the authorities.
 
-_Version 2026-10-12._
+_Version 2026-10-16._

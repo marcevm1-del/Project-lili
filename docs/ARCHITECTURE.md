@@ -54,8 +54,8 @@ holds (`repo.applyLivePatches`), never replacing pending work.
 | `lili_item_screening` | Counterfeit-screen details | Nobody (functions only) |
 | `lili_offers` | Offers, counters, acceptance (one accepted per item) | The two parties |
 | `lili_conversations`, `lili_messages` | Threads | The two parties |
-| `lili_meets` | Meet plans (one live per conversation) | The two parties |
-| `lili_reviews` | Two-way reviews after a meet | Functions only; public summaries |
+| `lili_meets` | Meet plans; closed to new rows since migration 39 (meeting in person removed) | The two parties |
+| `lili_reviews` | Two-way reviews after a meet (none since migration 39; reviews now follow orders) | Functions only; public summaries |
 | `lili_saved_searches` | Saved searches | Functions only (owner) |
 | `lili_moderation_cases`, `lili_case_evidence` | Reports and evidence | Moderators via functions |
 | `lili_client_errors` | Crash reports | Nobody (owner via SQL) |

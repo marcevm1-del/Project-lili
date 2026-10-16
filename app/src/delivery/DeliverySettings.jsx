@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import { C } from "../compliance/ui.js";
 import Icon from "../icons/Icon.jsx";
 import { loadRates } from "./rates.js";
-import { CARRIERS, PARCEL_SIZES, inLang } from "./carriers.js";
+import { CARRIERS, PARCEL_SIZES, deliveryWays, inLang } from "./carriers.js";
 import { t, getLang } from "../i18n/t.js";
 import { money } from "../i18n/direction.js";
 
@@ -20,11 +20,11 @@ export default function DeliverySettings({ form, setForm }) {
   const [rates, setRates] = useState([]);
   useEffect(() => { loadRates().then(setRates); }, []);
 
-  const on = Array.isArray(form.delivery) && form.delivery.length ? form.delivery : ["meet"];
+  const on = deliveryWays(form);
   const size = form.parcelSize || "S";
   const toggle = (key) => {
     const next = on.includes(key) ? on.filter((k) => k !== key) : [...on, key];
-    setForm({ ...form, delivery: next.length ? next : on });   // at least one way to get it there
+    setForm({ ...form, delivery: next.length ? next : on });   // at least one courier
   };
   const fee = (carrier, region) => rates.find((r) => r.carrier === carrier && r.size === size && r.region === region);
 
@@ -63,12 +63,12 @@ export default function DeliverySettings({ form, setForm }) {
           const estimated = (uae && !uae.confirmed) || (gcc && !gcc.confirmed);
           return (
             <label key={c.key} style={{ ...row, borderColor: sel ? C.terra : C.border, cursor: "pointer" }}>
-              <Icon name={c.key === "meet" ? "handshake" : "truck"} size={18} style={{ color: C.terraTx, flexShrink: 0 }} />
+              <Icon name="truck" size={18} style={{ color: C.terraTx, flexShrink: 0 }} />
               <span style={{ flex: 1, minWidth: 0 }}>
                 <span style={{ fontSize: 13, fontWeight: 600, color: C.ink }}>{inLang(c, "name", getLang())}</span>
                 <span style={{ display: "block", fontSize: 11, color: C.inkLt, lineHeight: 1.45 }}>
                   {inLang(c, "about", getLang())}
-                  {c.key !== "meet" && (uae || gcc) && (
+                  {(uae || gcc) && (
                     <> · {uae ? `${t("region_uae")} ${money(uae.fee)}` : ""}{uae && gcc ? " · " : ""}{gcc ? `${t("region_gcc")} ${money(gcc.fee)}` : ""}
                       {estimated ? ` (${t("estimated")})` : ""}</>
                   )}

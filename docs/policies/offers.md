@@ -10,7 +10,7 @@ How offers, counter-offers and reservations work.
 
 You can offer any amount at or above the AED 200 minimum. An offer can't be changed once sent, by either side. The seller has 48 hours to accept, decline or counter, after which it expires.
 
-An offer is a serious intention to buy, not a binding contract. The sale happens when you meet and pay.
+An offer is a serious intention to buy, not a binding contract. The sale happens when you pay and she sends it.
 
 ## Acceptance and reservation
 
@@ -20,4 +20,4 @@ When the seller accepts, the piece is reserved for you and other offers on it ar
 
 Don't make offers you don't intend to keep, and don't accept an offer while selling the piece elsewhere. Both count as breaches of the Community Guidelines.
 
-_Version 2026-10-12._
+_Version 2026-10-16._

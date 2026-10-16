@@ -6,19 +6,19 @@ import * as store from "../compliance/store.js";
 import { loadRates } from "./rates.js";
 import { useFocusTrap, dialogProps } from "../a11y/useFocusTrap.js";
 import { PAYMENTS_LIVE } from "../compliance/sellerRules.js";
-import { carrier, COUNTRIES, regionFor, inLang, UNPAID_MINUTES, AUTO_RELEASE_DAYS, SHIP_WITHIN_DAYS } from "./carriers.js";
+import { carrier, deliveryWays, COUNTRIES, regionFor, inLang, UNPAID_MINUTES, AUTO_RELEASE_DAYS, SHIP_WITHIN_DAYS } from "./carriers.js";
 import { t, getLang } from "../i18n/t.js";
 import { money } from "../i18n/direction.js";
 
 // ─────────────────────────────────────────────────────────────────────────────
 //  Buy: one piece, or a bundle from one shop.
 //
-//  Where it's going → how it gets there (with the fee) → the address, only for
-//  a courier → the total → Pay, which opens Stripe's own page. The money is held
-//  by Stripe until she confirms the piece arrived.
+//  Where it's going → which courier (with the fee) → the address → the total →
+//  Pay, which opens Stripe's own page. The money is held by Stripe until she
+//  confirms the piece arrived.
 //
-//  While lili's payment account isn't connected the sheet says so and offers
-//  the two ways that work today: an offer, or meeting in person.
+//  While lili's payment account isn't connected the sheet says so, shows what
+//  it would cost, and offers what works today: an offer, or a message.
 // ─────────────────────────────────────────────────────────────────────────────
 
 const SHIP_KEY = "lili.shipto.v1";   // the address, only if she ticks "remember"
@@ -28,13 +28,12 @@ const SIZE_ORDER = ["XL", "L", "M", "S", "XS"];
 // What lili_delivery_quote does, for pieces the database doesn't hold: only
 // the ways every piece allows, priced for the largest parcel among them.
 async function localQuote(items, region) {
-  const ways = items.map((i) => (Array.isArray(i.delivery) && i.delivery.length ? i.delivery : ["meet"]));
+  const ways = items.map(deliveryWays);
   const common = ways.reduce((a, w) => a.filter((k) => w.includes(k)));
   const size = SIZE_ORDER.find((s) => items.some((i) => i.parcelSize === s)) || "S";
   const rates = await loadRates();
   const out = [];
   for (const m of common) {
-    if (m === "meet") { if (region === "UAE") out.push({ method: "meet", fee: 0, confirmed: true, size }); continue; }
     const r = rates.find((x) => x.carrier === m && x.size === size && x.region === region);
     if (r) out.push({ method: m, fee: r.fee, confirmed: r.confirmed, size });
   }
@@ -78,16 +77,15 @@ export default function CheckoutSheet({ items, shopName, onClose, onDone, onSign
   const subtotal = items.reduce((n, i) => n + (Number(i.price) || 0), 0);
   const chosen = (quote || []).find((q) => q.method === method);
   const fee = chosen ? Number(chosen.fee) : 0;
-  const courier = method && method !== "meet";
-  const addressOk = !courier || (ship.name.trim() && ship.phone.trim() && ship.line1.trim() && ship.city.trim());
+  const addressOk = !!(ship.name.trim() && ship.phone.trim() && ship.line1.trim() && ship.city.trim());
 
   const pay = async () => {
     setBusy(true); setProblem("");
     try {
-      if (courier && remember) await store.setJSON(SHIP_KEY, { ...ship, country });
+      if (remember) await store.setJSON(SHIP_KEY, { ...ship, country });
       if (!remember) await store.remove(SHIP_KEY).catch(() => {});
       const res = await remote.createOrder({ itemIds: ids, method, region,
-        shipTo: courier ? { ...ship, country } : null });
+        shipTo: { ...ship, country } });
       if (!res || !res.ok) {
         setProblem(res && res.reason === "sign_in_required" ? t("sign_in_to_buy") :
                    res && res.reason === "payments_off" ? t("payments_not_on") :
@@ -140,7 +138,7 @@ export default function CheckoutSheet({ items, shopName, onClose, onDone, onSign
                 return (
                   <button key={q.method} role="radio" aria-checked={sel} onClick={() => setMethod(q.method)}
                     style={{ ...row, borderColor: sel ? C.terra : C.border, background: sel ? C.sand : C.white }}>
-                    <Icon name={q.method === "meet" ? "handshake" : "truck"} size={18} style={{ color: C.terraTx, flexShrink: 0 }} />
+                    <Icon name="truck" size={18} style={{ color: C.terraTx, flexShrink: 0 }} />
                     <span style={{ flex: 1, minWidth: 0, textAlign: "start" }}>
                       <span style={{ fontSize: 13, fontWeight: 600, color: C.ink }}>{c ? inLang(c, "name", getLang()) : q.method}</span>
                       <span style={{ display: "block", fontSize: 11, color: C.inkLt }}>{c && inLang(c, "about", getLang())}</span>
@@ -154,7 +152,7 @@ export default function CheckoutSheet({ items, shopName, onClose, onDone, onSign
               })}
             </div>
 
-            {courier && payOn !== false && (
+            {method && payOn !== false && (
               <div style={{ display: "grid", gap: 8, marginBottom: 12 }}>
                 <div style={label}>{t("address")}</div>
                 {[["name", t("full_name")], ["phone", t("mobile_number")], ["line1", t("building_street_area")],

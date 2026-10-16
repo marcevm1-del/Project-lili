@@ -317,13 +317,17 @@ check("a send failure is surfaced to the sender",
   /sendError/.test(market));
 check("reporting is reachable from inside the thread",
   /kind:"conversation"/.test(market));
-check("the meet-safely layer exists and names the three real risks",
-  (() => {
-    const ms = read("./src/messages/MeetSafely.jsx");
-    return /public/i.test(ms) && /Keep it in lili/i.test(ms) && /before you pay/i.test(ms);
-  })());
-check("it says plainly that lili holds no money",
-  /does not (take payment|hold)/i.test(read("./src/messages/MeetSafely.jsx")));
+{
+  const { STRINGS: S0 } = await import("./src/i18n/strings.js");
+  const bs = read("./src/messages/BuySafely.jsx");
+  check("the thread's safety note exists and names the three real risks",
+    /safe_keep_title/.test(bs) && /safe_see_title/.test(bs) && /safe_send_title/.test(bs) &&
+    /Keep it in lili/.test(S0.safe_keep_title.en) && /before you pay/i.test(S0.safe_see_title.en) &&
+    /courier/i.test(S0.safe_send_title.en));
+  check("it says plainly that lili holds no money while payments are off",
+    /PAYMENTS_LIVE \? t\("pay_on_note"\) : t\("safe_footer_off"\)/.test(bs) &&
+    /doesn't take payment or hold money/.test(S0.safe_footer_off.en));
+}
 
 section("15. The private beta is enforced, not decorated");
 
@@ -896,15 +900,13 @@ check("'skip authentication' clears the claim it is skipping",
   /setAuth\(null\);submit\(\)/.test(market));
 
 // ─────────────────────────────────────────────────────────────────────────────
-//  v2.9.1 — LAUNCH, SELLERS, THE FUNNEL READ BACK, AND THE MEET
+//  v2.9.1 — LAUNCH, SELLERS AND THE FUNNEL READ BACK
 // ─────────────────────────────────────────────────────────────────────────────
 
 const preflightSrc = stripComments(read("./preflight.mjs"));
 const funnelReadSrc = stripComments(read("./funnel.mjs"));
 const bulkSrc = stripComments(read("./src/sell/BulkList.jsx"));
 const rosterSrc = stripComments(read("./src/invites/InviteRoster.jsx"));
-const meetSrc = stripComments(read("./src/meet/MeetPlan.jsx"));
-const placesRaw = read("./src/meet/places.js");
 const pkgScripts = JSON.parse(read("./package.json")).scripts;
 
 section("37. The things that are not in the source tree");
@@ -974,41 +976,42 @@ check("it says what an empty result actually means",
 check("it warns that opt-in consent makes the counts partial",
   /not everyone/i.test(funnelReadSrc));
 
-section("41. The meet is a thing that happens, not advice on a sheet");
+section("41. Meeting in person is gone, everywhere (migration 39)");
 
-check("a meet plan lives in the conversation", /function MeetPlan/.test(meetSrc));
-check("one side proposes and the other confirms",
-  /proposeMeet/.test(remoteSrc) && /answerMeet/.test(remoteSrc));
-check("there is a check-in afterwards", /checkInMeet/.test(remoteSrc));
-check("'something felt wrong' reaches the report path, not a counter",
-  /felt_wrong/.test(meetSrc) && /onReport/.test(meetSrc));
-// The most important assertion in this section. There is no Dubai Police
-// safe-exchange-zone programme; a badge implying one would be the most
-// dangerous fabrication this codebase could contain.
-// Asserted against the code and the strings, not the commentary — the
-// commentary is where the absence of a Dubai scheme is explained at length, and
-// an honesty grep that trips over its own explanation is the bug this suite
-// already caught itself making once (see stripComments).
-check("no location is claimed to be verified, approved or supervised",
-  !/police[- ]?(approved|verified|checked)/i.test(stripComments(placesRaw) + meetSrc) &&
-  !/safe exchange zone/i.test(meetSrc) &&
-  /not verified or supervised/.test(meetSrc));
-check("and the reason there is no such badge is written down where it is decided",
-  /no such programme in Dubai/i.test(placesRaw) &&
-  /most dangerous fabrication/i.test(placesRaw));
-check("and the app says so where she is choosing one",
-  /no approved-location scheme in Dubai/.test(meetSrc));
-check("places are kinds of place, not addresses that go stale",
-  !/Dubai Mall|Mall of the Emirates|Ibn Battuta|City Walk/i.test(placesRaw));
-check("the places to refuse are named, because the ask is the signal",
-  /AVOID/.test(placesRaw) && /Being asked to come inside is itself the signal/.test(placesRaw));
-check("help that is not lili is offered first for danger",
-  /999/.test(placesRaw) && /ecrime\.ae/.test(placesRaw) &&
-  /lili can close a shop, and that is all it can do/.test(meetSrc));
-check("no location tracking of any kind",
-  !/geolocation|watchPosition|getCurrentPosition|latitude|longitude/i.test(placesRaw + meetSrc));
-check("the meet's notification kinds were added to the CHECK, not worked around",
-  /meet_proposed: "handshake"/.test(notifSrc));
+{
+  const D0 = await import("./src/delivery/carriers.js");
+  const m39 = read("../supabase/migrations/20261016162144_lili_review_39_no_meet_in_person.sql");
+  check("the meet screens and the meet advice are deleted, not hidden",
+    !existsSync(new URL("./src/meet", import.meta.url)) &&
+    !existsSync(new URL("./src/messages/MeetSafely.jsx", import.meta.url)));
+  check("no listing can offer a meet: the app knows no such option, and falls back to couriers",
+    D0.carrier("meet") === null && D0.deliveryWays({ delivery: ["meet"] }).join() === "aramex,emirates_post" &&
+    D0.deliveryWays({ delivery: ["dhl"] }).join() === "dhl");
+  check("the app no longer proposes, answers or counts meets",
+    !/proposeMeet|answerMeet|checkInMeet|lili_meets|lili_shop_meets_done|p_meet/.test(remoteSrc));
+  check("the database refuses a meet three ways: on a listing, as a plan, as an order",
+    /before insert or update of delivery on public\.lili_items/.test(m39) &&
+    /before insert on public\.lili_meets/.test(m39) &&
+    /before insert on public\.lili_orders/.test(m39) &&
+    /alter column delivery set default '\{aramex,emirates_post\}'/.test(m39));
+  // Asserted against the code, the dictionary, the policies and the store page,
+  // not the commentary, which explains the removal.
+  const told = /\b(meet (her|somewhere|in person|up)|when you meet|at the meet(ing)?|meet-up|meeting in person|hand it over)\b/i;
+  const where = [], files = [];
+  (function walk(d) {
+    for (const n of readdirSync(d)) {
+      const q = `${d}/${n}`;
+      if (statSync(q).isDirectory()) walk(q); else if (/\.(js|jsx)$/.test(n)) files.push(q);
+    }
+  })("src");
+  for (const f of files) if (told.test(stripComments(readFileSync(f, "utf8")))) where.push(f);
+  const { STRINGS: S1 } = await import("./src/i18n/strings.js");
+  for (const [k, v] of Object.entries(S1)) if (told.test(v.en)) where.push(`dictionary ${k}`);
+  if (told.test(read("./store/listing.md").split("---").slice(1).join(""))) where.push("store/listing.md");
+  check("no screen, policy or store line still tells her to meet", where.length === 0, where.slice(0, 4).join(", "));
+  check("no location tracking of any kind",
+    !files.some((f) => /geolocation|watchPosition|getCurrentPosition/.test(stripComments(readFileSync(f, "utf8")))));
+}
 
 // ─────────────────────────────────────────────────────────────────────────────
 //  v2.9.2 — THE FOUR BUGS, THE BUNDLE, THE PHOTOGRAPHS, AND ARABIC
@@ -1628,20 +1631,6 @@ for (const f of allSrc.filter((f) => /\.(jsx|js)$/.test(f))) {
 check("no interface text is set below the 11px floor", tinyType.length === 0 && TYPE[0] === 11,
   tinyType.slice(0, 4).join(", "));
 {
-  const w = await import("./src/meet/when.js");
-  const now = new Date("2026-10-08T10:00:00Z");
-  check("a meet time names the day and says it is UAE time",
-    w.meetLabel("2026-10-09T14:30:00Z", now) === "Tomorrow, 6:30 pm (UAE)");
-  check("'today' and 'tomorrow' turn over at midnight in Dubai, not UTC",
-    w.meetLabel("2026-10-08T19:59:00Z", now).startsWith("Today") &&
-    w.meetLabel("2026-10-08T20:01:00Z", now).startsWith("Tomorrow"));
-  check("a time picked on the phone is read as UAE wall-clock time",
-    w.uaeWallClockToInstant("2026-10-09T16:00").toISOString() === "2026-10-09T12:00:00.000Z");
-  check("the meet screen proposes UAE time, not the phone's zone",
-    /uaeWallClockToInstant\(when\)/.test(read("./src/meet/MeetPlan.jsx")) &&
-    !/new Date\(when\)/.test(read("./src/meet/MeetPlan.jsx")));
-}
-{
   const { undefinedNames } = await import("./undefined-names.mjs");
   const u = undefinedNames("src");
   check("every name a screen uses is declared or imported in its own file", u.length === 0,
@@ -1714,10 +1703,10 @@ check("no interface text is set below the 11px floor", tinyType.length === 0 && 
   const { POLICIES: PP, policyText: pt } = await import("./src/legal/policies.js");
   const { PAYMENTS_LIVE: PL, SHIPPING: SH } = await import("./src/compliance/sellerRules.js");
   const sqlCarriers = (m33.match(/method in \(([^)]*)\)/) || [, ""])[1].replace(/'/g, "").split(",").map((x) => x.trim()).sort().join();
+  // the CHECK still names "meet"; migration 39 refuses it before the CHECK runs
+  const sqlCouriers = sqlCarriers.split(",").filter((k) => k !== "meet").join();
   check("every carrier the app offers is one the database accepts, and none more",
-    D.CARRIERS.map((c) => c.key).sort().join() === sqlCarriers, sqlCarriers);
-  check("meeting in person is UAE only, in the app and in the quote",
-    D.carrier("meet").regions.join() === "UAE" && /p_region = 'UAE'/.test(m33));
+    D.CARRIERS.map((c) => c.key).sort().join() === sqlCouriers, sqlCouriers);
   check("the order clock the screens quote is the one the database runs",
     new RegExp(`interval '${D.SHIP_WITHIN_DAYS} days'`).test(m33)
     && new RegExp(`interval '${D.AUTO_RELEASE_DAYS} days'`).test(m33)

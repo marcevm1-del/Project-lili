@@ -126,7 +126,6 @@ const fromRow = (r) => r && ({ ...r,
 // A2-11: the private reads name their columns, as listings and shops do, so a
 // column added later (an internal note, a flag) is never sent by accident.
 const LILI_CONVERSATIONS_COLUMNS = "id,buyer_uid,seller_uid,shop_id,item_id,last_message,last_at,created_at";
-const LILI_MEETS_COLUMNS = "id,conversation_id,item_id,proposed_by,place_key,place_note,meet_at,state,confirmed_at,cancelled_by,checkin_by,checkin_state,checkin_at,created_at";
 const LILI_MESSAGES_COLUMNS = "id,conversation_id,sender_uid,body,read_at,created_at";
 const LILI_NOTIFICATIONS_COLUMNS = "id,user_id,kind,title,body,link_kind,link_id,read_at,created_at";
 const LILI_OFFERS_COLUMNS = "id,item_id,shop_id,buyer_uid,seller_uid,amount,currency,message,state,counter_of,responded_at,expires_at,created_at,made_by";
@@ -344,26 +343,6 @@ export async function getShops() {
     const r = byShop.get(row.id);
     return { ...fromRow(row), rating: r ? Number(r.rating) : null, reviews: r ? r.reviews : 0 };
   });
-}
-
-// ── reviews ────────────────────────────────────────────────────────────────
-// Two-way and double-blind: each side rates the other once after a meet, and
-// neither review shows until both are in or 14 days have passed.
-
-/** Meets she can still review. */
-export async function getReviewsOwed() {
-  const sb = await db();
-  const { data, error } = await sb.rpc("lili_reviews_owed");
-  if (error) throw error;
-  return data || [];
-}
-
-export async function leaveReview(meetId, stars, body) {
-  const sb = await db();
-  const { data, error } = await sb.rpc("lili_leave_review",
-    { p_meet: meetId, p_stars: Number(stars), p_body: (body || "").slice(0, 500) || null });
-  if (error) throw error;
-  return data;
 }
 
 // ── saved searches ─────────────────────────────────────────────────────────
@@ -930,7 +909,8 @@ export async function uploadPhotoSet(photos, thumbs) {
 }
 
 // ── messages ───────────────────────────────────────────────────────────────
-// The most sensitive data here: two named women arranging where to meet. Every
+// The most sensitive data here: two named women, and the address one of them
+// may share for delivery. Every
 // read is scoped by row-level policy to the two participants — a shop owner,
 // a moderator through the API, and anyone holding this key all see nothing.
 
@@ -1126,55 +1106,6 @@ export async function eraseMe() {
   return data && typeof data === "object" ? { ...data, photos_removed: photosRemoved } : data;
 }
 
-// ── the meet ───────────────────────────────────────────────────────────────
-//
-// lili holds no money, so every transaction ends with two women standing in
-// front of each other. That moment was covered by a sheet of static advice she
-// had to open. It is a thing in the thread now: proposed by one, confirmed by
-// the other, and readable afterwards by a moderator only through the consented
-// disclosure route that already exists.
-//
-// The rules are in the database (trigger lili_meet_guard). The one that matters
-// — you cannot confirm your own proposal — would be worth nothing as a client
-// check, because the whole value of the plan is that both of them agreed.
-
-export async function getMeets(conversationId) {
-  const sb = await db();
-  const { data, error } = await sb.from("lili_meets").select(LILI_MEETS_COLUMNS)
-    .eq("conversation_id", conversationId).order("created_at", { ascending: false }).limit(10);
-  if (error) throw error;
-  return data || [];
-}
-
-export async function proposeMeet({ conversationId, itemId, placeKey, placeNote, meetAt }) {
-  const sb = await db();
-  await ensureUser();
-  const { data, error } = await sb.from("lili_meets").insert({
-    conversation_id: conversationId, item_id: itemId || null,
-    place_key: placeKey, place_note: (placeNote || "").slice(0, 140) || null,
-    meet_at: meetAt,
-  }).select().single();
-  if (error) throw error;
-  return data;
-}
-
-/** confirmed | declined | cancelled | done — the trigger decides who may. */
-export async function answerMeet(id, state) {
-  const sb = await db();
-  const { data, error } = await sb.from("lili_meets").update({ state }).eq("id", id).select().single();
-  if (error) throw error;
-  return data;
-}
-
-/** fine | no_show | felt_wrong. Written once; the trigger refuses an edit. */
-export async function checkInMeet(id, how) {
-  const sb = await db();
-  const { data, error } = await sb.from("lili_meets")
-    .update({ checkin_state: how, state: "done" }).eq("id", id).select().single();
-  if (error) throw error;
-  return data;
-}
-
 // ── invitations ────────────────────────────────────────────────────────────
 //
 // The private beta is the launch shape, and until v2.9 an invitation could only
@@ -1263,17 +1194,9 @@ export async function eraseMyEvents() {
 export async function getShopStats(shopId) {
   if (!shopId) return null;
   const sb = await db();
-  const [{ data, error }, meets] = await Promise.all([
-    sb.rpc("lili_shop_stats", { p_shop: shopId }),
-    sb.rpc("lili_shop_meets_done", { p_shop: shopId }),
-  ]);
+  const { data, error } = await sb.rpc("lili_shop_stats", { p_shop: shopId });
   if (error) throw error;
-  const row = (Array.isArray(data) ? data[0] : data) || null;
-  // Handovers completed through a meet plan both sides agreed: the track
-  // record lili can vouch for, since it sees no payment. Optional — if it
-  // fails, the rest of the stats still show.
-  if (row) row.meets_done = meets && !meets.error && Number.isFinite(meets.data) ? meets.data : 0;
-  return row;
+  return (Array.isArray(data) ? data[0] : data) || null;
 }
 
 // ── notifications ──────────────────────────────────────────────────────────

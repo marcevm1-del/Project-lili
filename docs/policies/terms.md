@@ -14,11 +14,11 @@ By creating an account or using the app you agree to these terms and to the poli
 
 ## What lili is, and what it is not
 
-lili is a marketplace where people list pre-owned fashion and others can find it, make offers and arrange to meet. We provide the listings, the messaging, the rules and their enforcement.
+lili is a marketplace where people list pre-owned fashion and others can find it, make offers and arrange delivery. We provide the listings, the messaging, the rules and their enforcement.
 
 - lili does not own, hold, inspect, price or sell any item. Every piece belongs to the person selling it.
-- lili does not take payment, hold money or issue refunds. You pay the seller directly when you meet.
-- lili does not deliver anything. The seller hands the piece over in person or sends it with a courier she books herself. The Delivery & Returns Policy explains how.
+- lili does not take payment, hold money or issue refunds. You and the seller agree how you pay her directly.
+- lili does not deliver anything. The seller sends the piece with a courier she books herself. The Delivery & Returns Policy explains how.
 - lili does not authenticate items. Nothing in the app is a guarantee that a piece is genuine.
 
 When you buy, your agreement is with the seller, not with us. What you are owed depends on whether she sells privately or as a business; see the Seller Policy.
@@ -65,7 +65,7 @@ You can stop using lili and delete your account at any time from Profile → Pri
 
 ## Our responsibility
 
-We run lili with reasonable skill and care. Because we are not a party to sales, we are not responsible for the condition, legality, authenticity or handover of an item, or for what happens at a meeting between two members.
+We run lili with reasonable skill and care. Because we are not a party to sales, we are not responsible for the condition, legality, authenticity or delivery of an item, or for arrangements made between two members.
 
 The service is provided as it is and may sometimes be unavailable. Nothing in these terms limits liability that the law does not allow us to limit, including for fraud or for death or personal injury caused by negligence.
 
@@ -79,4 +79,4 @@ These terms are governed by the laws of the United Arab Emirates as applied in t
 
 These terms are provided in Arabic and English. If the two differ, the Arabic text prevails.
 
-_Version 2026-10-12._
+_Version 2026-10-16._

@@ -9,8 +9,7 @@ import { t, getLang } from "../i18n/t.js";
 import { space } from "../theme/scale.js";
 import { marginStart, marginEnd, alignEnd, money } from "../i18n/direction.js";
 import { C, Avatar, TopBar, BackBtn, Placeholder } from "../market/shared.jsx";
-const MeetSafely = lazy(() => import("../messages/MeetSafely.jsx"));
-const MeetPlan = lazy(() => import("../meet/MeetPlan.jsx"));
+const BuySafely = lazy(() => import("../messages/BuySafely.jsx"));
 
 
 // ── messages ───────────────────────────────────────────────────────────────
@@ -199,18 +198,9 @@ export function MessagesPage({shops,items,onReport,openThreadId,onOpened,error,o
             </div>
           </div>
         )}
-        {safetyOpen && <MeetSafely onDismiss={()=>setSafetyOpen(false)}/>}
-        {/* v2.9. MeetSafely says the right three things on a sheet she has to
-            open, which makes it a disclaimer rather than a safety feature. The
-            meet is now a thing in the thread that both of them agree to — see
-            meet/MeetPlan.jsx, and meet/places.js for why nothing here claims a
-            location is verified. */}
-        <div style={{padding:"10px 14px 0"}}>
-          <MeetPlan conversationId={openThread.id} itemId={item&&item.id}
-            onReport={()=>onReport && onReport({kind:"conversation",
-              id:openThread.id, title:shop?.name||"this conversation",
-              shopId:openThread.shopId, shopName:shop?.name})}/>
-        </div>
+        {/* Meeting in person was removed: every sale goes by courier, so the
+            thread's safety note is about money sent before a parcel exists. */}
+        {safetyOpen && <BuySafely onDismiss={()=>setSafetyOpen(false)}/>}
         <div ref={scrollRef} style={{flex:1,overflowY:"auto",padding:"14px",display:"flex",flexDirection:"column",gap:10}}>
           {view.length===0 && (
             <div style={{textAlign:"center",color:C.inkLt,fontSize:12,padding:"24px 12px",lineHeight:1.6}}>

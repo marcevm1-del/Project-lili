@@ -27,8 +27,6 @@ const HelpCentre = lazy(() => import("./HelpCentre.jsx"));
 const BulkList = lazy(() => import("./sell/BulkList.jsx"));
 const OffersPage = lazy(() => import("./offers/OffersPage.jsx"));
 const NotificationsSheet = lazy(() => import("./notifications/NotificationsSheet.jsx"));
-const MeetSafely = lazy(() => import("./messages/MeetSafely.jsx"));
-const MeetPlan = lazy(() => import("./meet/MeetPlan.jsx"));
 const LanguagePicker = lazy(() => import("./i18n/LanguagePicker.jsx"));
 const ProfilePreferences = lazy(() => import("./profile/ProfilePreferences.jsx"));
 const OrdersPage = lazy(() => import("./delivery/OrdersPage.jsx"));
@@ -123,7 +121,7 @@ function TabBar({tab,setTab,myShop}) {
       label:t("tab_search") },
     { key: myShop ? "myshop" : "sell", icon: null, label:t("tab_sell"), plus:true },
     // The inbox, not Saved, earns the fourth tab. lili takes no payment, so a
-    // sale happens in a conversation: the message, the offer, the meet plan.
+    // sale happens in a conversation: the message, the offer, the delivery.
     // Those sat two taps deep under Profile while a list of hearts had a tab.
     // Saved is a heart in the Home header now, and a row in Profile.
     { key:"messages",

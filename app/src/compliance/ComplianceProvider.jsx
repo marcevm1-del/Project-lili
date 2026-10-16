@@ -525,12 +525,12 @@ function ConsentSheet({ m, existing, onSave }) {
         {/* v2.9 correction. This paragraph said "we introduce you and hold the
             payment safe". lili holds no money: fees.COLLECTION_LIVE is false,
             there is no escrow, no processor and no trade licence yet, and
-            messages/MeetSafely.jsx tells her so in as many words. Two screens
+            the thread's safety note tells her so in as many words. Two screens
             in one app disagreeing about whether her money is protected is the
-            worst kind of copy bug — she would meet a stranger believing there
+            worst kind of copy bug — she would pay a stranger believing there
             was a refund behind her. */}
         <b style={{ color: C.ink }}>lili doesn't hold your money.</b> You pay her
-        directly when you meet.
+        directly, and she sends the piece by courier.
       </div>
 
       {toggles.map((t) => (

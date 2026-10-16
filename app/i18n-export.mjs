@@ -118,7 +118,6 @@ const AREA = [
   [/sell\/BulkList/,            "Listing several pieces at once"],
   [/sell\//,                    "Listing something for sale"],
   [/discovery\//,               "Search and filters"],
-  [/meet\//,                    "Arranging to meet a seller"],
   [/invites\//,                 "Invitations to the beta"],
   [/offers\//,                  "Making and answering offers"],
   [/messages\/|conversations/,  "Messages between two women"],
@@ -189,7 +188,6 @@ async function loadDict() {
  */
 const PRIORITY = [
   "Reporting a listing or a person",
-  "Arranging to meet a seller",
   "Listing something for sale",
   "Listing several pieces at once",
   "Errors the app reports when something fails",

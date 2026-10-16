@@ -8,9 +8,8 @@ The ways a seller can get a piece to you in the UAE and the GCC, who pays for de
 
 ## How a piece gets to you
 
-Each listing shows the ways that seller is happy to get the piece to you, chosen by her when she listed it:
+Each listing shows the couriers that seller is happy to send the piece with, chosen by her when she listed it:
 
-- Meeting in person, inside the UAE. No delivery fee. The Meeting & Safety Policy applies.
 - Aramex: within the UAE and to the rest of the GCC.
 - Emirates Post: within the UAE.
 - Quiqup same-day: within the UAE.
@@ -31,7 +30,7 @@ A seller who switches on bundling lets you buy several of her pieces together an
 
 ## Paying for a delivered piece
 
-lili takes no payment, so with courier delivery you and the seller agree how you pay. Paying before the parcel arrives means trusting someone you haven't met: lili cannot refund it. Prefer meeting in person, prefer cash on delivery where the courier offers it, and look at the shop's reviews first.
+lili takes no payment, so with courier delivery you and the seller agree how you pay. Paying before the parcel arrives means trusting someone you haven't met: lili cannot refund it. Prefer cash on delivery where the courier offers it, ask for a video of the piece first, and look at the shop's reviews.
 
 ## If it doesn't arrive, or isn't as described
 
@@ -43,4 +42,4 @@ lili takes no payment, so with courier delivery you and the seller agree how you
 
 A private seller doesn't have to take back a piece that is as described. If a piece isn't as described or isn't genuine, ask the seller to take it back and refund you, and report the shop if she won't. A business seller must also give you the return and refund rights UAE consumer protection law requires.
 
-_Version 2026-10-12._
+_Version 2026-10-16._

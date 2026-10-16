@@ -12,52 +12,6 @@ stolen_goods,Stolen goods,Reporting a listing or a person,compliance/ReportDialo
 the_other_person,The other person,Reporting a listing or a person,compliance/ReportDialog.jsx
 what_s_wrong_with_it,What's wrong with it,Reporting a listing or a person,compliance/ReportDialog.jsx
 wrong_category_or_misleading_description,Wrong category or misleading description,Reporting a listing or a person,compliance/ReportDialog.jsx
-a_building_lobby,A building lobby,Arranging to meet a seller,meet/places.js
-a_caf_a_counter_a_security_desk_a_person_you_cou,"A café, a counter, a security desk — a person you could speak to.",Arranging to meet a seller,meet/places.js
-a_car_park,A car park,Arranging to meet a seller,meet/places.js
-a_conversation_that_moves_to_whatsapp_is_one_we_,"A conversation that moves to WhatsApp is one we cannot read if you report her, and one you cannot attach as evidence.",Arranging to meet a seller,meet/places.js
-a_metro_station,A metro station,Arranging to meet a seller,meet/places.js
-a_reception_at_lunchtime_public_and_she_is_somew,"A reception at lunchtime. Public, and she is somewhere she is known.",Arranging to meet a seller,meet/places.js
-a_residential_or_office_lobby_with_a_concierge_y,A residential or office lobby with a concierge — yours or hers. Ask the desk first.,Arranging to meet a seller,meet/places.js
-after_dark_alone,"After dark, alone",Arranging to meet a seller,meet/places.js
-agree_where_and_when_you_ll_meet,Agree where and when you'll meet,Arranging to meet a seller,meet/MeetPlan.jsx
-anywhere_that_is_busy_staffed_and_easy_to_leave_,"Anywhere that is busy, staffed and easy to leave. Say where in the message.",Arranging to meet a seller,meet/places.js
-arrange_another_handover,Arrange another handover,Arranging to meet a seller,meet/MeetPlan.jsx
-busy_with_other_people,Busy with other people,Arranging to meet a seller,meet/places.js
-busy_staffed_indoors_easy_to_leave_suggest_the_p,"Busy, staffed, indoors, easy to leave. Suggest the place in the app so it is written down and you both agreed to it.",Arranging to meet a seller,meet/places.js
-check_it_before_you_pay,Check it before you pay,Arranging to meet a seller,meet/places.js
-dubai_police_non_emergency,"Dubai Police, non-emergency.",Arranging to meet a seller,meet/places.js
-easy_to_leave,Easy to leave,Arranging to meet a seller,meet/places.js
-emergency_anywhere_in_the_uae_if_you_feel_unsafe,"Emergency, anywhere in the UAE. If you feel unsafe right now, this, not us.",Arranging to meet a seller,meet/places.js
-her_home_or_yours,"Her home, or yours",Arranging to meet a seller,meet/places.js
-if_the_only_time_she_can_meet_is_late_and_out_of,"If the only time she can meet is late and out of the way, that is an answer.",Arranging to meet a seller,meet/places.js
-in_daylight_hours,In daylight hours,Arranging to meet a seller,meet/places.js
-in_summer_that_is_also_the_only_comfortable_opti,In summer that is also the only comfortable option.,Arranging to meet a seller,meet/places.js
-indoors_and_lit,Indoors and lit,Arranging to meet a seller,meet/places.js
-inside_the_concourse_not_the_car_park_staffed_fi,"Inside the concourse, not the car park. Staffed, filmed, and neither of you needs a car.",Arranging to meet a seller,meet/places.js
-keep_it_in_lili,Keep it in lili,Arranging to meet a seller,meet/places.js messages/MeetSafely.jsx
-meet_somewhere_public,Meet somewhere public,Arranging to meet a seller,meet/places.js messages/MeetSafely.jsx
-metro_taxi_rank_or_your_own_car_within_sight_you,"Metro, taxi rank or your own car within sight. You should never need permission to go.",Arranging to meet a seller,meet/places.js
-needs_your_answer,Needs your answer,Arranging to meet a seller,meet/MeetPlan.jsx
-nobody_behaves_badly_in_front_of_an_audience,Nobody behaves badly in front of an audience.,Arranging to meet a seller,meet/places.js
-nothing_about_a_resale_sale_needs_to_happen_at_1,Nothing about a resale sale needs to happen at 11pm.,Arranging to meet a seller,meet/places.js
-outside_her_work,Outside her work,Arranging to meet a seller,meet/places.js
-pick_a_time_that_hasn_t_happened_yet,Pick a time that hasn't happened yet.,Arranging to meet a seller,meet/MeetPlan.jsx
-places_to_say_no_to,Places to say no to,Arranging to meet a seller,meet/MeetPlan.jsx
-quiet_badly_lit_and_it_is_where_you_are_least_li,"Quiet, badly lit, and it is where you are least likely to be interrupted.",Arranging to meet a seller,meet/places.js
-serial_stitching_hardware_the_flaws_in_the_photo,"Serial, stitching, hardware, the flaws in the photographs. lili does not hold your money, so this is the moment — and it is the only one.",Arranging to meet a seller,meet/places.js
-somebody_works_there,Somebody works there,Arranging to meet a seller,meet/places.js
-somewhere_else,Somewhere else,Arranging to meet a seller,meet/places.js
-somewhere_with_tables_and_a_counter_order_someth,Somewhere with tables and a counter. Order something; it buys you both time.,Arranging to meet a seller,meet/places.js
-that_didn_t_reach_lili_nothing_changed_try_again,That didn't reach lili. Nothing changed — try again in a moment.,Arranging to meet a seller,meet/MeetPlan.jsx
-that_didn_t_work,That didn't work.,Arranging to meet a seller,meet/MeetPlan.jsx trust/ReviewPrompt.jsx
-the_food_court_or_a_coffee_shop_on_the_ground_fl,"The food court or a coffee shop on the ground floor. Busy, indoors, staffed, cameras.",Arranging to meet a seller,meet/places.js
-the_most_common_thing_that_goes_wrong_is_not_a_f,The most common thing that goes wrong is not a fake bag. Being asked to come inside is itself the signal.,Arranging to meet a seller,meet/places.js
-the_uae_s_official_platform_for_reporting_online,The UAE's official platform for reporting online crime and fraud.,Arranging to meet a seller,meet/places.js
-there_s_already_a_plan_in_this_conversation_here,There's already a plan in this conversation. Here it is.,Arranging to meet a seller,meet/MeetPlan.jsx
-when_uae_time,When (UAE time),Arranging to meet a seller,meet/MeetPlan.jsx
-which_one_e_g_the_caf_on_the_ground_floor,Which one? e.g. the café on the ground floor,Arranging to meet a seller,meet/MeetPlan.jsx
-which_place,Which place,Arranging to meet a seller,meet/MeetPlan.jsx
 a_cluttered_bed_makes_the_piece_hard_to_see_and_,A cluttered bed makes the piece hard to see and the seller hard to trust.,Listing something for sale,sell/listingQuality.js
 a_listing_without_a_photograph_does_not_sell_not,A listing without a photograph does not sell. Not rarely — it does not sell.,Listing something for sale,sell/listingQuality.js
 add_a_title,Add a title,Listing something for sale,sell/listingQuality.js
@@ -164,7 +118,6 @@ screening_runs_server_side_too_the_client_check_,"Screening runs server-side too
 self_portrait,Self Portrait,Errors the app reports when something fails,data/resaleValue.js market/shared.jsx
 semi_automatic_identification_of_counterfeit_off,Semi-Automatic Identification of Counterfeit Offers in Online Marketplaces (2015),Errors the app reports when something fails,data/resaleValue.js
 sideways_photograph,Sideways photograph,Errors the app reports when something fails,data/imageQuality.js
-sign_in_to_leave_a_review,Sign in to leave a review,Errors the app reports when something fails,data/repo.js
 sign_in_to_save_a_search,Sign in to save a search,Errors the app reports when something fails,data/repo.js
 soft_delete_only_moderation_needs_the_history,Soft delete only; moderation needs the history,Errors the app reports when something fails,data/repo.js
 speedy_13_yoy_murakami_collab_styles_exceeded_13,Speedy +13% YoY; Murakami collab styles exceeded 130% retention.,Errors the app reports when something fails,data/resaleValue.js
@@ -189,7 +142,7 @@ under_aed_500,Under AED 500,Errors the app reports when something fails,data/fee
 usd_467bn_2_3_of_world_trade_clothing_footwear_a,"USD 467bn, 2.3% of world trade; clothing, footwear and handbags lead seizures.",Errors the app reports when something fails,data/resaleValue.js
 value_retention_vs_original_retail_by_brand_and_,"Value retention vs original retail, by brand and model.",Errors the app reports when something fails,data/resaleValue.js
 van_cleef_arpels,Van Cleef & Arpels,Errors the app reports when something fails,data/resaleValue.js market/shared.jsx
-waiting_for_her,Waiting for her,Errors the app reports when something fails,data/offers.js meet/MeetPlan.jsx
+waiting_for_her,Waiting for her,Errors the app reports when something fails,data/offers.js
 you_already_have_an_offer_open_on_this_piece,You already have an offer open on this piece,Errors the app reports when something fails,backend/remote.js
 your_listing_didn_t_reach_lili_nothing_was_publi,Your listing didn't reach lili — nothing was published. ,Errors the app reports when something fails,data/repo.js
 yoy_resale_price_movement_condition_and_category,YoY resale price movement; condition and category demand data.,Errors the app reports when something fails,data/resaleValue.js
@@ -277,7 +230,6 @@ notifications,Notifications,The main shopping screens,Marketplace.jsx notificati
 nude_pumps_38,Nude Pumps 38,The main shopping screens,market/shared.jsx
 offer_amount,Offer amount,The main shopping screens,market/OfferModal.jsx
 opening_a_shop_needs_an_account_it_s_how_your_bu,Opening a shop needs an account — it's how your buyers reach you and how you get paid.,The main shopping screens,Marketplace.jsx
-pay_with_buy_and_the_money_is_held_by_stripe_unt,Pay with Buy and the money is held by Stripe until you confirm the piece arrived. Agree to pay any other way and lili can't help if it goes wrong.,The main shopping screens,market/ItemModal.jsx
 physical_inspection_in_dubai,Physical inspection in Dubai.,The main shopping screens,pages/SellPage.jsx
 pick_all_that_apply,Pick all that apply,The main shopping screens,Marketplace.jsx
 picked_up_where_you_left_off,Picked up where you left off.,The main shopping screens,pages/SellPage.jsx
@@ -323,12 +275,7 @@ you_re_browsing_without_an_account_create_one_fi,"You're browsing without an acc
 you_re_told_who_you_re_buying_from,You're told who you're buying from,The main shopping screens,Marketplace.jsx
 your_listing_didn_t_reach_lili_nothing_was_publi_2,Your listing didn't reach lili — nothing was published. Please try again.,The main shopping screens,pages/SellPage.jsx
 zimmermann_floral_dress,Zimmermann Floral Dress,The main shopping screens,market/shared.jsx
-a_mall_a_caf_a_hotel_lobby_daylight_never_a_home,"A mall, a café, a hotel lobby. Daylight. Never a home address, and never a car park after dark.",Messages between two women,messages/MeetSafely.jsx
-check_the_piece_before_you_pay,Check the piece before you pay,Messages between two women,messages/MeetSafely.jsx
-dismiss_safety_note,Dismiss safety note,Messages between two women,messages/MeetSafely.jsx
 no_signal_your_message_is_saved_but_hasn_t_been_,No signal — your message is saved but hasn't been sent yet.,Messages between two women,data/conversations.js
-read_this_first,Read this first,Messages between two women,messages/MeetSafely.jsx
-serial_stitching_hardware_the_flaws_in_the_photo_2,"Serial, stitching, hardware, the flaws in the photos. lili does not hold your money, so the moment to be sure is before it leaves your hand.",Messages between two women,messages/MeetSafely.jsx
 that_message_is_too_long_2_000_characters_is_the,"That message is too long — 2,000 characters is the limit.",Messages between two women,data/conversations.js
 counter_amount,Counter amount,Making and answering offers,offers/OffersPage.jsx
 i_can_t_buy_it_after_all,I can't buy it after all,Making and answering offers,offers/OffersPage.jsx
@@ -381,15 +328,15 @@ you_can_browse_without_an_account_signing_in_is_,"You can browse without an acco
 your_email_and_a_password_that_s_all_we_need,Your email and a password. That's all we need.,Signing in,auth/AuthScreen.jsx
 your_password,Your password,Signing in,auth/AuthScreen.jsx
 a_licensed_processor_holding_the_money_until_the,A licensed processor holding the money until the piece is in your hands is ,Help centre answers,HelpCentre.jsx
+ask_for_a_video_before_you_send_any_money_that_i,"Ask for a video before you send any money — that is the moment, and right ",Help centre answers,HelpCentre.jsx
 between_6_and_10_of_the_sale_price_when_your_pie,"Between 6% and 10% of the sale price when your piece sells, higher on small ",Help centre answers,HelpCentre.jsx
 can_i_sell_if_i_m_not_a_business,Can I sell if I'm not a business?,Help centre answers,HelpCentre.jsx
-check_it_before_you_hand_anything_over_that_is_t,"Check it before you hand anything over — that is the moment, and right now ",Help centre answers,HelpCentre.jsx
 does_lili_hold_my_money,Does lili hold my money?,Help centre answers,HelpCentre.jsx
 no_not_yet_and_it_matters_that_you_know_it_you_a,"No. Not yet, and it matters that you know it. You and the seller agree a ",Help centre answers,HelpCentre.jsx
 something_s_wrong_with_a_listing,Something's wrong with a listing,Help centre answers,HelpCentre.jsx
 tap_report_on_the_listing_itself_counterfeits_an,Tap Report on the listing itself. Counterfeits and prohibited items go to a ,Help centre answers,HelpCentre.jsx
 that_the_seller_has_told_us_she_holds_proof_a_re,"That the seller has told us she holds proof — a receipt, a card, the papers ",Help centre answers,HelpCentre.jsx
-the_buyer_pays_you_directly_when_you_meet_so_it_,"The buyer pays you directly when you meet, so it's in your hands the same ",Help centre answers,HelpCentre.jsx
+the_buyer_pays_you_directly_so_agree_how_and_whe,"The buyer pays you directly, so agree how and when in Messages. Send the ",Help centre answers,HelpCentre.jsx
 the_woman_who_listed_it_lili_is_the_marketplace_,"The woman who listed it. lili is the marketplace, not the shop — she owns ",Help centre answers,HelpCentre.jsx
 what_does_authenticated_mean,What does 'Authenticated' mean?,Help centre answers,HelpCentre.jsx
 what_does_it_cost_to_sell,What does it cost to sell?,Help centre answers,HelpCentre.jsx
@@ -492,7 +439,7 @@ anchoring_the_first_number_frames_the_rest,Anchoring — the first number frames
 anything_she_can_start_in_the_app_she_can_end_in,Anything she can start in the app she can end in the app. Deletion is ,Elsewhere,ux/persuasion.js
 arabic_already_forced_that_work_so_urdu_and_pers,"Arabic already forced that work, so Urdu and Persian are cheaper than ",Elsewhere,i18n/languages.js
 as_listed_s_m_l_eu_shoes,"As listed (S, M, L · EU shoes)",Elsewhere,sizes/sizeSystem.js
-asia_dubai,Asia/Dubai,Elsewhere,delivery/OrdersPage.jsx meet/when.js settings/Settings.jsx shops/away.js
+asia_dubai,Asia/Dubai,Elsewhere,delivery/OrdersPage.jsx settings/Settings.jsx shops/away.js
 bags_accessories_and_jewellery_are_one_size_so_t,"Bags, accessories and jewellery are one size, so they always show.",Elsewhere,profile/preferences.js
 both_of_you_have_reviewed_so_both_reviews_are_no,"Both of you have reviewed, so both reviews are now on your profiles.",Elsewhere,trust/ReviewPrompt.jsx
 chest_pit_to_pit,Chest (pit to pit),Elsewhere,listing/FitAndFlaws.jsx
@@ -525,7 +472,6 @@ follows_your_phone_s_own_light_or_dark_setting,Follows your phone's own light or
 getting_this_wrong_is_not_a_bug_it_is_operating_,"Getting this wrong is not a bug, it is operating unlicensed.",Elsewhere,payments/processor.js
 goal_gradient_effect_motivation_rises_as_the_end,Goal-gradient effect — motivation rises as the end gets closer,Elsewhere,ux/persuasion.js
 google_s_own_infrastructure,Google's own infrastructure,Elsewhere,legal/facts.js
-hand_it_over_somewhere_busy_and_public_no_delive,Hand it over somewhere busy and public. No delivery fee.,Elsewhere,delivery/carriers.js
 her_contacts_are_other_people_s_data_and_were_ne,Her contacts are other people's data and were never consented by them. ,Elsewhere,ux/persuasion.js
 holding_a_float_is_a_central_bank_of_the_uae_lic,Holding a float is a Central Bank of the UAE licensing question. ,Elsewhere,payments/processor.js
 how_a_verdict_is_tied_to_one_physical_object,How a verdict is tied to one physical object,Elsewhere,trust/authentication.js
@@ -594,7 +540,6 @@ m8_9_4_2_12_6l3_1_1_8_3_4_2_3_1_5_3_7_1_4_8_6_9_,M8.9 4.2 12 6l3.1-1.8 3.4 2.3-1
 m9_5_5l7_7_7_7,M9.5 5l7 7-7 7,Elsewhere,icons/Icon.jsx
 making_the_exit_harder_than_the_entrance_a_woman,Making the exit harder than the entrance. A woman who wants to leave ,Elsewhere,ux/persuasion.js
 match_my_phone,Match my phone,Elsewhere,theme/theme.js
-meet_in_person,Meet in person,Elsewhere,delivery/carriers.js
 missing_button,Missing button,Elsewhere,listing/FitAndFlaws.jsx
 moderation_decisions_and_the_evidence_behind_the,Moderation decisions and the evidence behind them,Elsewhere,legal/facts.js
 no_payment_processor_is_registered,No payment processor is registered.,Elsewhere,payments/processor.js
@@ -641,6 +586,7 @@ smsa_express,SMSA Express,Elsewhere,delivery/carriers.js
 stated_as_reassurance_never_as_threat_your_draft,"Stated as reassurance, never as threat: 'your draft is saved', not ",Elsewhere,ux/persuasion.js
 tap_again_to_clear_every_preference,Tap again to clear every preference,Elsewhere,profile/ProfilePreferences.jsx
 that_didn_t_reach_lili_nothing_was_saved_try_aga,That didn't reach lili. Nothing was saved — try again.,Elsewhere,trust/ReviewPrompt.jsx
+that_didn_t_work,That didn't work.,Elsewhere,trust/ReviewPrompt.jsx
 the_band_comes_from_the_resale_model_and_says_no,The band comes from the resale model and says nothing when it has ,Elsewhere,ux/persuasion.js
 the_draft_is_really_on_the_device_photographs_an,"The draft is really on the device, photographs and all.",Elsewhere,ux/persuasion.js
 the_hold_period_and_the_dispute_window_agreed_wi,"The hold period and the dispute window, agreed with the processor",Elsewhere,payments/processor.js
@@ -714,7 +660,6 @@ consumer_rights_act_2015_online_safety_act,Consumer Rights Act 2015 + Online Saf
 counterfeit_takedown_route_with_a_named_responsi,Counterfeit takedown route with a named responsible person and a response clock,Rules and legal wording,compliance/markets.js
 counts_and_derived_columns_are_owned_by_the_serv,Counts and derived columns are owned by the server through column-level ,Rules and legal wording,compliance/claims.js
 creator_licence_checked_before_payment,Creator licence checked before payment,Rules and legal wording,compliance/sellerRules.js
-criteria_and_kinds_of_place_never_a_named_addres,"Criteria and kinds of place, never a named address and never an ",Rules and legal wording,compliance/claims.js
 dac7_reporting_of_seller_identity_and_earnings_a,"DAC7 reporting of seller identity and earnings, annually",Rules and legal wording,compliance/markets.js
 decisions_must_be_immutable_once_written_correct,Decisions must be immutable once written. Correct by adding a new record.,Rules and legal wording,compliance/moderation.js
 declared_as_a_business_or_crosses_the_trader_rev,"Declared as a business, or crosses the trader review threshold",Rules and legal wording,compliance/sellerRules.js
@@ -780,7 +725,6 @@ listing_removed_one_more_strike_closes_the_shop,Listing removed; one more strike
 local_consumer_protection_authority,Local consumer protection authority,Rules and legal wording,compliance/sellerRules.js
 marketplace_facilitator_registration_the_platfor,Marketplace facilitator registration — the platform collects and remits ,Rules and legal wording,compliance/markets.js
 maroof_registration_for_the_platform,Maroof registration for the platform,Rules and legal wording,compliance/markets.js
-meet_somewhere_public_and_busy_these_are_the_qua,Meet somewhere public and busy. These are the qualities to look for.,Rules and legal wording,compliance/claims.js
 message_sellers,Message sellers,Rules and legal wording,compliance/sellerRules.js
 modelled_shots_should_be_modest_flat_lay_is_alwa,Modelled shots should be modest. Flat-lay is always safe.,Rules and legal wording,compliance/markets.js
 moderator_identity_must_come_from_an_authenticat,"Moderator identity must come from an authenticated session, not a parameter.",Rules and legal wording,compliance/moderation.js

@@ -29,4 +29,4 @@ Your account, profile, shop, listings and their photos, saves, follows, saved se
 - Rate-limit counters: 7 days.
 - Everything else in your account: Until you delete it or delete your account.
 
-_Version 2026-10-12._
+_Version 2026-10-16._

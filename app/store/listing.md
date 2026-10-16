@@ -12,7 +12,7 @@ being true, the check fails before the listing goes out.
 
 ## Short description (80 characters)
 
-> Buy and sell pre-loved fashion in Dubai. You meet, you agree, you deal.
+> Buy and sell pre-loved fashion in the UAE, sent to your door by courier.
 
 ## Full description
 
@@ -28,12 +28,14 @@ being true, the check fails before the listing goes out.
 > • You are always told whether you are buying from a private seller or a
 >   business, because it changes your rights
 > • Message the seller, or make an offer she can accept or decline
+> • Sent by courier (Aramex, Emirates Post, Quiqup, SMSA or DHL) across the
+>   UAE and the GCC, booked by the seller, with the fee shown on the listing
 > • Bilingual — English and العربية
 > • Built for Dubai, priced in AED
 >
 > **What lili does not do.** lili does not take your payment, hold your money,
 > authenticate items, or deliver anything. You and the seller agree how to pay
-> and where to meet. We say so on every listing, and we would rather tell you
+> and which courier she sends it with. We say so on every listing, and we would rather tell you
 > now than let you find out later.
 
 ## Notes for the reviewer

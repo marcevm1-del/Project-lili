@@ -14,7 +14,7 @@ Selling a counterfeit is a breach of this policy and of UAE law. A shop that sel
 
 Every listing is screened for signs of a copy: wording, price far below what a genuine piece costs, and missing provenance. Suspect listings go to a person before they go live.
 
-This screening reduces risk. It is not authentication, and lili does not certify any item as genuine. Check the piece in person before you pay, and ask for proof of purchase.
+This screening reduces risk. It is not authentication, and lili does not certify any item as genuine. Ask the seller for a video of the piece before you pay, and ask for proof of purchase.
 
 ## Brand owners and rights holders
 
@@ -26,4 +26,4 @@ A seller who believes a takedown was wrong can send a counter-notice through the
 
 Use only photos you took or have permission to use. Copying another seller's photos or descriptions is not allowed.
 
-_Version 2026-10-12._
+_Version 2026-10-16._

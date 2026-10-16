@@ -8,7 +8,7 @@ lili doesn't handle money. How payment works between members, and how to spot a 
 
 ## How payment works
 
-lili takes no payment and holds no money. You pay the seller directly, at the meeting, once you have checked the piece. Because lili never has the money, lili cannot refund it. For a piece sent by courier, read “Paying for a delivered piece” in the Delivery & Returns Policy.
+lili takes no payment and holds no money. You and the seller agree how you pay her directly. Because lili never has the money, lili cannot refund it. Before you send anything, read “Paying for a delivered piece” in the Delivery & Returns Policy.
 
 ## Signs of a scam
 
@@ -24,4 +24,4 @@ If you see any of these, stop and report the member.
 
 Report it to the police (Dubai Police: 901, or the eCrime service) and to your bank, then report the member in lili with what happened. We will act on the account and keep the evidence for the police.
 
-_Version 2026-10-12._
+_Version 2026-10-16._

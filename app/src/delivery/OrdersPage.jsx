@@ -82,7 +82,6 @@ function OrderCard({ o, as, onChanged }) {
   const [detail, setDetail] = useState("");
   const [busy, setBusy] = useState(false);
   const [err, setErr] = useState("");
-  const courier = o.method !== "meet";
 
   const run = async (fn) => {
     setBusy(true); setErr("");
@@ -116,7 +115,7 @@ function OrderCard({ o, as, onChanged }) {
           {c && c.track && <> · <a href={c.track(o.tracking)} target="_blank" rel="noopener noreferrer" style={link}>{t("track")}</a></>}
         </div>
       )}
-      {as === "seller" && o.ship_to && o.state === "paid" && courier && (
+      {as === "seller" && o.ship_to && o.state === "paid" && (
         <div style={addr}>
           <b>{t("send_to")}</b><br />
           {o.ship_to.name} · {o.ship_to.phone}<br />
@@ -136,7 +135,7 @@ function OrderCard({ o, as, onChanged }) {
       {!mode && (
         <div style={{ display: "flex", gap: 8, flexWrap: "wrap", marginTop: 8 }}>
           {as === "seller" && o.state === "paid" && (
-            <button onClick={() => setMode("ship")} style={btn}>{courier ? t("mark_as_sent") : t("mark_as_handed_over")}</button>)}
+            <button onClick={() => setMode("ship")} style={btn}>{t("mark_as_sent")}</button>)}
           {as === "seller" && o.state === "paid" && (
             <button onClick={() => setMode("cancel")} style={ghost}>{t("cancel_and_refund")}</button>)}
           {as === "buyer" && o.state === "shipped" && (
@@ -152,15 +151,13 @@ function OrderCard({ o, as, onChanged }) {
 
       {mode === "ship" && (
         <div style={box}>
-          {courier ? <>
-            <label style={lbl} htmlFor={`trk-${o.id}`}>{t("courier_tracking_number", { carrier: c ? inLang(c, "name", lang()) : "" })}</label>
-            <input id={`trk-${o.id}`} value={tracking} onChange={(e) => setTracking(e.target.value)} style={field}
-              autoCapitalize="characters" autoComplete="off" />
-            <p style={para}>{t("buyer_window_note", { days: AUTO_RELEASE_DAYS })}</p>
-          </> : <p style={para}>{t("handed_over_note")}</p>}
+          <label style={lbl} htmlFor={`trk-${o.id}`}>{t("courier_tracking_number", { carrier: c ? inLang(c, "name", lang()) : "" })}</label>
+          <input id={`trk-${o.id}`} value={tracking} onChange={(e) => setTracking(e.target.value)} style={field}
+            autoCapitalize="characters" autoComplete="off" />
+          <p style={para}>{t("buyer_window_note", { days: AUTO_RELEASE_DAYS })}</p>
           <Row>
             <button onClick={() => run(() => remote.markShipped(o.id, tracking.trim()))}
-              disabled={busy || (courier && tracking.trim().length < 4)} style={btn}>{busy ? t("saving") : t("confirm")}</button>
+              disabled={busy || tracking.trim().length < 4} style={btn}>{busy ? t("saving") : t("confirm")}</button>
             <button onClick={() => setMode(null)} style={ghost}>{t("back")}</button>
           </Row>
         </div>

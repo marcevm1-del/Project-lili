@@ -40,7 +40,7 @@ const CheckoutSheet = lazy(() => import("../delivery/CheckoutSheet.jsx"));
  * The useful behaviour is real: she collects pieces she means to buy. What
  * cannot be real is paying for them here. So it is a shortlist that opens the
  * conversation with each seller — the thing that actually works, and the thing
- * that has to happen anyway before anyone meets. Grouped by seller, because one
+ * that has to happen anyway before anyone pays. Grouped by seller, because one
  * basket is several separate arrangements with several different women, and
  * that is true whether or not there is a checkout.
  *

@@ -34,7 +34,7 @@ expect=(
   "D2 last=true" "D3 can_edit_body=false" "D4 mark_read=1" "D5 anon_reads=false"
   "E1 offer_notif=1" "E2 seller_sees=1" "E3 accept=accepted/400" "E5 withdraw_after_accept=false"
   "E6 buyer_self_accept=false" "E7 expired=expired"
-  "F1 self_confirm=false" "F2 meet=confirmed/fine"
+  "F1 meet=refused"
   "G1 duplicate_report=false" "G2 in_queue=true" "G3 item=removed" "G4 shop=1/active"
   "H1 reported=true" "H3 non_mod_reads=false" "H4 evidence_editable=false"
   "I1 event_logged=ok" "I2 events_readable=false" "J1 rate=truetruefalse"

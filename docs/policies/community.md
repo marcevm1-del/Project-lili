@@ -20,10 +20,10 @@ How to treat each other on lili.
 
 ## Be reliable
 
-Reply to offers and messages, turn up when you agreed to, and cancel in the app if plans change. Repeated no-shows are a breach.
+Reply to offers and messages, send what you sold when you said you would, and tell the buyer in the app if plans change. Repeatedly failing to send is a breach.
 
 ## Blocking and reporting
 
 You can block a seller: her shop and listings disappear from your feed and search on this phone. If someone is bothering you, report them from the listing, shop or conversation, and stop replying; we can restrict their account.
 
-_Version 2026-10-12._
+_Version 2026-10-16._

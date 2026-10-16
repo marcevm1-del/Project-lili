@@ -1,18 +1,18 @@
 import { useState } from "react";
 import { C } from "../compliance/ui.js";
 import Icon from "../icons/Icon.jsx";
-import * as repo from "../data/repo.js";
 import * as remote from "../backend/remote.js";
 import { withTimeout, BUDGET, isTimeout } from "../ux/timeout.js";
 
 // ─────────────────────────────────────────────────────────────────────────────
-//  A REVIEW, AFTER A MEET
+//  A REVIEW, AFTER AN ORDER
 //
 //  Every resale app a buyer compares lili with has seller reviews; lili had a
 //  "replies within a day" signal and nothing anyone else had said. This is the
-//  other half, and it is built on the one thing lili can vouch for: the two of
-//  them agreed a meet here and its time has passed. No meet, no review — so a
-//  rating cannot be bought with a conversation that never became a handover.
+//  other half, and it is built on the one thing lili can vouch for: an order
+//  paid through lili that reached the buyer (migration 36). No order, no
+//  review — so a rating cannot be bought with a conversation that never became
+//  a sale. (Reviews after a meet went when meeting in person did, migration 39.)
 //
 //  Double-blind, as the server enforces: what she writes is hidden until the
 //  other person has reviewed too, or 14 days have passed, so neither of them
@@ -21,9 +21,7 @@ import { withTimeout, BUDGET, isTimeout } from "../ux/timeout.js";
 
 const WORDS = ["", "Poor", "Not great", "Fine", "Good", "Lovely"];
 
-// `orderId` instead of `meetId`: the same review after a delivered order
-// (migration 36), with the same rules.
-export default function ReviewPrompt({ meetId, orderId, otherRole = "seller", onDone }) {
+export default function ReviewPrompt({ orderId, otherRole = "seller", onDone }) {
   const [stars, setStars] = useState(0);
   const [body, setBody] = useState("");
   const [busy, setBusy] = useState(false);
@@ -45,8 +43,7 @@ export default function ReviewPrompt({ meetId, orderId, otherRole = "seller", on
     if (!stars || busy) return;
     setBusy(true); setProblem(null);
     try {
-      const r = await withTimeout(orderId ? remote.leaveOrderReview(orderId, stars, body.trim())
-                                          : repo.leaveReview(meetId, stars, body.trim()), BUDGET.interactive);
+      const r = await withTimeout(remote.leaveOrderReview(orderId, stars, body.trim()), BUDGET.interactive);
       setSent(r || { ok: true });
       if (onDone) onDone(r);
     } catch (e) {

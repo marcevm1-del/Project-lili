@@ -12,7 +12,7 @@ The same text is in the app (Profile → Privacy & Safety → All policies) and 
 - [Prohibited & Restricted Items](prohibited.md): What can never be listed on lili, and why.
 - [Authenticity & Intellectual Property](authenticity.md): lili's position on counterfeits, what lili does and doesn't check, and how brand owners report infringement.
 - [Community Guidelines](community.md): How to treat each other on lili.
-- [Meeting & Safety](safety.md): How to hand a piece over safely in person, and what to do if something goes wrong.
+- [Buying & Selling Safely](safety.md): How to buy and sell by courier without getting caught out, and what to do if something goes wrong.
 - [Payments & Scams](payments.md): lili doesn't handle money. How payment works between members, and how to spot a scam.
 - [Delivery & Returns](delivery.md): The ways a seller can get a piece to you in the UAE and the GCC, who pays for delivery, and what to do if it doesn't arrive or isn't as described.
 - [Offers & Reservations](offers.md): How offers, counter-offers and reservations work.

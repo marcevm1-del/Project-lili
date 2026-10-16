@@ -1,8 +1,8 @@
 // ─────────────────────────────────────────────────────────────────────────────
 //  DELIVERY IN THE UAE AND THE GCC
 //
-//  Yaga's idea, carried over: a seller switches on every way she's happy to get
-//  a piece to a buyer, picks the parcel size once, and the buyer chooses at
+//  Yaga's idea, carried over: a seller switches on every courier she's happy to
+//  send a piece with, picks the parcel size once, and the buyer chooses at
 //  checkout and pays the delivery fee. "Shops with more options sell faster."
 //
 //  The carriers are the ones that actually serve this region. Fees live in the
@@ -16,9 +16,6 @@
 // ─────────────────────────────────────────────────────────────────────────────
 
 export const CARRIERS = [
-  { key: "meet", name: "Meet in person", nameAr: "لقاء شخصي", regions: ["UAE"],
-    about: "Hand it over somewhere busy and public. No delivery fee.",
-    aboutAr: "سلّميها في مكان عام مزدحم. بلا رسوم توصيل." },
   { key: "aramex", name: "Aramex", nameAr: "أرامكس", regions: ["UAE", "GCC"],
     about: "Door to door. Drop it at an Aramex counter or book a pickup.",
     aboutAr: "من الباب إلى الباب. سلّميها في أحد فروع أرامكس أو احجزي استلاماً.",
@@ -37,8 +34,19 @@ export const CARRIERS = [
     aboutAr: "توصيل سريع في الإمارات والخليج. سلّميها في نقطة DHL أو احجزي استلاماً.",
     track: (n) => `https://www.dhl.com/ae-en/home/tracking/tracking-express.html?submit=1&tracking-id=${encodeURIComponent(n)}` },
 ];
-export const COURIERS = CARRIERS.filter((c) => c.key !== "meet");
+export const COURIERS = CARRIERS;
 export const carrier = (key) => CARRIERS.find((c) => c.key === key) || null;
+
+// Meeting in person was removed (migration 39): every piece now goes by
+// courier. A listing that names no courier we know is offered the two that
+// reach every emirate, the same default the database gives a new listing.
+export const DEFAULT_DELIVERY = ["aramex", "emirates_post"];
+
+/** The couriers a piece can go by: the seller's choice, or the default. */
+export function deliveryWays(item) {
+  const ways = (Array.isArray(item && item.delivery) ? item.delivery : []).filter((k) => carrier(k));
+  return ways.length ? ways : DEFAULT_DELIVERY;
+}
 
 /** Parcel sizes, the way couriers in the region price them. */
 export const PARCEL_SIZES = [

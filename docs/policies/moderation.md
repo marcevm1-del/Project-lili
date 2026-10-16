@@ -30,4 +30,4 @@ Appealing never removes your right to go to a court or a consumer authority.
 
 Decisions and the evidence behind them are kept for 24 months from the decision, so we can answer appeals and legal claims, and then deleted.
 
-_Version 2026-10-12._
+_Version 2026-10-16._

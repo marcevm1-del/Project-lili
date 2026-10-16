@@ -99,7 +99,7 @@ export function tierGap(currentTier, needed) {
 //      lands ... and can hold or reverse the payment"
 //    · Help Centre on a fake — "You get your money back"
 //
-//  while messages/MeetSafely.jsx told her, correctly, "lili does not hold your
+//  while the thread's safety note told her, correctly, "lili does not hold your
 //  money, so the moment to be sure is before it leaves your hand."
 //
 //  A woman who read the first four and then met a stranger in a mall car park
@@ -120,15 +120,15 @@ export const HOW_MONEY_WORKS = PAYMENTS_LIVE ? {
   short: "You pay the processor. It releases the money to her once the piece reaches you.",
   liliRole: "We list, introduce, and enforce the rules. We never hold your money and never own the item.",
   ifWrong: "Message her first — most of it is a misunderstanding about condition. If that stalls, raise it with us: we read the listing, the messages and the tracking, and decide with reasons. A refund is issued by the processor against your original payment.",
-  delivery: `The seller sends it with the courier you chose within ${SHIP_WITHIN_DAYS} days of payment and adds the courier's tracking number, or meets you to hand it over. The money stays held until you confirm you have it, or ${AUTO_RELEASE_DAYS} days after it was sent if you report no problem.`,
+  delivery: `The seller sends it with the courier you chose within ${SHIP_WITHIN_DAYS} days of payment and adds the courier's tracking number. The money stays held until you confirm you have it, or ${AUTO_RELEASE_DAYS} days after it was sent if you report no problem.`,
   refundFromLili: true,
 } : {
   live: false,
   holder: "Nobody — you pay her directly",
-  short: "lili doesn't handle your money at all. You and she agree a price here, meet, and you pay her in person.",
+  short: "lili doesn't handle your money at all. You and she agree a price and the courier here, and you pay her directly.",
   liliRole: "We list, introduce, and enforce the rules. Your money never passes through lili, and we never own the item.",
-  ifWrong: "Check the piece before you hand anything over — that is the moment, and it is the only one. lili holds no money, so there is nothing for us to refund. What we can do is act on the seller: report her here and we read the listing and, if you attach it, your conversation, and we can remove the listing and close the shop.",
-  delivery: "lili doesn't ship anything. Each listing shows how the seller will get it to you: meeting somewhere public and busy, or a courier she books herself (Aramex, Emirates Post, Quiqup, SMSA or DHL), with the fee for its parcel size. Agree the delivery and who pays for it with her before any money changes hands.",
+  ifWrong: "Ask for a video of the piece before you send any money — that is the moment, and it is the only one. lili holds no money, so there is nothing for us to refund. What we can do is act on the seller: report her here and we read the listing and, if you attach it, your conversation, and we can remove the listing and close the shop.",
+  delivery: "lili doesn't ship anything. Each listing shows the couriers the seller will send it with, booked by her (Aramex, Emirates Post, Quiqup, SMSA or DHL), with the fee for its parcel size. Agree the delivery and who pays for it with her before any money changes hands.",
   refundFromLili: false,
 };
 
@@ -199,8 +199,8 @@ export function taxPosition(marketCode) {
 // ─────────────────────────────────────────────────────────────────────────────
 
 export const SHIPPING = {
-  // Migration 33 (2026-10-12). A seller switches on the ways she'll get a piece
-  // to a buyer (src/delivery/carriers.js) and books the courier herself; lili
+  // Migration 33 (2026-10-12). A seller switches on the couriers she'll send a
+  // piece with (src/delivery/carriers.js) and books the courier herself; lili
   // has no carrier account and prints no label. Orders, and the clock below,
   // run in the database, but only once payments are live — until then the
   // buyer and seller agree delivery between them and `live` stays false.

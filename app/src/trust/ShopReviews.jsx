@@ -3,8 +3,8 @@ import { C } from "../compliance/ui.js";
 import Icon from "../icons/Icon.jsx";
 import * as repo from "../data/repo.js";
 
-// What buyers who met her said. Each review comes from a meet the two of them
-// agreed on lili, shown without the reviewer's name, and only once both sides
+// What buyers said about her. Each review comes from an order the two of them
+// completed on lili, shown without the reviewer's name, and only once both sides
 // have reviewed (or 14 days have passed) — the server decides all three. The
 // average waits for five, as Stars does; the words are worth showing from one.
 export default function ShopReviews({shopId}) {
@@ -20,7 +20,7 @@ export default function ShopReviews({shopId}) {
   return (
     <section aria-label="Reviews" style={{marginBottom:16}}>
       <div style={{fontSize:13,fontWeight:700,color:C.ink,marginBottom:8}}>
-        {list.length} review{list.length>1?"s":""} <span style={{fontWeight:400,color:C.inkLt,fontSize:11}}>· from meets arranged on lili</span>
+        {list.length} review{list.length>1?"s":""} <span style={{fontWeight:400,color:C.inkLt,fontSize:11}}>· from orders completed on lili</span>
       </div>
       {shown.map((r,i)=>(
         <div key={i} style={{background:C.white,border:`1px solid ${C.border}`,borderRadius:12,

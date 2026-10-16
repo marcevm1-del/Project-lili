@@ -83,7 +83,7 @@ for (const [fn, args] of [
   ["lili_report_conversation", { p_conversation_id: "00000000-0000-0000-0000-000000000000",
                                  p_reasons: ["spam"], p_detail: "contract test", p_attach_transcript: false }],
   // migration 33: every order call needs a signed-in buyer or seller
-  ["lili_create_order", { p_items: ["00000000-0000-0000-0000-000000000000"], p_method: "meet", p_region: "UAE", p_ship_to: null }],
+  ["lili_create_order", { p_items: ["00000000-0000-0000-0000-000000000000"], p_method: "aramex", p_region: "UAE", p_ship_to: null }],
   ["lili_my_orders", { p_as: "buyer" }],
   ["lili_my_wallet", {}],
   ["lili_order_shipped", { p_order: "00000000-0000-0000-0000-000000000000", p_tracking: "X" }],
@@ -100,8 +100,6 @@ check("shop reputations are readable signed out", r.status === 200 && Array.isAr
 r = await rpc("lili_shop_reviews", { p_shop: "00000000-0000-0000-0000-000000000000" });
 check("a shop's reviews are readable signed out", r.status === 200 && Array.isArray(r.json), `status ${r.status}`);
 check("a review never says who wrote it", !(r.json || []).some((x) => "reviewer_uid" in x));
-r = await rpc("lili_shop_meets_done", { p_shop: "00000000-0000-0000-0000-000000000000" });
-check("a shop's completed meets are a public count", r.status === 200 && r.json === 0, `status ${r.status} ${JSON.stringify(r.json)}`);
 {
   const res = await fetch(`${URL}/storage/v1/object/list/lili-photos`, {
     method: "POST", headers: { apikey: KEY, Authorization: `Bearer ${KEY}`, "Content-Type": "application/json" },

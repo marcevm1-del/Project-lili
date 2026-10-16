@@ -27,7 +27,7 @@
 // change, so everyone is asked again, as the Terms of Use promise.
 // 2026-10-12: courier delivery (migration 33) changes what a seller agrees to
 // do with a sold piece — asked again for the same reason.
-export const AGREEMENT_VERSION = "2026-10-12";
+export const AGREEMENT_VERSION = "2026-10-16";
 
 // ── signup: the contract ───────────────────────────────────────────────────
 export const ACCEPT = [
@@ -69,11 +69,11 @@ export const ACKNOWLEDGE = [
       // she is covered in the document that creates the relationship is the
       // worst place in the app to be wrong.
       "Everything here belongs to the person selling it. She sets the price " +
-      "and the piece is hers until you meet. Your purchase is an agreement " +
+      "and the piece is hers until it reaches you. Your purchase is an agreement " +
       "with her, not with us: lili does not hold your money and cannot refund " +
-      "you. Check the piece before you pay, and tell us if she breaks the " +
-      "rules — that part we can act on.",
-    bodyAr: "كل قطعة تخص بائعتها، والشراء اتفاق معها. lili لا تحتفظ بأموالك ولا يمكنها إعادتها — تأكدي من القطعة قبل الدفع.",
+      "you. Ask to see the piece on video before you pay, and tell us if she " +
+      "breaks the rules — that part we can act on.",
+    bodyAr: "كل قطعة تخص بائعتها، والشراء اتفاق معها. lili لا تحتفظ بأموالك ولا يمكنها إعادتها — اطلبي رؤية القطعة بالفيديو قبل الدفع.",
   },
   {
     id: "seller-types",
@@ -153,12 +153,11 @@ export const SELLER_AGREEMENT = [
       // of a protection that does not exist. The sixth surface carrying the
       // escrow claim, in the document she signs.
       "The sale is between me and the buyer. I own the item, I set the price, " +
-      "and I get it to the buyer the way my listing says: by hand when we " +
-      "meet, or with a courier I book myself, adding the courier's tracking " +
-      "number. lili introduces us and enforces the rules — it does not hold " +
+      "and I send it to the buyer with a courier my listing offers, booked by " +
+      "me, adding the courier's tracking number. lili introduces us and enforces the rules — it does not hold " +
       "the money, so the buyer pays me directly and there is nothing for lili " +
       "to refund on my behalf.",
-    bodyAr: "البيع بيني وبين المشترية. أوصل القطعة كما يذكر إعلاني: بنفسي عند اللقاء، أو مع شركة توصيل أحجزها بنفسي وأضيف رقم التتبع. والمشترية تدفع لي مباشرة. lili لا تحتفظ بالمبلغ ولا يمكنها إعادته نيابة عني.",
+    bodyAr: "البيع بيني وبين المشترية. أرسل القطعة مع شركة توصيل يذكرها إعلاني، أحجزها بنفسي وأضيف رقم التتبع. والمشترية تدفع لي مباشرة. lili لا تحتفظ بالمبلغ ولا يمكنها إعادته نيابة عني.",
     required: true,
   },
   {

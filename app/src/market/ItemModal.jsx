@@ -14,7 +14,7 @@ import { C, T, Avatar, Stars, earnedFollowers, ItemPhoto } from "./shared.jsx";
 import { sizeLabel, kindOf, APPROXIMATE_NOTE } from "../sizes/sizeSystem.js";
 import { useSizeSystem } from "../sizes/SizeSystemPicker.jsx";
 import * as remote from "../backend/remote.js";
-import { carrier, inLang } from "../delivery/carriers.js";
+import { carrier, deliveryWays, inLang } from "../delivery/carriers.js";
 import { loadRates } from "../delivery/rates.js";
 import { PAYMENTS_LIVE } from "../compliance/sellerRules.js";
 import { isAway, backOn } from "../shops/away.js";
@@ -26,8 +26,8 @@ const CheckoutSheet = lazy(() => import("../delivery/CheckoutSheet.jsx"));
 // v2.11.4. The band from data/resaleValue.js has been on the OFFER sheet since
 // v2.9, where it helps a woman pick a number. It was never shown to the person
 // who most needs it: the buyer looking at the price and wondering whether it is
-// fair, on the screen where she decides whether to meet a stranger with three
-// thousand dirhams in her bag.
+// fair, on the screen where she decides whether to send a stranger three
+// thousand dirhams.
 //
 // This is anchoring, and it is the honest form of it. The anchor is a published
 // range with a stated basis and named sources, not a struck-through number lili
@@ -92,15 +92,12 @@ function usePaymentsOn() {
   return on;
 }
 
-// How this piece can reach a buyer, after Yaga's listing page: every option
+// How this piece can reach a buyer, after Yaga's listing page: every courier
 // the seller switched on, with the fee for its parcel size in the UAE.
 export function DeliveryInfo({item, onSeeTotal}) {
   const [rates, setRates] = useState([]);
-  const ways = Array.isArray(item.delivery) && item.delivery.length ? item.delivery : ["meet"];
-  useEffect(() => {
-    if (!ways.some(k => k !== "meet")) return;
-    loadRates().then(setRates);
-  }, [item.id]);
+  const ways = deliveryWays(item);
+  useEffect(() => { loadRates().then(setRates); }, [item.id]);
   const size = item.parcelSize || "S";
   const fee = (k, region) => rates.find(r => r.carrier === k && r.size === size && r.region === region);
   return (
@@ -111,11 +108,10 @@ export function DeliveryInfo({item, onSeeTotal}) {
           const uae = fee(k, "UAE"), gcc = fee(k, "GCC");
           return (
             <div key={k} style={{display:"flex",alignItems:"center",gap:8,fontSize:12,color:C.ink,minHeight:28}}>
-              <Icon name={k === "meet" ? "handshake" : "truck"} size={16} style={{color:C.terraTx,flexShrink:0}}/>
+              <Icon name="truck" size={16} style={{color:C.terraTx,flexShrink:0}}/>
               <span style={{flex:1}}>{inLang(c, "name", getLang())}</span>
               <span style={{color:C.inkLt,whiteSpace:"nowrap"}}>
-                {k === "meet" ? t("free_uae") :
-                  uae || gcc ? <>{uae ? `${t("region_uae")} ${money(uae.fee)}` : ""}{uae && gcc ? " · " : ""}{gcc ? `${t("region_gcc")} ${money(gcc.fee)}` : ""}
+                {uae || gcc ? <>{uae ? `${t("region_uae")} ${money(uae.fee)}` : ""}{uae && gcc ? " · " : ""}{gcc ? `${t("region_gcc")} ${money(gcc.fee)}` : ""}
                     {!(uae||gcc).confirmed ? ` (${t("est_short")})` : ""}</> : ""}
               </span>
             </div>
@@ -257,7 +253,7 @@ export function ItemModal({item,shop,items=[],onOpenItem,onSave,onClose,onOffer,
           <div style={{fontSize:11,color:C.inkLt,lineHeight:1.6,marginBottom:18,
             paddingTop:12,borderTop:`1px solid ${C.border}`}}>
             {payOn
-              ? "Pay with Buy and the money is held by Stripe until you confirm the piece arrived. Agree to pay any other way and lili can't help if it goes wrong."
+              ? t("pay_on_note")
               : t("no_payment_yet_note")}
           </div>
 
@@ -334,8 +330,8 @@ export function ItemModal({item,shop,items=[],onOpenItem,onSave,onClose,onOffer,
 }
 
 // Her other pieces, under this one. A buyer who likes one piece from a
-// wardrobe is the likeliest buyer of the next, and a single meet can cover
-// several — the one place a meet-and-pay marketplace has a basket.
+// wardrobe is the likeliest buyer of the next, and one parcel can carry
+// several for a single delivery fee.
 export function MoreFromShop({item, shop, items, onOpen}) {
   const more = (items||[]).filter(i=>i.shopId===item.shopId && i.id!==item.id
     && (!i.status || i.status==="live")).slice(0,8);

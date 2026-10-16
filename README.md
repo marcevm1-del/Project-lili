@@ -15,7 +15,7 @@ lili is a curated resale marketplace for the UAE (Capacitor app + Supabase backe
 | Path | Contents |
 |---|---|
 | `docs/claude-notes/` | Release notes, launch runbook, legal/security reviews (v2.8 → v2.11.7) |
-| `supabase/migrations/` | Every lili database migration (98), exported from the live project's history |
+| `supabase/migrations/` | Every lili database migration (99), exported from the live project's history |
 | `supabase/pending/` | Fixes written but not yet applied — need the owner to run them |
 | `docs/review-2026-10-08.md` | Full review of the live database code and what was fixed |
 | `docs/functional-and-market-review-2026-10-08.md` | End-to-end test results and comparison with similar apps |
@@ -134,6 +134,11 @@ Fixed live in `20261008*_lili_review_1..15_*.sql`; see `docs/review-2026-10-08.m
 - **38 — app health for moderators.** `lili_app_health()`: crashes in the last day and week with the
   commonest messages, each lili cron job's last run and failures, the work waiting on a person, and
   orders and money by state. Shown as a red/green panel at the top of the moderation queue.
+- **39 — meeting in person is removed.** Every piece goes by courier. A listing can no longer
+  offer a meet (an older app that still sends it has it taken out, and a listing left with no
+  courier gets Aramex and Emirates Post, the new column default), no meet plan can be proposed,
+  and no order can be made for one. The meet tables and functions stay, empty and unused; the
+  app no longer reads them. Reviews now come only from completed orders.
 
 `supabase/tests/run.sh` rebuilds the database from these migrations in CI and runs
 `functional_test.sql` and `audit_regressions.sql` (26 assertions).

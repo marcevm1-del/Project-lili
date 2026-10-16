@@ -8,11 +8,11 @@ Who can review whom, and how the trust signals on shops are earned.
 
 ## Who can review
 
-Only someone who completed a meet-up with a shop can review it, once per meet-up, within 14 days. That way every review comes from a real handover.
+Only the buyer and the seller in a completed order can review each other, once per order, within 14 days of it completing. That way every review comes from a real sale.
 
 ## What a review must be
 
-Your own honest experience of the piece and the handover. No offensive language, personal information, or reviews offered or requested in exchange for anything.
+Your own honest experience of the piece and the delivery. No offensive language, personal information, or reviews offered or requested in exchange for anything.
 
 ## Ratings and counts
 
@@ -22,4 +22,4 @@ A shop's rating and counts are shown only once they are earned from real activit
 
 We remove reviews that break this policy. We don't remove a review only because it is negative.
 
-_Version 2026-10-12._
+_Version 2026-10-16._
