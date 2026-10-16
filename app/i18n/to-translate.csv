@@ -447,6 +447,39 @@ iq_landscape_title,Sideways photograph,صورة أفقية,Already on screen,dra
 iq_landscape_fix,"The feed shows tall tiles, so a wide photo gets cropped. Turn the phone upright.",تعرض الصفحة الرئيسية الصور طولياً، فتُقصّ الصورة العريضة. أمسكي الهاتف عمودياً.,Already on screen,draft — check and correct,"Arabic drafted by an AI assistant and already on screen; fix it, or send it back unchanged to approve it"
 n_parcels_delivered,{n} parcels delivered,{n} شحنات وصلت,Already on screen,draft — check and correct,"Arabic drafted by an AI assistant and already on screen; fix it, or send it back unchanged to approve it"
 one_parcel_delivered,1 parcel delivered,وصلت شحنة 1,Already on screen,draft — check and correct,"Arabic drafted by an AI assistant and already on screen; fix it, or send it back unchanged to approve it"
+offer_expired_short,expired,انتهى,Already on screen,draft — check and correct,"Arabic drafted by an AI assistant and already on screen; fix it, or send it back unchanged to approve it"
+mins_left,{n} min left,بقي {n} دقيقة,Already on screen,draft — check and correct,"Arabic drafted by an AI assistant and already on screen; fix it, or send it back unchanged to approve it"
+hours_left,{n}h left,بقي {n} ساعة,Already on screen,draft — check and correct,"Arabic drafted by an AI assistant and already on screen; fix it, or send it back unchanged to approve it"
+days_left,{n}d left,بقي {n} يوم,Already on screen,draft — check and correct,"Arabic drafted by an AI assistant and already on screen; fix it, or send it back unchanged to approve it"
+a_piece,A piece,قطعة,Already on screen,draft — check and correct,"Arabic drafted by an AI assistant and already on screen; fix it, or send it back unchanged to approve it"
+the_seller_cap,Seller,البائعة,Already on screen,draft — check and correct,"Arabic drafted by an AI assistant and already on screen; fix it, or send it back unchanged to approve it"
+the_seller,the seller,البائعة,Already on screen,draft — check and correct,"Arabic drafted by an AI assistant and already on screen; fix it, or send it back unchanged to approve it"
+your_counter_offer,Your counter-offer,عرضكِ المقابل,Already on screen,draft — check and correct,"Arabic drafted by an AI assistant and already on screen; fix it, or send it back unchanged to approve it"
+counter_offer_from,Counter-offer from {shop},عرض مقابل من {shop},Already on screen,draft — check and correct,"Arabic drafted by an AI assistant and already on screen; fix it, or send it back unchanged to approve it"
+offer_from_a_buyer,Offer from a buyer,عرض من مشترية,Already on screen,draft — check and correct,"Arabic drafted by an AI assistant and already on screen; fix it, or send it back unchanged to approve it"
+asking_price,asking {price},السعر المطلوب {price},Already on screen,draft — check and correct,"Arabic drafted by an AI assistant and already on screen; fix it, or send it back unchanged to approve it"
+not_sent_waiting_signal,Not sent yet — waiting for signal.,لم يُرسل بعد — بانتظار الاتصال.,Already on screen,draft — check and correct,"Arabic drafted by an AI assistant and already on screen; fix it, or send it back unchanged to approve it"
+counter_amount,Counter amount,مبلغ العرض المقابل,Already on screen,draft — check and correct,"Arabic drafted by an AI assistant and already on screen; fix it, or send it back unchanged to approve it"
+your_price,Your price,سعركِ,Already on screen,draft — check and correct,"Arabic drafted by an AI assistant and already on screen; fix it, or send it back unchanged to approve it"
+send,Send,إرسال,Already on screen,draft — check and correct,"Arabic drafted by an AI assistant and already on screen; fix it, or send it back unchanged to approve it"
+decline,Decline,رفض,Already on screen,draft — check and correct,"Arabic drafted by an AI assistant and already on screen; fix it, or send it back unchanged to approve it"
+counter,Counter,عرض مقابل,Already on screen,draft — check and correct,"Arabic drafted by an AI assistant and already on screen; fix it, or send it back unchanged to approve it"
+accept,Accept,قبول,Already on screen,draft — check and correct,"Arabic drafted by an AI assistant and already on screen; fix it, or send it back unchanged to approve it"
+agreed_at,Agreed at {price}.,اتُّفق على {price}.,Already on screen,draft — check and correct,"Arabic drafted by an AI assistant and already on screen; fix it, or send it back unchanged to approve it"
+you_would_receive,You would receive {payout} after lili's {rate}% fee,ستصلكِ {payout} بعد رسوم lili البالغة {rate}%,Already on screen,draft — check and correct,"Arabic drafted by an AI assistant and already on screen; fix it, or send it back unchanged to approve it"
+nothing_deducted_yet,though nothing is deducted yet,مع أنه لا يُخصم شيء بعد,Already on screen,draft — check and correct,"Arabic drafted by an AI assistant and already on screen; fix it, or send it back unchanged to approve it"
+accepted_no_hold,"lili doesn't take payment or hold the piece — agree how she's paid and which courier between yourselves, in the thread.",lili لا تتولى الدفع ولا تحتفظ بالقطعة — اتفقا بينكما في المحادثة على طريقة الدفع وشركة التوصيل.,Already on screen,draft — check and correct,"Arabic drafted by an AI assistant and already on screen; fix it, or send it back unchanged to approve it"
+release_tells_seller,"She'll be told, and the piece goes back on sale.",ستُبلَّغ البائعة، وتعود القطعة للبيع.,Already on screen,draft — check and correct,"Arabic drafted by an AI assistant and already on screen; fix it, or send it back unchanged to approve it"
+release_tells_buyer,"She'll be told, and the piece goes back on sale.",ستُبلَّغ المشترية، وتعود القطعة للبيع.,Already on screen,draft — check and correct,"Arabic drafted by an AI assistant and already on screen; fix it, or send it back unchanged to approve it"
+yes_cancel,"Yes, cancel",نعم، ألغي,Already on screen,draft — check and correct,"Arabic drafted by an AI assistant and already on screen; fix it, or send it back unchanged to approve it"
+yes_release,"Yes, release",نعم، حرّري الحجز,Already on screen,draft — check and correct,"Arabic drafted by an AI assistant and already on screen; fix it, or send it back unchanged to approve it"
+keep_it,Keep it,أبقيه,Already on screen,draft — check and correct,"Arabic drafted by an AI assistant and already on screen; fix it, or send it back unchanged to approve it"
+cant_buy_after_all,I can't buy it after all,لم يعد بإمكاني شراؤها,Already on screen,draft — check and correct,"Arabic drafted by an AI assistant and already on screen; fix it, or send it back unchanged to approve it"
+release_reservation,Release the reservation,إلغاء الحجز,Already on screen,draft — check and correct,"Arabic drafted by an AI assistant and already on screen; fix it, or send it back unchanged to approve it"
+offers_unreachable,We couldn't reach lili just now. Your offers are safe — this is only the list.,تعذّر الوصول إلى lili الآن. عروضكِ بأمان — هذه القائمة فقط.,Already on screen,draft — check and correct,"Arabic drafted by an AI assistant and already on screen; fix it, or send it back unchanged to approve it"
+offers_load_failed,Something went wrong loading your offers.,حدث خطأ أثناء تحميل عروضكِ.,Already on screen,draft — check and correct,"Arabic drafted by an AI assistant and already on screen; fix it, or send it back unchanged to approve it"
+no_offers_yet,No offers yet,لا عروض بعد,Already on screen,draft — check and correct,"Arabic drafted by an AI assistant and already on screen; fix it, or send it back unchanged to approve it"
+offers_empty_hint,Offers you make and offers you receive both appear here.,العروض التي ترسلينها والعروض التي تصلكِ تظهر هنا.,Already on screen,draft — check and correct,"Arabic drafted by an AI assistant and already on screen; fix it, or send it back unchanged to approve it"
 a_reviewer_will_look_at_this_and_you_ll_get_the_,A reviewer will look at this and you'll get the outcome and the reason for it.,,Reporting a listing or a person,not yet wired,compliance/ReportDialog.jsx
 claims_to_be_a_brand_it_isn_t,Claims to be a brand it isn't,,Reporting a listing or a person,not yet wired,compliance/ReportDialog.jsx
 counterfeit_or_replica,Counterfeit or replica,,Reporting a listing or a person,not yet wired,compliance/ReportDialog.jsx
@@ -622,17 +655,6 @@ yellow_gold_malachite,Yellow Gold · Malachite,,The main shopping screens,not ye
 you_re_told_who_you_re_buying_from,You're told who you're buying from,,The main shopping screens,not yet wired,Marketplace.jsx
 zimmermann_floral_dress,Zimmermann Floral Dress,,The main shopping screens,not yet wired,market/shared.jsx
 no_signal_your_message_is_saved_but_hasn_t_been_,No signal — your message is saved but hasn't been sent yet.,,Messages between two women,not yet wired,data/conversations.js
-counter_amount,Counter amount,,Making and answering offers,not yet wired,offers/OffersPage.jsx
-i_can_t_buy_it_after_all,I can't buy it after all,,Making and answering offers,not yet wired,offers/OffersPage.jsx
-offer_from_a_buyer,Offer from a buyer,,Making and answering offers,not yet wired,offers/OffersPage.jsx
-offers_you_make_and_offers_you_receive_both_appe,Offers you make and offers you receive both appear here.,,Making and answering offers,not yet wired,offers/OffersPage.jsx
-release_the_reservation,Release the reservation,,Making and answering offers,not yet wired,offers/OffersPage.jsx
-something_went_wrong_loading_your_offers,Something went wrong loading your offers.,,Making and answering offers,not yet wired,offers/OffersPage.jsx
-we_couldn_t_reach_lili_just_now_your_offers_are_,We couldn't reach lili just now. Your offers are safe — this is only the list.,,Making and answering offers,not yet wired,offers/OffersPage.jsx
-yes_cancel,"Yes, cancel",,Making and answering offers,not yet wired,offers/OffersPage.jsx
-yes_release,"Yes, release",,Making and answering offers,not yet wired,offers/OffersPage.jsx
-your_counter_offer,Your counter-offer,,Making and answering offers,not yet wired,offers/OffersPage.jsx
-your_price,Your price,,Making and answering offers,not yet wired,offers/OffersPage.jsx
 most_saved,Most Saved,,Search and filters,not yet wired,discovery/ranking.js
 newest_first,Newest First,,Search and filters,not yet wired,discovery/filters.js discovery/ranking.js
 price_high_to_low,Price: High to Low,,Search and filters,not yet wired,discovery/ranking.js
@@ -733,7 +755,7 @@ show_me_pieces_i_d_like,Show me pieces I'd like,,Privacy & safety centre,not yet
 tax_on_the_seller_s_sale,Tax on the seller's sale,,Privacy & safety centre,not yet wired,compliance/LegalCenter.jsx
 terms_privacy_selling_safety_appeals_in_full,"Terms, privacy, selling, safety, appeals — in full",,Privacy & safety centre,not yet wired,compliance/LegalCenter.jsx
 the_appeal_didn_t_send_check_your_connection_and,The appeal didn't send. Check your connection and try again.,,Privacy & safety centre,not yet wired,compliance/LegalCenter.jsx
-the_seller,The seller,,Privacy & safety centre,not yet wired,compliance/LegalCenter.jsx
+the_seller_2,The seller,,Privacy & safety centre,not yet wired,compliance/LegalCenter.jsx
 this_device_is_not_connected_to_lili_so_this_is_,"This device is not connected to lili, so this is the phone's half only.",,Privacy & safety centre,not yet wired,compliance/LegalCenter.jsx
 two_halves_what_lili_holds_about_your_account_an,"Two halves: what lili holds about your account, and what is stored only on this phone.",,Privacy & safety centre,not yet wired,compliance/LegalCenter.jsx
 vat_on_our_commission,VAT on our commission,,Privacy & safety centre,not yet wired,compliance/LegalCenter.jsx

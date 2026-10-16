@@ -412,7 +412,7 @@ check("the Offers row is no longer a dead 'Soon' link",
   !/\{label:"Offers · العروض",icon:"tag",action:null,soon:true\}/.test(market) &&
   /setTab\("offers"\)/.test(market));
 check("an accepted offer does not imply lili holds the money",
-  /doesn't take payment or hold the\s+piece/.test(offersPage));
+  /t\("accepted_no_hold"\)/.test(offersPage) && /doesn't take payment or hold the piece/.test((await import("./src/i18n/strings.js")).STRINGS.accepted_no_hold.en));
 check("a held-offline offer is marked undelivered, never auto-answered",
   /delivered: false/.test(offersSrc) && !/responses\s*=/.test(offersSrc));
 

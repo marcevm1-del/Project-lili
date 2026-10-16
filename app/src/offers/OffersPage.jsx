@@ -6,6 +6,7 @@ import { withTimeout, BUDGET, isTimeout } from "../ux/timeout.js";
 import * as fees from "../data/fees.js";
 import { t, getLang } from "../i18n/t.js";
 import { localError } from "../i18n/errors.js";
+import { money } from "../i18n/direction.js";
 
 // ─────────────────────────────────────────────────────────────────────────────
 //  OFFERS — both sides of the haggle
@@ -25,14 +26,13 @@ import { localError } from "../i18n/errors.js";
 //  refuse — this is the friendly copy of a rule that lives somewhere safer.
 // ─────────────────────────────────────────────────────────────────────────────
 
-const money = (n) => `AED ${Math.round(Number(n) || 0).toLocaleString()}`;
 
 function timeLeft(offer) {
   const h = offers.hoursLeft(offer);
-  if (h <= 0) return "expired";
-  if (h < 1) return `${Math.round(h * 60)} min left`;
-  if (h < 24) return `${Math.round(h)}h left`;
-  return `${Math.round(h / 24)}d left`;
+  if (h <= 0) return t("offer_expired_short");
+  if (h < 1) return t("mins_left", { n: Math.round(h * 60) });
+  if (h < 24) return t("hours_left", { n: Math.round(h) });
+  return t("days_left", { n: Math.round(h / 24) });
 }
 
 export default function OffersPage({ items = [], shops = [], onBack }) {
@@ -63,7 +63,7 @@ export default function OffersPage({ items = [], shops = [], onBack }) {
   const act = async (id, fn) => {
     setBusy(id); setError(null);
     try { await fn(); await load(); }
-    catch (e) { setError(e && e.message ? e.message : "That didn't go through."); }
+    catch (e) { setError(e && e.message ? e.message : t("err_didnt_go_through")); }
     finally { setBusy(null); }
   };
 
@@ -97,42 +97,42 @@ export default function OffersPage({ items = [], shops = [], onBack }) {
           </div>
           <div style={{ flex: 1, minWidth: 0 }}>
             <div style={{ fontSize: 13, fontWeight: 600, color: C.ink }}>
-              {item.title || "A piece"}
+              {(getLang() === "ar" && item.titleAr) || item.title || t("a_piece")}
             </div>
             <div style={{ fontSize: 11, color: C.inkLt, marginTop: 1 }}>
-              {isMine ? (isBuyer ? (shop.name || "Seller") : "Your counter-offer")
-                      : (o.made_by === "seller" ? `Counter-offer from ${shop.name || "the seller"}` : "Offer from a buyer")}
-              {item.price ? ` · asking ${money(item.price)}` : ""}
+              {isMine ? (isBuyer ? (shop.name || t("the_seller_cap")) : t("your_counter_offer"))
+                      : (o.made_by === "seller" ? t("counter_offer_from", { shop: shop.name || t("the_seller") }) : t("offer_from_a_buyer"))}
+              {item.price ? ` · ${t("asking_price", { price: money(item.price) })}` : ""}
             </div>
           </div>
-          <div style={{ textAlign: "right" }}>
+          <div style={{ textAlign: "end" }}>
             <div style={{ fontSize: 15, fontWeight: 800, color: C.terraTx }}>
               {money(o.amount)}
             </div>
             <div style={{ fontSize: 11, color: open ? C.inkLt : C.ink,
                           fontWeight: open ? 400 : 700 }}>
-              {open ? timeLeft(o) : label.en}
+              {open ? timeLeft(o) : (getLang() === "ar" ? label.ar : label.en)}
             </div>
           </div>
         </div>
 
         {o.message && (
           <div style={{ fontSize: 12, color: C.inkLt, lineHeight: 1.5,
-                        marginTop: 8, paddingLeft: 55 }}>
+                        marginTop: 8, paddingInlineStart: 55 }}>
             “{o.message}”
           </div>
         )}
 
         {o.delivered === false && (
-          <div style={{ fontSize: 11, color: C.inkLt, marginTop: 8, paddingLeft: 55 }}>
-            Not sent yet — waiting for signal.
+          <div style={{ fontSize: 11, color: C.inkLt, marginTop: 8, paddingInlineStart: 55 }}>
+            {t("not_sent_waiting_signal")}
           </div>
         )}
 
         {open && countering === o.id ? (
           <div style={{ marginTop: 10, display: "flex", gap: 8 }}>
             <input value={counterAmount} onChange={(e) => setCounterAmount(e.target.value)}
-              inputMode="decimal" aria-label="Counter amount" placeholder="Your price"
+              inputMode="decimal" aria-label={t("counter_amount")} placeholder={t("your_price")}
               style={{ flex: 1, padding: "10px 12px", borderRadius: 10,
                        border: `1px solid ${C.border}`, fontSize: 13, outline: "none",
                        fontFamily: "inherit" }} />
@@ -143,12 +143,12 @@ export default function OffersPage({ items = [], shops = [], onBack }) {
               disabled={busy === o.id || !counterAmount}
               style={{ ...btn, background: counterAmount ? C.btn : C.sand,
                        color: counterAmount ? C.onBtn : C.inkLt }}>
-              Send
+              {t("send")}
             </button>
             <button onClick={() => { setCountering(null); setCounterAmount(""); }}
               style={{ ...btn, background: "none", color: C.inkLt,
                        border: `1px solid ${C.border}` }}>
-              Cancel
+              {t("cancel")}
             </button>
           </div>
         ) : open ? (
@@ -168,18 +168,18 @@ export default function OffersPage({ items = [], shops = [], onBack }) {
                   disabled={busy === o.id}
                   style={{ ...btn, flex: 1, background: "none", color: C.inkLt,
                            border: `1px solid ${C.border}` }}>
-                  Decline
+                  {t("decline")}
                 </button>
                 <button onClick={() => { setCountering(o.id); setCounterAmount(String(Math.round(o.amount * 1.1))); }}
                   disabled={busy === o.id}
                   style={{ ...btn, flex: 1, background: "none", color: C.terraTx,
                            border: `1.5px solid ${C.terra}` }}>
-                  Counter
+                  {t("counter")}
                 </button>
                 <button onClick={() => act(o.id, () => offers.acceptOffer(o.id))}
                   disabled={busy === o.id}
                   style={{ ...btn, flex: 1, background: C.btn, color: C.onBtn }}>
-                  Accept
+                  {t("accept")}
                 </button>
               </>
             )}
@@ -198,33 +198,31 @@ export default function OffersPage({ items = [], shops = [], onBack }) {
           // difference in price.
           <div style={{ marginTop: 10, background: C.sand, borderRadius: 10,
                         padding: "10px 12px", fontSize: 11, color: C.ink, lineHeight: 1.55 }}>
-            Agreed at {money(o.amount)}.
+            {t("agreed_at", { price: money(o.amount) })}
             {!isBuyer && fees.breakdown(o.amount) && (
-              <> You would receive <b>{fees.money(fees.breakdown(o.amount).payout)}</b> after
-              lili's {fees.breakdown(o.amount).ratePercent}% fee
-              {!fees.COLLECTION_LIVE && <> — though nothing is deducted yet</>}.</>
+              <> {t("you_would_receive", { payout: money(fees.breakdown(o.amount).payout), rate: fees.breakdown(o.amount).ratePercent })}
+              {!fees.COLLECTION_LIVE && <> — {t("nothing_deducted_yet")}</>}.</>
             )}
-            {" "}lili doesn't take payment or hold the
-            piece — arrange the handover between yourselves, in the thread.
+            {" "}{t("accepted_no_hold")}
             {/* The piece is held for this buyer until it is sold or one of
                 them lets it go. Two taps, because letting go tells the other
                 person and puts the piece back on sale. */}
             <div style={{ marginTop: 8 }}>
               {releasing === o.id ? (
                 <span style={{ display: "inline-flex", gap: 8, flexWrap: "wrap", alignItems: "center" }}>
-                  <span>She'll be told, and the piece goes back on sale.</span>
+                  <span>{t(isBuyer ? "release_tells_seller" : "release_tells_buyer")}</span>
                   <button onClick={() => { setReleasing(null); act(o.id, () => offers.releaseReservation(o, { asBuyer: isBuyer })); }}
                     disabled={busy === o.id}
                     style={{ ...btn, background: C.btn, color: C.onBtn }}>
-                    {isBuyer ? "Yes, cancel" : "Yes, release"}
+                    {isBuyer ? t("yes_cancel") : t("yes_release")}
                   </button>
                   <button onClick={() => setReleasing(null)}
-                    style={{ ...btn, background: "none", color: C.inkLt, border: `1px solid ${C.border}` }}>Keep it</button>
+                    style={{ ...btn, background: "none", color: C.inkLt, border: `1px solid ${C.border}` }}>{t("keep_it")}</button>
                 </span>
               ) : (
                 <button onClick={() => setReleasing(o.id)} disabled={busy === o.id}
                   style={{ ...btn, background: "none", color: C.terraTx, border: `1.5px solid ${C.terra}` }}>
-                  {isBuyer ? "I can't buy it after all" : "Release the reservation"}
+                  {isBuyer ? t("cant_buy_after_all") : t("release_reservation")}
                 </button>
               )}
             </div>
@@ -238,15 +236,15 @@ export default function OffersPage({ items = [], shops = [], onBack }) {
     <div style={{ paddingBottom: 84 }}>
       <div style={{ padding: "18px 16px 8px" }}>
         {onBack && (
-          <button onClick={onBack} aria-label="Back" className="tap-target"
+          <button onClick={onBack} aria-label={t("back")} className="tap-target"
             style={{ background: "none", border: "none", color: C.ink, cursor: "pointer",
                      padding: 0, marginBottom: 10, display: "flex" }}>
             <Icon name="back" size={18} stroke={2} />
           </button>
         )}
         <div style={{ fontFamily: "Georgia,serif", fontStyle: "italic", fontSize: 22,
-                      color: C.ink }}>Offers</div>
-        <div style={{ fontSize: 13, color: C.terraTx, marginBottom: 4 }}>العروض</div>
+                      color: C.ink }}>{t("offers")}</div>
+        {getLang() !== "ar" && <div style={{ fontSize: 13, color: C.terraTx, marginBottom: 4 }}>العروض</div>}
       </div>
 
       {error && (
@@ -258,7 +256,7 @@ export default function OffersPage({ items = [], shops = [], onBack }) {
       <div style={{ padding: "0 16px" }}>
         {state === "loading" && (
           <div style={{ color: C.inkLt, fontSize: 13, padding: "30px 0", textAlign: "center" }}>
-            Loading…
+            {t("loading")}
           </div>
         )}
 
@@ -266,14 +264,14 @@ export default function OffersPage({ items = [], shops = [], onBack }) {
           <div style={{ color: C.inkLt, fontSize: 13, padding: "40px 10px", textAlign: "center",
                         lineHeight: 1.65 }}>
             {state === "unreachable"
-              ? "We couldn't reach lili just now. Your offers are safe — this is only the list."
-              : "Something went wrong loading your offers."}
+              ? t("offers_unreachable")
+              : t("offers_load_failed")}
             <button onClick={() => { setState("loading"); load(); }}
               style={{ display: "block", margin: "14px auto 0", background: "none",
                        border: `1.5px solid ${C.terra}`, color: C.terraTx, borderRadius: 20,
                        padding: "8px 18px", fontSize: 12, fontWeight: 600, cursor: "pointer",
                        fontFamily: "inherit" }}>
-              Try again
+              {t("try_again")}
             </button>
           </div>
         )}
@@ -282,11 +280,9 @@ export default function OffersPage({ items = [], shops = [], onBack }) {
           <div style={{ textAlign: "center", padding: "60px 16px", color: C.inkLt }}>
             <Icon name="handshake" size={34} stroke={1.6} style={{ color: C.terra, marginBottom: 12 }} />
             <div style={{ fontFamily: "Georgia,serif", fontStyle: "italic", fontSize: 16,
-                          color: C.terraTx }}>No offers yet</div>
+                          color: C.terraTx }}>{t("no_offers_yet")}</div>
             <div style={{ fontSize: 12, marginTop: 6, lineHeight: 1.6 }}>
-              {getLang() === "ar"
-                ? "العروض التي ترسلينها والعروض التي تصلك تظهر هنا."
-                : "Offers you make and offers you receive both appear here."}
+              {t("offers_empty_hint")}
             </div>
           </div>
         )}
