@@ -1786,6 +1786,19 @@ check("no interface text is set below the 11px floor", tinyType.length === 0 && 
       .filter((title) => !sql.includes(title));
     check("every notification title the sheet translates is still what a trigger writes", stale.length === 0, stale.join(" | "));
   }
+  {
+    // Two signs of a scam the policy names, flagged under the message itself
+    const { scamSignal } = await import("./src/messages/scamSignals.js");
+    check("a link to pay elsewhere, or a push to WhatsApp, is flagged under the message",
+      scamSignal("Pay here to confirm: https://pay-secure.example.com/x") === "link" &&
+      scamSignal("Let's continue on WhatsApp") === "off_platform" && scamSignal("كلميني واتساب") === "off_platform");
+    check("but an ordinary message, or a courier's own tracking link, is not",
+      scamSignal("Hi, is this still available?") === null &&
+      scamSignal("Tracking: https://www.aramex.com/track/results?ShipmentNumber=1") === null &&
+      scamSignal("Sent with Aramex. Tracking number 34567890123") === null);
+    check("the note goes only under what the other person sent",
+      /!m\.mine && \(\(\) => \{ const sig = scamSignal\(m\.text\)/.test(read("./src/pages/MessagesPage.jsx")));
+  }
   // the CHECK still names "meet"; migration 39 refuses it before the CHECK runs
   const sqlCouriers = sqlCarriers.split(",").filter((k) => k !== "meet").join();
   check("every carrier the app offers is one the database accepts, and none more",

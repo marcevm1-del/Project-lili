@@ -694,4 +694,6 @@ export const STRINGS = {
   shop_colour_n: { en: "Shop colour {colour}", ar: "لون المتجر {colour}" },
   saved_done: { en: "Saved", ar: "تم الحفظ" },
   delivery_total_bundle: { en: "Delivery & total for all {n}, one parcel", ar: "التوصيل والمجموع لكل القطع، وعددها {n}، في طرد واحد" },
+  scam_link: { en: "A link to pay or confirm on another site is how most scams start. lili never sends payment links.", ar: "رابط للدفع أو التأكيد على موقع آخر هو بداية معظم عمليات الاحتيال. lili لا ترسل روابط دفع أبداً." },
+  scam_off_platform: { en: "Moving to another app is how most scams start: nothing said there can be shown to lili. Keep it here.", ar: "الانتقال إلى تطبيق آخر هو بداية معظم عمليات الاحتيال: لا يمكن عرض ما يُقال هناك على lili. أبقيا المحادثة هنا." },
 };

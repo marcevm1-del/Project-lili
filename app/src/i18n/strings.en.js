@@ -672,4 +672,6 @@ export const EN = {
   "shop_colour_n": "Shop colour {colour}",
   "saved_done": "Saved",
   "delivery_total_bundle": "Delivery & total for all {n}, one parcel",
+  "scam_link": "A link to pay or confirm on another site is how most scams start. lili never sends payment links.",
+  "scam_off_platform": "Moving to another app is how most scams start: nothing said there can be shown to lili. Keep it here.",
 };

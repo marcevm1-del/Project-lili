@@ -11,6 +11,7 @@ import { marginStart, marginEnd, alignEnd, money, when } from "../i18n/direction
 import { C, Avatar, TopBar, BackBtn, Placeholder } from "../market/shared.jsx";
 import { CARRIERS, carrier, inLang } from "../delivery/carriers.js";
 import { findTracking } from "../delivery/tracking.js";
+import { scamSignal } from "../messages/scamSignals.js";
 import { localError } from "../i18n/errors.js";
 const BuySafely = lazy(() => import("../messages/BuySafely.jsx"));
 const ReviewPrompt = lazy(() => import("../trust/ReviewPrompt.jsx"));
@@ -335,6 +336,15 @@ export function MessagesPage({shops,items,onReport,openThreadId,onOpened,error,o
                       color:m.mine?C.white:C.terraTx,fontWeight:700,fontSize:12,textDecoration:"underline",textUnderlineOffset:3}}>
                     <Icon name="truck" size={14}/>{t("track_parcel_on", { carrier: inLang(tr.carrier, "name", getLang()) })}
                   </a>); })()}
+                {/* Two signs of a scam, named under the message that shows them
+                    (messages/scamSignals.js). Only on what the other person sent. */}
+                {!m.mine && (() => { const sig = scamSignal(m.text); return sig && (
+                  <div role="note" data-scam-signal={sig}
+                    style={{display:"flex",gap:5,alignItems:"flex-start",marginTop:6,fontSize:11,
+                      lineHeight:1.45,color:C.redTx}}>
+                    <Icon name="warning" size={12} stroke={2} style={{flexShrink:0,marginTop:1}}/>
+                    {t(sig === "link" ? "scam_link" : "scam_off_platform")}
+                  </div>); })()}
                 <div style={{fontSize:11,opacity:0.6,marginTop:4,textAlign:alignEnd()}}>
                   {timeLabel(m.at)}
                   {m.mine && m.delivered === false && ` · ${t("not_sent")}`}
