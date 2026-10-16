@@ -610,4 +610,6 @@ export const AR = {
   "iq_small_fix": "اقتربي أكثر، أو قصّي الصورة، لتملأ القطعة معظمها.",
   "iq_landscape_title": "صورة أفقية",
   "iq_landscape_fix": "تعرض الصفحة الرئيسية الصور طولياً، فتُقصّ الصورة العريضة. أمسكي الهاتف عمودياً.",
+  "n_parcels_delivered": "{n} شحنات وصلت",
+  "one_parcel_delivered": "وصلت شحنة 1",
 };

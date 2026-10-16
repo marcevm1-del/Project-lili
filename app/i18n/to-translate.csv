@@ -445,6 +445,8 @@ iq_small_title,The piece is small in the frame,القطعة صغيرة في ال
 iq_small_fix,"Move closer, or crop in, so it fills most of the picture.",اقتربي أكثر، أو قصّي الصورة، لتملأ القطعة معظمها.,Already on screen,draft — check and correct,"Arabic drafted by an AI assistant and already on screen; fix it, or send it back unchanged to approve it"
 iq_landscape_title,Sideways photograph,صورة أفقية,Already on screen,draft — check and correct,"Arabic drafted by an AI assistant and already on screen; fix it, or send it back unchanged to approve it"
 iq_landscape_fix,"The feed shows tall tiles, so a wide photo gets cropped. Turn the phone upright.",تعرض الصفحة الرئيسية الصور طولياً، فتُقصّ الصورة العريضة. أمسكي الهاتف عمودياً.,Already on screen,draft — check and correct,"Arabic drafted by an AI assistant and already on screen; fix it, or send it back unchanged to approve it"
+n_parcels_delivered,{n} parcels delivered,{n} شحنات وصلت,Already on screen,draft — check and correct,"Arabic drafted by an AI assistant and already on screen; fix it, or send it back unchanged to approve it"
+one_parcel_delivered,1 parcel delivered,وصلت شحنة 1,Already on screen,draft — check and correct,"Arabic drafted by an AI assistant and already on screen; fix it, or send it back unchanged to approve it"
 a_reviewer_will_look_at_this_and_you_ll_get_the_,A reviewer will look at this and you'll get the outcome and the reason for it.,,Reporting a listing or a person,not yet wired,compliance/ReportDialog.jsx
 claims_to_be_a_brand_it_isn_t,Claims to be a brand it isn't,,Reporting a listing or a person,not yet wired,compliance/ReportDialog.jsx
 counterfeit_or_replica,Counterfeit or replica,,Reporting a listing or a person,not yet wired,compliance/ReportDialog.jsx

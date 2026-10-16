@@ -418,6 +418,7 @@ begin
   perform pg_temp.act(me);
   j := lili_leave_parcel_review(pid, 5, 'Quick to pay');
   perform pg_temp.act(null);
+  perform pg_temp.ok('a shop''s delivered parcels are a public count', lili_shop_parcels_done(s) = 1);
   perform pg_temp.ok('both reviewed: the parcel review is public and counts in the rating',
     exists (select 1 from lili_shop_reviews(s, 50) x where x.body = 'Parcel arrived as described')
     and exists (select 1 from lili_reputations() r where r.shop_id = s and r.reviews >= 1));

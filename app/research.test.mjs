@@ -1746,6 +1746,10 @@ check("no interface text is set below the 11px floor", tinyType.length === 0 && 
       /await remote\.parcelSent\([\s\S]{0,200}await send\(t\("tracking_line"/.test(msgSrc2) &&
       /!p\.received_at && p\.you_are === "buyer"/.test(msgSrc2) &&
       /<ReviewPrompt parcelId=\{p\.id\}/.test(msgSrc2));
+    check("a shop shows how many parcels reached their buyers, and the count is public",
+      /lili_shop_parcels_done/.test(remote40) && /stats\.parcels_done > 0/.test(read("./src/trust/TrustSignals.jsx")) &&
+      /grant execute on function public\.lili_shop_parcels_done\(uuid\) to anon/.test(
+        read("../supabase/migrations/20261016184849_lili_review_41_shop_parcels_delivered.sql")));
     check("once it arrived, the seller is offered to take the piece down as sold",
       /p\.received_at && p\.you_are === "seller" && item && item\.status === "live" && onMarkSold/.test(msgSrc2) &&
       /onMarkSold=\{onMarkSold\}/.test(read("./src/Marketplace.jsx")));

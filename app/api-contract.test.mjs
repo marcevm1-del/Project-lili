@@ -104,6 +104,8 @@ for (const [fn, args] of [
 // Reputation is public; who wrote a review, and every saved search, are not.
 r = await rpc("lili_reputations");
 check("shop reputations are readable signed out", r.status === 200 && Array.isArray(r.json), `status ${r.status}`);
+r = await rpc("lili_shop_parcels_done", { p_shop: "00000000-0000-0000-0000-000000000000" });
+check("a shop's delivered parcels are a public count", r.status === 200 && r.json === 0, `status ${r.status} ${JSON.stringify(r.json)}`);
 r = await rpc("lili_shop_reviews", { p_shop: "00000000-0000-0000-0000-000000000000" });
 check("a shop's reviews are readable signed out", r.status === 200 && Array.isArray(r.json), `status ${r.status}`);
 check("a review never says who wrote it", !(r.json || []).some((x) => "reviewer_uid" in x));

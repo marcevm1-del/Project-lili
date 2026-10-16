@@ -1230,9 +1230,17 @@ export async function eraseMyEvents() {
 export async function getShopStats(shopId) {
   if (!shopId) return null;
   const sb = await db();
-  const { data, error } = await sb.rpc("lili_shop_stats", { p_shop: shopId });
+  const [{ data, error }, parcels] = await Promise.all([
+    sb.rpc("lili_shop_stats", { p_shop: shopId }),
+    sb.rpc("lili_shop_parcels_done", { p_shop: shopId }),
+  ]);
   if (error) throw error;
-  return (Array.isArray(data) ? data[0] : data) || null;
+  const row = (Array.isArray(data) ? data[0] : data) || null;
+  // Parcels she sent that the buyer confirmed (migration 41): the track record
+  // lili can vouch for without holding money. Optional — if it fails, the rest
+  // of the stats still show.
+  if (row) row.parcels_done = parcels && !parcels.error && Number.isFinite(parcels.data) ? parcels.data : 0;
+  return row;
 }
 
 // ── notifications ──────────────────────────────────────────────────────────

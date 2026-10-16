@@ -610,4 +610,6 @@ export const EN = {
   "iq_small_fix": "Move closer, or crop in, so it fills most of the picture.",
   "iq_landscape_title": "Sideways photograph",
   "iq_landscape_fix": "The feed shows tall tiles, so a wide photo gets cropped. Turn the phone upright.",
+  "n_parcels_delivered": "{n} parcels delivered",
+  "one_parcel_delivered": "1 parcel delivered",
 };

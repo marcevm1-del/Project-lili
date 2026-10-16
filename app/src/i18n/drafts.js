@@ -456,4 +456,6 @@ export const DRAFT_AR = new Set([
   "iq_small_fix",
   "iq_landscape_title",
   "iq_landscape_fix",
+  "n_parcels_delivered",
+  "one_parcel_delivered",
 ]);

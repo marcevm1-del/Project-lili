@@ -632,4 +632,6 @@ export const STRINGS = {
   iq_small_fix: { en: "Move closer, or crop in, so it fills most of the picture.", ar: "اقتربي أكثر، أو قصّي الصورة، لتملأ القطعة معظمها." },
   iq_landscape_title: { en: "Sideways photograph", ar: "صورة أفقية" },
   iq_landscape_fix: { en: "The feed shows tall tiles, so a wide photo gets cropped. Turn the phone upright.", ar: "تعرض الصفحة الرئيسية الصور طولياً، فتُقصّ الصورة العريضة. أمسكي الهاتف عمودياً." },
+  n_parcels_delivered: { en: "{n} parcels delivered", ar: "{n} شحنات وصلت" },
+  one_parcel_delivered: { en: "1 parcel delivered", ar: "وصلت شحنة 1" },
 };

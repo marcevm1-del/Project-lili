@@ -74,6 +74,9 @@ export default function TrustSignals({ shop, compact }) {
   if (state !== "ready" || !stats) return null;
 
   const chips = [];
+  if (stats.parcels_done > 0) {
+    chips.push({ icon: "truck", text: t(stats.parcels_done === 1 ? "one_parcel_delivered" : "n_parcels_delivered", { n: stats.parcels_done }), strong: true });
+  }
   if (stats.sold_count > 0) {
     chips.push({ icon: "check", text: `${stats.sold_count} sold`, strong: true });
   }
