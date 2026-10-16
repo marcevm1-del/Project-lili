@@ -1,7 +1,7 @@
 // Moved out of Marketplace.jsx unchanged; see that file's history for the
 // reasoning in the comments below.
 import { useState } from "react";
-import { FITS } from "../listing/FitAndFlaws.jsx";
+import { FITS, FIT_KEY } from "../listing/FitAndFlaws.jsx";
 import { parsePrice } from "../ux/input.js";
 import Icon from "../icons/Icon.jsx";
 import { useFocusTrap, dialogProps } from "../a11y/useFocusTrap.js";
@@ -124,13 +124,13 @@ export function FiltersPanel({filters,setFilters,onClose,items}) {
           )}
           {/* Fit and flaws — what the listing form asks since v2.12. */}
           <div>
-            <div style={{fontSize:11,fontWeight:700,color:C.inkLt,letterSpacing:0.8,textTransform:"uppercase",marginBottom:8}}>Fit</div>
+            <div style={{fontSize:11,fontWeight:700,color:C.inkLt,letterSpacing:0.8,textTransform:"uppercase",marginBottom:8}}>{t("fit")}</div>
             <div style={{display:"flex",gap:8,flexWrap:"wrap"}}>
-              {FITS.map(([k,l])=>(
+              {FITS.map(([k])=>(
                 <button key={k} onClick={()=>setLocal({...local,fit:local.fit===k?"":k})} aria-pressed={local.fit===k} style={{
                   background:local.fit===k?C.terra:C.white,color:local.fit===k?C.white:C.ink,
                   border:`1px solid ${local.fit===k?C.terra:C.border}`,
-                  borderRadius:20,padding:"5px 12px",fontSize:12,cursor:"pointer"}}>{l}</button>
+                  borderRadius:20,padding:"5px 12px",fontSize:12,cursor:"pointer"}}>{t(FIT_KEY[k])}</button>
               ))}
             </div>
             <label style={{display:"flex",alignItems:"center",gap:10,marginTop:12,fontSize:13,color:C.ink,cursor:"pointer"}}>

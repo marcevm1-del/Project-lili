@@ -485,7 +485,8 @@ const mk2 = marketSource();
 check("shop setup asks for one field, not four",
   !/اسم الدكان \(Arabic\)/.test(mk2) && !/Describe your style/.test(mk2));
 check("bio and banner moved to settings, not deleted from the product",
-  /Arabic name, bio and colour are all in Settings/.test(mk2));
+  /t\("shop_extras_later"\)/.test(mk2) &&
+  /Arabic name, bio and colour are all in Settings/.test(readFileSyncSafe("src/i18n/strings.js")));
 
 console.log("\n19. Icons, not emoji");
 const { readdirSync, statSync } = await import("node:fs");

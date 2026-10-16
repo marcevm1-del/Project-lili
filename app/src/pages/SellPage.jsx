@@ -56,13 +56,13 @@ export function InviteBox() {
   // refusal fell through to "We don't recognise that code", including the one
   // that means "you are signed in anonymously and need a real account".
   const REASON = {
-    already_used:       "That code has already been used.",
-    unknown:            "We don't recognise that code. Check it against the message it came in.",
-    empty:              "Type the code first.",
-    sign_in_required:   "Sign in first — an invitation is attached to an account.",
-    needs_real_account: "You're browsing without an account. Create one first, then enter the code.",
-    too_many_tries:     "Too many attempts. Wait an hour and try again — and check you have the right code.",
-    offline:            "We couldn't reach lili just now. Your code is fine; try again in a moment.",
+    already_used:       "inv_already_used",
+    unknown:            "inv_unknown",
+    empty:              "inv_empty",
+    sign_in_required:   "inv_sign_in_required",
+    needs_real_account: "inv_needs_real_account",
+    too_many_tries:     "inv_too_many_tries",
+    offline:            "inv_offline",
   };
 
   const go = async () => {
@@ -85,7 +85,7 @@ export function InviteBox() {
       <div style={{display:"flex",gap:8}}>
         <input value={code} onChange={e=>{setCode(e.target.value);setState("idle");}}
           onKeyDown={e=>{if(e.key==="Enter")go();}}
-          placeholder="Invitation code" aria-label="Invitation code"
+          placeholder={t("invitation_code")} aria-label={t("invitation_code")}
           autoCapitalize="characters" autoCorrect="off" spellCheck={false}
           style={{flex:1,minWidth:0,padding:"10px 12px",borderRadius:10,fontSize:13,
             border:`1px solid ${state==="bad"?C.red:C.border}`,outline:"none",
@@ -94,12 +94,12 @@ export function InviteBox() {
           style={{background:code.trim()?C.btn:C.sand,color:code.trim()?C.onBtn:C.inkLt,
             border:"none",borderRadius:10,padding:"0 16px",fontWeight:700,fontSize:13,
             cursor:code.trim()?"pointer":"default",flexShrink:0,fontFamily:"inherit"}}>
-          {state==="trying"?"Checking…":"Enter"}
+          {state==="trying"?t("checking"):t("enter")}
         </button>
       </div>
       {state==="bad" && (
         <div role="alert" style={{fontSize:12,color:C.redTx,marginTop:8,lineHeight:1.55}}>
-          {REASON[reason]||REASON.unknown}
+          {t(REASON[reason]||REASON.unknown)}
         </div>
       )}
     </div>
@@ -143,7 +143,7 @@ export function SellPage({myShop,onCreateShop,onAddItem,setTab,onListed}) {
         const raw = await new Promise((res,rej)=>{
           const r = new FileReader();
           r.onload = ev => res(ev.target.result);
-          r.onerror = () => rej(new Error("Couldn't read that photo"));
+          r.onerror = () => rej(new Error(t("couldnt_read_photo")));
           r.readAsDataURL(f);
         });
         // Make both sizes at capture time. The small one is what the feed
@@ -160,7 +160,7 @@ export function SellPage({myShop,onCreateShop,onAddItem,setTab,onListed}) {
         setPhotoFindings(found);
         if (found.length) funnel.track(funnel.EVENTS.PHOTO_ADVICE, { code: found[0].code });
       } catch (err) {
-        setPhotoError(err.message || "Couldn't add that photo");
+        setPhotoError(err.message || t("couldnt_add_photo"));
       }
     }
     e.target.value = "";
@@ -188,7 +188,7 @@ export function SellPage({myShop,onCreateShop,onAddItem,setTab,onListed}) {
         setForm({ ...d.form });
         setPhotos(d.photos || []); setThumbs(d.thumbs || []);
         setMode(d.mode || "quick"); setStep(d.step || 1);
-        setStepError({ message: "Picked up where you left off.", skippable: false });
+        setStepError({ message: t("picked_up_where_left"), skippable: false });
       } catch { /* a lost draft is a small loss; never a broken screen */ }
       if (alive) setRestored(true);
     })();
@@ -217,13 +217,13 @@ export function SellPage({myShop,onCreateShop,onAddItem,setTab,onListed}) {
    */
   const stepProblem = () => {
     if (step === 1 && !photos.length)
-      return { at: 1, message: "No photograph yet — a piece without one rarely sells." };
+      return { at: 1, message: t("step_no_photo") };
     if (step === 2 && !form.title.trim())
-      return { at: 2, message: "No title yet. You'll need one to publish." };
+      return { at: 2, message: t("step_no_title") };
     if (step === 2 && !form.brand)
-      return { at: 2, message: "Which brand? It's the first thing a buyer searches for." };
+      return { at: 2, message: t("step_no_brand") };
     if (step === 3 && parsePrice(form.price) === null)
-      return { at: 3, message: "No price yet. You'll need one to publish." };
+      return { at: 3, message: t("step_no_price") };
     return null;
   };
 
@@ -255,8 +255,8 @@ export function SellPage({myShop,onCreateShop,onAddItem,setTab,onListed}) {
 
   /** What still stands between this listing and being published. */
   const missing = [
-    !form.title.trim() && { label: "a title", step: 2 },
-    parsePrice(form.price) === null && { label: "a price", step: 3 },
+    !form.title.trim() && { label: t("a_title"), step: 2 },
+    parsePrice(form.price) === null && { label: t("a_price"), step: 3 },
   ].filter(Boolean);
 
   // v2.8: publishing is awaited, and the form is only cleared once the listing
@@ -321,7 +321,7 @@ export function SellPage({myShop,onCreateShop,onAddItem,setTab,onListed}) {
       setPublishing(false);
       setPublishError(err && err.message
         ? err.message
-        : "Your listing didn't reach lili — nothing was published. Please try again.");
+        : t("listing_didnt_reach"));
       return;                        // form and photos are kept, so she can retry
     }
     // Handed up before the form is cleared, so the shop screen can show her
@@ -388,8 +388,8 @@ export function SellPage({myShop,onCreateShop,onAddItem,setTab,onListed}) {
     <div style={{paddingBottom:72}}>
       <TopBar center={<Lili size={24}/>}/>
       <div style={{padding:"24px 16px"}}>
-        <div style={{fontFamily:"Georgia,serif",fontStyle:"italic",fontSize:22,color:C.ink,marginBottom:4}}>List an item</div>
-        <div style={{fontSize:13,color:C.inkLt,marginBottom:28}}>{getLang()==="ar" ? "كيف تريدين إضافة قطعتك؟" : "How would you like to list?"}</div>
+        <div style={{fontFamily:"Georgia,serif",fontStyle:"italic",fontSize:22,color:C.ink,marginBottom:4}}>{t("list_an_item")}</div>
+        <div style={{fontSize:13,color:C.inkLt,marginBottom:28}}>{t("how_would_you_like_to_list")}</div>
         <div style={{display:"flex",flexDirection:"column",gap:14}}>
           <button onClick={()=>{setMode("quick");setStep(1);}} style={{background:C.btn,color:C.onBtn,
             border:"none",borderRadius:16,padding:"20px 18px",cursor:"pointer",textAlign:"left",
@@ -403,7 +403,7 @@ export function SellPage({myShop,onCreateShop,onAddItem,setTab,onListed}) {
               {/* "3 taps ... under 60 seconds" was never true — the flow is
                   three screens plus a mode choice plus the fields. It says what
                   it is. */}
-              <div style={{fontSize:12,opacity:0.85,marginTop:3}}>One piece. Photograph, a few details, price.</div>
+              <div style={{fontSize:12,opacity:0.85,marginTop:3}}>{t("quick_list_hint")}</div>
             </div>
           </button>
           <button onClick={()=>{setMode("guided");setStep(1);}} style={{background:C.white,color:C.ink,
@@ -411,8 +411,8 @@ export function SellPage({myShop,onCreateShop,onAddItem,setTab,onListed}) {
             textAlign:"left",display:"flex",alignItems:"center",gap:14}}>
             <Icon name="sparkle" size={34} style={{color:C.terraTx}}/>
             <div>
-              <div style={{fontWeight:700,fontSize:16,color:C.ink}}>Guided Luxury List</div>
-              <div style={{fontSize:12,color:C.inkLt,marginTop:3}}>Full details, provenance, maximum price. For your best pieces.</div>
+              <div style={{fontWeight:700,fontSize:16,color:C.ink}}>{t("guided_luxury_list")}</div>
+              <div style={{fontSize:12,color:C.inkLt,marginTop:3}}>{t("guided_hint")}</div>
             </div>
           </button>
           {/* v2.9. The whole flow assumed one piece at a time — mode screen,
@@ -425,7 +425,7 @@ export function SellPage({myShop,onCreateShop,onAddItem,setTab,onListed}) {
             <Icon name="shops" size={34} style={{color:C.terraTx}}/>
             <div>
               <div style={{fontWeight:700,fontSize:16,color:C.ink}}>{t("several_at_once")}</div>
-              <div style={{fontSize:12,color:C.inkLt,marginTop:3}}>Clearing a wardrobe? Pick every photograph, name and price each one, list them together.</div>
+              <div style={{fontSize:12,color:C.inkLt,marginTop:3}}>{t("bulk_hint")}</div>
             </div>
           </button>
         </div>
@@ -440,7 +440,7 @@ export function SellPage({myShop,onCreateShop,onAddItem,setTab,onListed}) {
         display:"flex",alignItems:"center",justifyContent:"space-between"}}>
         <button onClick={()=>setMode("choose")} style={{background:"none",border:"none",cursor:"pointer",color:C.terraTx,fontSize:13,fontWeight:600}}>{t("cancel")}</button>
         <span style={{fontFamily:"Georgia,serif",fontStyle:"italic",fontSize:15,color:C.ink}}>
-          {step===1?(isGuided?"Add Photos":t("add_photos")):
+          {step===1?t("add_photos"):
            step===2?t("list_your_item"):
            step===3?t("set_your_price"):
            t("authentication")}
@@ -471,7 +471,7 @@ export function SellPage({myShop,onCreateShop,onAddItem,setTab,onListed}) {
               style={{background:"none",border:"none",cursor:"pointer",flexShrink:0,
                 color:C.terraTx,fontSize:12,fontWeight:700,fontFamily:"inherit",
                 textDecoration:"underline"}}>
-              Continue anyway
+              {t("continue_anyway")}
             </button>
           )}
         </div>
@@ -488,11 +488,11 @@ export function SellPage({myShop,onCreateShop,onAddItem,setTab,onListed}) {
           ))}
         </div>
         <div style={{display:"flex",justifyContent:"space-between",marginTop:7}}>
-          <span style={{fontSize:11,color:C.inkLt}}>Step {step} of {totalSteps}</span>
+          <span style={{fontSize:11,color:C.inkLt}}>{t("step_n_of_m", { n: step, m: totalSteps })}</span>
           <span style={{fontSize:11,color:step===totalSteps?C.terraTx:C.inkLt,
             fontWeight:step===totalSteps?700:400}}>
-            {step===totalSteps ? "Last step — then you're live"
-              : `${totalSteps-step} to go`}
+            {step===totalSteps ? t("last_step_live")
+              : t("n_to_go", { n: totalSteps-step })}
           </span>
         </div>
       </div>
@@ -505,18 +505,18 @@ export function SellPage({myShop,onCreateShop,onAddItem,setTab,onListed}) {
                 the counter below it said 8. The number now comes from the
                 limit, so the sentence cannot drift away from the rule again. */}
             <p style={{fontSize:12,color:C.inkLt,marginBottom:14}}>
-              Add up to {LIMITS.maxPerListing} photos · أضيفي حتى {LIMITS.maxPerListing} صور
+              {t("add_up_to_photos", { n: LIMITS.maxPerListing })}
             </p>
             <div style={{display:"grid",gridTemplateColumns:"repeat(3,1fr)",gap:8}}>
               {photos.map((p,i)=>(
                 <div key={i} className="lili-ratio-1" style={{borderRadius:10,overflow:"hidden",position:"relative"}}>
-                  <img src={p} alt={i===0?"Cover photo":`Photo ${i+1}`} style={{objectFit:"cover"}}/>
+                  <img src={p} alt={i===0?t("cover_photo"):t("photo_n", { n: i+1 })} style={{objectFit:"cover"}}/>
                   <button onClick={()=>setPhotos(ph=>ph.filter((_,j)=>j!==i))} style={{
                     position:"absolute",top:4,right:4,background:C.btn,border:"none",
                     borderRadius:"50%",width:22,height:22,color:C.onBtn,cursor:"pointer",fontSize:12,
                     display:"flex",alignItems:"center",justifyContent:"center"}}><Icon name="close" size={14} stroke={2}/></button>
                   {i===0 && <div style={{position:"absolute",bottom:4,left:4,background:"#000a",
-                    color:C.white,fontSize:11,padding:"2px 6px",borderRadius:8}}>Cover</div>}
+                    color:C.white,fontSize:11,padding:"2px 6px",borderRadius:8}}>{t("cover")}</div>}
                 </div>
               ))}
               {photos.length<LIMITS.maxPerListing && (
@@ -526,8 +526,8 @@ export function SellPage({myShop,onCreateShop,onAddItem,setTab,onListed}) {
                   <span className="lili-fill" style={{display:"flex",flexDirection:"column",
                     alignItems:"center",justifyContent:"center",gap:5}}>
                     <Icon name="plus" size={26}/>
-                    <span style={{fontSize:11,color:C.terraTx,fontWeight:600}}>Add Photo</span>
-                    <span style={{fontSize:11,color:C.inkLt}}>Photos ({photos.length}/{LIMITS.maxPerListing})</span>
+                    <span style={{fontSize:11,color:C.terraTx,fontWeight:600}}>{t("add_photo")}</span>
+                    <span style={{fontSize:11,color:C.inkLt}}>{t("photos_count", { n: photos.length, max: LIMITS.maxPerListing })}</span>
                   </span>
                 </label>
               )}
@@ -536,8 +536,7 @@ export function SellPage({myShop,onCreateShop,onAddItem,setTab,onListed}) {
               <div style={{fontSize:12,color:C.red,marginTop:8,lineHeight:1.5}}>{photoError}</div>
             )}
             <div style={{fontSize:11,color:C.inkLt,marginTop:8,lineHeight:1.55}}>
-              Location data is removed from every photo before it's saved — a
-              picture taken at home won't share where that is.
+              {t("location_removed")}
             </div>
             {/* v2.8: replaces a one-line "AI Tip" that appeared only in the
                 guided flow — so the advice reached the sellers who already
@@ -567,9 +566,9 @@ export function SellPage({myShop,onCreateShop,onAddItem,setTab,onListed}) {
                 Two optional fields is a fair price for that; "quick" was
                 always about steps, not about withholding the inputs that
                 decide whether the listing works. */}
-            {[[t("title"),"title","e.g. Chanel Classic Flap Bag"],
+            {[[t("title"),"title",t("title_example")],
               [t("arabic_title"),"titleAr","مثل: شانيل كلاسيك فلاب"],
-              [t("brand"),"brand","e.g. Chanel"],
+              [t("brand"),"brand",t("brand_example")],
             ].map(([lbl,key,ph])=>(
               <div key={key}>
                 <label style={{fontSize:11,fontWeight:700,color:C.inkLt,letterSpacing:0.5,textTransform:"uppercase",display:"block",marginBottom:6}}>{lbl}</label>
@@ -595,10 +594,10 @@ export function SellPage({myShop,onCreateShop,onAddItem,setTab,onListed}) {
             <datalist id="lili-brands">{APPROVED_BRANDS.map(b=><option key={b} value={b}/>)}</datalist>
             {/* She picks the size in the system she knows; the listing stores
                 the one canonical size, so every buyer sees it in theirs. */}
-            <SizeSystemPicker label="Size system you know" compact/>
+            <SizeSystemPicker label={t("size_system_you_know")} compact/>
             <div style={{display:"grid",gridTemplateColumns:"1fr 1fr",gap:10}}>
-              {[["Category","category",ITEM_CATS],["Size","size",SIZES],
-                ["Condition","condition",CONDITIONS],["Era","era",ERAS]].map(([lbl,key,opts])=>(
+              {[[t("category"),"category",ITEM_CATS],[t("size"),"size",SIZES],
+                [t("condition"),"condition",CONDITIONS],[t("era"),"era",ERAS]].map(([lbl,key,opts])=>(
                 <div key={key}>
                   <label style={{fontSize:11,fontWeight:700,color:C.inkLt,letterSpacing:0.5,textTransform:"uppercase",display:"block",marginBottom:6}}>{lbl}</label>
                   <select value={form[key]} onChange={e=>setForm({...form,[key]:e.target.value})}
@@ -614,7 +613,7 @@ export function SellPage({myShop,onCreateShop,onAddItem,setTab,onListed}) {
             <div>
               <label style={{fontSize:11,fontWeight:700,color:C.inkLt,letterSpacing:0.5,textTransform:"uppercase",display:"block",marginBottom:6}}>{t("description")}</label>
               <textarea value={form.desc} onChange={e=>setForm({...form,desc:e.target.value})}
-                placeholder="Describe your piece — condition details, why you loved it, any wear... وصف القطعة"
+                placeholder={t("describe_piece_placeholder")}
                 rows={3} style={{width:"100%",padding:"12px 12px",borderRadius:10,border:`1px solid ${C.border}`,
                   fontSize:13,outline:"none",resize:"vertical",boxSizing:"border-box",fontFamily:"inherit"}}/>
             </div>
@@ -629,8 +628,8 @@ export function SellPage({myShop,onCreateShop,onAddItem,setTab,onListed}) {
               <div style={{display:"flex",gap:12,background:C.white,borderRadius:12,padding:12,border:`1px solid ${C.border}`}}>
                 <img src={photos[0]} style={{width:60,height:60,borderRadius:8,objectFit:"cover"}}/>
                 <div>
-                  <div style={{fontWeight:600,fontSize:13,color:C.ink}}>{form.title||"Your Item"}</div>
-                  <div style={{fontSize:11,color:C.inkLt}}>{form.condition} · Size {sizeLabel(form.size)}</div>
+                  <div style={{fontWeight:600,fontSize:13,color:C.ink}}>{form.title||t("your_item")}</div>
+                  <div style={{fontSize:11,color:C.inkLt}}>{form.condition} · {t("size_n", { size: sizeLabel(form.size) })}</div>
                 </div>
               </div>
             )}
@@ -652,14 +651,11 @@ export function SellPage({myShop,onCreateShop,onAddItem,setTab,onListed}) {
                 It also says plainly that nothing is being deducted yet. */}
             <PayoutBox price={parsePrice(form.price)}/>
             {isGuided && (
+              /* This was a switch drawn in divs: no handler, always on, and nothing
+                 behind it to store. Every listing takes offers, so it says so. */
               <div style={{background:C.white,borderRadius:12,padding:"12px 14px",border:`1px solid ${C.border}`}}>
-                <div style={{fontSize:12,fontWeight:700,color:C.ink,marginBottom:6}}> Offers</div>
-                <div style={{display:"flex",alignItems:"center",justifyContent:"space-between"}}>
-                  <span style={{fontSize:13,color:C.inkLt}}>Accept offers from buyers</span>
-                  <div style={{width:44,height:24,borderRadius:12,background:C.terra,position:"relative",cursor:"pointer"}}>
-                    <div style={{position:"absolute",right:2,top:2,width:20,height:20,borderRadius:"50%",background:C.white}}/>
-                  </div>
-                </div>
+                <div style={{fontSize:12,fontWeight:700,color:C.ink,marginBottom:6}}>{t("offers")}</div>
+                <div style={{fontSize:13,color:C.inkLt,lineHeight:1.5}}>{t("offers_always_on")}</div>
               </div>
             )}
             {/* Screening belongs on BOTH publishing paths. It was only wired
@@ -676,7 +672,7 @@ export function SellPage({myShop,onCreateShop,onAddItem,setTab,onListed}) {
             {publishError && (
               <div role="alert" style={{background:"var(--c-alert-bg)",border:`1.5px solid ${C.red}`,
                 borderRadius:12,padding:"12px 14px",fontSize:12,lineHeight:1.55,color:C.ink}}>
-                <b style={{color:C.redTx}}>Not published.</b> {publishError}
+                <b style={{color:C.redTx}}>{t("not_published")}</b> {publishError}
               </div>
             )}
             {/* v2.9. `submit` returns early when the title or the price is
@@ -688,9 +684,9 @@ export function SellPage({myShop,onCreateShop,onAddItem,setTab,onListed}) {
             {missing.length>0 && (
               <div style={{background:C.sand,border:`1px solid ${C.border}`,borderRadius:12,
                 padding:"12px 14px",fontSize:12,color:C.ink,lineHeight:1.6}}>
-                Still needed: {missing.map((mm,ix)=>(
+                {t("still_needed")} {missing.map((mm,ix)=>(
                   <span key={mm.label}>
-                    {ix>0 && " and "}
+                    {ix>0 && ` ${t("and")} `}
                     <button onClick={()=>{setStepError(null);setStep(mm.step);}}
                       style={{background:"none",border:"none",padding:0,cursor:"pointer",
                         color:C.terraTx,fontWeight:700,fontSize:12,fontFamily:"inherit",
@@ -735,23 +731,20 @@ export function SellPage({myShop,onCreateShop,onAddItem,setTab,onListed}) {
             <div style={{background:C.white,borderRadius:14,padding:18,border:`1px solid ${C.border}`}}>
               <div style={{fontWeight:700,fontSize:15,color:C.ink,marginBottom:4}}>{t("authentication_2")}</div>
               <div style={{fontSize:13,color:C.inkLt,lineHeight:1.6,marginBottom:14}}>
-                Independent verification is not live yet — it needs an
-                authentication partner, and we would rather say so than imply
-                a check nobody performs. Until it is, provenance photographs do
-                this work: the serial or date code, the card, the receipt.
+                {t("auth_not_live_a")} {t("auth_not_live_b")}
               </div>
               <div style={{display:"flex",flexDirection:"column",gap:10}}>
-                {[["own","I have the receipt, card or serial","I'll photograph what came with it.",t("free"),true],
-                  ["expert","Expert verification","Third-party authentication partner.","Not yet available",false],
-                  ["inperson","In-person verification","Physical inspection in Dubai.","Not yet available",false],
-                ].map(([id,t,d,p,available])=>(
+                {[["own",t("auth_own"),t("auth_own_hint"),t("free"),true],
+                  ["expert",t("auth_expert"),t("auth_expert_hint"),t("not_yet_available"),false],
+                  ["inperson",t("auth_inperson"),t("auth_inperson_hint"),t("not_yet_available"),false],
+                ].map(([id,ttl,d,p,available])=>(
                   <label key={id} style={{background:C.sand,borderRadius:10,padding:"12px 14px",
                     display:"flex",alignItems:"center",gap:12,opacity:available?1:0.55,
                     cursor:available?"pointer":"default"}}>
                     <input type="radio" name="auth" value={id} checked={auth===id} disabled={!available}
                       onChange={()=>setAuth(id)} style={{accentColor:C.terra}}/>
                     <div style={{flex:1}}>
-                      <div style={{fontWeight:600,fontSize:13,color:C.ink}}>{t}</div>
+                      <div style={{fontWeight:600,fontSize:13,color:C.ink}}>{ttl}</div>
                       <div style={{fontSize:11,color:C.inkLt,marginTop:2}}>{d}</div>
                     </div>
                     <span style={{fontWeight:700,fontSize:12,color:C.terraTx}}>{p}</span>
@@ -772,7 +765,7 @@ export function SellPage({myShop,onCreateShop,onAddItem,setTab,onListed}) {
             {publishError && (
               <div role="alert" style={{background:"var(--c-alert-bg)",border:`1.5px solid ${C.red}`,
                 borderRadius:12,padding:"12px 14px",fontSize:12,lineHeight:1.55,color:C.ink}}>
-                <b style={{color:C.redTx}}>Not published.</b> {publishError}
+                <b style={{color:C.redTx}}>{t("not_published")}</b> {publishError}
               </div>
             )}
             {/* v2.9. `submit` returns early when the title or the price is
@@ -784,9 +777,9 @@ export function SellPage({myShop,onCreateShop,onAddItem,setTab,onListed}) {
             {missing.length>0 && (
               <div style={{background:C.sand,border:`1px solid ${C.border}`,borderRadius:12,
                 padding:"12px 14px",fontSize:12,color:C.ink,lineHeight:1.6}}>
-                Still needed: {missing.map((mm,ix)=>(
+                {t("still_needed")} {missing.map((mm,ix)=>(
                   <span key={mm.label}>
-                    {ix>0 && " and "}
+                    {ix>0 && ` ${t("and")} `}
                     <button onClick={()=>{setStepError(null);setStep(mm.step);}}
                       style={{background:"none",border:"none",padding:0,cursor:"pointer",
                         color:C.terraTx,fontWeight:700,fontSize:12,fontFamily:"inherit",
@@ -830,9 +823,9 @@ export function CreateShopForm({onCreateShop}) {
   // never be made to accept seller obligations they'll never take on.
   if (showAgreement) return (
     <AgreementSheet clauses={sellerClausesFor("listing")} surface="seller"
-      title="Before your first piece goes up" subtitle="قبل أول قطعة"
-      intro="Five things you're promising your buyers. Tap any line to read it in full — English or العربية. The rest, about getting paid, we'll ask when you're actually being paid."
-      ctaLabel="Agree and open my shop"
+      title={t("before_first_piece")} subtitle={getLang() === "ar" ? undefined : "قبل أول قطعة"}
+      intro={`${t("agreement_intro_a")} ${t("agreement_intro_b")}`}
+      ctaLabel={t("agree_and_open_shop")}
       onBack={()=>setShowAgreement(false)}
       onAgree={acc=>onCreateShop({...form,sellerAgreement:acc})}/>
   );
@@ -868,7 +861,7 @@ export function CreateShopForm({onCreateShop}) {
         </label>
         {Object.values(SELLER_TYPES).map(t=>(
           <button key={t.key} onClick={()=>setForm({...form,sellerType:t.key})} style={{
-            width:"100%",textAlign:"left",display:"flex",gap:12,alignItems:"flex-start",
+            width:"100%",textAlign:"start",display:"flex",gap:12,alignItems:"flex-start",
             padding:"12px 14px",marginBottom:8,borderRadius:12,cursor:"pointer",
             background:C.white,border:`1.5px solid ${form.sellerType===t.key?C.terra:C.border}`}}>
             <div style={{width:16,height:16,borderRadius:"50%",marginTop:2,flexShrink:0,
@@ -896,11 +889,11 @@ export function CreateShopForm({onCreateShop}) {
         <div style={{background:form.banner,height:form.name?52:0,transition:"height .2s"}}/>
         <div style={{padding:"10px 14px"}}>
           <div style={{fontWeight:700,fontSize:15,color:C.ink}}>{form.name||t("your_shop_name")}</div>
-          <div style={{fontSize:12,color:C.inkLt,marginTop:3}}>{form.bio||"Add a bio later in Settings"}</div>
+          <div style={{fontSize:12,color:C.inkLt,marginTop:3}}>{form.bio||t("add_bio_later")}</div>
         </div>
       </div>
       ) : null}
-      {[[t("shop_name"),"name","e.g. Desert Rose Closet"]].map(([lbl,key,ph])=>(
+      {[[t("shop_name"),"name",t("shop_name_example")]].map(([lbl,key,ph])=>(
         <div key={key}>
           <label style={{fontSize:11,fontWeight:700,color:C.inkLt,letterSpacing:0.5,textTransform:"uppercase",display:"block",marginBottom:6}}>{lbl}</label>
           <input value={form[key]} onChange={e=>setForm({...form,[key]:e.target.value})} placeholder={ph}
@@ -909,8 +902,7 @@ export function CreateShopForm({onCreateShop}) {
         </div>
       ))}
       <div style={{fontSize:12,color:C.inkLt,lineHeight:1.55,marginTop:-2}}>
-        Arabic name, bio and colour are all in Settings whenever you fancy —
-        none of them should stand between you and your first piece.
+        {t("shop_extras_later")}
       </div>
       {/* v2.10 — this was an ENABLED button whose onClick was guarded by the
           same condition that greyed it. With a seller type chosen and the name
@@ -930,8 +922,8 @@ export function CreateShopForm({onCreateShop}) {
         border:"none",borderRadius:30,padding:"16px 0",fontWeight:700,fontSize:14,
         fontFamily:"inherit",
         cursor:(form.name.trim()&&form.sellerType)?"pointer":"default"}}>
-        {!form.sellerType ? "Tell us how you're selling"
-          : !form.name.trim() ? "Give your shop a name"
+        {!form.sellerType ? t("tell_us_how_selling")
+          : !form.name.trim() ? t("give_shop_a_name")
           : t("continue")}
       </button>
     </div>

@@ -307,6 +307,80 @@ pc_checked_on_phone,"Checked on your phone — the photograph isn't sent anywher
 pc_research_a,"Marketplace research is consistent on this: better photographs sell more, and the effect is largest on handbags and shoes —",أبحاث الأسواق متفقة على هذا: الصور الأفضل تبيع أكثر، والأثر أكبر في الحقائب والأحذية —,Already on screen,draft — check and correct,"Arabic drafted by an AI assistant and already on screen; fix it, or send it back unchanged to approve it"
 pc_research_b,"about 1.25× and 1.17× the chance of selling, in a study of 75,000 listing images (Ma et al., 2019).","نحو 1.25× و1.17× فرصة البيع، في دراسة شملت 75,000 صورة إعلان (2019).",Already on screen,draft — check and correct,"Arabic drafted by an AI assistant and already on screen; fix it, or send it back unchanged to approve it"
 pc_research_c,It is the cheapest improvement available to any seller here.,إنه أرخص تحسين متاح لأي بائعة هنا.,Already on screen,draft — check and correct,"Arabic drafted by an AI assistant and already on screen; fix it, or send it back unchanged to approve it"
+inv_already_used,That code has already been used.,استُخدم هذا الرمز من قبل.,Already on screen,draft — check and correct,"Arabic drafted by an AI assistant and already on screen; fix it, or send it back unchanged to approve it"
+inv_unknown,We don't recognise that code. Check it against the message it came in.,لا نعرف هذا الرمز. قارنيه بالرسالة التي وصل فيها.,Already on screen,draft — check and correct,"Arabic drafted by an AI assistant and already on screen; fix it, or send it back unchanged to approve it"
+inv_empty,Type the code first.,اكتبي الرمز أولاً.,Already on screen,draft — check and correct,"Arabic drafted by an AI assistant and already on screen; fix it, or send it back unchanged to approve it"
+inv_sign_in_required,Sign in first — an invitation is attached to an account.,سجّلي الدخول أولاً — الدعوة مرتبطة بحساب.,Already on screen,draft — check and correct,"Arabic drafted by an AI assistant and already on screen; fix it, or send it back unchanged to approve it"
+inv_needs_real_account,"You're browsing without an account. Create one first, then enter the code.",أنتِ تتصفحين دون حساب. أنشئي حساباً أولاً، ثم أدخلي الرمز.,Already on screen,draft — check and correct,"Arabic drafted by an AI assistant and already on screen; fix it, or send it back unchanged to approve it"
+inv_too_many_tries,Too many attempts. Wait an hour and try again — and check you have the right code.,محاولات كثيرة. انتظري ساعة وحاولي مجدداً — وتأكدي من الرمز.,Already on screen,draft — check and correct,"Arabic drafted by an AI assistant and already on screen; fix it, or send it back unchanged to approve it"
+inv_offline,We couldn't reach lili just now. Your code is fine; try again in a moment.,تعذّر الوصول إلى lili الآن. رمزكِ سليم؛ حاولي بعد قليل.,Already on screen,draft — check and correct,"Arabic drafted by an AI assistant and already on screen; fix it, or send it back unchanged to approve it"
+invitation_code,Invitation code,رمز الدعوة,Already on screen,draft — check and correct,"Arabic drafted by an AI assistant and already on screen; fix it, or send it back unchanged to approve it"
+checking,Checking…,جارٍ التحقق…,Already on screen,draft — check and correct,"Arabic drafted by an AI assistant and already on screen; fix it, or send it back unchanged to approve it"
+enter,Enter,إدخال,Already on screen,draft — check and correct,"Arabic drafted by an AI assistant and already on screen; fix it, or send it back unchanged to approve it"
+couldnt_read_photo,Couldn't read that photo,تعذّرت قراءة هذه الصورة,Already on screen,draft — check and correct,"Arabic drafted by an AI assistant and already on screen; fix it, or send it back unchanged to approve it"
+couldnt_add_photo,Couldn't add that photo,تعذّرت إضافة هذه الصورة,Already on screen,draft — check and correct,"Arabic drafted by an AI assistant and already on screen; fix it, or send it back unchanged to approve it"
+picked_up_where_left,Picked up where you left off.,تابعنا من حيث توقفتِ.,Already on screen,draft — check and correct,"Arabic drafted by an AI assistant and already on screen; fix it, or send it back unchanged to approve it"
+step_no_photo,No photograph yet — a piece without one rarely sells.,لا صورة بعد — القطعة بلا صورة نادراً ما تُباع.,Already on screen,draft — check and correct,"Arabic drafted by an AI assistant and already on screen; fix it, or send it back unchanged to approve it"
+step_no_title,No title yet. You'll need one to publish.,لا عنوان بعد. ستحتاجينه للنشر.,Already on screen,draft — check and correct,"Arabic drafted by an AI assistant and already on screen; fix it, or send it back unchanged to approve it"
+step_no_brand,Which brand? It's the first thing a buyer searches for.,أي ماركة؟ إنها أول ما تبحث عنه المشترية.,Already on screen,draft — check and correct,"Arabic drafted by an AI assistant and already on screen; fix it, or send it back unchanged to approve it"
+step_no_price,No price yet. You'll need one to publish.,لا سعر بعد. ستحتاجينه للنشر.,Already on screen,draft — check and correct,"Arabic drafted by an AI assistant and already on screen; fix it, or send it back unchanged to approve it"
+a_title,a title,عنوان,Already on screen,draft — check and correct,"Arabic drafted by an AI assistant and already on screen; fix it, or send it back unchanged to approve it"
+a_price,a price,سعر,Already on screen,draft — check and correct,"Arabic drafted by an AI assistant and already on screen; fix it, or send it back unchanged to approve it"
+listing_didnt_reach,Your listing didn't reach lili — nothing was published. Please try again.,لم يصل إعلانكِ إلى lili — لم يُنشر شيء. حاولي مجدداً.,Already on screen,draft — check and correct,"Arabic drafted by an AI assistant and already on screen; fix it, or send it back unchanged to approve it"
+list_an_item,List an item,أضيفي قطعة,Already on screen,draft — check and correct,"Arabic drafted by an AI assistant and already on screen; fix it, or send it back unchanged to approve it"
+how_would_you_like_to_list,How would you like to list?,كيف تريدين إضافة قطعتك؟,Already on screen,draft — check and correct,"Arabic drafted by an AI assistant and already on screen; fix it, or send it back unchanged to approve it"
+quick_list_hint,"One piece. Photograph, a few details, price.",قطعة واحدة. صورة، وبعض التفاصيل، والسعر.,Already on screen,draft — check and correct,"Arabic drafted by an AI assistant and already on screen; fix it, or send it back unchanged to approve it"
+guided_luxury_list,Guided Luxury List,إضافة فاخرة موجّهة,Already on screen,draft — check and correct,"Arabic drafted by an AI assistant and already on screen; fix it, or send it back unchanged to approve it"
+guided_hint,"Full details, provenance, maximum price. For your best pieces.",تفاصيل كاملة، ومصدر القطعة، وأفضل سعر. لأجمل قطعكِ.,Already on screen,draft — check and correct,"Arabic drafted by an AI assistant and already on screen; fix it, or send it back unchanged to approve it"
+bulk_hint,"Clearing a wardrobe? Pick every photograph, name and price each one, list them together.",تفرغين خزانتكِ؟ اختاري كل الصور، وسمّي كل قطعة وسعّريها، وانشريها معاً.,Already on screen,draft — check and correct,"Arabic drafted by an AI assistant and already on screen; fix it, or send it back unchanged to approve it"
+continue_anyway,Continue anyway,المتابعة على أي حال,Already on screen,draft — check and correct,"Arabic drafted by an AI assistant and already on screen; fix it, or send it back unchanged to approve it"
+step_n_of_m,Step {n} of {m},الخطوة {n} من {m},Already on screen,draft — check and correct,"Arabic drafted by an AI assistant and already on screen; fix it, or send it back unchanged to approve it"
+last_step_live,Last step — then you're live,الخطوة الأخيرة — ثم يُنشر إعلانكِ,Already on screen,draft — check and correct,"Arabic drafted by an AI assistant and already on screen; fix it, or send it back unchanged to approve it"
+n_to_go,{n} to go,بقي {n},Already on screen,draft — check and correct,"Arabic drafted by an AI assistant and already on screen; fix it, or send it back unchanged to approve it"
+add_up_to_photos,Add up to {n} photos,أضيفي حتى {n} صور,Already on screen,draft — check and correct,"Arabic drafted by an AI assistant and already on screen; fix it, or send it back unchanged to approve it"
+cover_photo,Cover photo,صورة الغلاف,Already on screen,draft — check and correct,"Arabic drafted by an AI assistant and already on screen; fix it, or send it back unchanged to approve it"
+photo_n,Photo {n},الصورة {n},Already on screen,draft — check and correct,"Arabic drafted by an AI assistant and already on screen; fix it, or send it back unchanged to approve it"
+cover,Cover,الغلاف,Already on screen,draft — check and correct,"Arabic drafted by an AI assistant and already on screen; fix it, or send it back unchanged to approve it"
+add_photo,Add Photo,أضيفي صورة,Already on screen,draft — check and correct,"Arabic drafted by an AI assistant and already on screen; fix it, or send it back unchanged to approve it"
+photos_count,Photos ({n}/{max}),الصور ({n}/{max}),Already on screen,draft — check and correct,"Arabic drafted by an AI assistant and already on screen; fix it, or send it back unchanged to approve it"
+location_removed,Location data is removed from every photo before it's saved — a picture taken at home won't share where that is.,تُزال بيانات الموقع من كل صورة قبل حفظها — صورة التُقطت في المنزل لن تكشف مكانه.,Already on screen,draft — check and correct,"Arabic drafted by an AI assistant and already on screen; fix it, or send it back unchanged to approve it"
+title_example,e.g. Chanel Classic Flap Bag,مثلاً: حقيبة شانيل كلاسيك فلاب,Already on screen,draft — check and correct,"Arabic drafted by an AI assistant and already on screen; fix it, or send it back unchanged to approve it"
+brand_example,e.g. Chanel,مثلاً: شانيل,Already on screen,draft — check and correct,"Arabic drafted by an AI assistant and already on screen; fix it, or send it back unchanged to approve it"
+size_system_you_know,Size system you know,نظام المقاسات الذي تعرفينه,Already on screen,draft — check and correct,"Arabic drafted by an AI assistant and already on screen; fix it, or send it back unchanged to approve it"
+describe_piece_placeholder,"Describe your piece — condition details, why you loved it, any wear...",صفي قطعتكِ — تفاصيل الحالة، ولماذا أحببتِها، وأي آثار استعمال...,Already on screen,draft — check and correct,"Arabic drafted by an AI assistant and already on screen; fix it, or send it back unchanged to approve it"
+your_item,Your Item,قطعتكِ,Already on screen,draft — check and correct,"Arabic drafted by an AI assistant and already on screen; fix it, or send it back unchanged to approve it"
+offers_always_on,"Buyers can make you an offer on every piece. You accept, decline or counter each one.",يمكن للمشتريات تقديم عرض على كل قطعة. تقبلين كل عرض أو ترفضينه أو تردّين بعرض مقابل.,Already on screen,draft — check and correct,"Arabic drafted by an AI assistant and already on screen; fix it, or send it back unchanged to approve it"
+not_published,Not published.,لم يُنشر.,Already on screen,draft — check and correct,"Arabic drafted by an AI assistant and already on screen; fix it, or send it back unchanged to approve it"
+still_needed,Still needed:,ما زال مطلوباً:,Already on screen,draft — check and correct,"Arabic drafted by an AI assistant and already on screen; fix it, or send it back unchanged to approve it"
+and,and,و,Already on screen,draft — check and correct,"Arabic drafted by an AI assistant and already on screen; fix it, or send it back unchanged to approve it"
+auth_not_live_a,"Independent verification is not live yet — it needs an authentication partner, and we would rather say so than imply a check nobody performs.",التحقق المستقل غير متاح بعد — يحتاج إلى شريك توثيق، ونفضّل قول ذلك على الإيحاء بفحص لا يجريه أحد.,Already on screen,draft — check and correct,"Arabic drafted by an AI assistant and already on screen; fix it, or send it back unchanged to approve it"
+auth_not_live_b,"Until it is, provenance photographs do this work: the serial or date code, the card, the receipt.",وإلى أن يتاح، تؤدي صور المصدر هذا الدور: الرقم التسلسلي أو رمز التاريخ، والبطاقة، والفاتورة.,Already on screen,draft — check and correct,"Arabic drafted by an AI assistant and already on screen; fix it, or send it back unchanged to approve it"
+auth_own,"I have the receipt, card or serial",لديّ الفاتورة أو البطاقة أو الرقم التسلسلي,Already on screen,draft — check and correct,"Arabic drafted by an AI assistant and already on screen; fix it, or send it back unchanged to approve it"
+auth_own_hint,I'll photograph what came with it.,سأصوّر ما جاء معها.,Already on screen,draft — check and correct,"Arabic drafted by an AI assistant and already on screen; fix it, or send it back unchanged to approve it"
+auth_expert,Expert verification,تحقق خبير,Already on screen,draft — check and correct,"Arabic drafted by an AI assistant and already on screen; fix it, or send it back unchanged to approve it"
+auth_expert_hint,Third-party authentication partner.,شريك توثيق مستقل.,Already on screen,draft — check and correct,"Arabic drafted by an AI assistant and already on screen; fix it, or send it back unchanged to approve it"
+auth_inperson,In-person verification,تحقق حضوري,Already on screen,draft — check and correct,"Arabic drafted by an AI assistant and already on screen; fix it, or send it back unchanged to approve it"
+auth_inperson_hint,Physical inspection in Dubai.,فحص فعلي في دبي.,Already on screen,draft — check and correct,"Arabic drafted by an AI assistant and already on screen; fix it, or send it back unchanged to approve it"
+not_yet_available,Not yet available,غير متاح بعد,Already on screen,draft — check and correct,"Arabic drafted by an AI assistant and already on screen; fix it, or send it back unchanged to approve it"
+before_first_piece,Before your first piece goes up,قبل نشر أول قطعة,Already on screen,draft — check and correct,"Arabic drafted by an AI assistant and already on screen; fix it, or send it back unchanged to approve it"
+agreement_intro_a,Five things you're promising your buyers. Tap any line to read it in full — English or العربية.,خمسة أمور تتعهدين بها لمشترياتكِ. اضغطي أي سطر لقراءته كاملاً — بالعربية أو الإنجليزية.,Already on screen,draft — check and correct,"Arabic drafted by an AI assistant and already on screen; fix it, or send it back unchanged to approve it"
+agreement_intro_b,"The rest, about getting paid, we'll ask when you're actually being paid.",أما ما يخص استلام المال، فسنسألكِ عنه حين يحين وقته فعلاً.,Already on screen,draft — check and correct,"Arabic drafted by an AI assistant and already on screen; fix it, or send it back unchanged to approve it"
+agree_and_open_shop,Agree and open my shop,أوافق وأفتح متجري,Already on screen,draft — check and correct,"Arabic drafted by an AI assistant and already on screen; fix it, or send it back unchanged to approve it"
+add_bio_later,Add a bio later in Settings,أضيفي نبذة لاحقاً من الإعدادات,Already on screen,draft — check and correct,"Arabic drafted by an AI assistant and already on screen; fix it, or send it back unchanged to approve it"
+shop_name_example,e.g. Desert Rose Closet,مثلاً: خزانة وردة الصحراء,Already on screen,draft — check and correct,"Arabic drafted by an AI assistant and already on screen; fix it, or send it back unchanged to approve it"
+shop_extras_later,"Arabic name, bio and colour are all in Settings whenever you fancy — none of them should stand between you and your first piece.",الاسم بالعربية والنبذة واللون كلها في الإعدادات متى شئتِ — لا ينبغي أن يقف أي منها بينكِ وبين أول قطعة.,Already on screen,draft — check and correct,"Arabic drafted by an AI assistant and already on screen; fix it, or send it back unchanged to approve it"
+tell_us_how_selling,Tell us how you're selling,أخبرينا كيف تبيعين,Already on screen,draft — check and correct,"Arabic drafted by an AI assistant and already on screen; fix it, or send it back unchanged to approve it"
+give_shop_a_name,Give your shop a name,سمّي متجركِ,Already on screen,draft — check and correct,"Arabic drafted by an AI assistant and already on screen; fix it, or send it back unchanged to approve it"
+how_does_it_fit,How does it fit?,كيف مقاسها؟,Already on screen,draft — check and correct,"Arabic drafted by an AI assistant and already on screen; fix it, or send it back unchanged to approve it"
+measurements_laid_flat,"Measurements, laid flat (cm)",القياسات، والقطعة مفرودة (سم),Already on screen,draft — check and correct,"Arabic drafted by an AI assistant and already on screen; fix it, or send it back unchanged to approve it"
+optional,optional,اختياري,Already on screen,draft — check and correct,"Arabic drafted by an AI assistant and already on screen; fix it, or send it back unchanged to approve it"
+m_chest_pit,Chest (pit to pit),الصدر (من إبط إلى إبط),Already on screen,draft — check and correct,"Arabic drafted by an AI assistant and already on screen; fix it, or send it back unchanged to approve it"
+in_centimetres,{what} in centimetres,{what} بالسنتيمتر,Already on screen,draft — check and correct,"Arabic drafted by an AI assistant and already on screen; fix it, or send it back unchanged to approve it"
+two_numbers_hint,Two numbers save a dozen messages: buyers compare them with something they already own.,رقمان يوفّران عشرات الرسائل: تقارنهما المشترية بقطعة تملكها.,Already on screen,draft — check and correct,"Arabic drafted by an AI assistant and already on screen; fix it, or send it back unchanged to approve it"
+anything_to_point_out,Anything to point out?,هل من شيء تودين الإشارة إليه؟,Already on screen,draft — check and correct,"Arabic drafted by an AI assistant and already on screen; fix it, or send it back unchanged to approve it"
+nothing_no_flaws,Nothing — no flaws,لا شيء — بلا عيوب,Already on screen,draft — check and correct,"Arabic drafted by an AI assistant and already on screen; fix it, or send it back unchanged to approve it"
+saying_up_front,Saying so up front is what buyers trust — and a flaw she was told about is not a reason to send it back.,ذكر العيب مسبقاً هو ما يكسب ثقة المشتريات — والعيب الذي عرفته المشترية ليس سبباً لإرجاع القطعة.,Already on screen,draft — check and correct,"Arabic drafted by an AI assistant and already on screen; fix it, or send it back unchanged to approve it"
+fit,Fit,المقاس,Already on screen,draft — check and correct,"Arabic drafted by an AI assistant and already on screen; fix it, or send it back unchanged to approve it"
 a_reviewer_will_look_at_this_and_you_ll_get_the_,A reviewer will look at this and you'll get the outcome and the reason for it.,,Reporting a listing or a person,not yet wired,compliance/ReportDialog.jsx
 claims_to_be_a_brand_it_isn_t,Claims to be a brand it isn't,,Reporting a listing or a person,not yet wired,compliance/ReportDialog.jsx
 counterfeit_or_replica,Counterfeit or replica,,Reporting a listing or a person,not yet wired,compliance/ReportDialog.jsx
@@ -434,11 +508,8 @@ retry_loading_this_photo,Retry loading this photo,,"Loading, errors and empty sc
 that_didn_t_work_twice_so_it_s_us_and_not_you_st,"That didn't work twice, so it's us and not you. Starting fresh usually clears it.",,"Loading, errors and empty screens",not yet wired,ErrorBoundary.jsx
 this_is_on_our_side_not_yours_nothing_you_were_d,"This is on our side, not yours. Nothing you were doing has been lost.",,"Loading, errors and empty screens",not yet wired,ErrorBoundary.jsx
 accessories,Accessories,,The main shopping screens,not yet wired,market/shared.jsx
-add_a_bio_later_in_settings,Add a bio later in Settings,,The main shopping screens,not yet wired,pages/SellPage.jsx
-agree_and_open_my_shop,Agree and open my shop,,The main shopping screens,not yet wired,pages/SellPage.jsx
 beautiful_zimmermann_ruffle_mini_dress_with_flor,Beautiful Zimmermann ruffle mini dress with floral print. Worn once to a brunch. Perfect condition.,,The main shopping screens,not yet wired,market/shared.jsx
 beautifully_crafted_linen_abaya_in_warm_white_wo,Beautifully crafted linen abaya in warm white. Worn once to a family gathering.,,The main shopping screens,not yet wired,market/shared.jsx
-before_your_first_piece_goes_up,Before your first piece goes up,,The main shopping screens,not yet wired,pages/SellPage.jsx
 bottega_veneta_pouch,Bottega Veneta Pouch,,The main shopping screens,not yet wired,market/shared.jsx
 carefully_loved_ready_for_a_second_life,"Carefully loved, ready for a second life",,The main shopping screens,not yet wired,market/shared.jsx
 cat_eye_tortoiseshell,Cat Eye · Tortoiseshell,,The main shopping screens,not yet wired,market/shared.jsx
@@ -451,35 +522,23 @@ chlo_woody_tote_in_tan_and_white_barely_used_per,Chloé Woody tote in tan and wh
 clean_lines_quiet_luxury_always,Clean lines. Quiet luxury. Always.,,The main shopping screens,not yet wired,market/shared.jsx
 clear_search,Clear search,,The main shopping screens,not yet wired,market/shared.jsx
 clear_the_search_to_see_everything_she_has,Clear the search to see everything she has.,,The main shopping screens,not yet wired,pages/ShopPages.jsx
-couldn_t_add_that_photo,Couldn't add that photo,,The main shopping screens,not yet wired,pages/SellPage.jsx
 couldn_t_open_that_conversation,Couldn't open that conversation.,,The main shopping screens,not yet wired,Marketplace.jsx
-couldn_t_read_that_photo,Couldn't read that photo,,The main shopping screens,not yet wired,pages/SellPage.jsx
-cover_photo,Cover photo,,The main shopping screens,not yet wired,pages/SellPage.jsx
-describe_your_piece_condition_details_why_you_lo,"Describe your piece — condition details, why you loved it, any wear... وصف القطعة",,The main shopping screens,not yet wired,pages/SellPage.jsx
 designer_finds_timeless_vintage_gems,Designer finds & timeless vintage gems,,The main shopping screens,not yet wired,market/shared.jsx
 dubai_design_cream,Dubai Design · Cream,,The main shopping screens,not yet wired,market/shared.jsx
 dubai_finds,Dubai Finds,,The main shopping screens,not yet wired,market/shared.jsx
 dubai_only_for_now,"Dubai only, for now",,The main shopping screens,not yet wired,Marketplace.jsx
 elevated_everyday_from_dubai_with_love,Elevated everyday — from Dubai with love,,The main shopping screens,not yet wired,market/shared.jsx
 every_listing_screened,Every listing screened,,The main shopping screens,not yet wired,Marketplace.jsx pages/ProfilePage.jsx
-expert_verification,Expert verification,,The main shopping screens,not yet wired,pages/SellPage.jsx
 follow_her_and_you_ll_see_the_first_piece_when_i,Follow her and you'll see the first piece when it goes up.,,The main shopping screens,not yet wired,pages/ShopPages.jsx
 gianvito_rossi_gianvito_105_pumps_in_nude_pvc_mi,Gianvito Rossi Gianvito 105 pumps in nude PVC. Minor sole wear. Stunning on.,,The main shopping screens,not yet wired,market/shared.jsx
 gianvito_rossi_heels,Gianvito Rossi Heels,,The main shopping screens,not yet wired,market/shared.jsx
-give_your_shop_a_name,Give your shop a name,,The main shopping screens,not yet wired,pages/SellPage.jsx
 haya_s_collection,Haya's Collection,,The main shopping screens,not yet wired,market/shared.jsx
-how_would_you_like_to_list,How would you like to list?,,The main shopping screens,not yet wired,pages/SellPage.jsx
-i_have_the_receipt_card_or_serial,"I have the receipt, card or serial",,The main shopping screens,not yet wired,pages/SellPage.jsx
-i_ll_photograph_what_came_with_it,I'll photograph what came with it.,,The main shopping screens,not yet wired,pages/SellPage.jsx
 iconic_van_cleef_arpels_vintage_alhambra_necklac,Iconic Van Cleef & Arpels Vintage Alhambra necklace. Yellow gold with malachite. Comes with original pouch.,,The main shopping screens,not yet wired,market/shared.jsx
-in_person_verification,In-person verification,,The main shopping screens,not yet wired,pages/SellPage.jsx
 intrecciato_nude,Intrecciato · Nude,,The main shopping screens,not yet wired,market/shared.jsx
-invitation_code,Invitation code,,The main shopping screens,not yet wired,pages/SellPage.jsx
 jacquemus_le_chiquito,Jacquemus Le Chiquito,,The main shopping screens,not yet wired,market/shared.jsx
 jacquemus_le_chiquito_in_caramel_leather_absolut,Jacquemus Le Chiquito in caramel leather. Absolutely perfect condition with dustbag.,,The main shopping screens,not yet wired,market/shared.jsx
 just_arrived,Just arrived,,The main shopping screens,not yet wired,Marketplace.jsx
 just_listed,Just listed,,The main shopping screens,not yet wired,market/shared.jsx
-last_step_then_you_re_live,Last step — then you're live,,The main shopping screens,not yet wired,pages/SellPage.jsx
 leen_s_closet,Leen's Closet,,The main shopping screens,not yet wired,market/shared.jsx
 linen_abaya,Linen Abaya,,The main shopping screens,not yet wired,market/shared.jsx
 luxury_finds,Luxury finds,,The main shopping screens,not yet wired,market/shared.jsx
@@ -497,16 +556,10 @@ message_seller,Message Seller,,The main shopping screens,not yet wired,market/sh
 messages_stay_private,Messages stay private,,The main shopping screens,not yet wired,pages/ProfilePage.jsx
 mini_bag_caramel,Mini Bag · Caramel,,The main shopping screens,not yet wired,market/shared.jsx
 minimal_by_mia,Minimal by Mia,,The main shopping screens,not yet wired,market/shared.jsx
-no_photograph_yet_a_piece_without_one_rarely_sel,No photograph yet — a piece without one rarely sells.,,The main shopping screens,not yet wired,pages/SellPage.jsx
-no_price_yet_you_ll_need_one_to_publish,No price yet. You'll need one to publish.,,The main shopping screens,not yet wired,pages/SellPage.jsx
-no_title_yet_you_ll_need_one_to_publish,No title yet. You'll need one to publish.,,The main shopping screens,not yet wired,pages/SellPage.jsx
-not_yet_available,Not yet available,,The main shopping screens,not yet wired,pages/SellPage.jsx
 notifications,Notifications,,The main shopping screens,not yet wired,Marketplace.jsx notifications/NotificationsSheet.jsx
 nude_pumps_38,Nude Pumps 38,,The main shopping screens,not yet wired,market/shared.jsx
 opening_a_shop_needs_an_account_it_s_how_your_bu,Opening a shop needs an account — it's how your buyers reach you and how you get paid.,,The main shopping screens,not yet wired,Marketplace.jsx
-physical_inspection_in_dubai,Physical inspection in Dubai.,,The main shopping screens,not yet wired,pages/SellPage.jsx
 pick_all_that_apply,Pick all that apply,,The main shopping screens,not yet wired,Marketplace.jsx
-picked_up_where_you_left_off,Picked up where you left off.,,The main shopping screens,not yet wired,pages/SellPage.jsx
 reasons_on_every_decision,Reasons on every decision,,The main shopping screens,not yet wired,pages/ProfilePage.jsx
 reformation_fitted_midi_in_warm_terracotta_worn_,Reformation fitted midi in warm terracotta. Worn once to a brunch. Stunning silhouette.,,The main shopping screens,not yet wired,market/shared.jsx
 reformation_midi_dress,Reformation Midi Dress,,The main shopping screens,not yet wired,market/shared.jsx
@@ -514,31 +567,19 @@ ruffle_mini,Ruffle Mini,,The main shopping screens,not yet wired,market/shared.j
 search_for_items_brands_sellers,"Search for items, brands, sellers...",,The main shopping screens,not yet wired,market/shared.jsx
 second_shelf,Second Shelf,,The main shopping screens,not yet wired,market/shared.jsx
 shop_by_your_favourite_categories,Shop by your favourite categories,,The main shopping screens,not yet wired,Marketplace.jsx
-sign_in_first_an_invitation_is_attached_to_an_ac,Sign in first — an invitation is attached to an account.,,The main shopping screens,not yet wired,pages/SellPage.jsx
-size_system_you_know,Size system you know,,The main shopping screens,not yet wired,pages/SellPage.jsx
 sizes_shown_in,Sizes shown in,,The main shopping screens,not yet wired,market/FiltersPanel.jsx
 summer_edit,Summer edit,,The main shopping screens,not yet wired,market/shared.jsx
 tan_white_canvas,Tan & White Canvas,,The main shopping screens,not yet wired,market/shared.jsx
-tell_us_how_you_re_selling,Tell us how you're selling,,The main shopping screens,not yet wired,pages/SellPage.jsx
 terracotta_fitted,Terracotta · Fitted,,The main shopping screens,not yet wired,market/shared.jsx
-that_code_has_already_been_used,That code has already been used.,,The main shopping screens,not yet wired,pages/SellPage.jsx
 the_best_pre_loved_pieces_in_the_uae,The best pre-loved pieces in the UAE,,The main shopping screens,not yet wired,market/shared.jsx
 the_iconic_bottega_veneta_pouch_in_nude_intrecci,"The iconic Bottega Veneta pouch in nude intrecciato leather. Like new, barely carried.",,The main shopping screens,not yet wired,market/shared.jsx
 the_vintage_edit,The Vintage Edit,,The main shopping screens,not yet wired,market/shared.jsx
-third_party_authentication_partner,Third-party authentication partner.,,The main shopping screens,not yet wired,pages/SellPage.jsx
 timeless_chanel_classic_flap_in_beige_lambskin_w,"Timeless Chanel Classic Flap in beige lambskin with gold hardware. Gently used, excellent condition. Comes with dust bag and authenticity card.",,The main shopping screens,not yet wired,market/shared.jsx
-too_many_attempts_wait_an_hour_and_try_again_and,Too many attempts. Wait an hour and try again — and check you have the right code.,,The main shopping screens,not yet wired,pages/SellPage.jsx
 try_part_of_her_name_in_either_language,"Try part of her name, in either language.",,The main shopping screens,not yet wired,pages/ShopPages.jsx
-type_the_code_first,Type the code first.,,The main shopping screens,not yet wired,pages/SellPage.jsx
 van_cleef_vintage_alhambra,Van Cleef Vintage Alhambra,,The main shopping screens,not yet wired,market/shared.jsx
-we_couldn_t_reach_lili_just_now_your_code_is_fin,We couldn't reach lili just now. Your code is fine; try again in a moment.,,The main shopping screens,not yet wired,pages/SellPage.jsx
-we_don_t_recognise_that_code_check_it_against_th_2,We don't recognise that code. Check it against the message it came in.,,The main shopping screens,not yet wired,pages/SellPage.jsx
 weekend_picks,Weekend picks ,,The main shopping screens,not yet wired,market/shared.jsx
-which_brand_it_s_the_first_thing_a_buyer_searche,Which brand? It's the first thing a buyer searches for.,,The main shopping screens,not yet wired,pages/SellPage.jsx
 yellow_gold_malachite,Yellow Gold · Malachite,,The main shopping screens,not yet wired,market/shared.jsx
-you_re_browsing_without_an_account_create_one_fi,"You're browsing without an account. Create one first, then enter the code.",,The main shopping screens,not yet wired,pages/SellPage.jsx
 you_re_told_who_you_re_buying_from,You're told who you're buying from,,The main shopping screens,not yet wired,Marketplace.jsx
-your_listing_didn_t_reach_lili_nothing_was_publi_2,Your listing didn't reach lili — nothing was published. Please try again.,,The main shopping screens,not yet wired,pages/SellPage.jsx
 zimmermann_floral_dress,Zimmermann Floral Dress,,The main shopping screens,not yet wired,market/shared.jsx
 no_signal_your_message_is_saved_but_hasn_t_been_,No signal — your message is saved but hasn't been sent yet.,,Messages between two women,not yet wired,data/conversations.js
 that_message_is_too_long_2_000_characters_is_the,"That message is too long — 2,000 characters is the limit.",,Messages between two women,not yet wired,data/conversations.js
@@ -705,7 +746,6 @@ arabic_already_forced_that_work_so_urdu_and_pers,"Arabic already forced that wor
 as_listed_s_m_l_eu_shoes,"As listed (S, M, L · EU shoes)",,Elsewhere,not yet wired,sizes/sizeSystem.js
 asia_dubai,Asia/Dubai,,Elsewhere,not yet wired,delivery/OrdersPage.jsx settings/Settings.jsx shops/away.js
 bags_accessories_and_jewellery_are_one_size_so_t,"Bags, accessories and jewellery are one size, so they always show.",,Elsewhere,not yet wired,profile/preferences.js
-chest_pit_to_pit,Chest (pit to pit),,Elsewhere,not yet wired,listing/FitAndFlaws.jsx
 clear_all_preferences,Clear all preferences,,Elsewhere,not yet wired,profile/ProfilePreferences.jsx
 collection_live_is_false_no_screen_claims_money_,COLLECTION_LIVE is false — no screen claims money moves.,,Elsewhere,not yet wired,payments/processor.js
 confirmation_in_writing_that_funds_never_touch_a,Confirmation in writing that funds never touch a lili account,,Elsewhere,not yet wired,payments/processor.js
@@ -737,7 +777,6 @@ google_s_own_infrastructure,Google's own infrastructure,,Elsewhere,not yet wired
 her_contacts_are_other_people_s_data_and_were_ne,Her contacts are other people's data and were never consented by them. ,,Elsewhere,not yet wired,ux/persuasion.js
 holding_a_float_is_a_central_bank_of_the_uae_lic,Holding a float is a Central Bank of the UAE licensing question. ,,Elsewhere,not yet wired,payments/processor.js
 how_a_verdict_is_tied_to_one_physical_object,How a verdict is tied to one physical object,,Elsewhere,not yet wired,trust/authentication.js
-how_does_it_fit,How does it fit,,Elsewhere,not yet wired,listing/FitAndFlaws.jsx
 i_think_it_s_not_genuine,I think it's not genuine,,Elsewhere,not yet wired,delivery/carriers.js
 if_it_is_lili_that_is_a_business_lili_is_not_in_,"If it is lili, that is a business lili is not in. If it is the ",,Elsewhere,not yet wired,trust/authentication.js
 interface_strings_can_start_machine_assisted_wit,Interface strings can start machine-assisted with human review. Legal ,,Elsewhere,not yet wired,i18n/languages.js

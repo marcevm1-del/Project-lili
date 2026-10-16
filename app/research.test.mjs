@@ -895,7 +895,7 @@ check("it expires rather than accumulating forever", /DRAFT_TTL_MS/.test(repoSrc
 check("it never leaves the phone — it is not a listing until she says so",
   !/lili_drafts/.test(remoteSrc));
 check("publishing says what is missing instead of doing nothing",
-  /Still needed:/.test(market) && /missing\.length>0/.test(market));
+  usesKey("still_needed") && /Still needed:/.test(DICT.still_needed.en) && /missing\.length>0/.test(market));
 check("'skip authentication' clears the claim it is skipping",
   /setAuth\(null\);submit\(\)/.test(market));
 

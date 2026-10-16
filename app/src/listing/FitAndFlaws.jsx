@@ -25,8 +25,9 @@ export const FLAWS_OTHER = [["scuff","Scuffs"],["wear","Visible wear"],["stain",
 export const FLAW_LABEL = Object.fromEntries([...FLAWS_GARMENT, ...FLAWS_OTHER]);
 // The buyer's side reads these through the dictionary, so the panel on the
 // piece follows her language. The English is the same as the labels above.
-const FIT_KEY = { small: "runs_small", true: "true_to_size", large: "runs_large" };
+export const FIT_KEY = { small: "runs_small", true: "true_to_size", large: "runs_large" };
 const flawWord = (f) => (FLAW_LABEL[f] ? t(`f_${f}`) : f);
+const measureWord = (k) => t(k === "chest" ? "m_chest_pit" : `m_${k}`);
 
 export function FitAndFlaws({form, setForm}) {
   const cat = form.category;
@@ -51,46 +52,46 @@ export function FitAndFlaws({form, setForm}) {
     <div style={{display:"flex",flexDirection:"column",gap:14}}>
       {FIT_CATS.includes(cat) && (
         <div>
-          <span style={lbl}>How does it fit?</span>
-          <div role="radiogroup" aria-label="How does it fit" style={{display:"flex",gap:7,flexWrap:"wrap"}}>
-            {FITS.map(([k,l])=>(
+          <span style={lbl}>{t("how_does_it_fit")}</span>
+          <div role="radiogroup" aria-label={t("how_does_it_fit")} style={{display:"flex",gap:7,flexWrap:"wrap"}}>
+            {FITS.map(([k])=>(
               <button key={k} type="button" role="radio" aria-checked={form.fit===k} className="tap-target"
-                onClick={()=>setForm({...form,fit:form.fit===k?null:k})} style={chip(form.fit===k)}>{l}</button>
+                onClick={()=>setForm({...form,fit:form.fit===k?null:k})} style={chip(form.fit===k)}>{t(FIT_KEY[k])}</button>
             ))}
           </div>
         </div>
       )}
       {keys.length>0 && (
         <div>
-          <span style={lbl}>Measurements, laid flat (cm) <span style={{textTransform:"none",fontWeight:400}}>· optional</span></span>
+          <span style={lbl}>{t("measurements_laid_flat")} <span style={{textTransform:"none",fontWeight:400}}>· {t("optional")}</span></span>
           <div style={{display:"grid",gridTemplateColumns:"1fr 1fr",gap:8}}>
             {keys.map(k=>(
               <label key={k} style={{display:"flex",flexDirection:"column",gap:4,fontSize:11,color:C.inkLt}}>
-                {MEASURE_LABEL[k]}
+                {measureWord(k)}
                 <input inputMode="decimal" value={(form.measurements||{})[k] ?? ""} onChange={e=>setM(k,e.target.value)}
-                  placeholder="cm" aria-label={`${MEASURE_LABEL[k]} in centimetres`}
+                  placeholder={t("cm")} aria-label={t("in_centimetres", { what: measureWord(k) })}
                   style={{padding:"10px 12px",borderRadius:10,border:`1px solid ${C.border}`,fontSize:14,
                     outline:"none",color:C.ink,background:C.white,boxSizing:"border-box",width:"100%"}}/>
               </label>
             ))}
           </div>
           <div style={{fontSize:11,color:C.inkLt,marginTop:6,lineHeight:1.5}}>
-            Two numbers save a dozen messages: buyers compare them with something they already own.
+            {t("two_numbers_hint")}
           </div>
         </div>
       )}
       <div>
-        <span style={lbl}>Anything to point out?</span>
+        <span style={lbl}>{t("anything_to_point_out")}</span>
         <div style={{display:"flex",gap:7,flexWrap:"wrap"}}>
           <button type="button" aria-pressed={Array.isArray(flaws)&&flaws.length===0} className="tap-target"
-            onClick={()=>setForm({...form,flaws:[]})} style={chip(Array.isArray(flaws)&&flaws.length===0)}>Nothing — no flaws</button>
-          {flawOpts.map(([k,l])=>(
+            onClick={()=>setForm({...form,flaws:[]})} style={chip(Array.isArray(flaws)&&flaws.length===0)}>{t("nothing_no_flaws")}</button>
+          {flawOpts.map(([k])=>(
             <button key={k} type="button" aria-pressed={Array.isArray(flaws)&&flaws.includes(k)} className="tap-target"
-              onClick={()=>toggleFlaw(k)} style={chip(Array.isArray(flaws)&&flaws.includes(k))}>{l}</button>
+              onClick={()=>toggleFlaw(k)} style={chip(Array.isArray(flaws)&&flaws.includes(k))}>{flawWord(k)}</button>
           ))}
         </div>
         <div style={{fontSize:11,color:C.inkLt,marginTop:6,lineHeight:1.5}}>
-          Saying so up front is what buyers trust — and a flaw she was told about is not a reason to send it back.
+          {t("saying_up_front")}
         </div>
       </div>
     </div>
