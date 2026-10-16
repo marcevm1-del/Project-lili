@@ -491,7 +491,6 @@ an_abandoned_listing_is_kept_and_offered_back_pi,An abandoned listing is kept an
 anchoring_the_first_number_frames_the_rest,Anchoring — the first number frames the rest,Elsewhere,ux/persuasion.js
 anything_she_can_start_in_the_app_she_can_end_in,Anything she can start in the app she can end in the app. Deletion is ,Elsewhere,ux/persuasion.js
 arabic_already_forced_that_work_so_urdu_and_pers,"Arabic already forced that work, so Urdu and Persian are cheaper than ",Elsewhere,i18n/languages.js
-arrowright,ArrowRight,Elsewhere,sizes/SizeSystemPicker.jsx
 as_listed_s_m_l_eu_shoes,"As listed (S, M, L · EU shoes)",Elsewhere,sizes/sizeSystem.js
 asia_dubai,Asia/Dubai,Elsewhere,delivery/OrdersPage.jsx meet/when.js settings/Settings.jsx shops/away.js
 bags_accessories_and_jewellery_are_one_size_so_t,"Bags, accessories and jewellery are one size, so they always show.",Elsewhere,profile/preferences.js
@@ -659,7 +658,6 @@ there_is_no_subscription_if_one_ever_exists_it_i,There is no subscription. If on
 these_are_different_claims_and_a_buyer_prices_th,These are different claims and a buyer prices them differently.,Elsewhere,trust/authentication.js
 they_do_persist_nothing_is_lost_on_close,They do persist. Nothing is lost on close.,Elsewhere,ux/persuasion.js
 this_app_carried_trusted_by_10_000_women_in_duba,"This app carried 'Trusted by 10,000+ women in Dubai' over five filled stars ",Elsewhere,ux/persuasion.js
-timeouterror,TimeoutError,Elsewhere,ux/timeout.js
 tops_jackets,Tops & jackets,Elsewhere,profile/preferences.js
 trousers_skirts,Trousers & skirts,Elsewhere,profile/preferences.js
 true_to_size,True to size,Elsewhere,listing/FitAndFlaws.jsx
@@ -722,7 +720,6 @@ decisions_must_be_immutable_once_written_correct,Decisions must be immutable onc
 declared_as_a_business_or_crosses_the_trader_rev,"Declared as a business, or crosses the trader review threshold",Rules and legal wording,compliance/sellerRules.js
 deemed_supplier_vat_assessed_the_platform_can_ow,Deemed-supplier VAT assessed — the platform can owe tax on others' sales,Rules and legal wording,compliance/markets.js
 delivery_is_offered_inside_the_uae_and_to_saudi_,"Delivery is offered inside the UAE and to Saudi Arabia, Kuwait, Qatar, Bahrain ",Rules and legal wording,compliance/sellerRules.js
-deliverysettings,DeliverySettings,Rules and legal wording,compliance/claims.js
 describes_itself_relative_to_a_brand_rather_than,Describes itself relative to a brand rather than as one,Rules and legal wording,compliance/listingRules.js
 describes_the_item_as_a_copy_of_a_brand,Describes the item as a copy of a brand,Rules and legal wording,compliance/listingRules.js
 digital_services_act_omnibus_directive,Digital Services Act + Omnibus Directive,Rules and legal wording,compliance/markets.js

@@ -146,6 +146,7 @@ function extractLiterals() {
         if (/^[A-Z_]+$/.test(v) || /[<>{}]/.test(v)) continue;
         if (/^(https?|var\(|image\/|application|Bearer|SELECT|INSERT)/.test(v)) continue;
         if (!/[a-z]/.test(v)) continue;                 // constants, not prose
+        if (/^[A-Z][a-z]+(?:[A-Z][a-z]+)+$/.test(v)) continue;   // a component name ("SellPage")
         const rec = found.get(v) || { files: new Set(), area: areaOf(f), line: n + 1 };
         rec.files.add(f);
         found.set(v, rec);
