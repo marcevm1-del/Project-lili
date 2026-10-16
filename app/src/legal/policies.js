@@ -121,7 +121,7 @@ export const POLICIES = [
           "Account: your email address, how you signed in, and your year of birth (to confirm you are an adult). Needed to provide the service.",
           "Your country and data choices: so the app applies the right rules and respects what you allowed.",
           "Shop and listings: shop name, bio, the pieces you list, their photos, prices, sizes and condition. Public by design, because the point of a listing is that people see it.",
-          "Messages: what you and the other person write, including a delivery address you choose to share. Only the two of you can read them.",
+          "Messages: what you and the other person write, including a delivery address you choose to share, and the courier and tracking number of a parcel the seller records there. Only the two of you can read them.",
           "Offers, saves, follows, saved searches and reviews: to run those features. Reviews are public; the rest is private to you, except that a seller sees the offers made to her.",
           "Reports you make, and moderation decisions about you: to keep the marketplace safe and to answer appeals.",
           "Crash reports: the error message, app version, platform and screen, with email addresses, numbers and web addresses removed. Linked to your account if you are signed in, so we can fix what you hit.",
@@ -328,7 +328,7 @@ export const POLICIES = [
         { list: [
           "Photograph the piece and the sealed parcel before you hand it to the courier.",
           "Use a courier the listing offers, and keep the receipt.",
-          "Give the buyer the tracking number in lili the day it goes.",
+          "Add the tracking number in the conversation the day it goes (“Add tracking”), so she can follow it and confirm when it arrives.",
         ]},
       ]},
       { h: "Your address", body: [
@@ -431,7 +431,7 @@ export const POLICIES = [
     summary: "Who can review whom, and how the trust signals on shops are earned.",
     sections: [
       { h: "Who can review", body: [
-        `Only the buyer and the seller in a completed order can review each other, once per order, within ${REVIEW_WINDOW_DAYS} days of it completing. That way every review comes from a real sale.`,
+        `Only the buyer and the seller in a completed order, or in a parcel the seller recorded as sent in Messages and the buyer confirmed she received, can review each other: once each, within ${REVIEW_WINDOW_DAYS} days. That way every review comes from a real sale.`,
       ]},
       { h: "What a review must be", body: [
         "Your own honest experience of the piece and the delivery. No offensive language, personal information, or reviews offered or requested in exchange for anything.",

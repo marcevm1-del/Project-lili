@@ -1724,6 +1724,29 @@ check("no interface text is set below the 11px floor", tinyType.length === 0 && 
     check("only the seller in a conversation is offered 'Add tracking'",
       /threads\[active\]\.mine === "seller"/.test(msgSrc) && /data-action="add-tracking"/.test(msgSrc));
   }
+  {
+    // A parcel sent and received in Messages, and the reviews after it (migration 40)
+    const m40 = read("../supabase/migrations/20261016165518_lili_review_40_parcels_in_messages.sql");
+    const msgSrc2 = read("./src/pages/MessagesPage.jsx");
+    const remote40 = read("./src/backend/remote.js");
+    check("a parcel is recorded by the seller and confirmed by the buyer, in the database",
+      /c\.seller_uid is distinct from me/.test(m40) && /p\.buyer_uid is distinct from me/.test(m40) &&
+      /interval '1 hour'/.test(m40));
+    check("parcel reviews follow the order-review rules: once each, 14 days, double-blind",
+      /unique \(parcel_id, reviewer_uid\)/.test(m40) && /received_at \+ interval '14 days'/.test(m40) &&
+      /function lili\.parcel_review_visible/.test(m40));
+    check("they count in a shop's rating and its reviews, and in her data export",
+      (m40.match(/lili\.parcel_review_visible\(pr\)/g) || []).length === 2 &&
+      /return out \|\| lili\.export_parcels\(uid\)/.test(m40));
+    check("nothing about a parcel is readable or callable signed out",
+      /revoke all on public\.lili_parcels from public, anon, authenticated/.test(m40) &&
+      /revoke all on function public\.lili_parcel_sent\(uuid, text, text\) from public, anon/.test(m40));
+    check("the app records the parcel before it posts the tracking message, and only the buyer confirms",
+      /lili_parcel_sent/.test(remote40) && /lili_parcel_received/.test(remote40) &&
+      /await remote\.parcelSent\([\s\S]{0,200}await send\(t\("tracking_line"/.test(msgSrc2) &&
+      /!p\.received_at && p\.you_are === "buyer"/.test(msgSrc2) &&
+      /<ReviewPrompt parcelId=\{p\.id\}/.test(msgSrc2));
+  }
   // the CHECK still names "meet"; migration 39 refuses it before the CHECK runs
   const sqlCouriers = sqlCarriers.split(",").filter((k) => k !== "meet").join();
   check("every carrier the app offers is one the database accepts, and none more",

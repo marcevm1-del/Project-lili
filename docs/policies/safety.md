@@ -21,7 +21,7 @@ Agree the price, the courier and the delivery fee in lili's messages. Messages t
 
 - Photograph the piece and the sealed parcel before you hand it to the courier.
 - Use a courier the listing offers, and keep the receipt.
-- Give the buyer the tracking number in lili the day it goes.
+- Add the tracking number in the conversation the day it goes (“Add tracking”), so she can follow it and confirm when it arrives.
 
 ## Your address
 

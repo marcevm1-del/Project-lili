@@ -10,7 +10,7 @@ do $$
 declare
   me uuid; b1 uuid; b2 uuid; s uuid; i uuid; i2 uuid; cv uuid; mt uuid;
   o1 uuid; o2 uuid; ss uuid; j jsonb; n int; t text; bad text; total int;
-  i3 uuid; cs uuid; k0 int; k1 int; d1 uuid; d2 uuid; d3 uuid; ord uuid; ord2 uuid; ho uuid; ao uuid;
+  i3 uuid; cs uuid; k0 int; k1 int; d1 uuid; d2 uuid; d3 uuid; ord uuid; ord2 uuid; ho uuid; ao uuid; pid uuid;
 begin
   create temp table _r (label text, ok boolean) on commit drop;
   grant all on _r to public;
@@ -379,6 +379,56 @@ begin
   j := lili_app_health();
   perform pg_temp.ok('a moderator sees crashes, every lili job, the waiting work and the orders',
     j ? 'crashes_24h' and jsonb_array_length(j->'jobs') >= 3 and j->'waiting' ? 'appeals' and j->'orders' ? 'payout_due');
+  execute 'reset role';
+
+  -- ── a parcel sent and received in Messages (migration 40) ───────────────
+  perform pg_temp.act(b1);
+  begin perform lili_parcel_sent(cv, 'aramex', '34567890123'); perform pg_temp.ok('only the seller can say a parcel was sent', false);
+  exception when insufficient_privilege then perform pg_temp.ok('only the seller can say a parcel was sent', true); end;
+  perform pg_temp.act(me);
+  begin perform lili_parcel_sent(cv, 'aramex', 'x'); perform pg_temp.ok('a parcel needs a real tracking number', false);
+  exception when invalid_parameter_value then perform pg_temp.ok('a parcel needs a real tracking number', true); end;
+  j := lili_parcel_sent(cv, 'aramex', '3456 7890 123'); pid := (j->>'parcel_id')::uuid;
+  begin perform lili_parcel_sent(cv, 'dhl', '1234567890'); perform pg_temp.ok('one parcel on its way per conversation', false);
+  exception when unique_violation then perform pg_temp.ok('one parcel on its way per conversation', true); end;
+  perform pg_temp.act(b2);
+  perform pg_temp.ok('nobody outside the conversation sees its parcels', (select count(*) from lili_conversation_parcels(cv)) = 0);
+  begin perform lili_parcel_received(pid); perform pg_temp.ok('only the buyer can say it arrived', false);
+  exception when insufficient_privilege then perform pg_temp.ok('only the buyer can say it arrived', true); end;
+  perform pg_temp.act(b1);
+  begin perform lili_parcel_received(pid); perform pg_temp.ok('a parcel cannot arrive the minute it is sent', false);
+  exception when object_not_in_prerequisite_state then perform pg_temp.ok('a parcel cannot arrive the minute it is sent', true); end;
+  begin perform lili_leave_parcel_review(pid, 5); perform pg_temp.ok('no review before the buyer has it', false);
+  exception when invalid_parameter_value then perform pg_temp.ok('no review before the buyer has it', true); end;
+  execute 'reset role';
+  update lili_parcels set sent_at = now() - interval '2 hours' where id = pid;
+  perform pg_temp.act(b1);
+  j := lili_parcel_received(pid);
+  perform pg_temp.ok('the buyer sees the parcel, normalised, with its review open',
+    (select tracking || '/' || you_are || '/' || review_open from lili_conversation_parcels(cv) limit 1) = '34567890123/buyer/true');
+  j := lili_leave_parcel_review(pid, 5, 'Parcel arrived as described');
+  perform pg_temp.ok('a parcel review is hidden until both have reviewed', (j->>'visible')::boolean = false);
+  begin perform lili_leave_parcel_review(pid, 4); perform pg_temp.ok('one parcel review per person', false);
+  exception when unique_violation then perform pg_temp.ok('one parcel review per person', true); end;
+  perform pg_temp.act(null);
+  perform pg_temp.ok('a one-sided parcel review is not public',
+    not exists (select 1 from lili_shop_reviews(s, 50) x where x.body = 'Parcel arrived as described'));
+  begin perform lili_parcel_sent(cv, 'aramex', '34567890123'); perform pg_temp.ok('signed out, the parcel functions refuse', false);
+  exception when insufficient_privilege then perform pg_temp.ok('signed out, the parcel functions refuse', true); end;
+  perform pg_temp.act(me);
+  j := lili_leave_parcel_review(pid, 5, 'Quick to pay');
+  perform pg_temp.act(null);
+  perform pg_temp.ok('both reviewed: the parcel review is public and counts in the rating',
+    exists (select 1 from lili_shop_reviews(s, 50) x where x.body = 'Parcel arrived as described')
+    and exists (select 1 from lili_reputations() r where r.shop_id = s and r.reviews >= 1));
+  perform pg_temp.ok('clients cannot read parcels or parcel reviews directly',
+    not has_table_privilege('anon', 'public.lili_parcels', 'select')
+    and not has_table_privilege('authenticated', 'public.lili_parcels', 'select')
+    and not has_table_privilege('authenticated', 'public.lili_parcel_reviews', 'select'));
+  perform pg_temp.act(b1);
+  j := lili_export_me();
+  perform pg_temp.ok('her data export carries her parcels and the parcel reviews she wrote',
+    jsonb_array_length(j->'parcels') = 1 and jsonb_array_length(j->'parcel_reviews_you_wrote') = 1);
   execute 'reset role';
 
   select count(*), string_agg(label, '; ') filter (where not ok) into total, bad from _r;

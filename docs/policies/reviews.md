@@ -8,7 +8,7 @@ Who can review whom, and how the trust signals on shops are earned.
 
 ## Who can review
 
-Only the buyer and the seller in a completed order can review each other, once per order, within 14 days of it completing. That way every review comes from a real sale.
+Only the buyer and the seller in a completed order, or in a parcel the seller recorded as sent in Messages and the buyer confirmed she received, can review each other: once each, within 14 days. That way every review comes from a real sale.
 
 ## What a review must be
 

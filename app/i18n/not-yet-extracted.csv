@@ -536,7 +536,7 @@ official_language_consumer_terms_must_be_availab,"Official language. Consumer te
 on_its_way,On its way,Elsewhere,delivery/carriers.js
 one_listing_is_one_specific_second_hand_piece_an,"One listing is one specific second-hand piece, and the app says so — ",Elsewhere,ux/persuasion.js
 only_the_buyer_and_the_seller_in_this_order_can_,Only the buyer and the seller in this order can review it.,Elsewhere,trust/ReviewPrompt.jsx
-only_the_two_of_you_who_met_can_review_it,Only the two of you who met can review it.,Elsewhere,trust/ReviewPrompt.jsx
+only_the_two_of_you_in_this_sale_can_review_it,Only the two of you in this sale can review it.,Elsewhere,trust/ReviewPrompt.jsx
 paid_to_be_sent,Paid · to be sent,Elsewhere,delivery/carriers.js
 pay_per_verdict_and_inconclusive_disappears_with,Pay per verdict and inconclusive disappears within a month.,Elsewhere,trust/authentication.js
 payment_state_must_come_from_the_processor_never,"Payment state must come from the processor, never from the phone. ",Elsewhere,payments/processor.js

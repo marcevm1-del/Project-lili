@@ -227,6 +227,15 @@ tracking_number,Tracking number,رقم التتبع,Already on screen,draft — 
 send_tracking,Send tracking,أرسلي رقم التتبع,Already on screen,draft — check and correct,"Arabic drafted by an AI assistant and already on screen; fix it, or send it back unchanged to approve it"
 tracking_line,Sent with {carrier}. Tracking number {number},أُرسلت مع {carrier}. رقم التتبع {number},Already on screen,draft — check and correct,"Arabic drafted by an AI assistant and already on screen; fix it, or send it back unchanged to approve it"
 track_parcel_on,Track the parcel on {carrier},تتبّعي الشحنة على موقع {carrier},Already on screen,draft — check and correct,"Arabic drafted by an AI assistant and already on screen; fix it, or send it back unchanged to approve it"
+the_parcel,The parcel,الشحنة,Already on screen,draft — check and correct,"Arabic drafted by an AI assistant and already on screen; fix it, or send it back unchanged to approve it"
+parcel_sent_on,Sent with {carrier} on {date},أُرسلت مع {carrier} في {date},Already on screen,draft — check and correct,"Arabic drafted by an AI assistant and already on screen; fix it, or send it back unchanged to approve it"
+parcel_arrived_on,Arrived on {date},وصلت في {date},Already on screen,draft — check and correct,"Arabic drafted by an AI assistant and already on screen; fix it, or send it back unchanged to approve it"
+parcel_confirm_hint,Tap once it's in your hands and it's what was described. Then you can review each other.,اضغطي حين تصبح بين يديكِ ومطابقة للوصف. بعدها يمكنكما تقييم بعضكما.,Already on screen,draft — check and correct,"Arabic drafted by an AI assistant and already on screen; fix it, or send it back unchanged to approve it"
+parcel_waiting_buyer,"Once she says it arrived, you can review each other.",حين تؤكد وصولها، يمكنكما تقييم بعضكما.,Already on screen,draft — check and correct,"Arabic drafted by an AI assistant and already on screen; fix it, or send it back unchanged to approve it"
+parcel_received_line,It arrived. Thank you!,وصلت. شكراً لكِ!,Already on screen,draft — check and correct,"Arabic drafted by an AI assistant and already on screen; fix it, or send it back unchanged to approve it"
+parcel_still_on_way,A parcel in this conversation is still on its way.,هناك شحنة في هذه المحادثة ما زالت في الطريق.,Already on screen,draft — check and correct,"Arabic drafted by an AI assistant and already on screen; fix it, or send it back unchanged to approve it"
+parcel_too_early,Confirm once the parcel has reached you.,أكّدي حين تصلكِ الشحنة.,Already on screen,draft — check and correct,"Arabic drafted by an AI assistant and already on screen; fix it, or send it back unchanged to approve it"
+parcel_needs_tracking,Add the courier's tracking number.,أضيفي رقم التتبع من شركة التوصيل.,Already on screen,draft — check and correct,"Arabic drafted by an AI assistant and already on screen; fix it, or send it back unchanged to approve it"
 a_reviewer_will_look_at_this_and_you_ll_get_the_,A reviewer will look at this and you'll get the outcome and the reason for it.,,Reporting a listing or a person,not yet wired,compliance/ReportDialog.jsx
 claims_to_be_a_brand_it_isn_t,Claims to be a brand it isn't,,Reporting a listing or a person,not yet wired,compliance/ReportDialog.jsx
 counterfeit_or_replica,Counterfeit or replica,,Reporting a listing or a person,not yet wired,compliance/ReportDialog.jsx
@@ -764,7 +773,7 @@ official_language_consumer_terms_must_be_availab,"Official language. Consumer te
 on_its_way,On its way,,Elsewhere,not yet wired,delivery/carriers.js
 one_listing_is_one_specific_second_hand_piece_an,"One listing is one specific second-hand piece, and the app says so — ",,Elsewhere,not yet wired,ux/persuasion.js
 only_the_buyer_and_the_seller_in_this_order_can_,Only the buyer and the seller in this order can review it.,,Elsewhere,not yet wired,trust/ReviewPrompt.jsx
-only_the_two_of_you_who_met_can_review_it,Only the two of you who met can review it.,,Elsewhere,not yet wired,trust/ReviewPrompt.jsx
+only_the_two_of_you_in_this_sale_can_review_it,Only the two of you in this sale can review it.,,Elsewhere,not yet wired,trust/ReviewPrompt.jsx
 paid_to_be_sent,Paid · to be sent,,Elsewhere,not yet wired,delivery/carriers.js
 pay_per_verdict_and_inconclusive_disappears_with,Pay per verdict and inconclusive disappears within a month.,,Elsewhere,not yet wired,trust/authentication.js
 payment_state_must_come_from_the_processor_never,"Payment state must come from the processor, never from the phone. ",,Elsewhere,not yet wired,payments/processor.js

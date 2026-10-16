@@ -21,7 +21,9 @@ import { withTimeout, BUDGET, isTimeout } from "../ux/timeout.js";
 
 const WORDS = ["", "Poor", "Not great", "Fine", "Good", "Lovely"];
 
-export default function ReviewPrompt({ orderId, otherRole = "seller", onDone }) {
+// `parcelId` instead of `orderId`: the same review after a parcel sent and
+// received in Messages (migration 40), with the same rules.
+export default function ReviewPrompt({ orderId, parcelId, otherRole = "seller", onDone }) {
   const [stars, setStars] = useState(0);
   const [body, setBody] = useState("");
   const [busy, setBusy] = useState(false);
@@ -43,7 +45,8 @@ export default function ReviewPrompt({ orderId, otherRole = "seller", onDone }) 
     if (!stars || busy) return;
     setBusy(true); setProblem(null);
     try {
-      const r = await withTimeout(remote.leaveOrderReview(orderId, stars, body.trim()), BUDGET.interactive);
+      const r = await withTimeout(parcelId ? remote.leaveParcelReview(parcelId, stars, body.trim())
+                                            : remote.leaveOrderReview(orderId, stars, body.trim()), BUDGET.interactive);
       setSent(r || { ok: true });
       if (onDone) onDone(r);
     } catch (e) {
@@ -89,7 +92,7 @@ export default function ReviewPrompt({ orderId, otherRole = "seller", onDone }) 
       </button>
       <div style={{ fontSize: 11, color: C.inkLt, marginTop: 8, lineHeight: 1.5 }}>
         Shown without your name. {orderId ? "Only the buyer and the seller in this order can review it."
-                                          : "Only the two of you who met can review it."}
+                                          : "Only the two of you in this sale can review it."}
       </div>
     </div>
   );

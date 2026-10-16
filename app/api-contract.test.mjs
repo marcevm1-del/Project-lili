@@ -65,6 +65,8 @@ r = await call("/rest/v1/lili_follows?select=user_id&limit=5");
 check("who-follows-whom is not readable", r.status === 200 && (r.json || []).length === 0, `status ${r.status}`);
 r = await call("/rest/v1/lili_messages?select=id&limit=1");
 check("messages are not readable", (r.status === 200 && (r.json || []).length === 0) || refused(r));
+r = await call("/rest/v1/lili_parcels?select=id&limit=1");
+check("parcels are not readable", (r.status === 200 && (r.json || []).length === 0) || refused(r));
 r = await call("/rest/v1/lili_moderation_cases?select=id&limit=1");
 check("moderation cases are not readable", (r.status === 200 && (r.json || []).length === 0) || refused(r));
 for (const [fn, args] of [
@@ -90,6 +92,11 @@ for (const [fn, args] of [
   ["lili_order_received", { p_order: "00000000-0000-0000-0000-000000000000" }],
   // migration 38: moderators only
   ["lili_app_health", {}],
+  // migration 40: a parcel and its reviews belong to the two people in the thread
+  ["lili_parcel_sent", { p_conversation: "00000000-0000-0000-0000-000000000000", p_carrier: "aramex", p_tracking: "34567890123" }],
+  ["lili_parcel_received", { p_parcel: "00000000-0000-0000-0000-000000000000" }],
+  ["lili_conversation_parcels", { p_conversation: "00000000-0000-0000-0000-000000000000" }],
+  ["lili_leave_parcel_review", { p_parcel: "00000000-0000-0000-0000-000000000000", p_stars: 5 }],
 ]) {
   r = await rpc(fn, args);
   check(`${fn} exists but refuses a signed-out caller`, exists(r) && refused(r), `status ${r.status} ${r.json && r.json.code}`);

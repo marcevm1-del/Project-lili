@@ -55,7 +55,9 @@ holds (`repo.applyLivePatches`), never replacing pending work.
 | `lili_offers` | Offers, counters, acceptance (one accepted per item) | The two parties |
 | `lili_conversations`, `lili_messages` | Threads | The two parties |
 | `lili_meets` | Meet plans; closed to new rows since migration 39 (meeting in person removed) | The two parties |
-| `lili_reviews` | Two-way reviews after a meet (none since migration 39; reviews now follow orders) | Functions only; public summaries |
+| `lili_reviews` | Two-way reviews after a meet (none since migration 39; reviews now follow orders and parcels) | Functions only; public summaries |
+| `lili_parcels` | A parcel the seller recorded in a conversation, and when the buyer confirmed it (migration 40) | The two parties, through functions |
+| `lili_parcel_reviews` | Two-way reviews after a parcel arrived | Functions only; public summaries |
 | `lili_saved_searches` | Saved searches | Functions only (owner) |
 | `lili_moderation_cases`, `lili_case_evidence` | Reports and evidence | Moderators via functions |
 | `lili_client_errors` | Crash reports | Nobody (owner via SQL) |

@@ -1,17 +1,18 @@
 // Moved out of Marketplace.jsx unchanged; see that file's history for the
 // reasoning in the comments below.
-import { useState, useEffect, useRef, lazy } from "react";
+import { useState, useEffect, useRef, lazy, Suspense } from "react";
 import * as remote from "../backend/remote.js";
 import Icon from "../icons/Icon.jsx";
 import * as convo from "../data/conversations.js";
 import * as offers from "../data/offers.js";
 import { t, getLang } from "../i18n/t.js";
 import { space } from "../theme/scale.js";
-import { marginStart, marginEnd, alignEnd, money } from "../i18n/direction.js";
+import { marginStart, marginEnd, alignEnd, money, when } from "../i18n/direction.js";
 import { C, Avatar, TopBar, BackBtn, Placeholder } from "../market/shared.jsx";
-import { CARRIERS, inLang } from "../delivery/carriers.js";
+import { CARRIERS, carrier, inLang } from "../delivery/carriers.js";
 import { findTracking } from "../delivery/tracking.js";
 const BuySafely = lazy(() => import("../messages/BuySafely.jsx"));
+const ReviewPrompt = lazy(() => import("../trust/ReviewPrompt.jsx"));
 
 
 // ── messages ───────────────────────────────────────────────────────────────
@@ -46,6 +47,11 @@ export function MessagesPage({shops,items,onReport,openThreadId,onOpened,error,o
   const [trackOpen,setTrackOpen] = useState(false);
   const [trackCarrier,setTrackCarrier] = useState(CARRIERS[0].key);
   const [trackNo,setTrackNo] = useState("");
+  // Parcels recorded in this conversation (migration 40): sent → received →
+  // a review each. Only on the server path; a device-only thread has none.
+  const [parcels,setParcels] = useState([]);
+  const [parcelBusy,setParcelBusy] = useState(false);
+  const [parcelError,setParcelError] = useState(null);
   const scrollRef = useRef();
   const liveThreads = convo.isRemote();   // named to avoid shadowing the `remote` module
 
@@ -109,7 +115,9 @@ export function MessagesPage({shops,items,onReport,openThreadId,onOpened,error,o
   useEffect(() => {
     let alive = true, unsubscribe = null;
     setSendError(null);
+    setParcels([]); setParcelError(null);
     if (!openThread) { setThread([]); return; }
+    if (openThread.remote) loadParcels(openThread.id);
     (async () => {
       // One call for both paths — conversations.js reads the device store when
       // there is no backend, so the screen no longer reaches into a raw thread
@@ -127,6 +135,41 @@ export function MessagesPage({shops,items,onReport,openThreadId,onOpened,error,o
     })();
     return () => { alive = false; if (unsubscribe) unsubscribe(); };
   }, [openThread && openThread.key]);
+
+  const loadParcels = (id) => remote.conversationParcels(id).then(setParcels).catch(() => setParcels([]));
+  const parcelProblem = (e) => {
+    const m = (e && e.message) || "";
+    return /still on its way/.test(m) ? t("parcel_still_on_way")
+      : /reached you/.test(m) ? t("parcel_too_early")
+      : /tracking number/.test(m) ? t("parcel_needs_tracking")
+      : t("didnt_work");
+  };
+
+  // The seller's tracking: recorded first, so the buyer can confirm and both
+  // can review, then posted as a message, which is what notifies the buyer.
+  // An older server without the parcel functions still gets the message.
+  const sendTracking = async () => {
+    const c = CARRIERS.find(x=>x.key===trackCarrier);
+    if (!c || trackNo.length < 6 || sending) return;
+    setParcelError(null);
+    if (openThread.remote) {
+      try { await remote.parcelSent(openThread.id, c.key, trackNo); }
+      catch (e) { if (!e || e.code !== "PGRST202") { setParcelError(parcelProblem(e)); return; } }
+    }
+    await send(t("tracking_line", { carrier: inLang(c, "name", getLang()), number: trackNo }));
+    if (openThread.remote) loadParcels(openThread.id);
+  };
+
+  const confirmParcel = async (p) => {
+    if (parcelBusy) return;
+    setParcelBusy(true); setParcelError(null);
+    try {
+      await remote.parcelReceived(p.id);
+      await send(t("parcel_received_line"));
+      await loadParcels(openThread.id);
+    } catch (e) { setParcelError(parcelProblem(e)); }
+    setParcelBusy(false);
+  };
 
   const send = async (override) => {
     const text = (typeof override === "string" ? override : newMsg).trim();
@@ -208,6 +251,47 @@ export function MessagesPage({shops,items,onReport,openThreadId,onOpened,error,o
         {/* Meeting in person was removed: every sale goes by courier, so the
             thread's safety note is about money sent before a parcel exists. */}
         {safetyOpen && <BuySafely onDismiss={()=>setSafetyOpen(false)}/>}
+        {parcels[0] && (() => { const p = parcels[0], c = carrier(p.carrier);
+          const name = c ? inLang(c, "name", getLang()) : p.carrier;
+          return (
+            <section aria-label={t("the_parcel")} data-section="parcel"
+              style={{background:C.white,borderBottom:`1px solid ${C.border}`,padding:"10px 14px",display:"grid",gap:8}}>
+              <div style={{display:"flex",gap:8,alignItems:"flex-start",fontSize:12,color:C.ink,lineHeight:1.5}}>
+                <Icon name="truck" size={16} style={{color:C.terraTx,flexShrink:0,marginTop:1}}/>
+                <div style={{flex:1,minWidth:0}}>
+                  <b>{p.received_at ? t("parcel_arrived_on", { date: when(p.received_at, { day: "numeric", month: "short" }) })
+                                    : t("parcel_sent_on", { carrier: name, date: when(p.sent_at, { day: "numeric", month: "short" }) })}</b>
+                  <div style={{color:C.inkLt}}>
+                    {t("tracking_label")} <span dir="ltr" style={{userSelect:"all"}}>{p.tracking}</span>
+                    {c && c.track && <> · <a href={c.track(p.tracking)} target="_blank" rel="noopener noreferrer"
+                      style={{color:C.terraTx,fontWeight:700}}>{t("track")}</a></>}
+                  </div>
+                </div>
+              </div>
+              {!p.received_at && p.you_are === "buyer" && (
+                <div style={{display:"grid",gap:6}}>
+                  <div style={{fontSize:11,color:C.inkLt,lineHeight:1.5}}>{t("parcel_confirm_hint")}</div>
+                  <button onClick={()=>confirmParcel(p)} disabled={parcelBusy} data-action="parcel-received"
+                    style={{justifySelf:"start",background:C.btn,color:C.onBtn,border:"none",borderRadius:18,
+                      padding:"8px 16px",minHeight:40,fontSize:13,fontWeight:700,cursor:"pointer",fontFamily:"inherit",
+                      opacity:parcelBusy?0.6:1}}>{parcelBusy ? t("saving") : t("i_have_it")}</button>
+                </div>
+              )}
+              {!p.received_at && p.you_are === "seller" && (
+                <div style={{fontSize:11,color:C.inkLt,lineHeight:1.5}}>{t("parcel_waiting_buyer")}</div>
+              )}
+              {p.review_open && !p.reviewed && (
+                <Suspense fallback={null}>
+                  <ReviewPrompt parcelId={p.id} otherRole={p.you_are === "buyer" ? "seller" : "buyer"}
+                    onDone={()=>loadParcels(openThread.id)}/>
+                </Suspense>
+              )}
+            </section>
+          ); })()}
+        {parcelError && (
+          <div role="alert" style={{padding:"8px 14px",background:"var(--c-alert-bg)",borderBottom:`1px solid ${C.red}`,
+            fontSize:12,color:C.ink,lineHeight:1.5}}>{parcelError}</div>
+        )}
         <div ref={scrollRef} style={{flex:1,overflowY:"auto",padding:"14px",display:"flex",flexDirection:"column",gap:10}}>
           {view.length===0 && (
             <div style={{textAlign:"center",color:C.inkLt,fontSize:12,padding:"24px 12px",lineHeight:1.6}}>
@@ -273,8 +357,7 @@ export function MessagesPage({shops,items,onReport,openThreadId,onOpened,error,o
                   autoCapitalize="characters" autoComplete="off"
                   style={{flex:"1 1 140px",minWidth:0,padding:"8px 12px",borderRadius:12,border:`1px solid ${C.border}`,
                     fontSize:13,outline:"none",fontFamily:"inherit",minHeight:40}}/>
-                <button onClick={()=>{ const c = CARRIERS.find(x=>x.key===trackCarrier);
-                    send(t("tracking_line", { carrier: inLang(c, "name", getLang()), number: trackNo })); }}
+                <button onClick={sendTracking}
                   disabled={sending || trackNo.length < 6}
                   style={{background:C.btn,color:C.onBtn,border:"none",borderRadius:16,padding:"8px 14px",minHeight:40,
                     fontSize:12,fontWeight:700,cursor:"pointer",fontFamily:"inherit",opacity:sending||trackNo.length<6?0.55:1}}>

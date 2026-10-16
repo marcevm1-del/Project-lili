@@ -15,7 +15,7 @@ What lili holds about you, why, who else handles it, how long it's kept, and you
 - Account: your email address, how you signed in, and your year of birth (to confirm you are an adult). Needed to provide the service.
 - Your country and data choices: so the app applies the right rules and respects what you allowed.
 - Shop and listings: shop name, bio, the pieces you list, their photos, prices, sizes and condition. Public by design, because the point of a listing is that people see it.
-- Messages: what you and the other person write, including a delivery address you choose to share. Only the two of you can read them.
+- Messages: what you and the other person write, including a delivery address you choose to share, and the courier and tracking number of a parcel the seller records there. Only the two of you can read them.
 - Offers, saves, follows, saved searches and reviews: to run those features. Reviews are public; the rest is private to you, except that a seller sees the offers made to her.
 - Reports you make, and moderation decisions about you: to keep the marketplace safe and to answer appeals.
 - Crash reports: the error message, app version, platform and screen, with email addresses, numbers and web addresses removed. Linked to your account if you are signed in, so we can fix what you hit.

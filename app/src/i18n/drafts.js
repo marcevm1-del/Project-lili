@@ -238,4 +238,13 @@ export const DRAFT_AR = new Set([
   "send_tracking",
   "tracking_line",
   "track_parcel_on",
+  "the_parcel",
+  "parcel_sent_on",
+  "parcel_arrived_on",
+  "parcel_confirm_hint",
+  "parcel_waiting_buyer",
+  "parcel_received_line",
+  "parcel_still_on_way",
+  "parcel_too_early",
+  "parcel_needs_tracking",
 ]);

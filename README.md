@@ -15,7 +15,7 @@ lili is a curated resale marketplace for the UAE (Capacitor app + Supabase backe
 | Path | Contents |
 |---|---|
 | `docs/claude-notes/` | Release notes, launch runbook, legal/security reviews (v2.8 → v2.11.7) |
-| `supabase/migrations/` | Every lili database migration (99), exported from the live project's history |
+| `supabase/migrations/` | Every lili database migration (100), exported from the live project's history |
 | `supabase/pending/` | Fixes written but not yet applied — need the owner to run them |
 | `docs/review-2026-10-08.md` | Full review of the live database code and what was fixed |
 | `docs/functional-and-market-review-2026-10-08.md` | End-to-end test results and comparison with similar apps |
@@ -139,6 +139,12 @@ Fixed live in `20261008*_lili_review_1..15_*.sql`; see `docs/review-2026-10-08.m
   courier gets Aramex and Emirates Post, the new column default), no meet plan can be proposed,
   and no order can be made for one. The meet tables and functions stay, empty and unused; the
   app no longer reads them. Reviews now come only from completed orders.
+- **40 — a parcel sent and received in Messages.** With payments off, a sale goes by courier from
+  a conversation. The seller records the courier and tracking number (`lili_parcel_sent`), the
+  buyer confirms it arrived at least an hour later (`lili_parcel_received`), and each can then
+  review the other once within 14 days, double-blind like order reviews. Parcel reviews count in
+  the shop's rating and reviews, and the data export carries parcels and parcel reviews. Nothing
+  is readable directly; only the two people in the conversation can call these.
 
 `supabase/tests/run.sh` rebuilds the database from these migrations in CI and runs
 `functional_test.sql` and `audit_regressions.sql` (26 assertions).

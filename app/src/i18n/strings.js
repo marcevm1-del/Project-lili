@@ -413,4 +413,13 @@ export const STRINGS = {
   send_tracking: { en: "Send tracking", ar: "أرسلي رقم التتبع" },
   tracking_line: { en: "Sent with {carrier}. Tracking number {number}", ar: "أُرسلت مع {carrier}. رقم التتبع {number}" },
   track_parcel_on: { en: "Track the parcel on {carrier}", ar: "تتبّعي الشحنة على موقع {carrier}" },
+  the_parcel: { en: "The parcel", ar: "الشحنة" },
+  parcel_sent_on: { en: "Sent with {carrier} on {date}", ar: "أُرسلت مع {carrier} في {date}" },
+  parcel_arrived_on: { en: "Arrived on {date}", ar: "وصلت في {date}" },
+  parcel_confirm_hint: { en: "Tap once it's in your hands and it's what was described. Then you can review each other.", ar: "اضغطي حين تصبح بين يديكِ ومطابقة للوصف. بعدها يمكنكما تقييم بعضكما." },
+  parcel_waiting_buyer: { en: "Once she says it arrived, you can review each other.", ar: "حين تؤكد وصولها، يمكنكما تقييم بعضكما." },
+  parcel_received_line: { en: "It arrived. Thank you!", ar: "وصلت. شكراً لكِ!" },
+  parcel_still_on_way: { en: "A parcel in this conversation is still on its way.", ar: "هناك شحنة في هذه المحادثة ما زالت في الطريق." },
+  parcel_too_early: { en: "Confirm once the parcel has reached you.", ar: "أكّدي حين تصلكِ الشحنة." },
+  parcel_needs_tracking: { en: "Add the courier's tracking number.", ar: "أضيفي رقم التتبع من شركة التوصيل." },
 };

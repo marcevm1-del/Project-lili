@@ -641,6 +641,42 @@ export async function leaveOrderReview(orderId, stars, body) {
   return data;
 }
 
+// ── a parcel sent and received in Messages (migration 40) ────────────────────
+// With paying in the app off, a sale goes by courier from a conversation. The
+// seller records the courier and tracking number, the buyer says she has it,
+// and then each can review the other: the same rules as an order review.
+
+export async function parcelSent(conversationId, carrier, tracking) {
+  const sb = await db();
+  const { data, error } = await sb.rpc("lili_parcel_sent",
+    { p_conversation: conversationId, p_carrier: carrier, p_tracking: String(tracking || "") });
+  if (error) throw error;
+  return data;
+}
+
+export async function parcelReceived(parcelId) {
+  const sb = await db();
+  const { data, error } = await sb.rpc("lili_parcel_received", { p_parcel: parcelId });
+  if (error) throw error;
+  return data;
+}
+
+/** The parcels in one conversation, newest first: only its two people get any. */
+export async function conversationParcels(conversationId) {
+  const sb = await db();
+  const { data, error } = await sb.rpc("lili_conversation_parcels", { p_conversation: conversationId });
+  if (error) throw error;
+  return data || [];
+}
+
+export async function leaveParcelReview(parcelId, stars, body) {
+  const sb = await db();
+  const { data, error } = await sb.rpc("lili_leave_parcel_review",
+    { p_parcel: parcelId, p_stars: Number(stars), p_body: (body || "").slice(0, 500) || null });
+  if (error) throw error;
+  return data;
+}
+
 export async function reportOrderIssue(orderId, reason, detail) {
   const sb = await db();
   const { data, error } = await sb.rpc("lili_order_issue", { p_order: orderId, p_reason: reason, p_detail: detail });
