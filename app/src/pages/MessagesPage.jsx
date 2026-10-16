@@ -9,6 +9,8 @@ import { t, getLang } from "../i18n/t.js";
 import { space } from "../theme/scale.js";
 import { marginStart, marginEnd, alignEnd, money } from "../i18n/direction.js";
 import { C, Avatar, TopBar, BackBtn, Placeholder } from "../market/shared.jsx";
+import { CARRIERS, inLang } from "../delivery/carriers.js";
+import { findTracking } from "../delivery/tracking.js";
 const BuySafely = lazy(() => import("../messages/BuySafely.jsx"));
 
 
@@ -39,6 +41,11 @@ export function MessagesPage({shops,items,onReport,openThreadId,onOpened,error,o
   const [sending,setSending] = useState(false);
   const [sendError,setSendError] = useState(null);
   const [safetyOpen,setSafetyOpen] = useState(true);
+  // The seller's "Add tracking": courier + number, sent as an ordinary message
+  // that the other side's app turns into a link (delivery/tracking.js).
+  const [trackOpen,setTrackOpen] = useState(false);
+  const [trackCarrier,setTrackCarrier] = useState(CARRIERS[0].key);
+  const [trackNo,setTrackNo] = useState("");
   const scrollRef = useRef();
   const liveThreads = convo.isRemote();   // named to avoid shadowing the `remote` module
 
@@ -121,19 +128,19 @@ export function MessagesPage({shops,items,onReport,openThreadId,onOpened,error,o
     return () => { alive = false; if (unsubscribe) unsubscribe(); };
   }, [openThread && openThread.key]);
 
-  const send = async () => {
-    const text = newMsg.trim();
+  const send = async (override) => {
+    const text = (typeof override === "string" ? override : newMsg).trim();
     if (!text || sending || !openThread) return;
     setSending(true); setSendError(null);
     try {
       const saved = await convo.sendMessage(openThread.id, text);
-      setNewMsg("");
+      if (typeof override === "string") { setTrackNo(""); setTrackOpen(false); } else setNewMsg("");
       // The realtime channel echoes our own insert back; adding it here too
       // would double it, so on the remote path we let the channel deliver.
       if (!openThread.remote) setThread((prev) => [...prev, saved]);
     } catch (e) {
       if (e && e.code === "HELD_OFFLINE") {
-        setNewMsg("");
+        if (typeof override === "string") { setTrackNo(""); setTrackOpen(false); } else setNewMsg("");
         if (e.held) setThread((prev) => [...prev, e.held]);
       }
       setSendError(e && e.message ? e.message : "That didn't send. Try again.");
@@ -224,6 +231,12 @@ export function MessagesPage({shops,items,onReport,openThreadId,onOpened,error,o
                 padding:"10px 14px",fontSize:13,lineHeight:1.45,
                 border:m.mine?"none":`1px solid ${C.border}`}}>
                 {m.text}
+                {(() => { const tr = findTracking(m.text); return tr && (
+                  <a href={tr.url} target="_blank" rel="noopener noreferrer"
+                    style={{display:"inline-flex",alignItems:"center",gap:5,marginTop:6,minHeight:32,
+                      color:m.mine?C.white:C.terraTx,fontWeight:700,fontSize:12,textDecoration:"underline",textUnderlineOffset:3}}>
+                    <Icon name="truck" size={14}/>{t("track_parcel_on", { carrier: inLang(tr.carrier, "name", getLang()) })}
+                  </a>); })()}
                 <div style={{fontSize:11,opacity:0.6,marginTop:4,textAlign:alignEnd()}}>
                   {timeLabel(m.at)}
                   {m.mine && m.delivered === false && " · not sent"}
@@ -237,6 +250,43 @@ export function MessagesPage({shops,items,onReport,openThreadId,onOpened,error,o
           <div role="alert" style={{padding:"8px 14px",background:"var(--c-alert-bg)",
             borderTop:`1px solid ${C.red}`,fontSize:12,color:C.ink,lineHeight:1.5}}>
             {sendError}
+          </div>
+        )}
+        {threads[active] && threads[active].mine === "seller" && (
+          <div style={{padding:"8px 14px 0",background:C.white,borderTop:`1px solid ${C.border}`}}>
+            {!trackOpen ? (
+              <button onClick={()=>setTrackOpen(true)} data-action="add-tracking"
+                style={{display:"inline-flex",alignItems:"center",gap:6,background:"none",border:`1px solid ${C.border}`,
+                  borderRadius:16,padding:"6px 12px",minHeight:36,fontSize:12,fontWeight:700,color:C.terraTx,
+                  cursor:"pointer",fontFamily:"inherit"}}>
+                <Icon name="truck" size={14}/>{t("add_tracking")}
+              </button>
+            ) : (
+              <div style={{display:"flex",gap:8,flexWrap:"wrap",alignItems:"center"}}>
+                <select value={trackCarrier} onChange={e=>setTrackCarrier(e.target.value)} aria-label={t("courier_label")}
+                  style={{padding:"8px 10px",borderRadius:12,border:`1px solid ${C.border}`,fontSize:13,
+                    background:"var(--c-field)",color:C.ink,fontFamily:"inherit",minHeight:40}}>
+                  {CARRIERS.map(c=><option key={c.key} value={c.key}>{inLang(c, "name", getLang())}</option>)}
+                </select>
+                <input value={trackNo} onChange={e=>setTrackNo(e.target.value.replace(/\s+/g,""))} dir="ltr"
+                  aria-label={t("tracking_number")} placeholder={t("tracking_number")} maxLength={30}
+                  autoCapitalize="characters" autoComplete="off"
+                  style={{flex:"1 1 140px",minWidth:0,padding:"8px 12px",borderRadius:12,border:`1px solid ${C.border}`,
+                    fontSize:13,outline:"none",fontFamily:"inherit",minHeight:40}}/>
+                <button onClick={()=>{ const c = CARRIERS.find(x=>x.key===trackCarrier);
+                    send(t("tracking_line", { carrier: inLang(c, "name", getLang()), number: trackNo })); }}
+                  disabled={sending || trackNo.length < 6}
+                  style={{background:C.btn,color:C.onBtn,border:"none",borderRadius:16,padding:"8px 14px",minHeight:40,
+                    fontSize:12,fontWeight:700,cursor:"pointer",fontFamily:"inherit",opacity:sending||trackNo.length<6?0.55:1}}>
+                  {t("send_tracking")}
+                </button>
+                <button onClick={()=>{ setTrackOpen(false); setTrackNo(""); }} aria-label={t("cancel")}
+                  className="tap-round" style={{background:"none",border:"none",color:C.inkLt,cursor:"pointer",
+                    display:"flex",alignItems:"center",justifyContent:"center"}}>
+                  <Icon name="close" size={14} stroke={2}/>
+                </button>
+              </div>
+            )}
           </div>
         )}
         <div style={{padding:"10px 14px 14px",background:C.white,borderTop:`1px solid ${C.border}`,display:"flex",gap:10}}>

@@ -407,4 +407,10 @@ export const STRINGS = {
   offer_queued: { en: "It's saved on this phone and will go the moment you have signal.", ar: "حُفظ العرض على هذا الهاتف وسيُرسل فور توفّر الاتصال." },
   offer_told: { en: "She's been told. You'll hear back here, and you can withdraw it any time before she answers.", ar: "أُبلغت البائعة. سيصلكِ الرد هنا، ويمكنكِ سحب العرض في أي وقت قبل أن تجيب." },
   done: { en: "Done", ar: "تم" },
+  add_tracking: { en: "Add tracking", ar: "إضافة رقم التتبع" },
+  courier_label: { en: "Courier", ar: "شركة التوصيل" },
+  tracking_number: { en: "Tracking number", ar: "رقم التتبع" },
+  send_tracking: { en: "Send tracking", ar: "أرسلي رقم التتبع" },
+  tracking_line: { en: "Sent with {carrier}. Tracking number {number}", ar: "أُرسلت مع {carrier}. رقم التتبع {number}" },
+  track_parcel_on: { en: "Track the parcel on {carrier}", ar: "تتبّعي الشحنة على موقع {carrier}" },
 };

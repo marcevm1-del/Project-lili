@@ -1704,6 +1704,26 @@ check("no interface text is set below the 11px floor", tinyType.length === 0 && 
   const { POLICIES: PP, policyText: pt } = await import("./src/legal/policies.js");
   const { PAYMENTS_LIVE: PL, SHIPPING: SH } = await import("./src/compliance/sellerRules.js");
   const sqlCarriers = (m33.match(/method in \(([^)]*)\)/) || [, ""])[1].replace(/'/g, "").split(",").map((x) => x.trim()).sort().join();
+  {
+    // A tracking number sent in a thread becomes a link to the courier's page
+    const { findTracking } = await import("./src/delivery/tracking.js");
+    const { STRINGS: S2 } = await import("./src/i18n/strings.js");
+    const line = (lang, carrier, number) => S2.tracking_line[lang].replace("{carrier}", carrier).replace("{number}", number);
+    const en = findTracking(line("en", "Aramex", "34567890123"));
+    const ar = findTracking(line("ar", "أرامكس", "34567890123"));
+    check("a tracking number sent from the thread becomes a link to the courier, in either language",
+      en && ar && en.carrier.key === "aramex" && ar.number === "34567890123" &&
+      en.url === D.carrier("aramex").track("34567890123"));
+    check("a phone number, or a brand that starts like a courier's Arabic name, is not a tracking link",
+      !findTracking("Aramex will call 0501234567") && !findTracking("Aramex +971501234567") &&
+      !findTracking("ديور 12345678 أصلية"));
+    check("the link can only go to the courier's own site",
+      [findTracking('Aramex 12345678"><img src=x>'), findTracking("dhl JD0146000062812")].every((r) =>
+        r && /^https:\/\/www\.(aramex|dhl)\.com\//.test(r.url) && !/[<>"]/.test(r.url)));
+    const msgSrc = read("./src/pages/MessagesPage.jsx");
+    check("only the seller in a conversation is offered 'Add tracking'",
+      /threads\[active\]\.mine === "seller"/.test(msgSrc) && /data-action="add-tracking"/.test(msgSrc));
+  }
   // the CHECK still names "meet"; migration 39 refuses it before the CHECK runs
   const sqlCouriers = sqlCarriers.split(",").filter((k) => k !== "meet").join();
   check("every carrier the app offers is one the database accepts, and none more",

@@ -232,4 +232,10 @@ export const DRAFT_AR = new Set([
   "offer_queued",
   "offer_told",
   "done",
+  "add_tracking",
+  "courier_label",
+  "tracking_number",
+  "send_tracking",
+  "tracking_line",
+  "track_parcel_on",
 ]);
