@@ -1,0 +1,99 @@
+import { useState } from "react";
+import { C } from "../compliance/ui.js";
+import Icon from "../icons/Icon.jsx";
+import * as remote from "../backend/remote.js";
+import { withTimeout, BUDGET, isTimeout } from "../ux/timeout.js";
+import { t } from "../i18n/t.js";
+
+// ─────────────────────────────────────────────────────────────────────────────
+//  A REVIEW, AFTER AN ORDER
+//
+//  Every resale app a buyer compares lili with has seller reviews; lili had a
+//  "replies within a day" signal and nothing anyone else had said. This is the
+//  other half, and it is built on the one thing lili can vouch for: an order
+//  paid through lili that reached the buyer (migration 36). No order, no
+//  review — so a rating cannot be bought with a conversation that never became
+//  a sale. (Reviews after a meet went when meeting in person did, migration 39.)
+//
+//  Double-blind, as the server enforces: what she writes is hidden until the
+//  other person has reviewed too, or 14 days have passed, so neither of them
+//  can wait to see the other's and answer it.
+// ─────────────────────────────────────────────────────────────────────────────
+
+const WORDS = ["", "rate_1", "rate_2", "rate_3", "rate_4", "rate_5"];
+
+// `parcelId` instead of `orderId`: the same review after a parcel sent and
+// received in Messages (migration 40), with the same rules.
+export default function ReviewPrompt({ orderId, parcelId, otherRole = "seller", onDone }) {
+  const [stars, setStars] = useState(0);
+  const [body, setBody] = useState("");
+  const [busy, setBusy] = useState(false);
+  const [problem, setProblem] = useState(null);
+  const [sent, setSent] = useState(null);
+
+  if (sent) {
+    return (
+      <div role="status" style={{ fontSize: 12, color: C.inkLt, lineHeight: 1.6 }}>
+        <b style={{ color: C.ink }}>{t("thank_you")}</b>{" "}
+        {sent.visible
+          ? t("review_both_visible")
+          : t(otherRole === "buyer" ? "review_waits_buyer" : "review_waits_seller")}
+      </div>
+    );
+  }
+
+  const send = async () => {
+    if (!stars || busy) return;
+    setBusy(true); setProblem(null);
+    try {
+      const r = await withTimeout(parcelId ? remote.leaveParcelReview(parcelId, stars, body.trim())
+                                            : remote.leaveOrderReview(orderId, stars, body.trim()), BUDGET.interactive);
+      setSent(r || { ok: true });
+      if (onDone) onDone(r);
+    } catch (e) {
+      setProblem(isTimeout(e) ? t("review_not_reached")
+                              : (e && e.message) || t("didnt_work"));
+    }
+    setBusy(false);
+  };
+
+  return (
+    <div>
+      <div style={{ fontSize: 13, fontWeight: 700, color: C.ink, marginBottom: 6 }}>
+        {t(otherRole === "buyer" ? "rate_the_buyer" : "rate_the_seller")}
+      </div>
+      <div role="radiogroup" aria-label={t(otherRole === "buyer" ? "rate_the_buyer" : "rate_the_seller")}
+        style={{ display: "flex", alignItems: "center", gap: 2, marginBottom: 8 }}>
+        {[1, 2, 3, 4, 5].map((n) => (
+          <button key={n} role="radio" aria-checked={stars === n} aria-label={n > 1 ? t("n_stars", { n }) : t("one_star")}
+            className="tap-round" onClick={() => setStars(n)}
+            style={{ background: "none", border: "none", padding: 4, cursor: "pointer",
+              color: n <= stars ? C.terraTx : C.border }}>
+            <Icon name="star" size={26} filled={n <= stars} />
+          </button>
+        ))}
+        <span style={{ fontSize: 12, color: C.inkLt, marginInlineStart: 8 }}>{stars ? t(WORDS[stars]) : ""}</span>
+      </div>
+      {stars > 0 && (
+        <textarea value={body} onChange={(e) => setBody(e.target.value)} maxLength={500} rows={2}
+          placeholder={t("review_placeholder")}
+          aria-label={t("your_review")}
+          style={{ width: "100%", padding: "10px 12px", borderRadius: 10, fontSize: 13,
+            border: `1px solid ${C.border}`, background: C.cream, color: C.ink,
+            fontFamily: "inherit", boxSizing: "border-box", resize: "vertical", marginBottom: 8 }} />
+      )}
+      {problem && (
+        <div role="alert" style={{ fontSize: 12, color: C.redTx, lineHeight: 1.5, marginBottom: 8 }}>{problem}</div>
+      )}
+      <button onClick={send} disabled={!stars || busy}
+        style={{ background: stars ? C.btn : C.sand, color: stars ? C.onBtn : C.inkLt, border: "none",
+          borderRadius: 20, padding: "8px 18px", fontSize: 13, fontWeight: 700,
+          cursor: stars && !busy ? "pointer" : "default", fontFamily: "inherit", opacity: busy ? 0.6 : 1 }}>
+        {busy ? t("sending") : t("send_review")}
+      </button>
+      <div style={{ fontSize: 11, color: C.inkLt, marginTop: 8, lineHeight: 1.5 }}>
+        {t("shown_without_name")} {orderId ? t("review_only_order") : t("review_only_sale")}
+      </div>
+    </div>
+  );
+}

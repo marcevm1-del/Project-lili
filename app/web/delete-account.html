@@ -1,0 +1,211 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'unsafe-inline'; style-src 'unsafe-inline'; img-src 'self' data:; form-action 'none'; base-uri 'none'">
+<meta name="referrer" content="no-referrer">
+<meta name="robots" content="noindex, nofollow">
+<!--
+  HEADERS THE HOST MUST SET
+  A <meta> CSP cannot express frame-ancestors — the browser ignores it and logs
+  a console error — so framing protection has to come from the response itself.
+  Whatever serves this page should send:
+
+    Content-Security-Policy: frame-ancestors 'none'
+    X-Content-Type-Options: nosniff
+    Referrer-Policy: no-referrer
+    Strict-Transport-Security: max-age=31536000; includeSubDomains
+    Permissions-Policy: geolocation=(), camera=(), microphone=()
+
+  The rest of the policy is in the meta above so the file is still protected if
+  it is dropped on a host nobody has configured.
+-->
+<title>Delete your account · love it or leave it</title>
+<!--
+  GOOGLE PLAY REQUIREMENT
+  Play requires account deletion to be requestable WITHOUT installing the app.
+  This page satisfies that. Host it at a stable public URL — something like
+  https://loveitorleaveit.ae/delete-account — and put that URL in the Play
+  Console under Data safety → Account deletion.
+
+  v2.11.7: the form used to show "Request received" while console.log-ing the
+  request and discarding it. It now composes a real email she sends herself,
+  which is a route that actually works with no server. (was: wire to POST /me/delete, see
+  BACKEND-CONTRACT.md) before launch. A deletion page that silently discards
+  requests is worse than none: it is a documented promise you are not keeping.
+-->
+<style>
+  :root{
+    --peach:#FDEBD8; --cream:#FFF8F2; --terra:#C4856A; --ink:#5C4A3A;
+    --inkLt:#9C8577; --border:#F0DDD0; --white:#fff; --red:#C4756A;
+  }
+  *{box-sizing:border-box}
+  body{
+    margin:0; background:var(--peach); color:var(--ink);
+    font:16px/1.6 -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif;
+    padding:32px 20px 64px;
+  }
+  .wrap{max-width:560px;margin:0 auto}
+  .mark{font-family:Georgia,serif;font-weight:700;font-size:30px;letter-spacing:-1px}
+  .mark span{color:var(--terra)}
+  .tag{font-family:Georgia,serif;font-style:italic;color:var(--terra);font-size:14px;margin-top:2px}
+  h1{font-family:Georgia,serif;font-size:26px;margin:34px 0 6px;letter-spacing:-.5px}
+  .ar{color:var(--terra);font-size:14px;font-family:Georgia,serif;font-style:italic;margin-bottom:20px}
+  p{color:var(--inkLt);font-size:14.5px}
+  .card{background:var(--white);border:1px solid var(--border);border-radius:16px;padding:20px 22px;margin:18px 0}
+  .card h2{font-family:Georgia,serif;font-size:17px;margin:0 0 12px;color:var(--terra)}
+  ul{margin:0;padding-left:18px;color:var(--inkLt);font-size:14px}
+  li{margin-bottom:7px}
+  .warn{border-color:var(--red)}
+  label{display:block;font-size:11px;font-weight:700;letter-spacing:.5px;text-transform:uppercase;color:var(--terra);margin:16px 0 6px}
+  input,select,textarea{
+    width:100%;padding:13px 15px;border:1px solid var(--border);border-radius:12px;
+    font:16px inherit;font-family:inherit;background:var(--cream);color:var(--ink)
+  }
+  textarea{min-height:90px;resize:vertical}
+  button{
+    width:100%;margin-top:22px;padding:16px;border:0;border-radius:30px;background:var(--terra);
+    color:#fff;font-size:15px;font-weight:700;cursor:pointer;font-family:inherit
+  }
+  button:disabled{background:var(--border);color:var(--inkLt);cursor:default}
+  .ok{display:none;background:var(--white);border:1.5px solid var(--terra);border-radius:16px;padding:24px;text-align:center}
+  footer{margin-top:36px;font-size:12px;color:var(--inkLt);border-top:1px solid var(--border);padding-top:18px}
+  a{color:var(--terra)}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <div class="mark">l<span>♥</span>l<span>♥</span></div>
+  <div class="tag">love it or leave it</div>
+
+  <h1>Delete your account</h1>
+  <div class="ar">حذف الحساب</div>
+
+  <p>
+    You can ask us to delete your lili account and your data from here — no need
+    to install the app. You can also do it in the app under
+    <strong>Profile → Privacy &amp; Safety → Delete my account</strong>.
+  </p>
+
+  <div class="card">
+    <h2>What gets deleted</h2>
+    <ul>
+      <li>Your profile, name and contact details</li>
+      <li>Your shop and every listing in it</li>
+      <li>Saved items, cart and search history</li>
+      <li>Messages between you and other members</li>
+      <li>Photos you uploaded</li>
+    </ul>
+  </div>
+
+  <div class="card warn">
+    <h2>What we have to keep, and why</h2>
+    <ul>
+      <li><strong>Completed orders and invoices</strong> — tax law requires us to
+          retain transaction records for several years</li>
+      <li><strong>Consent and agreement records</strong> — these are the proof we
+          had your permission, so deleting them would defeat their purpose</li>
+      <li><strong>Moderation decisions</strong> — kept without your name attached</li>
+    </ul>
+    <p style="font-size:13px;margin-bottom:0">
+      Everything kept is separated from your identity wherever the law allows.
+    </p>
+  </div>
+
+  <form id="f" novalidate>
+    <label for="email">Email on your account</label>
+    <input id="email" type="email" autocomplete="email" required placeholder="you@example.com">
+
+    <label for="phone">Mobile number (optional, helps us find the account)</label>
+    <input id="phone" type="tel" autocomplete="tel" placeholder="+971 5X XXX XXXX">
+
+    <label for="scope">What would you like removed?</label>
+    <select id="scope">
+      <option value="account">Everything — delete my account</option>
+      <option value="data">My data, but keep the account open</option>
+      <option value="marketing">Just stop marketing messages</option>
+    </select>
+
+    <label for="reason">Anything you'd like us to know? (optional)</label>
+    <textarea id="reason" placeholder="Optional"></textarea>
+
+    <button id="go" type="submit">Request deletion</button>
+  </form>
+
+  <div class="ok" id="ok">
+    <div style="font-size:30px">✉</div>
+    <h2 style="font-family:Georgia,serif;margin:8px 0 6px">Your email app should have opened</h2>
+    <p style="margin:0 0 10px">
+      The request is written out and addressed to us — <strong>it reaches us when
+      you press send</strong>. If nothing opened, email
+      <a href="mailto:privacy@loveitorleaveit.ae">privacy@loveitorleaveit.ae</a>
+      with the email address on your account.
+    </p>
+    <p style="margin:0">
+      We'll reply to confirm it's really you, then delete your account within 30
+      days. If you still have the app installed, Profile → Privacy &amp; Safety →
+      Delete my account does it immediately, without waiting for us.
+    </p>
+  </div>
+
+  <footer>
+    Questions: <a href="mailto:privacy@loveitorleaveit.ae">privacy@loveitorleaveit.ae</a><br>
+    We respond to deletion requests within 30 days. If you're unhappy with how we
+    handle it, you can complain to the UAE Data Office.
+  </footer>
+
+</div>
+
+<script>
+  // ── v2.11.7 ─────────────────────────────────────────────────────────────
+  // This handler used to build a payload, `console.log` it, hide the form and
+  // reveal a panel reading "Request received — we'll email you to confirm it's
+  // really you, then delete your account within 30 days."
+  //
+  // Nothing was sent. No server received it, no email went out, nothing was
+  // scheduled. A woman exercising a legal right was shown a receipt for an act
+  // that did not happen, on the one page that exists for that purpose.
+  //
+  // There is no server to post to and no SMTP configured, so the honest route
+  // is the one that genuinely reaches a person: compose the mail in her own
+  // client, with the details filled in, and say exactly that. The request
+  // arrives when she presses send — and she can see that it did.
+  const form = document.getElementById('f');
+  const ADDRESS = 'privacy@loveitorleaveit.ae';
+
+  form.addEventListener('submit', (e) => {
+    e.preventDefault();
+    const email = document.getElementById('email').value.trim();
+    if (!/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(email)) {
+      alert('Please enter the email address on your account.');
+      return;
+    }
+    const scopeEl = document.getElementById('scope');
+    const scope = scopeEl.options[scopeEl.selectedIndex].text;
+    const phone = document.getElementById('phone').value.trim();
+    const reason = document.getElementById('reason').value.trim();
+
+    const body = [
+      'I would like to make the following request about my lili account.',
+      '',
+      'Account email: ' + email,
+      phone ? 'Mobile: ' + phone : null,
+      'Request: ' + scope,
+      reason ? '' : null,
+      reason ? 'Notes: ' + reason : null,
+      '',
+      'Requested on: ' + new Date().toISOString(),
+    ].filter((l) => l !== null).join('\r\n');
+
+    window.location.href = 'mailto:' + ADDRESS
+      + '?subject=' + encodeURIComponent('Account deletion request')
+      + '&body=' + encodeURIComponent(body);
+
+    form.style.display = 'none';
+    document.getElementById('ok').style.display = 'block';
+  });
+</script>
+</body>
+</html>
