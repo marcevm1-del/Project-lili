@@ -57,7 +57,11 @@ export default function CheckoutSheet({ items, shopName, onClose, onDone, onSign
   useEffect(() => {
     if (!PAYMENTS_LIVE) setPayOn(false);
     else remote.paymentsEnabled().then(setPayOn).catch(() => setPayOn(false));
-    store.getJSON(SHIP_KEY, null).then((s) => { if (s) { setShip({ ...ship, ...s }); setRemember(true); if (s.country) setCountry(s.country); } })
+    // the saved address fills the fields she hasn't typed in yet; what she
+    // typed while it loaded is kept
+    store.getJSON(SHIP_KEY, null).then((s) => { if (s) {
+      setShip((cur) => ({ ...cur, ...Object.fromEntries(Object.entries(s).filter(([k]) => !cur[k])) }));
+      setRemember(true); if (s.country) setCountry(s.country); } })
       .catch(() => {});
   }, []);
   useEffect(() => {

@@ -242,7 +242,7 @@ function DeleteView({ onBack }) {
     return (
       <Shell title="Your account is gone" subtitle="تم حذف حسابك" onBack={onBack}>
         <p style={p}>
-          Deleted: your account, your shop{e.shops ? "" : ""}, {e.listings || 0} listing
+          Deleted: your account{e.shops ? ", your shop" : ""}, {e.listings || 0} listing
           {e.listings === 1 ? "" : "s"}, everything you saved and followed, your
           basket, your notifications and {e.analytics_events || 0} analytics
           event{e.analytics_events === 1 ? "" : "s"}.

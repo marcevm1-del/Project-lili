@@ -211,14 +211,19 @@ function StoryViewer({story,shop,onClose}) {
   const trap = useFocusTrap(onClose);
   const [progress,setProgress] = useState(0);
   useEffect(()=>{
+    // Cancelled on unmount: closed early, the loop used to run on and call
+    // onClose when this story's time was up, shutting whichever story was
+    // open by then.
     const start = Date.now();
+    let frame;
     const tick = ()=>{
       const p = Math.min(100,(Date.now()-start)/story.duration*100);
       setProgress(p);
-      if(p<100) requestAnimationFrame(tick);
+      if(p<100) frame = requestAnimationFrame(tick);
       else onClose();
     };
-    requestAnimationFrame(tick);
+    frame = requestAnimationFrame(tick);
+    return ()=>cancelAnimationFrame(frame);
   },[]);
   return (
     <div ref={trap} {...dialogProps("Story")}
