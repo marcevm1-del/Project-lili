@@ -674,4 +674,6 @@ export const EN = {
   "delivery_total_bundle": "Delivery & total for all {n}, one parcel",
   "scam_link": "A link to pay or confirm on another site is how most scams start. lili never sends payment links.",
   "scam_off_platform": "Moving to another app is how most scams start: nothing said there can be shown to lili. Keep it here.",
+  "offer_message_seller": "Message the seller",
+  "offers_expiry_note": "An offer expires {n} hours after it is made. That is read from the clock, so nothing stays open because a job failed to run.",
 };

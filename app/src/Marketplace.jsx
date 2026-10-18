@@ -1301,7 +1301,7 @@ export default function Marketplace() {
         {tab==="messages"   && <MessagesPage shops={shops} items={items} onReport={s=>setReporting(s)} onMarkSold={onMarkSold} onOpenOffers={()=>goTab("offers")}
                               openThreadId={openThreadId} onOpened={()=>setOpenThreadId(null)}
                               error={messageError}/>}
-        {tab==="offers"     && <OffersPage items={items} shops={shops} onBack={()=>setTab("profile")}/>}
+        {tab==="offers"     && <OffersPage items={items} shops={shops} onBack={()=>setTab("profile")} onMessageSeller={messageSellerAbout}/>}
         {tab==="cart"       && <CartPage cart={cart} shops={visibleShops} removeFromCart={removeFromCart} setTab={goTab}
                               onMessageSeller={messageSellerAbout} onOffer={item=>setOfferModal(item)}/>}
         </Suspense>

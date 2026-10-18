@@ -46,8 +46,8 @@ export const LANGUAGES = [
     dir: "rtl", numerals: "latn", altNumerals: "arab", status: "partial",
     note: "Official language. Consumer terms must be available in Arabic, and " +
           "the Arabic text prevails over the English. The interface mirrors " +
-          "right-to-left, search, prices and dates are Arabic, and about a " +
-          "third of the wording is — measured by npm run i18n, not estimated; " +
+          "right-to-left, search, prices and dates are Arabic, and about two " +
+          "fifths of the wording is — measured by npm run i18n, not estimated; " +
           "some of it is a draft waiting for a native speaker's check. The " +
           "rest, including the terms, is being translated by a person.",
   },

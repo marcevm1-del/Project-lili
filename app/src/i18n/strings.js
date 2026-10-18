@@ -696,4 +696,6 @@ export const STRINGS = {
   delivery_total_bundle: { en: "Delivery & total for all {n}, one parcel", ar: "التوصيل والمجموع لكل القطع، وعددها {n}، في طرد واحد" },
   scam_link: { en: "A link to pay or confirm on another site is how most scams start. lili never sends payment links.", ar: "رابط للدفع أو التأكيد على موقع آخر هو بداية معظم عمليات الاحتيال. lili لا ترسل روابط دفع أبداً." },
   scam_off_platform: { en: "Moving to another app is how most scams start: nothing said there can be shown to lili. Keep it here.", ar: "الانتقال إلى تطبيق آخر هو بداية معظم عمليات الاحتيال: لا يمكن عرض ما يُقال هناك على lili. أبقيا المحادثة هنا." },
+  offer_message_seller: { en: "Message the seller", ar: "راسلي البائعة" },
+  offers_expiry_note: { en: "An offer expires {n} hours after it is made. That is read from the clock, so nothing stays open because a job failed to run.", ar: "ينتهي العرض بعد {n} ساعة من إرساله. يُحسب ذلك من الساعة، فلا يبقى عرض مفتوحاً بسبب تعطّل مهمة." },
 };

@@ -520,4 +520,6 @@ export const DRAFT_AR = new Set([
   "delivery_total_bundle",
   "scam_link",
   "scam_off_platform",
+  "offer_message_seller",
+  "offers_expiry_note",
 ]);

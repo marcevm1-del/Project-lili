@@ -408,6 +408,8 @@ check("a seller may accept, decline or counter",
   /acceptOffer/.test(offersPage) && /declineOffer/.test(offersPage) && /counterOffer/.test(offersPage));
 check("expiry is read from the clock, not a job", /hoursLeft/.test(offersSrc) &&
   /EXPIRY_HOURS/.test(offersSrc));
+check("an accepted offer gives the buyer a way into the thread it points to",
+  /offer_message_seller/.test(offersPage) && /onMessageSeller=\{messageSellerAbout\}/.test(market.slice(market.indexOf("<OffersPage"))));
 check("the Offers row is no longer a dead 'Soon' link",
   !/\{label:"Offers · العروض",icon:"tag",action:null,soon:true\}/.test(market) &&
   /setTab\("offers"\)/.test(market));

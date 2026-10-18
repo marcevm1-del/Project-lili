@@ -35,7 +35,7 @@ function timeLeft(offer) {
   return t("days_left", { n: Math.round(h / 24) });
 }
 
-export default function OffersPage({ items = [], shops = [], onBack }) {
+export default function OffersPage({ items = [], shops = [], onBack, onMessageSeller }) {
   const [list, setList] = useState([]);
   const [state, setState] = useState("loading");
   const [busy, setBusy] = useState(null);
@@ -204,6 +204,18 @@ export default function OffersPage({ items = [], shops = [], onBack }) {
               {!fees.COLLECTION_LIVE && <> — {t("nothing_deducted_yet")}</>}.</>
             )}
             {" "}{t("accepted_no_hold")}
+            {/* "In the thread" needs a way to the thread. An offer doesn't open
+                one, so the buyer starts it from here; the piece may already be
+                off the feed (it is reserved for her), so it is named by id. */}
+            {isBuyer && onMessageSeller && (
+              <div style={{ marginTop: 8 }}>
+                <button onClick={() => onMessageSeller(items.find((i) => i.id === o.item_id)
+                                                       || { id: o.item_id, shopId: o.shop_id })}
+                  style={{ ...btn, background: C.btn, color: C.onBtn }}>
+                  {t("offer_message_seller")}
+                </button>
+              </div>
+            )}
             {/* The piece is held for this buyer until it is sold or one of
                 them lets it go. Two taps, because letting go tells the other
                 person and puts the piece back on sale. */}
@@ -303,8 +315,7 @@ export default function OffersPage({ items = [], shops = [], onBack }) {
 
       {list.length > 0 && (
         <div style={{ fontSize: 11, color: C.inkLt, padding: "6px 16px 0", lineHeight: 1.6 }}>
-          An offer expires {offers.EXPIRY_HOURS} hours after it is made. That is
-          read from the clock, so nothing stays open because a job failed to run.
+          {t("offers_expiry_note", { n: offers.EXPIRY_HOURS })}
         </div>
       )}
     </div>
